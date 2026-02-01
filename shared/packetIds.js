@@ -15,13 +15,14 @@ const serverPackets = {
 	displayText: 13,
 	propAnimations: 14,
 	serverInfo: 15,
-	log: 16
+	log: 16,
 }
 
 const clientPackets = {
-	requestEntityInfo: 0,
-	inputUpdate: 1,
-	levelUp: 2,
+	requestLiveEntityInfo: 0,
+	requestEntityMockups: 1,
+	inputUpdate: 2,
+	levelUp: 3,
 }
 
 export { serverPackets, clientPackets }

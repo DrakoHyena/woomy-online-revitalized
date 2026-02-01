@@ -1,6 +1,6 @@
 import { global } from "../global.js";
 import { ctx, drawBar, drawGUIPolygon, drawGuiCircle, drawGuiLine, drawGuiRect, drawGuiRoundRect, drawText, measureText, _clearScreen } from "./canvas.js"
-import { mockups, getEntityImageFromMockup } from "../mockups.js";
+import { mockups } from "../mockups.js";
 import { color } from "../colors.js"
 import { mixColors } from "../../shared/mix_colors.js";
 import { drawEntity } from "./drawEntity.js";
@@ -60,7 +60,7 @@ const gameDrawDead = function () {
 		socket.controls.reset()
 		let x = global._screenWidth / 2,
 			y = global._screenHeight / 2 - 50,
-			picture = getEntityImageFromMockup(_gui._type, _gui._color),
+			picture = undefined,//getEntityImageFromMockup(_gui._type, _gui._color),
 			len = 140,
 			position = mockups.get(_gui._type).position,
 			scale = len / position.axis,

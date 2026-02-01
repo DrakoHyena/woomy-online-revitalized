@@ -7,7 +7,7 @@ import { config } from "../config.js";
 import { lerp, lerpAngle } from "../lerp.js";
 import { drawEntity } from "./drawEntity.js";
 import { drawHealth } from "./drawHealth.js";
-import { mockups, getEntityImageFromMockup } from "../mockups.js";
+import { mockups } from "../mockups.js";
 import { rewardManager } from "../achievements.js";
 import { player } from "../player.js";
 import { currentSettings } from "../settings.js";

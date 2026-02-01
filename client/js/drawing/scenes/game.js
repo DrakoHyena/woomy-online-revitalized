@@ -17,6 +17,7 @@ import { entitiesArr } from "../../socket.js";
 import { keyboard } from "../../controls/keyboard.js";
 import { mouse } from "../../controls/mouse.js";
 import { clientPackets } from "../../../../shared/packetIds.js";
+import { mockups } from "../../mockups.js";
 
 const state = {
 	renderingStarted: false,
@@ -43,6 +44,10 @@ function onInputTrue(key){
 function onInputFalse(key){
 
 }
+
+main.utilityFuncts.set("mockups", ({ canvas, ctx, delta }) => {
+	mockups.flushPending();
+})
 
 main.utilityFuncts.set("gameInput", ({ canvas, ctx, delta }) => {
 	if(state.lastInput.changes.length > currentSettings.inputBufferSize.value.number) state.lastInput.changes.length = 0;

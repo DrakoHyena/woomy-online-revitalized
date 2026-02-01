@@ -4,7 +4,6 @@ Perhaps it should be added as a togglable menu in the future?
 */
 
 import { global } from "../client/js/global.js";
-import { getEntityImageFromMockup } from "../client/js/mockups.js";
 import { lerp } from "../client/js/lerp.js";
 import { drawLoop } from "../client/js/drawing/drawLoop.js";
 import { Scene } from "../client/js/drawing/scene.js";
@@ -144,7 +143,7 @@ class UpgradeTreeNode {
 		this.tier = tier;
 		this.angle = angle;
 		if (!this.image || this.image.isLoading) {
-			this.image = getEntityImageFromMockup(this.mockup, global._tankMenuColor);
+			this.image = undefined//getEntityImageFromMockup(this.mockup, global._tankMenuColor);
 		}
 		this.baseAlpha = tier > 1 ? 0.25 + 0.75 / tier : UPGRADETREE_CONFIG.BASE_ALPHA;
 
@@ -166,7 +165,7 @@ class UpgradeTreeNode {
 	prepareCenter() {
 		this.tier = 0;
 		if (!this.image || this.image.isLoading) {
-			this.image = getEntityImageFromMockup(this.mockup, global._tankMenuColor);
+			this.image = undefined//getEntityImageFromMockup(this.mockup, global._tankMenuColor);
 		}
 		this.x = frameCache.cx;
 		this.y = frameCache.cy;

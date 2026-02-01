@@ -1,6 +1,6 @@
 import { color, getColor } from "/js/colors.js";
 import { lerp } from "./lerp.js";
-import { mockups, getEntityImageFromMockup } from "./mockups.js";
+import { mockups } from "./mockups.js";
 import { Smoothbar } from "./util.js";
 import { currentSettings } from "./settings.js";
 
@@ -449,7 +449,7 @@ window._gui = {
 			let trueLabel = entry.labelOverride ? entry.labelOverride : entry.label
 			return {
 				id: entry.id,
-				image: getEntityImageFromMockup(entry.index, entry.color),
+				//image: getEntityImageFromMockup(entry.index, entry.color),
 				position: ref.position,
 				barColor: getColor(entry.barColor),
 				label: entry.name ? entry.name + " - " + (trueLabel || ref.name) : (trueLabel || ref.name),

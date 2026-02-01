@@ -3,6 +3,7 @@ import { Scene } from "../scene.js";
 import { clickableActive } from "./clickable.js";
 import { lerp } from "../../lerp.js";
 import { playerState } from "../../state/player.js";
+import { mockups } from "../../mockups.js";
 
 const state = {
 	pannelSize: 1,
@@ -29,7 +30,9 @@ upgrades.drawFuncts.set("clear", ({ canvas, ctx }) => {
 });
 
 function draw({canvas, ctx, delta}){
-	console.log(playerState.gui.upgrades)
+	for(let entityIndex of playerState.gui.upgrades){
+		//console.log(mockups.get(entityIndex), mockups.pendingMockupRequests);
+	}
 }
 upgrades.drawFuncts.set("drawUpgradeTiles", draw)
 

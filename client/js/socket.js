@@ -163,6 +163,96 @@ class ClientGun {
 	}
 }
 
+function parseMockup() {
+	const index = convert.reader.next();
+	
+	const mockup = {
+		index: index,
+		label: convert.reader.next(),
+		shapeData: convert.reader.next(),
+		size: convert.reader.next(),
+		upgrades: [],
+		guns: [],
+		props: [],
+		turrets: [],
+	};
+
+	// Register early so recursive calls can find it
+	mockups.set(index, mockup);
+
+	// Parse upgrades
+	const upgradeCount = convert.reader.next();
+	for (let i = 0; i < upgradeCount; i++) {
+		mockup.upgrades.push({
+			tier: convert.reader.next(),
+			index: convert.reader.next(),
+		});
+	}
+
+	// Parse guns
+	const gunCount = convert.reader.next();
+	for (let i = 0; i < gunCount; i++) {
+		mockup.guns.push({
+			offset: convert.reader.next(),
+			direction: convert.reader.next(),
+			length: convert.reader.next(),
+			width: convert.reader.next(),
+			aspect: convert.reader.next(),
+			angle: convert.reader.next(),
+			skin: convert.reader.next(),
+			color_unmix: convert.reader.next(),
+		});
+	}
+
+	// Parse props
+	const propCount = convert.reader.next();
+	for (let i = 0; i < propCount; i++) {
+		mockup.props.push({
+			size: convert.reader.next(),
+			x: convert.reader.next(),
+			y: convert.reader.next(),
+			angle: convert.reader.next(),
+			layer: convert.reader.next(),
+			color: convert.reader.next(),
+			shape: convert.reader.next(),
+			fill: convert.reader.next(),
+			stroke: convert.reader.next(),
+			borderless: convert.reader.next(),
+			loop: convert.reader.next(),
+			isAura: convert.reader.next(),
+			rpm: convert.reader.next(),
+			dip: convert.reader.next(),
+			ring: convert.reader.next(),
+			arclen: convert.reader.next(),
+			scaleSize: convert.reader.next(),
+			lockRot: convert.reader.next(),
+			tankOrigin: convert.reader.next(),
+		});
+	}
+
+	// Parse turret bounds
+	const turretCount = convert.reader.next();
+	for (let i = 0; i < turretCount; i++) {
+		mockup.turrets.push({
+			index: convert.reader.next(),
+			bound: {
+				size: convert.reader.next(),
+				offset: convert.reader.next(),
+				direction: convert.reader.next(),
+				layer: convert.reader.next(),
+				angle: convert.reader.next(),
+			},
+		});
+	}
+
+	// Parse turret mockups (duplicates skip via mockups.mockupData check)
+	for (let i = 0; i < turretCount; i++) {
+		parseMockup();
+	}
+
+	return mockup;
+}
+
 class ClientEntity {
 	constructor(
 		id = -1,
@@ -425,7 +515,7 @@ function convertEntities() {
 	
 	// Send batched request for all missing entities
 	if (missingEntityIds.size > 0) {
-		socket.send(clientPackets.requestEntityInfo, ...missingEntityIds);
+		socket.send(clientPackets.requestLiveEntityInfo, ...missingEntityIds);
 	}
 	
 	entitiesArr.length = 0;
@@ -506,9 +596,21 @@ async function onmessage (message) {
 	let i = 0;
 	switch (packet) {
 		case serverPackets.mockupRequest:
-			mockups.pendingMockupRequests.delete(m[0])
-			if (m[1].length !== 2) {
-				mockups.set(m[0], JSON.parse(m[1]))
+			convert.reader.set(m, 0);
+			const indexesInPacket = [];
+			while(convert.reader.index < m.length){
+				const mockup = parseMockup();
+				indexesInPacket.push(mockup.index);
+				mockups.pendingMockupRequests.delete(mockup.index);
+			}
+			// Resolve turret references now that all mockups are parsed
+			for (const idx of indexesInPacket) {
+				const mockup = mockups.mockupData.get(idx);
+				for (let i = 0; i < mockup.turrets.length; i++) {
+					const turretRef = mockup.turrets[i];
+					const turretMockup = mockups.mockupData.get(turretRef.index);
+					mockup.turrets[i] = Object.assign({}, turretRef, turretMockup);
+				}
 			}
 			break;
 		case serverPackets.layerInfo:
