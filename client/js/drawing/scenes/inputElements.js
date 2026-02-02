@@ -2,6 +2,7 @@ import { currentSettings } from "../../settings.js";
 import { renderText } from "../text.js";
 import { clickableActive } from "./clickable.js";
 import { keyboard } from "../../controls/keyboard.js";
+import { lerp } from "../../lerp.js";
 
 // ============================================================================
 // Constants
@@ -27,7 +28,9 @@ const COLORS = {
 
 const SCALE = {
 	clicked: 0.8,
-	hovered: 1.1
+	hovered: 1.1,
+	default: 1.0,
+	lerpSpeed: 0.15
 };
 
 // ============================================================================
@@ -50,7 +53,8 @@ function createElementState() {
 		dropdownCloseTime: 0,
 		checkboxValue: false,
 		checkboxTransitionStart: 0,
-		checkboxTransitionFrom: 0
+		checkboxTransitionFrom: 0,
+		currentScale: 1.0
 	};
 }
 
@@ -150,8 +154,7 @@ function lerpColor(from, to, t) {
 	return `rgb(${r}, ${g}, ${b})`;
 }
 
-function applyHoverScale(x, y, width, height, isClicked) {
-	const scale = isClicked ? SCALE.clicked : SCALE.hovered;
+function applyHoverScale(x, y, width, height, scale) {
 	return {
 		x: x - width * (scale - 1) / 2,
 		y: y - height * (scale - 1) / 2,
@@ -170,11 +173,12 @@ function isHoveringDropdownOptions(scene, element, x, y, width, height, uniqueId
 	const options = currentSettings[uniqueId]?.value?.options;
 	if (!options) return false;
 
-	let optionX = x + width;
+	// First option is to the right, rest stack below it
+	const optionX = x + width;
 	for (let i = 0; i < options.length; i++) {
-		const optionCheck = clickableActive(scene, optionX, y, optionX + width, y + height);
+		const optionY = y + i * height;
+		const optionCheck = clickableActive(scene, optionX, optionY, optionX + width, optionY + height);
 		if (optionCheck !== false) return true;
-		optionX += width;
 	}
 
 	return false;
@@ -182,28 +186,32 @@ function isHoveringDropdownOptions(scene, element, x, y, width, height, uniqueId
 
 function handleDropdownOptionInteraction(scene, element, options, originalX, originalY, originalWidth, originalHeight, inputCallback) {
 	let hoveringOverOptions = false;
-	let optionX = originalX + originalWidth;
+	// First option is to the right, rest stack below it
+	const optionX = originalX + originalWidth;
 
 	for (let i = 0; i < options.length; i++) {
-		const optionInteraction = clickableActive(scene, optionX, originalY, optionX + originalWidth, originalY + originalHeight);
+		const optionY = originalY + i * originalHeight;
+		const optionInteraction = clickableActive(scene, optionX, optionY, optionX + originalWidth, optionY + originalHeight);
 
 		if (optionInteraction !== false) {
 			hoveringOverOptions = true;
 
 			if (optionInteraction.left && canDebounce(element)) {
 				resetDebounce(element);
-				element.dropdownOpen = false;
+				// Start close animation instead of instant close
+				element.dropdownClosing = true;
+				element.dropdownCloseTime = performance.now();
 				inputCallback(options[i]);
 			}
 		}
-		optionX += originalWidth;
 	}
 
 	return hoveringOverOptions;
 }
 
 function drawDropdownOptions(ctx, scene, element, options, selectedValue, originalX, originalY, originalWidth, originalHeight) {
-	let optionX = originalX + originalWidth;
+	// First option is to the right, rest stack below it
+	const optionX = originalX + originalWidth;
 	const baseAlpha = ctx.globalAlpha;
 	
 	// Calculate time based on whether opening or closing
@@ -214,7 +222,8 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 
 	for (let i = 0; i < options.length; i++) {
 		const option = options[i];
-		const optionHover = clickableActive(scene, optionX, originalY, optionX + originalWidth, originalY + originalHeight);
+		const optionY = originalY + i * originalHeight;
+		const optionHover = clickableActive(scene, optionX, optionY, optionX + originalWidth, optionY + originalHeight);
 
 		// Calculate staggered fade alpha for this option
 		// For closing, reverse the stagger order (last options fade first)
@@ -231,7 +240,7 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 		ctx.globalAlpha = baseAlpha * optionAlpha;
 
 		// Draw option border and background
-		drawBorder(ctx, optionX, originalY, originalWidth, originalHeight);
+		drawBorder(ctx, optionX, optionY, originalWidth, originalHeight);
 
 		if (option === selectedValue) {
 			ctx.fillStyle = COLORS.backgroundActive;
@@ -240,13 +249,11 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 		} else {
 			ctx.fillStyle = COLORS.optionDefault;
 		}
-		ctx.fillRect(optionX, originalY, originalWidth, originalHeight);
+		ctx.fillRect(optionX, optionY, originalWidth, originalHeight);
 
 		// Draw option text
 		const text = renderText(option, originalHeight * 0.65);
-		drawCenteredText(ctx, text, optionX, originalY, originalWidth, originalHeight);
-
-		optionX += originalWidth;
+		drawCenteredText(ctx, text, optionX, optionY, originalWidth, originalHeight);
 	}
 
 	ctx.globalAlpha = baseAlpha;
@@ -412,7 +419,8 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, orig
 
 	// Draw dropdown options if open (including during close animation)
 	if (element.dropdownOpen) {
-		drawDropdownOptions(ctx, scene, element, options, selectedValue, originalX, originalY, originalWidth, originalHeight);
+		// Use the scaled x, y, width, height for drawing options at the edge of scaled input
+		drawDropdownOptions(ctx, scene, element, options, selectedValue, x, y, width, height);
 	}
 }
 
@@ -441,19 +449,26 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 	const click = clickableActive(scene, x, y, x + width, y + height);
 	const isInteracting = click !== false || hoveringOverDropdownOptions;
 
+	// Determine target scale based on interaction state
+	let targetScale = SCALE.default;
 	if (isInteracting) {
 		if (hoverCallback) hoverCallback();
 		element.focused = element.focused || click.left;
-
-		const scaled = applyHoverScale(x, y, width, height, click.left);
-		x = scaled.x;
-		y = scaled.y;
-		width = scaled.width;
-		height = scaled.height;
+		targetScale = click.left ? SCALE.clicked : SCALE.hovered;
 	} else {
 		element.focused = false;
 		element.originalValue = null;
 	}
+
+	// Smoothly lerp the current scale towards target
+	element.currentScale = lerp(element.currentScale, targetScale, SCALE.lerpSpeed);
+
+	// Apply the smoothed scale
+	const scaled = applyHoverScale(x, y, width, height, element.currentScale);
+	x = scaled.x;
+	y = scaled.y;
+	width = scaled.width;
+	height = scaled.height;
 
 	// Handle input buffer for text-based inputs
 	if (type === "number" || type === "text") {

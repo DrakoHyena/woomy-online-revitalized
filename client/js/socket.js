@@ -169,8 +169,11 @@ function parseMockup() {
 	const mockup = {
 		index: index,
 		label: convert.reader.next(),
-		shapeData: convert.reader.next(),
+		shape: convert.reader.next(),
 		size: convert.reader.next(),
+		color: 12, // Default color for rendering
+		facing: 0,
+		widthHeightRatio: [1, 1],
 		upgrades: [],
 		guns: [],
 		props: [],

@@ -1,7 +1,6 @@
 
 import { getColor, setColors } from "../colors.js";
 import { mixColors } from "../../shared/mix_colors.js";
-import { mockups } from "../mockups.js";
 import { currentSettings } from "../settings.js";
 import { roomState } from "../state/room.js";
 import { gameState } from "./scenes/game.js";
@@ -2172,7 +2171,7 @@ function calculateMEC(entity) {
 
 const entityImgCache = new Map();
 function makeEntityImgCacheKey(entity, padding){
-	let key = `${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.size}|${entity.widthHeightRatio}`;
+	let key = `${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.size}|${entity.widthHeightRatio}|${entity.color}`;
 	return key;
 }
 
@@ -2197,11 +2196,11 @@ function getEntityImage(entity, liveRender, padding = 1) {
 	}
 	const ctx = canvas.ctx;
 
-	// FIXME: remove after testing
-	ctx.fillStyle = "red";
-	ctx.globalAlpha = .2;
-	ctx.fillRect(0, 0, canvas.width, canvas.height)
-	ctx.globalAlpha = 1;
+	// // FIXME: remove after testing
+	// ctx.fillStyle = "red";
+	// ctx.globalAlpha = .2;
+	// ctx.fillRect(0, 0, canvas.width, canvas.height)
+	// ctx.globalAlpha = 1;
 
 	ctx.save();
 

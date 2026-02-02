@@ -31,10 +31,13 @@ let mockups = {
 	// Defaults
 	defaults: {
 		isLoading: true,
+		index: -1,
 		label: "Loading..",
 		shape: 0,
 		size: 1,
+		color: 12,
 		facing: 0,
+		widthHeightRatio: [1, 1],
 		guns: [],
 		turrets: [],
 		props: [],

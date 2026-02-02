@@ -2,6 +2,7 @@ import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import "./upgrades.js"
 import { closeSettingsMenu, openSettingsMenu, toggleSettingsMenu } from "./settings.js";
+import { closeUpgradeMenu, openUpgradeMenu, toggleUpgradeMenu } from "./upgrades.js";
 import { clickableActive } from "./clickable.js";
 import { lerp } from "../../lerp.js";
 
@@ -14,8 +15,14 @@ const TOPLEFTBUTTONS_CONFIG = {
 }
 
 const buttons = [
-	newButton(()=>{}, "#a6d469", "#749f34"),
-	newButton(toggleSettingsMenu, "#797979ff", "#696969ff"),
+	newButton(()=>{
+		closeUpgradeMenu();
+		toggleSettingsMenu();
+	}, "#797979ff", "#696969ff"),
+	newButton(()=>{
+		closeSettingsMenu();
+		toggleUpgradeMenu();
+	}, "#a6d469", "#749f34"),
 
 ]
 function newButton(clickFunct, color, strokeColor){

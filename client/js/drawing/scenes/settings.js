@@ -20,7 +20,7 @@ const SETTINGS_CONFIG = {
 }
 
 const state = {
-	open: true,
+	open: false,
 	showEntityEditor: false,
 	fade: 0
 }
