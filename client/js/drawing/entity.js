@@ -2222,11 +2222,13 @@ function getEntityImage(entity, liveRender, padding = 1) {
 
 	canvas.upscaleVal = maxExtent / CANVAS_SIZE;
 
-	createImageBitmap(canvas).then((bmp)=>{
-		bmp.upscaleVal = canvas.upscaleVal;
-		entityImgCache.set(imgCacheKey, bmp);
-		canvasPool.push(canvas);
-	})
+	if(liveRender === false){
+		createImageBitmap(canvas).then((bmp)=>{
+			bmp.upscaleVal = canvas.upscaleVal;
+			entityImgCache.set(imgCacheKey, bmp);
+			canvasPool.push(canvas);
+		})
+	}
 
 	return canvas;
 }
