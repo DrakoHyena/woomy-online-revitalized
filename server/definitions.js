@@ -7000,7 +7000,7 @@ const makeHybrid = (type, name, options = {
             SYNCS_SKILLS: true,
             STAT_CALCULATOR: gunCalcNames.drone,
             WAIT_TO_CYCLE: true,
-            MAX_CHILDREN: options.isYoukron ? 5 : 3
+            MAX_CHILDREN: options.isYoukron ? 5 : 1
         }
     });
 
@@ -30769,6 +30769,1565 @@ defExports.triangleBossTier5 = {
         POSITION: [6.8, 8, 0, 180, 190, 0],
         TYPE: defExports.weirdDualAutoGun2
     }]
+};
+defExports.TK6_Minion_1 = {
+    PARENT: [defExports.minion],
+    LABEL: 'Trigunner II',
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 28,
+    BODY: {
+        FOV: 1,
+        SPEED: 1.2,
+        ACCELERATION: .4,
+        HEALTH: 50,
+        SHIELD: 3,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 1,
+        DENSITY: .5,
+        RANGE: 150
+    },
+    FACING_TYPE: 'autospin',
+    GUNS: [{
+        POSITION: [8, 9, 1, 4, 6, 60, 0]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, 6, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 9, 1, 4, -6, 60, .5]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, -6, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 9, 1, 4, 6, 180, 0]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, 6, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 9, 1, 4, -6, 180, .5]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, -6, 180, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 9, 1, 4, 6, 300, 0]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, 6, 300, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 9, 1, 4, -6, 300, .5]
+    }, {
+        POSITION: [2.5, 9, 1.5, 11, -6, 300, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.stronger]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }],
+    TURRETS: [{
+        POSITION: [15, 0, 0, 0, 360, 1],
+        TYPE: defExports.weirdGunnerAuto2
+    }]
+};
+
+defExports.dualMachineGunAuto = {
+    LABEL: '',
+    COLOR: 16,
+    BODY: {
+        FOV: 2
+    },
+    GUNS: [{
+        POSITION: [12, 10, 1.4, 13, 0, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.mach_smaller, g.faster, g.faster, g.stronger]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [12, 10, 1.4, 8, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.mach_smaller, g.faster, g.faster, g.stronger]),
+            TYPE: defExports.bullet
+        }
+    }]
+};
+
+defExports.TK6_Minion_2 = {
+    PARENT: [defExports.minion],
+    LABEL: 'Tricomet II',
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 25,
+    BODY: {
+        FOV: .75,
+        SPEED: 2,
+        ACCELERATION: .5,
+        HEALTH: 50,
+        SHIELD: 3,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 1,
+        DENSITY: .5,
+        RANGE: 150
+    },
+    GUNS: [{
+        POSITION: [40, 14, 1.88, 14, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.more_recoil, g.more_recoil, g.double_reload, g.smaller, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [40, 14, 1.88, 8, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.more_recoil, g.more_recoil, g.double_reload, g.smaller, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11.5, 2, 1, -2, 9, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11.5, 2, 1, 0, 7, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11.5, 2, 1, -2, -9, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11.5, 2, 1, 0, -7, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.stronger, g.minion]),
+            TYPE: defExports.bullet
+        }
+    }],
+    TURRETS: [{
+        POSITION: [12.8, .4, 0, 0, 360, 1],
+        TYPE: [defExports.dualMachineGunAuto, {
+            LABEL: 'Dual Gatling',
+            CONTROLLERS: ['nearestDifferentMaster']
+        }]
+    }]
+};
+
+defExports.OPPredatorAutoGun3 = {
+    LABEL: '',
+    BODY: {
+        FOV: 1.8
+    },
+    COLOR: 16,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    GUNS: [{
+        POSITION: [22, 3, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [20.5, 5.5, 1, 0, 0, 0, .11],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [19, 8, 1, 0, 0, 0, .22],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [17.5, 10.5, 1, 0, 0, 0, .33],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [16, 13, 1, 0, 0, 0, .44],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [14.5, 15.5, 1, 0, 0, 0, .55],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [13, 18, 1, 0, 0, 0, .66],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }]
+};
+
+defExports.TK6_Minion_3 = {
+    PARENT: [defExports.minion],
+    LABEL: 'Triaggressor II',
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 30,
+    BODY: {
+        FOV: .75,
+        SPEED: 2,
+        ACCELERATION: .5,
+        HEALTH: 50,
+        SHIELD: 3,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 1.5,
+        DENSITY: .5,
+        RANGE: 150
+    },
+    GUNS: [{
+        POSITION: [9, 10, 1.5, 8, 2, 204, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.blast, g.minion, g.smaller, g.more_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [9, 10, 1.5, 8, -2, 156, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.blast, g.minion, g.smaller, g.more_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11, 10, 1.55, 8, 1, 192, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.blast, g.minion, g.smaller, g.more_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [11, 10, 1.55, 8, -1, 168, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.blast, g.minion, g.smaller, g.more_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [13, 10, 1.6, 8, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.blast, g.minion, g.smaller, g.more_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, 8, 60, .5]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, 8, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, 0, 60, 0]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, 0, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, -8, 60, 0]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, -8, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, -8, -60, .5]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, -8, -60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, 0, -60, 0]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, 0, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }, {
+        POSITION: [8, 5, 1, 3, 8, -60, 0]
+    }, {
+        POSITION: [1.85, 5, 1.54, 11, 8, -60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.half_range, g.smaller, g.faster, g.stronger, g.no_recoil]),
+            TYPE: defExports.trap,
+            STAT_CALCULATOR: gunCalcNames.trap
+        }
+    }],
+    TURRETS: [{
+        POSITION: [14, 0, 0, 0, 360, 1],
+        TYPE: defExports.OPPredatorAutoGun3
+    }]
+};
+
+defExports.rangerAutoGun2 = {
+    LABEL: 'Ranger',
+    BODY: {
+        FOV: 2.5
+    },
+    CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster'],
+    COLOR: 2,
+    GUNS: [{
+        POSITION: [38, 9, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.ranger, g.half_reload]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [13, 9, -1.8, 6, 0, 0, 0]
+    }]
+};
+
+defExports.megaMortarAutoGun = {
+    LABEL: 'Mega Mortar',
+    BODY: {
+        FOV: 1.8
+    },
+    CONTROLLERS: ['nearestDifferentMaster'],
+    COLOR: 2,
+    GUNS: [{
+        POSITION: [13, 3, 1, 0, -8.6, -8, .6],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.gunner, g.arty, g.twin]),
+            TYPE: defExports.bullet,
+            LABEL: 'Secondary'
+        }
+    }, {
+        POSITION: [13, 3, 1, 0, 8.6, 8, .8],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.gunner, g.arty, g.twin]),
+            TYPE: defExports.bullet,
+            LABEL: 'Secondary'
+        }
+    }, {
+        POSITION: [17, 3, 1, 0, -6.7, -7, .2],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.gunner, g.arty, g.twin]),
+            TYPE: defExports.bullet,
+            LABEL: 'Secondary'
+        }
+    }, {
+        POSITION: [17, 3, 1, 0, 6.7, 7, .4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.gunner, g.arty, g.twin]),
+            TYPE: defExports.bullet,
+            LABEL: 'Secondary'
+        }
+    }, {
+        POSITION: [21.2, 12, 1, 0, 0, 0, .2],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.half_reload]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [18, 15, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.half_reload]),
+            TYPE: defExports.hyperMissile2
+        }
+    }],
+    HAS_NO_RECOIL: true
+};
+
+defExports.skimmerMinion = {
+    PARENT: [defExports.minion],
+    LABEL: 'Skimmer Minion',
+    HITS_OWN_TYPE: 'hard',
+    GUNS: [{
+        POSITION: [10, 14, -0.5, 9, 0, 0, 0]
+    }, {
+        POSITION: [17, 15, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.skim]),
+            TYPE: defExports.missile,
+            STAT_CALCULATOR: gunCalcNames.sustained
+        }
+    }]
+};
+
+const triangleBossProps2 = {
+    SHOOT_SETTINGS: combineStats([g.factory, g.one_third_reload, g.fast_launch]),
+    TYPE: defExports.skimmerMinion,
+    STAT_CALCULATOR: gunCalcNames.drone,
+    AUTOFIRE: true,
+    SYNCS_SKILLS: true,
+    MAX_CHILDREN: 3
+}
+
+defExports.TK6_Minion_4 = {
+    PARENT: [defExports.minion],
+    LABEL: "Triranger",
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 50,
+    BODY: {
+        FOV: 1,
+        SPEED: 1,
+        ACCELERATION: .25,
+        HEALTH: 100,
+        SHIELD: 5,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 1,
+        DENSITY: .5,
+        RANGE: 200
+    },
+    FACING_TYPE: 'spinSlowly',
+    GUNS: [{
+        POSITION: [3.15, 5.4, 1, 8.3, 0, 60, 0]
+    }, {
+        POSITION: [1.65, 7.9, 1, 11.1, 0, 60, 0],
+        PROPERTIES: triangleBossProps2
+    }, {
+        POSITION: [5.9, 7.15, 1, 3.6, 0, 60, 0]
+    }, {
+        POSITION: [3.15, 5.4, 1, 8.3, 0, -60, 0]
+    }, {
+        POSITION: [1.65, 7.9, 1, 11.1, 0, -60, 0],
+        PROPERTIES: triangleBossProps2
+    }, {
+        POSITION: [5.9, 7.15, 1, 3.6, 0, -60, 0]
+    }, {
+        POSITION: [3.15, 5.4, 1, 8.3, 0, 180, 0]
+    }, {
+        POSITION: [1.65, 7.9, 1, 11.1, 0, 180, 0],
+        PROPERTIES: triangleBossProps2
+    }, {
+        POSITION: [5.9, 7.15, 1, 3.6, 0, 180, 0]
+    }],
+    TURRETS: [{
+        POSITION: [8, 12, 0, 0, 195, 1],
+        TYPE: defExports.rangerAutoGun2
+    }, {
+        POSITION: [8, 12, 0, 120, 195, 1],
+        TYPE: defExports.rangerAutoGun2
+    }, {
+        POSITION: [8, 12, 0, 240, 195, 1],
+        TYPE: defExports.rangerAutoGun2
+    }, {
+        POSITION: [10, 0, 0, 180, 360, 1],
+        TYPE: defExports.megaMortarAutoGun
+    }, {
+        POSITION: [3, 8, 5.5, 60, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }, {
+        POSITION: [3, 8, -5.5, 60, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }, {
+        POSITION: [3, 8, 5.5, 180, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }, {
+        POSITION: [3, 8, -5.5, 180, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }, {
+        POSITION: [3, 8, 5.5, -60, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }, {
+        POSITION: [3, 8, -5.5, -60, 195, 0],
+        TYPE: defExports.rangerAutoGun
+    }]
+};
+
+defExports.hexaSounderAutoGun = {
+    LABEL: '',
+    BODY: {
+        FOV: 2
+    },
+    COLOR: 2,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    HAS_NO_RECOIL: true,
+    GUNS: [{
+        POSITION: [14, 6.4, .58, 5, 4, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, 4, 120, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, 120, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, 4, 240, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, 240, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, 4, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, 4, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, -60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, 4, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [14, 6.4, .58, 5, -4, 180, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.half_range, g.half_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }]
+};
+
+defExports.waveformMinion = {
+    PARENT: [defExports.minion],
+    HITS_OWN_TYPE: 'hard',
+    LABEL: 'Waveform Minion',
+    GUNS: [{
+        POSITION: [17, 7, .6, 7, 4.25, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.faster, g.stronger]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [17, 7, .6, 7, -4.25, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.faster, g.stronger]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }]
+};
+
+defExports.TK6_Minion_5 = {
+    PARENT: [defExports.minion],
+    LABEL: "Triwaveform",
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 50,
+    BODY: {
+        FOV: .5,
+        SPEED: 1,
+        ACCELERATION: .2,
+        HEALTH: 100,
+        SHIELD: 5,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 1,
+        DENSITY: .5,
+        RANGE: 150
+    },
+    FACING_TYPE: 'spinSlowly',
+    GUNS: [{
+        POSITION: [8, 2, .63, 7, 11.5, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 8.5, 60, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 5.5, 60, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -11.5, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -8.5, 60, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -5.5, 60, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [3.15, 5.25, 1, 9.3, 0, 60, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.stronger, g.one_third_reload, g.fast_launch,]),
+            TYPE: defExports.waveformMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, 60, 0]
+    }, {
+        POSITION: [8, 2, .63, 7, 11.5, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 8.5, -60, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 5.5, -60, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -11.5, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -8.5, -60, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -5.5, -60, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [3.15, 5.25, 1, 9.3, 0, -60, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.stronger, g.one_third_reload, g.fast_launch]),
+            TYPE: defExports.waveformMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, -60, 0]
+    }, {
+        POSITION: [8, 2, .63, 7, 11.5, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 8.5, 180, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, 5.5, 180, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -11.5, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -8.5, 180, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: [defExports.swarm, {
+                CONTROLLERS: ['canRepel']
+            }],
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [8, 2, .63, 7, -5.5, 180, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.faster, g.faster, g.stronger, g.battle, g.less_range, g.one_third_reload]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [3.15, 5.25, 1, 9.3, 0, 180, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.stronger, g.one_third_reload, g.fast_launch]),
+            TYPE: defExports.waveformMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, 180, 0]
+    }],
+    TURRETS: [{
+        POSITION: [4, 10, 0, 0, 195, 1],
+        TYPE: [defExports.sounderAutoGun2, {COLOR: 2}]
+    }, {
+        POSITION: [4, 10, 0, 120, 195, 1],
+        TYPE: [defExports.sounderAutoGun2, {COLOR: 2}]
+    }, {
+        POSITION: [4, 10, 0, -120, 195, 1],
+        TYPE: [defExports.sounderAutoGun2, {COLOR: 2}]
+    }, {
+        POSITION: [12, 0, 0, 0, 360, 1],
+        TYPE: defExports.hexaSounderAutoGun
+    }]
+};
+
+defExports.impactorMinion = {
+    PARENT: [defExports.minion],
+    LABEL: 'Impactor Minion',
+    HITS_OWN_TYPE: 'hard',
+    GUNS: [{
+        POSITION: [39, 1.8, 1.01, 0, 5, 0, 0]
+    }, {
+        POSITION: [39, 1.8, 1.01, 0, -5, 0, 0]
+    }, {
+        POSITION: [.9, 8, 1.01, 12, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 16, 0, 0, .025],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 20, 0, 0, .05],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 24, 0, 0, .075],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 28, 0, 0, .1],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 32, 0, 0, .125],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 36, 0, 0, .15],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.fake]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [.9, 8, 1.01, 8, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.railgun, g.bit_slow]),
+            WAIT_TO_CYCLE: true,
+            TYPE: defExports.bullet
+        }
+    }]
+};
+const impactorProps1 = {
+    SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.sniper, g.fake, g.half_reload, g.half_reload]),
+    TYPE: defExports.bullet
+};
+
+defExports.impactorAuto = {
+    LABEL: 'Impactor',
+    BODY: {
+        FOV: 2
+    },
+    COLOR: 2,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    HAS_NO_RECOIL: true,
+    GUNS: [{
+        POSITION: [54, 1.7, 1, 0, 3.96, 0, 0]
+    }, {
+        POSITION: [54, 1.7, 1, 0, -3.96, 0, 0]
+    }, {
+        POSITION: [.65, 6.7, 1.01, 11.5, 0, 0, 0],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 14, 0, 0, .015],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 16.5, 0, 0, .03],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 19, 0, 0, .045],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 21.5, 0, 0, .06],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 24, 0, 0, .075],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 26.5, 0, 0, .09],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 29, 0, 0, .105],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 31.5, 0, 0, .12],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 34, 0, 0, .135],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 36.5, 0, 0, .15],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 39, 0, 0, .165],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 41.5, 0, 0, .18],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 44, 0, 0, .195],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 46.5, 0, 0, .21],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 49, 0, 0, .225],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 51.5, 0, 0, .24],
+        PROPERTIES: impactorProps1
+    }, {
+        POSITION: [.65, 6.7, 1.01, 8, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.ranger, g.sniper, g.bigger, g.more_power,  g.half_reload, g.half_reload, g.fast]),
+            TYPE: defExports.bullet
+        }
+    }]
+};
+
+defExports.TK6_Minion_6 = {
+    PARENT: [defExports.minion],
+    LABEL: "Triimpactor",
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 50,
+    BODY: {
+        FOV: 1.75,
+        SPEED: 1,
+        ACCELERATION: .25,
+        HEALTH: 100,
+        SHIELD: 5,
+        DAMAGE: 5,
+        RESIST: 1,
+        PENETRATION: 2,
+        DENSITY: .5,
+        RANGE: 200
+    },
+    FACING_TYPE: 'spinSlowly',
+    GUNS: [{
+        POSITION: [3.15, 5.25, 1, 9.3, 0, 60, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.one_third_reload, g.fast_launch]),
+            TYPE: defExports.impactorMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, 60, 0]
+    }, {
+        POSITION: [3.15, 5.25, 1, 9.3, 0, -60, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.one_third_reload, g.fast_launch]),
+            TYPE: defExports.impactorMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, -60, 0]
+    }, {
+        POSITION: [3.15, 5.25, 1, 9.3, 0, 180, 0]
+    }, {
+        POSITION: [1.5, 7.45, 1, 12.1, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.one_third_reload, g.fast_launch]),
+            TYPE: defExports.impactorMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [5.9, 7, 1, 4.6, 0, 180, 0]
+    }, {
+        POSITION: [4, 1.75, 1, 8, 11.75, 60, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 9.5, 60, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 7.25, 60, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 5, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -11.75, 60, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -9.5, 60, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -7.25, 60, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -5, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 11.75, -60, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 9.5, -60, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 7.25, -60, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 5, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -11.75, -60, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -9.5, -60, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -7.25, -60, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -5, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 11.75, 180, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 9.5, 180, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 7.25, 180, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, 5, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -11.75, 180, 3 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -9.5, 180, 2 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -7.25, 180, 1 / 4],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [4, 1.75, 1, 8, -5, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.minion, g.double_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }],
+    TURRETS: [{
+        POSITION: [5, 10, 0, 0, 195, 1],
+        TYPE: [defExports.railgunAuto, {INDEPENDENT: false}]
+    }, {
+        POSITION: [5, 10, 0, 120, 195, 1],
+        TYPE: [defExports.railgunAuto, {INDEPENDENT: false}]
+    }, {
+        POSITION: [5, 10, 0, 240, 195, 1],
+        TYPE: [defExports.railgunAuto, {INDEPENDENT: false}]
+    }, {
+        POSITION: [12, 0, 0, 0, 360, 1],
+        TYPE: defExports.impactorAuto
+    }]
+};
+
+defExports.dualConstructAuto = {
+    LABEL: '',
+    BODY: {
+        FOV: 1.5
+    },
+    COLOR: 16,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    GUNS: [{
+        POSITION: [17, 18, 1, 0, 0, 60, 0]
+    }, {
+        POSITION: [2, 18, 1.2, 17, 0, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.block, g.construct, g.half_reload, g.fast, g.no_recoil]),
+            TYPE: defExports.blockTrap
+        }
+    }, {
+        POSITION: [17, 18, 1, 0, 0, 300, 0]
+    }, {
+        POSITION: [2, 18, 1.2, 17, 0, 300, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.trap, g.block, g.construct, g.half_reload, g.fast, g.no_recoil]),
+            TYPE: defExports.blockTrap
+        }
+    }]
+};
+
+defExports.OPPredatorAutoGun4 = {
+    LABEL: '',
+    BODY: {
+        FOV: 1.8
+    },
+    COLOR: 2,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    GUNS: [{
+        POSITION: [22, 3, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [20.5, 5.5, 1, 0, 0, 0, .11],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [19, 8, 1, 0, 0, 0, .22],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [17.5, 10.5, 1, 0, 0, 0, .33],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [16, 13, 1, 0, 0, 0, .44],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [14.5, 15.5, 1, 0, 0, 0, .55],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [13, 18, 1, 0, 0, 0, .66],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.more_speed, g.half_reload, g.less_reload, g.no_recoil]),
+            TYPE: defExports.bullet
+        }
+    }]
+};
+
+defExports.triangleBossTier6 = {
+    PARENT: [defExports.genericTank],
+    TYPE: 'miniboss',
+    LABEL: "TK-6",
+    DANGER: 9,
+    SHAPE: 3,
+    COLOR: 2,
+    SIZE: 150,
+    BOSS_TIER_TYPE: 2,
+    LEVEL: 60,
+    VALUE: 59212,
+    STAT_NAMES: statNames.generic,
+    BODY: {
+        FOV: .85,
+        SPEED: 1,
+        ACCELERATION: .1,
+        HEALTH: 5000,
+        DAMAGE: 6,
+        REGEN: .015
+    },
+    FACING_TYPE: 'spinSlowly3',
+    GUNS: [{
+        POSITION: [4, 4, 1, 8.3, 0, -60, 0]
+    }, {
+        POSITION: [1, 5, 1, 12, 0, -60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size, g.bigger]),
+            TYPE: defExports.TK6_Minion_6,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [6.5, 4.75, 1, 4.6, 0, -60, 0]
+    }, {
+        POSITION: [4, 4, 1, 8.3, 0, 60, 0]
+    }, {
+        POSITION: [1, 5, 1, 12, 0, 60, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size, g.bigger]),
+            TYPE: defExports.TK6_Minion_5,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [6.5, 4.75, 1, 4.6, 0, 60, 0]
+    }, {
+        POSITION: [4, 4, 1, 8.3, 0, 180, 0]
+    }, {
+        POSITION: [1, 5, 1, 12, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size, g.bigger]),
+            TYPE: defExports.TK6_Minion_4,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [6.5, 4.75, 1, 4.6, 0, 180, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, 4.85, -60, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, 4.85, -60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_3,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, 4.85, -60, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, -4.85, -60, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, -4.85, -60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_3,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, -4.85, -60, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, 4.85, 60, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, 4.85, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_2,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, 4.85, 60, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, -4.85, 60, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, -4.85, 60, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_2,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, -4.85, 60, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, 4.85, 180, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, 4.85, 180, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_1,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, 4.85, 180, 0]
+    }, {
+        POSITION: [2, 2.2, 1, 8, -4.85, 180, 0]
+    }, {
+        POSITION: [.8, 3.3, 1, 10.1, -4.85, 180, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.half_reload, g.fast_launch, g.double_size]),
+            TYPE: defExports.TK6_Minion_1,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [4.3, 3.08, 1, 5.1, -4.85, 180, 0]
+    }],
+    TURRETS: [{
+        POSITION: [3.25, 13.25, 0, 0, 190, 1],
+        TYPE: [defExports.dualConstructAuto, {
+            LABEL: 'Dual Mega Trapper',
+            HAS_NO_RECOIL: true,
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, {
+        POSITION: [3.25, 13.25, 0, 120, 190, 1],
+        TYPE: [defExports.dualConstructAuto, {
+            LABEL: 'Dual Mega Trapper',
+            HAS_NO_RECOIL: true,
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, {
+        POSITION: [3.25, 13.25, 0, 240, 190, 1],
+        TYPE: [defExports.dualConstructAuto, {
+            LABEL: 'Dual Mega Trapper',
+            HAS_NO_RECOIL: true,
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, {
+        POSITION: [2.5, 4.2, 2, 60, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [2.5, 4.2, -2, 60, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [2.5, 4.2, 2, -60, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [2.5, 4.2, -2, -60, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [2.5, 4.2, 2, 180, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [2.5, 4.2, -2, 180, 160, 1],
+        TYPE: defExports.assassinAutoGun
+    }, {
+        POSITION: [5.5, 8.25, 0, 0, 190, 1],
+        TYPE: [defExports.hexaCruiserAutoGun, {
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, { 
+        POSITION: [5.5, 8.25, 0, 120, 190, 1],
+        TYPE: [defExports.twinRailgunAuto, {
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, {
+        POSITION: [5.5, 8.25, 0, 240, 190, 1],
+        TYPE: [defExports.OPPredatorAutoGun4, {
+            CONTROLLERS: ['canRepel', 'onlyAcceptInArc', 'mapAltToFire', 'nearestDifferentMaster']
+        }]
+    }, {
+        POSITION: [4, 7.5, 9.25, 60, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }, {
+        POSITION: [4, 7.5, -9.25, 60, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }, {
+        POSITION: [4, 7.5, 9.25, 180, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }, {
+        POSITION: [4, 7.5, -9.25, 180, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }, {
+        POSITION: [4, 7.5, 9.25, -60, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }, {
+        POSITION: [4, 7.5, -9.25, -60, 190, 0],
+        TYPE: defExports.weirdDualAutoGun2
+    }],
+	ON_DEFINED: function (self, entities, sockets, Entity) {
+		setTimeout(() => {
+			if (self.isAlive()) {
+				let x = self.x,
+					y = self.y;
+				setTimeout(() => {
+					let boss1 = new Entity({
+						x: x + 600,
+						y: y
+					});
+					boss1.team = self.team;
+					boss1.define(Class.tk1AI);
+					let boss2 = new Entity({
+						x: x - 600,
+						y: y
+					});
+					boss2.team = self.team;
+					boss2.define(Class.tk2AI);
+					let boss3 = new Entity({
+						x: x,
+						y: y + 600
+					});
+					boss3.team = self.team;
+					boss3.define(Class.tk3AI);
+					let boss4 = new Entity({
+						x: x,
+						y: y - 600
+					});
+					boss4.team = self.team;
+					boss4.define(Class.tk4AI);
+				}, 100);
+			}
+		}, 100);
+	}
 };
 defExports.twinMinigunAuto = {
     LABEL: 'Dual Minigun',
@@ -194179,6 +195738,20 @@ defExports.tk5AI = {
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 5, 5, 6, 6, 6, 6, 1, 0, 0),
     BROADCAST_MESSAGE: 'A TK-5 has been defeated!'
+};
+defExports.tk6AI = {
+    PARENT: [defExports.triangleBossTier6],
+    TYPE: 'miniboss',
+    VARIES_IN_SIZE: true,
+    LEVEL: 45,
+    VALUE: 2e7,
+    CONTROLLERS: ['nearestDifferentMaster', 'minion'/*, 'fleeAtLowHealth'*/, 'canRepel'],
+    AI: {
+        NO_LEAD: true
+    },
+    HITS_OWN_TYPE: 'hard',
+    SKILL: setSkill(0, 5, 5, 6, 6, 6, 6, 1, 0, 0),
+    BROADCAST_MESSAGE: 'TK-6 will get its revenge...'
 };
 defExports.mk1AI = {
     PARENT: [defExports.squareBossTier1],
