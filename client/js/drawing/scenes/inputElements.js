@@ -173,7 +173,7 @@ function isHoveringDropdownOptions(scene, element, x, y, width, height, uniqueId
 	const options = currentSettings[uniqueId]?.value?.options;
 	if (!options) return false;
 
-	// First option is to the right, rest stack below it
+	// x, y, width, height are already scaled
 	const optionX = x + width;
 	for (let i = 0; i < options.length; i++) {
 		const optionY = y + i * height;
@@ -358,7 +358,7 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 	ctx.drawImage(text, x + width / 2 - text.width / 2, y);
 }
 
-function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, originalX, originalY, originalWidth, originalHeight, click, inputCallback) {
+function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, click, inputCallback) {
 	const setting = currentSettings[uniqueId];
 
 	if (!setting?.value?.options) {
@@ -400,10 +400,10 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, orig
 	let hoveringOverOptions = false;
 	if (element.dropdownOpen && !element.dropdownClosing) {
 		hoveringOverOptions = handleDropdownOptionInteraction(
-			scene, element, options, originalX, originalY, originalWidth, originalHeight, inputCallback
+			scene, element, options, x, y, width, height, inputCallback
 		);
 
-		// Start close animation if not hovering over button or options
+		// Start close animation if not hovering over main button or options
 		if (click === false && !hoveringOverOptions) {
 			element.dropdownClosing = true;
 			element.dropdownCloseTime = performance.now();
@@ -419,7 +419,6 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, orig
 
 	// Draw dropdown options if open (including during close animation)
 	if (element.dropdownOpen) {
-		// Use the scaled x, y, width, height for drawing options at the edge of scaled input
 		drawDropdownOptions(ctx, scene, element, options, selectedValue, x, y, width, height);
 	}
 }
@@ -434,18 +433,19 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 
 	const element = getOrCreateElement(uniqueId);
 
-	// Store original coordinates for dropdown option positioning
-	const originalX = x;
-	const originalY = y;
-	const originalWidth = width;
-	const originalHeight = height;
+	// Apply current scale FIRST so all hit-testing matches drawn positions
+	const scaled = applyHoverScale(x, y, width, height, element.currentScale);
+	x = scaled.x;
+	y = scaled.y;
+	width = scaled.width;
+	height = scaled.height;
 
-	// Check if hovering over dropdown options before applying scale
+	// Check if hovering over dropdown options (using already-scaled coords)
 	const hoveringOverDropdownOptions = isHoveringDropdownOptions(
-		scene, element, originalX, originalY, originalWidth, originalHeight, uniqueId
+		scene, element, x, y, width, height, uniqueId
 	);
 
-	// Handle click detection and hover effects
+	// Handle click detection on the scaled button area
 	const click = clickableActive(scene, x, y, x + width, y + height);
 	const isInteracting = click !== false || hoveringOverDropdownOptions;
 
@@ -460,15 +460,8 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 		element.originalValue = null;
 	}
 
-	// Smoothly lerp the current scale towards target
+	// Update scale target for next frame
 	element.currentScale = lerp(element.currentScale, targetScale, SCALE.lerpSpeed);
-
-	// Apply the smoothed scale
-	const scaled = applyHoverScale(x, y, width, height, element.currentScale);
-	x = scaled.x;
-	y = scaled.y;
-	width = scaled.width;
-	height = scaled.height;
 
 	// Handle input buffer for text-based inputs
 	if (type === "number" || type === "text") {
@@ -509,7 +502,6 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 			renderDropdown(
 				ctx, scene, element, uniqueId,
 				x, y, width, height,
-				originalX, originalY, originalWidth, originalHeight,
 				click, inputCallback
 			);
 			break;

@@ -38,6 +38,8 @@ const defaultSettings = {
 	vignetteStrength: 1,
 	fpsCap: 1000,
 	inputBufferSize: 500,
+	menuAnimSpeed: 0.3,
+	upgradeMenuScale: 1,
 
 	// String/Dropdown settings
 	barStyle: "Circle",
@@ -51,6 +53,7 @@ const defaultSettings = {
 	// Input Elements
 	debugInputElements: false,
 	inputElementsCacheInterval: 1000,
+	textRenderCacheSize: 7500,
 }
 const settingTypes = {
 	settingsVersion: "number",
@@ -91,6 +94,8 @@ const settingTypes = {
 	vignetteStrength: "number",
 	fpsCap: "number",
 	inputBufferSize: "number",
+	menuAnimSpeed: "number",
+	upgradeMenuScale: "number",
 
 	// Dropdown settings
 	barStyle: "dropdown",
@@ -103,6 +108,7 @@ const settingTypes = {
 	// Input Elements
 	debugInputElements: "checkbox",
 	inputElementsCacheInterval: "number",
+	textRenderCacheSize: "number",
 }
 const settingLimits = {
 	settingsVersionMin: 0,
@@ -129,6 +135,10 @@ const settingLimits = {
 	fpsCapMax: 1000,
 	inputBufferSizeMin: 100,
 	inputBufferSizeMax: 1000,
+	menuAnimSpeedMin: 0.01,
+	menuAnimSpeedMax: 1,
+	upgradeMenuScaleMin: 0.1,
+	upgradeMenuScaleMax: 5,
 
 	// Dropdown setting options
 	barStyleOptions: ["Circle", "Square", "Triangle"],
@@ -141,6 +151,9 @@ const settingLimits = {
 	// Input Elements
 	inputElementsCacheIntervalMin: 1,
 	inputElementsCacheIntervalMax: 10000,
+
+	textRenderCacheSizeMin: 200,
+	textRenderCacheSizeMax: 9999,
 }
 
 let currentSettings = undefined;

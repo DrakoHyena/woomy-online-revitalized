@@ -1505,12 +1505,16 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 			"CELL_SKINS": {
 				"norm": {
 					"assets": ["normCellSkin"],
+					"tintColor": "#000",
+					"tintOpacity": 0,
 					"frameInterval": 0,
 					"repeat": true,
 					"stretch": false
 				},
 				"boundary": {
 					"assets": ["boundaryCellSkin"],
+					"tintColor": "#000",
+					"tintOpacity": 0,
 					"frameInterval": 0,
 					"repeat": true,
 					"stretch": false
@@ -5112,16 +5116,16 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				this.y = pos[2];
 				this.angle = pos[3] * Math.PI / 180;
 				this.layer = pos[4];
-				this.shape = info.SHAPE;
-				this.color = info.COLOR || -1;
+				this.shape = info.SHAPE != undefined ? info.SHAPE : 0;
+				this.color = info.COLOR != undefined ? info.COLOR : -1;
 				this.fill = info.FILL != undefined ? info.FILL : true;
 				this.stroke = info.STROKE != undefined ? info.STROKE : true;
 				this.borderless = info.BORDERLESS != undefined ? info.BORDERLESS : false;
 				this.loop = info.LOOP != undefined ? info.LOOP : true;
 				this.isAura = info.IS_AURA != undefined ? info.IS_AURA : false;
-				this.ring = info.RING;
+				this.ring = info.RING != undefined ? info.RING : 0;
 				this.arclen = info.ARCLEN != undefined ? info.ARCLEN : 1;
-				this.rpm = info.RPM != undefined ? info.RPM : false;
+				this.rpm = info.RPM != undefined ? info.RPM : 0;
 				this.dip = info.DIP != undefined ? info.DIP : 1;
 				this.lockRot = info.LOCK_ROT != undefined ? info.LOCK_ROT : true;
 				this.scaleSize = info.SCALE_SIZE != undefined ? info.SCALE_SIZE : true;
@@ -5495,7 +5499,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 
 		class Entity {
 			constructor(position, master = this) {
-				this.lastFrameCamera = {};
+				this.lastFrameCamera = {
+					requiresRefreshSend: true,
+				};
 				this.isGhost = false;
 				this.spectating = null;
 				this.killCount = {
@@ -5662,7 +5668,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 						check: () => true
 					}
 				})();*/
-				this.tank = "basic";
 				this.nameColor = "#FFFFFF";
 				this.rainbowSpeed = 30;
 				this.canUseQ = true;
@@ -5989,6 +5994,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 			}
 			define(set, extra) {
 				try {
+					this.lastFrameCamera.requiresRefreshSend = true;
 					if (set.PARENT != null)
 						for (let i = 0; i < set.PARENT.length; i++) this.define(set.PARENT[i]);
 					for (let thing in extra) this[thing] = extra[thing];
@@ -6400,24 +6406,15 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 			}
 			upgrade(number) {
 				if (c.serverName.includes("Corrupted Tanks")) {
-					const lastTank = this.tank;
 					if (number == null) {
 						const newTank = global.gamemodeCode.generateNewTank();
 						this.define(Class[newTank]);
-						this.tank = newTank
 						this.skill.score = 59212
 					} else {
 						this.childrenMap.forEach(c => c.kill())
 						const newTank = this.upgrades[number].class
 						this.define(Class[newTank]);
-						this.tank = newTank;
 					}
-					this.upgrades.push({
-						class: lastTank,
-						level: 0,
-						index: Class[lastTank].index,
-						tier: 4
-					})
 					for (let i = 0; i < 3; i++) {
 						let newTank = Class[global.gamemodeCode.generateNewTank()]
 						this.upgrades.push({
@@ -6433,13 +6430,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					let tank = this.upgrades[number].class;
 					this.upgrades = [];
 					this.define(Class[tank]);
-					this.upgrades.unshift({
-						class: this.tank,
-						level: 0,
-						index: Class[this.tank].index,
-						tier: 4
-					})
-					this.tank = tank;
 					if (this.switcherooID === 0 || (this.bossTierType !== -1 && this.bossTierType !== 16)) this.sendMessage("Press Q to switch tiers. There is a 1 second cooldown.");
 					if (this.scoped) this.sendMessage("Right click or press shift to move the camera to your mouse.");
 					if (this.facingType === "hatchet") this.sendMessage("Left click to make the tank spin quickly.");
@@ -6498,13 +6488,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 			upgradeTank(tank) {
 				this.upgrades = [];
 				this.define(Class[tank]);
-				this.upgrades.unshift({
-					class: this.tank,
-					level: 0,
-					index: Class[this.tank].index,
-					tier: 4
-				})
-				this.tank = tank;
 				if (this.switcherooID === 0 || (this.bossTierType !== -1 && this.bossTierType !== 16)) this.sendMessage("Press Q to switch tiers. There is a 1 second cooldown.");
 				if (this.scoped) this.sendMessage("Right click or press shift to move the camera to your mouse.");
 				if (this.facingType === "hatchet") this.sendMessage("Left click to make the tank spin quickly.");
@@ -7674,8 +7657,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							controlledBody.skill.score = this.skill.score;
 							controlledBody.skill.level = this.skill.level;
 						}
-						if (controlledBody.tank !== this.tank) controlledBody.upgradeTank(this.tank.constructor.name);
-						controlledBody.tank = this.tank;
 						controlledBody.FOV = .1;
 						controlledBody.refreshFOV();
 						if (room.gameMode === "tdm") controlledBody.team = this.team;
@@ -7963,7 +7944,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 			let minimumUpdateType = -1;
 			const oldData = lastFrameData.out;
 			const newData = entity.camera();
-			if (oldData && playerContext.requestedFullContextEntityIds.has(entity.id) === false) {
+			if (lastFrameData.requiresRefreshSend !== true && oldData && playerContext.requestedFullContextEntityIds.has(entity.id) === false) {
 				if (
 					oldData.name !== newData.name ||
 					oldData.nameColor !== newData.nameColor ||
@@ -7997,6 +7978,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					minimumUpdateType = 0;
 				}
 			}
+			lastFrameData.requiresRefreshSend = false;
 			playerContext.requestedFullContextEntityIds.delete(entity.id);
 			out.push(newData.id);
 			out.push(minimumUpdateType)
@@ -8102,10 +8084,23 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				return;
 			}
 			seenIndexes.add(e.index);
+
+			const pushShapeLike = (value) => {
+				if (value && value._assetMagic === ASSET_MAGIC) {
+					out.push(ASSET_MAGIC);
+					out.push(value.id);
+					return;
+				}
+				if (Array.isArray(value)) {
+					out.push(JSON.stringify(value));
+					return;
+				}
+				out.push(value ?? 0);
+			};
 			
 			out.push(e.index);
 			out.push(e.label);
-			out.push(e.shapeData || 0);
+			pushShapeLike(e.shapeData || 0);
 			out.push(e.size);
 			out.push(e.upgrades.length);
 			for(let i = 0; i < e.upgrades.length; i++){
@@ -8121,8 +8116,8 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				out.push(gun.width);
 				out.push(gun.aspect);
 				out.push(gun.angle);
-				out.push(gun.skin);
-				out.push(gun.color_unmix);
+				out.push(gun.skin ?? 0);
+				out.push(gun.color_unmix ?? 0);
 			}
 			out.push(e.props.length);
 			for(let i = 0; i < e.props.length; i++){
@@ -8132,20 +8127,20 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				out.push(prop.y);
 				out.push(prop.angle);
 				out.push(prop.layer);
-				out.push(prop.color);
-				out.push(prop.shape);
+				pushShapeLike(prop.color);
+				pushShapeLike(prop.shape);
 				out.push(prop.fill);
 				out.push(prop.stroke);
 				out.push(prop.borderless);
 				out.push(prop.loop);
 				out.push(prop.isAura);
-				out.push(prop.rpm);
-				out.push(prop.dip);
-				out.push(prop.ring);
-				out.push(prop.arclen);
-				out.push(prop.scaleSize);
-				out.push(prop.lockRot);
-				out.push(prop.tankOrigin);
+				out.push(prop.rpm ?? 0);
+				out.push(prop.dip ?? 1);
+				out.push(prop.ring ?? 0);
+				out.push(prop.arclen ?? 1);
+				out.push(prop.scaleSize ?? true);
+				out.push(prop.lockRot ?? true);
+				out.push(prop.tankOrigin ?? true);
 			}
 			// Send turret bounds
 			out.push(e.turrets.length);
@@ -8511,7 +8506,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 						output.push(body.skill.points);
 
 						if (!body._lastUpgradesLength) body._lastFirstUpgradeIndex = -1;
-						const upgradeLength = body._lastFirstUpgradeIndex === body.upgrades[0].index ? 0 : body.upgrades.length;
+						const upgradeLength = body._lastFirstUpgradeIndex === body.upgrades[0]?.index ? 0 : body.upgrades.length || -1;
 						output.push(upgradeLength);
 						for (let i = 0; i < upgradeLength; i++) {
 							output.push(body.upgrades[i].index);
@@ -8787,7 +8782,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								}
 							}
 						} break;
-						case "U": { // Upgrade request
+						case clientPackets.upgradeRequest: // Upgrade request
 							if (m.length !== 1) {
 								this.error("tank upgrade", "Ill-sized tank upgrade request", true);
 								return 1;
@@ -8796,35 +8791,28 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								this.error("tank upgrade", "Non-numeric upgrade request", true);
 								return 1;
 							}
-							if (body?.isDead?.()) break;
-
-							let cooldown = this.betaData.permissions > 1 ? 0 : 450 * (this.usingAdBlocker ? 1 : 1)
-							if (c.serverName.includes("Corrupted Tanks")) {
-								cooldown *= 5
+							if (m[0] < 0) {
+								this.error("tank upgrade", `Invalid tank upgrade value (${num})`, true);
+								return 1;
 							}
+							if (body?.isDead?.() || body == null) break;
+
+							let cooldown = this.betaData.permissions > 1 ? 0 : 200
 							if ((body.lastUpgradeTime !== undefined && Date.now() - body.lastUpgradeTime < cooldown) && this.betaData.permissions < 2) {
 								break;
 							}
 
-							let num = m[0];
-							if (typeof num !== "number" || num < 0) {
-								this.error("tank upgrade", `Invalid tank upgrade value (${num})`, true);
-								return 1;
-							}
+							const num = m[0];
 							if (body != null) {
 								body.lastUpgradeTime = Date.now();
 								body.sendMessage("Upgrading...");
-								if (this.usingAdBlocker && !this.didAdBlockMessage) {
-									this.didAdBlockMessage = true
-									//body.sendMessage("Please disable your adblocker. Woomy is hard to maintain and it helps a lot :(".split("").join("​"), "#FF0000")
-								}
 								setTimeout(() => {
 									if (body != null) {
 										body.upgrade(num);
 									}
 								}, cooldown);
 							}
-						} break;
+						break;
 						case "x": { // Skill upgrade request
 							if (m.length !== 1) {
 								this.error("skill upgrade", "Ill-sized skill upgrade request", true);
@@ -8986,9 +8974,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							}
 							this.talk(serverPackets.serverInfo, global.serverStats.cpu, global.serverStats.mem, global.exportNames.length)
 							break;
-						case "CTB":
+						case clientPackets.switchToBasic:
 							if (body.switchingToBasic === true) return;
-							body.sendMessage("Switching to Basic in 8 seconds...")
+							body.sendMessage("Switching to Basic in 5 seconds...")
 							body.switchingToBasic = true;
 							setTimeout(() => {
 								body.switchingToBasic = false;
@@ -11022,10 +11010,15 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				} else {
 					if (my.bond == null) {
 						my.physics();
+						my.life();
 					}
-					my.life();
 					my.location();
 					my.friction();
+					if (my.bond !== null){
+						for(let turret of my.turrets){
+							turret.life();
+						}
+					}
 					my.lastSavedHealth = {
 						health: my.health.amount,
 						shield: my.shield.amount

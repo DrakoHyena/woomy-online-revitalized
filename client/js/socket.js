@@ -163,13 +163,27 @@ class ClientGun {
 	}
 }
 
-function parseMockup() {
+function parseMockup(seenIndexes) {
 	const index = convert.reader.next();
+
+	const readMockupValue = () => {
+		const val = convert.reader.next();
+		if (val === ASSET_MAGIC) return loadAsset(ASSET_MAGIC, convert.reader.next());
+		if (typeof val === "string" && val.startsWith("[") && val.endsWith("]")) {
+			try {
+				const parsed = JSON.parse(val);
+				if (Array.isArray(parsed)) return parsed;
+			} catch (err) {
+				// Fall through to raw string
+			}
+		}
+		return val;
+	};
 	
 	const mockup = {
 		index: index,
 		label: convert.reader.next(),
-		shape: convert.reader.next(),
+		shape: readMockupValue(),
 		size: convert.reader.next(),
 		color: 12, // Default color for rendering
 		facing: 0,
@@ -182,6 +196,7 @@ function parseMockup() {
 
 	// Register early so recursive calls can find it
 	mockups.set(index, mockup);
+	if (seenIndexes) seenIndexes.add(index);
 
 	// Parse upgrades
 	const upgradeCount = convert.reader.next();
@@ -216,8 +231,8 @@ function parseMockup() {
 			y: convert.reader.next(),
 			angle: convert.reader.next(),
 			layer: convert.reader.next(),
-			color: convert.reader.next(),
-			shape: convert.reader.next(),
+			color: readMockupValue(),
+			shape: readMockupValue(),
 			fill: convert.reader.next(),
 			stroke: convert.reader.next(),
 			borderless: convert.reader.next(),
@@ -248,9 +263,11 @@ function parseMockup() {
 		});
 	}
 
-	// Parse turret mockups (duplicates skip via mockups.mockupData check)
+	// Parse turret mockups (skip duplicates already parsed in this packet)
 	for (let i = 0; i < turretCount; i++) {
-		parseMockup();
+		const turretIndex = mockup.turrets[i].index;
+		if (seenIndexes && seenIndexes.has(turretIndex)) continue;
+		parseMockup(seenIndexes);
 	}
 
 	return mockup;
@@ -354,10 +371,22 @@ class ClientEntity {
 			gun.tick();
 		}
 		for(let goal in this.goals){
+			switch(goal){
+				// Lerp angle
+				case "facing":
+					this[goal] = lerpAngle(this[goal], this.goals[goal], .4);
+				break;
+				// Lerp rounded
+				case "score":
+					this[goal] = Math.round(lerp(this[goal], this.goals[goal], .4));
+				break;
+				// Lerp
+				default:
+					this[goal] = lerp(this[goal], this.goals[goal], .4);
+				break;
+			}
 			if(goal === "facing"){
-				this[goal] = lerpAngle(this[goal], this.goals[goal], .4);
 			}else{
-				this[goal] = lerp(this[goal], this.goals[goal], .4);
 			}
 		}
 	}
@@ -547,6 +576,8 @@ function convertFastGui() {
 		for (let i = 0; i < upgradeAmount; i++) {
 			playerState.gui.upgrades.push(convert.reader.next());
 		}
+	}else{
+		playerState.gui.upgrades.length = 0;
 	}
 
 	const skillStatChanges = convert.reader.next();
@@ -601,8 +632,9 @@ async function onmessage (message) {
 		case serverPackets.mockupRequest:
 			convert.reader.set(m, 0);
 			const indexesInPacket = [];
+			const seenIndexes = new Set();
 			while(convert.reader.index < m.length){
-				const mockup = parseMockup();
+				const mockup = parseMockup(seenIndexes);
 				indexesInPacket.push(mockup.index);
 				mockups.pendingMockupRequests.delete(mockup.index);
 			}

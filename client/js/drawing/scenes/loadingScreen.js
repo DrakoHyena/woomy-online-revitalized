@@ -2,6 +2,7 @@ import { lerp } from "../../lerp.js";
 import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import { renderText } from "../text.js";
+import { currentSettings } from "../../settings.js";
 
 const loadingScreen = new Scene(document.getElementById("loadingScreenCanvas"));
 drawLoop.scenes.set("loadingScreen", loadingScreen);

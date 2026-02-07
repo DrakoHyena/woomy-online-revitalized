@@ -95,124 +95,121 @@ main.drawFuncts.set("clear", ({ canvas, ctx, delta }) => {
 	state.screenScale = Math.max(canvas.width / fov, canvas.height / fov / 9 * 16);
 })
 
+/**
+ * Resolves a cell skin's current-frame asset image data.
+ * Returns { skin, asset } or null if the skin is invalid / has no loadable asset.
+ */
+function resolveSkinAsset(skinKey) {
+	const skin = roomState.cellSkins[skinKey];
+	if (!skin || !Array.isArray(skin.assets) || skin.assets.length === 0) return null;
+
+	const frameIndex = (skin.frameInterval > 0)
+		? Math.floor(state.frame / skin.frameInterval) % skin.assets.length
+		: 0;
+	const assetObj = getAsset(skin.assets[frameIndex]);
+	if (!assetObj?.data) return null;
+
+	return { skin, asset: assetObj.data };
+}
+
+/**
+ * Draws a single cell tile using the resolved skin + asset.
+ * Handles repeat-pattern, stretch, and optional colour tint.
+ */
+function drawCellTile(ctx, skin, asset, left, top, scaledW, scaledH, offsetX, offsetY, scale) {
+	if (skin.repeat) {
+		// Cache the pattern on the skin object so we don't recreate it every cell
+		if (skin._cachedPatternAsset !== asset) {
+			skin._cachedPattern = ctx.createPattern(asset, "repeat");
+			skin._cachedPatternAsset = asset;
+		}
+		ctx.save();
+		ctx.fillStyle = skin._cachedPattern;
+		ctx.translate(offsetX, offsetY);
+		ctx.scale(scale, scale);
+		ctx.fillRect(
+			(left - 1 - offsetX) / scale,
+			(top  - 1 - offsetY) / scale,
+			(scaledW + 2) / scale,
+			(scaledH + 2) / scale
+		);
+		ctx.restore();
+	} else if (skin.stretch) {
+		ctx.drawImage(asset, left - 1, top - 1, scaledW + 2, scaledH + 2);
+	}
+
+	// Colour tint overlay
+	if (skin.tintOpacity > 0) {
+		ctx.globalAlpha = skin.tintOpacity;
+		ctx.fillStyle = skin.tintColor;
+		ctx.fillRect(left - 1, top - 1, scaledW + 2, scaledH + 2);
+		ctx.globalAlpha = 1;
+	}
+}
+
 main.drawFuncts.set("background", ({ canvas, ctx, delta }) => {
-	if (roomState.mapType !== 1) {
-		const W = roomState.cells[0].length;
-		const H = roomState.cells.length;
-		const cellWidth = roomState.width / W;
-		const cellHeight = roomState.height / H;
-    
-		const scaledCellWidth = state.screenScale * cellWidth;
-		const scaledCellHeight = state.screenScale * cellHeight;
-		const offsetX = canvas.width / 2 - state.screenScale * playerState.camera.x;
-		const offsetY = canvas.height / 2 - state.screenScale * playerState.camera.y;
+	if (roomState.mapType === 1) return;
 
-		state.frame++;
+	// ── Grid dimensions & camera transform ──────────────────────────
+	const W = roomState.cells[0].length;
+	const H = roomState.cells.length;
+	const cellW = roomState.width  / W;
+	const cellH = roomState.height / H;
 
-		// Render in-bounds cells
-		for (let y = 0; y < H; y++) {
-			const top = state.screenScale * y * cellHeight + offsetY;
-			const bottom = top + scaledCellHeight;
-			if (bottom < 0 || top > canvas.height) continue;
+	const scale   = state.screenScale;
+	const scaledW = scale * cellW;
+	const scaledH = scale * cellH;
+	const offsetX = canvas.width  / 2 - scale * playerState.camera.x;
+	const offsetY = canvas.height / 2 - scale * playerState.camera.y;
 
-			const row = roomState.cells[y];
-			for (let x = 0; x < W; x++) {
-				const left = state.screenScale * x * cellWidth + offsetX;
-				const right = left + scaledCellWidth;
-				if (right < 0 || left > canvas.width) continue;
+	state.frame++;
 
-				const cell = row[x];
-				if (cell === "edge") continue;
+	// ── Pre-resolve the "default" fallback skin once ────────────────
+	const defaultResolved = resolveSkinAsset("default");
 
-				// Use cell skin if available, else fallback to default
-				let cellSkin = null, asset = null;
-				if (cell && roomState.cellSkins[cell] && Array.isArray(roomState.cellSkins[cell].assets) && roomState.cellSkins[cell].assets.length > 0) {
-					cellSkin = roomState.cellSkins[cell];
-					const assetIndex = (!cellSkin.frameInterval || cellSkin.frameInterval === 0) ? 0 : Math.floor(state.frame / cellSkin.frameInterval) % cellSkin.assets.length;
-					const assetObj = getAsset(cellSkin.assets[assetIndex]);
-					asset = assetObj && assetObj.data ? assetObj.data : null;
-				} else if (roomState.cellSkins["default"] && Array.isArray(roomState.cellSkins["default"].assets) && roomState.cellSkins["default"].assets.length > 0) {
-					cellSkin = roomState.cellSkins["default"];
-					const assetIndex = (!cellSkin.frameInterval || cellSkin.frameInterval === 0) ? 0 : Math.floor(state.frame / cellSkin.frameInterval) % cellSkin.assets.length;
-					const assetObj = getAsset(cellSkin.assets[assetIndex]);
-					asset = assetObj && assetObj.data ? assetObj.data : null;
-				}
+	// ── Render in-bounds cells ──────────────────────────────────────
+	for (let y = 0; y < H; y++) {
+		const top = scale * y * cellH + offsetY;
+		if (top + scaledH < 0 || top > canvas.height) continue;
 
-				if (!cellSkin || !asset) continue;
+		const row = roomState.cells[y];
+		for (let x = 0; x < W; x++) {
+			const left = scale * x * cellW + offsetX;
+			if (left + scaledW < 0 || left > canvas.width) continue;
 
-				if (cellSkin.repeat) {
-					const pattern = ctx.createPattern(asset, "repeat");
-					ctx.save();
-					ctx.fillStyle = pattern;
-					ctx.translate(offsetX, offsetY);
-					ctx.scale(state.screenScale, state.screenScale);
-					ctx.fillRect((left - 1 - offsetX) / state.screenScale, (top - 1 - offsetY) / state.screenScale, (scaledCellWidth + 2) / state.screenScale, (scaledCellHeight + 2) / state.screenScale);
-					ctx.restore();
-				} else if (cellSkin.stretch) {
-					ctx.drawImage(asset, left - 1, top - 1, scaledCellWidth + 2, scaledCellHeight + 2);
-				}
-			}
-		}
+			const cell = row[x];
+			if (cell === "edge") continue;
 
-		// Calculate visible cell range
-		const minX = Math.floor((-offsetX) / scaledCellWidth) - 1;
-		const maxX = Math.ceil((canvas.width - offsetX) / scaledCellWidth) + 1;
-		const minY = Math.floor((-offsetY) / scaledCellHeight) - 1;
-		const maxY = Math.ceil((canvas.height - offsetY) / scaledCellHeight) + 1;
+			// Resolve skin: cell-specific → default fallback
+			const resolved = (cell && resolveSkinAsset(cell)) || defaultResolved;
+			if (!resolved) continue;
 
-		// Get boundary cell skin and asset, with safety checks
-		const boundaryCellSkin = roomState.cellSkins["boundary"];
-		let boundaryAsset = null;
-		if (boundaryCellSkin && Array.isArray(boundaryCellSkin.assets) && boundaryCellSkin.assets.length > 0) {
-			const boundaryAssetIndex = (!boundaryCellSkin.frameInterval || boundaryCellSkin.frameInterval === 0) ? 0 : Math.floor(state.frame / boundaryCellSkin.frameInterval) % boundaryCellSkin.assets.length;
-			const assetObj = getAsset(boundaryCellSkin.assets[boundaryAssetIndex]);
-			if (assetObj && assetObj.data) {
-				boundaryAsset = assetObj.data;
-			}
-		}
-
-		// Render out-of-bounds (boundary) cells
-		for (let y = minY; y < maxY; y++) {
-			const top = state.screenScale * y * cellHeight + offsetY;
-			const bottom = top + scaledCellHeight;
-			if (bottom < 0 || top > canvas.height) continue;
-
-			for (let x = minX; x < maxX; x++) {
-				// Only draw if out of bounds
-				if (y >= 0 && y < H && x >= 0 && x < W) continue;
-
-				const left = state.screenScale * x * cellWidth + offsetX;
-				const right = left + scaledCellWidth;
-				if (right < 0 || left > canvas.width) continue;
-
-				if (!boundaryCellSkin || !boundaryAsset) continue;
-
-				if (boundaryCellSkin.repeat) {
-					const pattern = ctx.createPattern(boundaryAsset, "repeat");
-					ctx.save();
-					ctx.fillStyle = pattern;
-					ctx.translate(offsetX, offsetY);
-					ctx.scale(state.screenScale, state.screenScale);
-					ctx.fillRect((left - 1 - offsetX) / state.screenScale, (top - 1 - offsetY) / state.screenScale, (scaledCellWidth + 2) / state.screenScale, (scaledCellHeight + 2) / state.screenScale);
-					ctx.restore();
-				} else if (boundaryCellSkin.stretch) {
-					ctx.drawImage(boundaryAsset, left - 1, top - 1, scaledCellWidth + 2, scaledCellHeight + 2);
-				}
-			}
+			drawCellTile(ctx, resolved.skin, resolved.asset, left, top, scaledW, scaledH, offsetX, offsetY, scale);
 		}
 	}
-	// TODO: Circle Map
-	// } else if (roomState.mapType === 1) {
-	// 	const xx = -px + global._screenWidth / 2 + ratio * global._gameWidth / 2;
-	// 	const yy = -py + global._screenHeight / 2 + ratio * global._gameHeight / 2;
-	// 	const radius = ratio * global._gameWidth / 2;
-	// 	ctx.fillStyle = color.white;
-	// 	ctx.globalAlpha = 1;
-	// 	ctx.beginPath();
-	// 	ctx.arc(xx, yy, radius, 0, TAU);
-	// 	ctx.closePath();
-	// 	ctx.fill();
-	// }
+
+	// ── Render out-of-bounds (boundary) cells ───────────────────────
+	const boundaryResolved = resolveSkinAsset("boundary");
+	if (!boundaryResolved) return;
+
+	const minX = Math.floor(-offsetX / scaledW) - 1;
+	const maxX = Math.ceil((canvas.width  - offsetX) / scaledW) + 1;
+	const minY = Math.floor(-offsetY / scaledH) - 1;
+	const maxY = Math.ceil((canvas.height - offsetY) / scaledH) + 1;
+
+	for (let y = minY; y < maxY; y++) {
+		const top = scale * y * cellH + offsetY;
+		if (top + scaledH < 0 || top > canvas.height) continue;
+
+		for (let x = minX; x < maxX; x++) {
+			if (y >= 0 && y < H && x >= 0 && x < W) continue; // skip in-bounds
+
+			const left = scale * x * cellW + offsetX;
+			if (left + scaledW < 0 || left > canvas.width) continue;
+
+			drawCellTile(ctx, boundaryResolved.skin, boundaryResolved.asset, left, top, scaledW, scaledH, offsetX, offsetY, scale);
+		}
+	}
 })
 
 main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {

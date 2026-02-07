@@ -1,7 +1,7 @@
-import { global, resizeEvent } from "./global.js"
-import { config } from "./config.js"
-import { themes, setColor, color } from "./colors.js";
-import { rewardManager } from "./achievements.js";
+import { global, resizeEvent } from "../client/js/global.js"
+import { config } from "../client/js/config.js"
+import { themes, setColor, color } from "../client/js/colors.js";
+import { rewardManager } from "../client/js/achievements.js";
 
 const initSettingsMenu = function () {
 	// Increase this value if you change something huge

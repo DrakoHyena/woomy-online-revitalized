@@ -24,6 +24,96 @@
         ["n_b2", "n_b2", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "norm", "n_b3", "n_b3"],
         ["bas2", "n_b2", "norm", "norm", "norm", "roid", "norm", "norm", "norm", "roid", "roid", "norm", "norm", "norm", "roid", "norm", "norm", "norm", "n_b3", "bas3"]
     ],
+	"CELL_SKINS": {
+		"n_b1": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#3CA4CB",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"bas1": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#3CA4CB",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"n_b2": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#E03E41",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"bas2": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#E03E41",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"n_b3": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#8ABC3F",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"bas3": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#8ABC3F",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"n_b4": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#CC669C",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"bas4": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#CC669C",
+			"tintOpacity": 0.25,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"norm": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#000",
+			"tintOpacity": 0,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"roid": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#000",
+			"tintOpacity": 0,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		},
+		"boundary": {
+			"assets": ["boundaryCellSkin"],
+			"tintColor": "#000",
+			"tintOpacity": 0,
+			"frameInterval": 0,
+			"repeat": true,
+			"stretch": false
+		}
+	},
     "X_GRID": 20,
     "Y_GRID": 20,
     "BOTS": 25

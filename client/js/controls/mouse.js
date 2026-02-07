@@ -37,8 +37,8 @@ mouse._updateScroll = function(wheelEvent){
 	mouse.scrollY = wheelEvent.deltaY;
 }
 setInterval(()=>{
-	mouse.scrollX = lerp(mouse.scrollX, 0, .075);
-	mouse.scrollY = lerp(mouse.scrollY, 0, .075);
+	mouse.scrollX = lerp(mouse.scrollX, 0, .13);
+	mouse.scrollY = lerp(mouse.scrollY, 0, .13);
 })
 
 mouse.posRelativeToScene = function(scene){

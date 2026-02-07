@@ -23,6 +23,8 @@ const clientPackets = {
 	requestEntityMockups: 1,
 	inputUpdate: 2,
 	levelUp: 3,
+	upgradeRequest: 4,
+	switchToBasic: 5
 }
 
 export { serverPackets, clientPackets }

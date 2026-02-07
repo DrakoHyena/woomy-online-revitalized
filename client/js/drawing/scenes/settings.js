@@ -7,7 +7,7 @@ import { renderInput } from "./inputElements.js";
 import { topLeftButtonsState } from "./topLeftButtons.js";
 import { mouse } from "../../controls/mouse.js";
 import { clickableActive } from "./clickable.js";
-import { showTextBox, hideTextBox } from "./cursorUi.js";
+import { showCursorTextBox, hideCursorTextBox } from "./cursorUi.js";
 
 const SETTINGS_CONFIG = {
 	MARGIN: 10,
@@ -30,9 +30,9 @@ drawLoop.scenes.set("settings", settings);
 
 settings.utilityFuncts.set("fade", ({ canvas, ctx, delta }) => {
 	if(state.open === true){
-		state.fade = lerp(state.fade, 1, 0.2*delta);
+		state.fade = lerp(state.fade, 1, currentSettings.menuAnimSpeed.value.number*delta);
 	}else{
-		state.fade = lerp(state.fade, 0, .2);
+		state.fade = lerp(state.fade, 0, currentSettings.menuAnimSpeed.value.number*delta);
 		if(state.fade <= 0.001){
 			state.fade = 0;
 			settings.active = false;
@@ -90,10 +90,10 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	yOffset -= mouse.scrollY;
 
 	if(yOffset > 0) {
-		yOffset = lerp(yOffset, 0, Math.min(1, (yOffset/height) * 1.5) * delta)
+		yOffset = lerp(yOffset, 0, Math.min(1, (yOffset/height) * 4) * delta)
 	}
 	if(lowestY < height) {
-		yOffset = lerp(yOffset, yOffset+(height-lowestY), Math.min(1, ((height-lowestY)/height) * 1.5) * delta)
+		yOffset = lerp(yOffset, yOffset+(height-lowestY), Math.min(1, ((height-lowestY)/height) * 4) * delta)
 	}
 	lastMouseY = mouse.y;
 	y += yOffset;
@@ -107,6 +107,12 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x, y, x+width/2-text.width/2, y)
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
+
+	text = renderText("Entities", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
 	text = renderText("Auto Upgrade", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
@@ -149,21 +155,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.shieldbars.value.enabled = !currentSettings.shieldbars.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Lerp Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("lerpSize", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.lerpSize.value.enabled, ()=>{
-		currentSettings.lerpSize.value.enabled = !currentSettings.lerpSize.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Death Animations", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("deathAnimations", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.deathAnimations.value.enabled, ()=>{
-		currentSettings.deathAnimations.value.enabled = !currentSettings.deathAnimations.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
 	
 	text = renderText("Performance", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
@@ -202,7 +193,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 
-	text = renderText("Misc.", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	text = renderText("GUI", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -210,17 +201,16 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
 
-	text = renderText("Screenshot Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("General", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("screenshotMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.screenshotMode.value.enabled, ()=>{
-		currentSettings.screenshotMode.value.enabled = !currentSettings.screenshotMode.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Disable Game Messages", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Menu Animations Speed", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("disableGameMessages", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.disableGameMessages.value.enabled, ()=>{
-		currentSettings.disableGameMessages.value.enabled = !currentSettings.disableGameMessages.value.enabled
+	renderInput("menuAnimSpeed", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.menuAnimSpeed.value.number, (newNumber)=>{
+		currentSettings.menuAnimSpeed.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -232,10 +222,43 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
+	text = renderText("Screenshot Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("screenshotMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.screenshotMode.value.enabled, ()=>{
+		currentSettings.screenshotMode.value.enabled = !currentSettings.screenshotMode.value.enabled
+	})
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Chat", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Disable Game Messages", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("disableGameMessages", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.disableGameMessages.value.enabled, ()=>{
+		currentSettings.disableGameMessages.value.enabled = !currentSettings.disableGameMessages.value.enabled
+	})
+	y += text.height + SETTINGS_CONFIG.PADDING
+
 	text = renderText("Chat Message Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("chatMessageDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatMessageDuration.value.number, (newNumber)=>{
 		currentSettings.chatMessageDuration.value.number = newNumber;
+	})
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Upgrade Menu", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Upgrade Menu Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("upgradeMenuScale", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.upgradeMenuScale.value.number, (newNumber)=>{
+		currentSettings.upgradeMenuScale.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -350,7 +373,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput("neonMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.neonMode.value.enabled, ()=>{
 		currentSettings.neonMode.value.enabled = !currentSettings.neonMode.value.enabled
 	}, () => {
-		showTextBox("Neon Mode", "For a Neon Experience")
+		showCursorTextBox("Neon Mode", "For a Neon Experience")
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -436,7 +459,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	if(state.showEntityEditor){
 		text = renderText("Entity Editor", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 		ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-		renderInput("debugInputElements", "button", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, "Open", ()=>{
+		renderInput("entityEditor", "button", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, "Open", ()=>{
 			window.open("/editor.html", "_blank", "width=600,height=400,top=0,left=0");
 		})
 		y += text.height + SETTINGS_CONFIG.PADDING
@@ -456,7 +479,14 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	hideTextBox();
+	text = renderText("Text Render Cache Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("textRenderCacheSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.textRenderCacheSize.value.number, (newNumber)=>{
+		currentSettings.textRenderCacheSize.value.number = newNumber;
+	})
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	hideCursorTextBox();
 	lowestY = y;
 	ctx.restore();
 })

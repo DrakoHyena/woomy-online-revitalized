@@ -70,7 +70,7 @@ function drawShape(context, shape, size, stroke, fill, options = {}) {
 	if (shape < 0) {
 		const dip = dipOverride ?? (1 - 6 / shape / shape);
 		const sides = -shape;
-		context.moveTo(size, size);
+		context.moveTo(size, 0);
 		for (let i = 0; i < sides; i++) {
 			let theta = (i + 1) / sides * 2 * Math.PI * arcLen,
 				htheta = (i + .5) / sides * 2 * Math.PI * arcLen,
@@ -1913,8 +1913,8 @@ function renderGunsAtLayer(context, entity, layer) {
 		context.rotate(gunAngle);
 		context.scale(entitySize, entitySize);
 		context.lineWidth /= entitySize;
-		context.stroke(path);
 		context.fill(path);
+		context.stroke(path);
 		context.restore();
 	}
 

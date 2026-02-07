@@ -1,14 +1,11 @@
 import { global, resizeEvent } from "./global.js";
 import { util, getWOSocketId } from "/js/util.js"
 import { rewardManager } from "/js/achievements.js"
-import { initSettingsMenu } from "/js/settingsMenu.js"
 import "./mainmenu.js";
 import "./joinMenu.js";
 
 // App.js
 function RememberScriptingIsBannable() {
-    initSettingsMenu();
-
     // MAIN MENUS //
     window.addEventListener("resize", resizeEvent);
     resizeEvent();
