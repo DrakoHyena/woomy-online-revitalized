@@ -30,8 +30,8 @@ const state = {
 	}
 }
 
-const main = new Scene(document.getElementById("mainCanvas"));
-drawLoop.scenes.set("main", main);
+const main = new Scene(0);
+drawLoop.addScene("main", main);
 
 function onInputTrue(key){
 	switch(key){
@@ -88,6 +88,7 @@ main.utilityFuncts.set("gameInput", ({ canvas, ctx, delta }) => {
 main.drawFuncts.set("clear", ({ canvas, ctx, delta }) => {
 	ctx.globalAlpha = 1;
 	ctx.fillStyle = "#a0a0a0";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	// Update screenScale based on FOV each frame
@@ -123,17 +124,15 @@ function drawCellTile(ctx, skin, asset, left, top, scaledW, scaledH, offsetX, of
 			skin._cachedPattern = ctx.createPattern(asset, "repeat");
 			skin._cachedPatternAsset = asset;
 		}
-		ctx.save();
 		ctx.fillStyle = skin._cachedPattern;
-		ctx.translate(offsetX, offsetY);
-		ctx.scale(scale, scale);
+		ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);
 		ctx.fillRect(
 			(left - 1 - offsetX) / scale,
 			(top  - 1 - offsetY) / scale,
 			(scaledW + 2) / scale,
 			(scaledH + 2) / scale
 		);
-		ctx.restore();
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
 	} else if (skin.stretch) {
 		ctx.drawImage(asset, left - 1, top - 1, scaledW + 2, scaledH + 2);
 	}
@@ -226,35 +225,49 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
 		}
 
 		const render = getEntityImage(entity, true, 1.25); // Add padding to accomadate border width and other misc things
+		if (!render) continue; // ImageBitmap not ready yet, skip this frame
+
 		const screenX = state.screenScale * entity.x + offsetX;
 		const screenY = state.screenScale * entity.y + offsetY;
 		const entitySize = entity.size || 1;
-		const scale = state.screenScale * render.upscaleVal
+		const scale = state.screenScale * render.upscaleVal;
 
-		ctx.save();
-		ctx.translate(screenX, screenY);
-		ctx.scale(scale, scale);
+		// Viewport culling — skip entities fully off-screen
+		const halfDraw = render.width * scale * 0.5;
+		if (screenX + halfDraw < 0 || screenX - halfDraw > canvas.width ||
+			screenY + halfDraw < 0 || screenY - halfDraw > canvas.height) continue;
+
 		ctx.globalAlpha = entity.alpha;
 
+		// Draw text (unrotated) using setTransform instead of save/restore
 		let scoreText = { height: 0 };
-		let nameText = { height: 0};
-		if(entity.score){
-			scoreText = renderText(entity.score, entitySize*2);
-			ctx.drawImage(scoreText, -scoreText.width/2, -render.height/2 - scoreText.height/2);
+		let nameText = { height: 0 };
+		if (entity.score || entity.name) {
+			ctx.setTransform(scale, 0, 0, scale, screenX, screenY);
+			if (entity.score) {
+				scoreText = renderText(entity.score, entitySize * 2);
+				if (scoreText) ctx.drawImage(scoreText, -scoreText.width / 2, -render.height / 2 - scoreText.height / 2);
+			}
+			if (entity.name) {
+				nameText = renderText(entity.name, entitySize * 3);
+				if (nameText) ctx.drawImage(nameText, -nameText.width / 2, -render.height / 2 - scoreText.height - nameText.height / 2);
+			}
 		}
-		if(entity.name){
-			nameText = renderText(entity.name, entitySize*3);
-			ctx.drawImage(nameText, -nameText.width/2, -render.height/2 - scoreText.height - nameText.height/2)
-		}
-	
-		ctx.rotate(entity.facing);
+
+		// Draw entity image (rotated) using setTransform
+		const cos = Math.cos(entity.facing) * scale;
+		const sin = Math.sin(entity.facing) * scale;
+		ctx.setTransform(cos, sin, -sin, cos, screenX, screenY);
 		ctx.drawImage(render, -render.width / 2, -render.height / 2);
-		ctx.restore();
 	};
+
+	// Reset transform and alpha after entity loop
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
+	ctx.globalAlpha = 1;
 
 	if(currentSettings.showFps.value.enabled){
 		ctx.globalAlpha = .25;
-		const text = renderText(`${drawLoop.fps}FPS`);
+		const text = renderText(`${drawLoop.measuredFps}FPS`);
 		ctx.drawImage(text, canvas.width/2-text.width/2, canvas.height/2-text.height/2)
 		ctx.globalAlpha = 1;
 	}
@@ -305,7 +318,6 @@ async function startGame(gamemodeCode, joinRoomId, maxPlayers, maxBots){
     socket.send("s", 0, playerState.socketName.toString(), 1, getWOSocketId());
     window.selectedRoomId = joinRoomId;
 
-    document.getElementById("gameCanvas").focus();
 	closeLoadingScreen("Have Fun", ":)")
 	closeLoadingScreen()
 }

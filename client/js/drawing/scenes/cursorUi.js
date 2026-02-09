@@ -5,8 +5,8 @@ import { lerp } from "../../lerp.js";
 import { renderText } from "../text.js";
 import { currentSettings } from "../../settings.js";
 
-const cursorUi = new Scene(document.getElementById("cursorUiCanvas"));
-drawLoop.scenes.set("cursorUi", cursorUi);
+const cursorUi = new Scene(90);
+drawLoop.addScene("cursorUi", cursorUi);
 
 const TEXTBOX_CONFIG = {
 	PADDING: 10,
@@ -39,10 +39,6 @@ cursorUi.utilityFuncts.set("fade", ({ canvas, ctx, delta }) => {
 		cursorUi.drawFuncts.set("textbox", textbox)
 	}
 })
-
-cursorUi.drawFuncts.set("clear", ({ canvas, ctx }) => {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
 
 function wrapText(text, fontSize, maxWordsPerLine) {
 	const words = text.split(" ");

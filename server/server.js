@@ -8520,6 +8520,60 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					}
 					return output;
 				}
+				processInput(key, val){
+					const player = this.player;
+					const body = this.player.body;
+					switch(key.toLowerCase()){
+						case "arrowup":
+						case "w":
+							player.command.up = val;
+						break;
+						
+						case "arrowleft":
+						case "a":
+							player.command.left = val;
+						break;
+						
+						case "arrowdown":
+						case "s":
+							player.command.down = val;
+						break;
+						
+						case "arrowright":
+						case "d":
+							player.command.right = val;
+						break;
+
+						case " ":
+							player.command.lmb = val;
+						break;
+
+						case "shift":
+							player.command.rmb = val;
+						break;
+
+						case "`":
+							if(!body.isAlive()) return;
+							body.define(Class.genericTank);
+							body.define(Class.basic);
+							switch (this.betaData.permissions) {
+								case 1: {
+									body.upgradeTank("testbed_beta");
+								} break;
+								case 2: {
+									body.upgradeTank("testbed_admin");
+								} break;
+								case 3: {
+									body.upgradeTank("testbed");
+									body.health.amount = body.health.max;
+									body.shield.amount = body.shield.max;
+								} break;
+							}
+							if (room.gameMode === "ffa") body.color = "FFA_RED";
+							else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
+						break;
+					}
+				}
 				async incoming(message) {
 					this.receivedPackets++
 					/*if (!(message instanceof ArrayBuffer)) {
@@ -8727,21 +8781,17 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							while (i !== len) {
 								player.target.x = m[i++];
 								player.target.y = m[i++];
-								player.command.lmb = m[i++];
-								player.command.mmb = m[i++];
+								player.command.lmb = player.command.keyboard[" "] ? i++ : m[i++];
+								player.command.mmb = player.command.keyboard["shift"] ? i++ : m[i++];
 								player.command.rmb = m[i++];
 								player.command.scroll = m[i++];
 								let nextVal = m[i++];
 								while (nextVal !== -1) {
 									player.command.keyboard[nextVal] = m[i++]
+									this.processInput(nextVal, player.command.keyboard[nextVal]);
 									nextVal = m[i++]
 								}
 							}
-
-							player.command.up = player.command.keyboard["w"];
-							player.command.left = player.command.keyboard["a"];
-							player.command.down = player.command.keyboard["s"];
-							player.command.right = player.command.keyboard["d"];
 						} break;
 						case "t": { // Player toggle
 							if (m.length !== 1) {
@@ -9003,38 +9053,10 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							}
 							if (!isAlive) {
 								return;
-							} else if (this.betaData.permissions === 0) {
-								if (c.SANDBOX && m[0] === 2) {
-									body.define(Class.genericTank);
-									body.upgradeTank("basic");
-									for (let [key, value] of body.childrenMap) {
-										value.kill()
-									}
-								}
-								return
 							}
-							if (body.underControl) return body.sendMessage("You cannot use beta-tester keys while controlling a Dominator or Mothership.");
 							switch (m[0]) {
 								case 0: { // Upgrade to TESTBED
-									body.define(Class.genericTank);
-									body.define(Class.basic);
-									switch (this.betaData.permissions) {
-										case 1: {
-											body.upgradeTank("testbed_beta");
-										} break;
-										case 2: {
-											body.upgradeTank("testbed_admin");
-										} break;
-										case 3: {
-											body.upgradeTank("testbed");
-											body.health.amount = body.health.max;
-											body.shield.amount = body.shield.max;
-										} break;
-									}
-									body.sendMessage("DO NOT use OP tanks to repeatedly kill players. It will result in a permanent demotion. Press P to change to Basic and K to suicide.");
-									if (room.gameMode === "ffa") body.color = "FFA_RED";
-									else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
-									util.info(trimName(body.name) + " upgraded to TESTBED. Token: " + this.betaData.username || "Unknown Token");
+
 								} break;
 								case 1: { // Suicide
 									body.killedByK = true;

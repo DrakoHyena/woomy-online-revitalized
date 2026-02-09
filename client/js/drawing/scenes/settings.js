@@ -3,7 +3,7 @@ import { currentSettings } from "../../settings.js";
 import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import { renderText } from "../text.js";
-import { renderInput } from "./inputElements.js";
+import { renderInput } from "../inputElements.js";
 import { topLeftButtonsState } from "./topLeftButtons.js";
 import { mouse } from "../../controls/mouse.js";
 import { clickableActive } from "./clickable.js";
@@ -25,25 +25,20 @@ const state = {
 	fade: 0
 }
 
-const settings = new Scene(document.getElementById("settingsCanvas"));
-drawLoop.scenes.set("settings", settings);
+const settings = new Scene(70);
+drawLoop.addScene("settings", settings);
 
 settings.utilityFuncts.set("fade", ({ canvas, ctx, delta }) => {
 	if(state.open === true){
 		state.fade = lerp(state.fade, 1, currentSettings.menuAnimSpeed.value.number*delta);
 	}else{
 		state.fade = lerp(state.fade, 0, currentSettings.menuAnimSpeed.value.number*delta);
-		if(state.fade <= 0.001){
+		if(state.fade <= 0.01){
 			state.fade = 0;
 			settings.active = false;
-			ctx.clearRect(0, 0, canvas.width, canvas.height)
 		}
 	}
 });
-
-settings.drawFuncts.set("clear", ({canvas, ctx}) => {
-	ctx.clearRect(0, 0, canvas.width, canvas.height)
-})
 
 let yOffset = 0;
 let lastMouseY = 0;
@@ -83,7 +78,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	path.rect(0, y, canvas.width, height);
 	ctx.clip(path);
 
-	let click = clickableActive(settings, x, y, x+width, y+height)
+	let click = clickableActive(x, y, x+width, y+height)
 	if(click.left === true){
 		yOffset -= lastMouseY - mouse.y;
 	}
@@ -114,76 +109,12 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Auto Upgrade", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("autoUpgrade", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.autoUpgrade.value.enabled, ()=>{
-		currentSettings.autoUpgrade.value.enabled = !currentSettings.autoUpgrade.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Show FPS", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("showFps", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.showFps.value.enabled, ()=>{
-		currentSettings.showFps.value.enabled = !currentSettings.showFps.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("FPS Cap", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("fpsCap", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.fpsCap.value.number, (newNumber)=>{
-		currentSettings.fpsCap.value.number = newNumber;
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Client Side Aim", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("clientSideAim", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.clientSideAim.value.enabled, ()=>{
-		currentSettings.clientSideAim.value.enabled = !currentSettings.clientSideAim.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Input Buffer Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("inputBufferSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inputBufferSize.value.number, (newNumber)=>{
-		currentSettings.inputBufferSize.value.number = newNumber;
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
 	text = renderText("Shield Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("shieldbars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.shieldbars.value.enabled, ()=>{
 		currentSettings.shieldbars.value.enabled = !currentSettings.shieldbars.value.enabled
 	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-	
-	text = renderText("Performance", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
-	y += SETTINGS_CONFIG.PADDING;
-	ctx.drawImage(text, x+width/2-text.width/2, y)
-	y += text.height*.5;
-	renderLine(x, y, x+width/2-text.width/2, y)
-	renderLine(x+width/2+text.width/2, y, x+width, y)
-	y += text.height*.5;
-
-	text = renderText("Performance Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("performanceMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.performanceMode.value.enabled, ()=>{
-		currentSettings.performanceMode.value.enabled = !currentSettings.performanceMode.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Hide Mini Renders", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("hideMiniRenders", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.hideMiniRenders.value.enabled, ()=>{
-		currentSettings.hideMiniRenders.value.enabled = !currentSettings.hideMiniRenders.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Resolution Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("resolutionScale", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*6, y, text.height*6, text.height, currentSettings.resolutionScale.value.selected, (newValue)=>{
-		currentSettings.resolutionScale.value.selected = newValue;
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
+	y += text.height + SETTINGS_CONFIG.PADDING;
 
 	text = renderText("Animated Lasers", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
@@ -191,7 +122,73 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.animatedLasers.value.enabled = !currentSettings.animatedLasers.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
+	
+	text = renderText("Resolution Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("resolutionScale", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*6, y, text.height*6, text.height, currentSettings.resolutionScale.value.selected, (newValue)=>{
+		currentSettings.resolutionScale.value.selected = newValue;
+		drawLoop.updateSceneSizes();
+	})
+	y += text.height + SETTINGS_CONFIG.PADDING
 
+	text = renderText("Misc.", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("FPS Cap", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("fpsCap", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.fpsCap.value.number, (newNumber)=>{
+		currentSettings.fpsCap.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("FPS Cap", "The target FPS to achieve. Note: your browser will likely limit your fps to your display's refresh rate.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Auto Upgrade", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("autoUpgrade", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.autoUpgrade.value.enabled, ()=>{
+		currentSettings.autoUpgrade.value.enabled = !currentSettings.autoUpgrade.value.enabled
+	}, () => {
+		showCursorTextBox("Auto Upgrade", "Upon spawning or respawning, send a level up request")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Performance Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("performanceMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.performanceMode.value.enabled, ()=>{
+		currentSettings.performanceMode.value.enabled = !currentSettings.performanceMode.value.enabled
+	}, () => {
+		showCursorTextBox("Performance Mode", "An extreme performance toggle that will sacrifice as much as possible to increase performance. Note: This takes priority over other settings.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Controls", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	y += SETTINGS_CONFIG.PADDING;
+	ctx.drawImage(text, x+width/2-text.width/2, y)
+	y += text.height*.5;
+	renderLine(x, y, x+width/2-text.width/2, y)
+	renderLine(x+width/2+text.width/2, y, x+width, y)
+	y += text.height*.5;
+
+	text = renderText("Client Side Aim", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("clientSideAim", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.clientSideAim.value.enabled, ()=>{
+		currentSettings.clientSideAim.value.enabled = !currentSettings.clientSideAim.value.enabled
+	}, () => {
+		showCursorTextBox("Client Side Aim", "When enabled, forces your tank to always face your mouse. When disabled, uses the server's facing value. Note: This is purely visual, in reality, you are always bound to the server facing value")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Input Buffer Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("inputBufferSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inputBufferSize.value.number, (newNumber)=>{
+		currentSettings.inputBufferSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Input Buffer Size", " Input buffering saves your inputs if they happen faster than they could be sent, ensuring all of them are processed. This setting determines how much space there is for input packets to be buffered at one time. Exceeding this value will clear the buffered inputs. Making this value too large will result in degraded network performance.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("GUI", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
@@ -211,7 +208,9 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("menuAnimSpeed", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.menuAnimSpeed.value.number, (newNumber)=>{
 		currentSettings.menuAnimSpeed.value.number = newNumber;
-	})
+	}, () => {
+		showCursorTextBox("Menu Animations Speed", "How fast most menu animations should take to complete, 0 being infinte and 1 being instant.")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	// mainMenuStyle
@@ -219,14 +218,18 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("darkModeMenu", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.darkModeMenu.value.enabled, ()=>{
 		currentSettings.darkModeMenu.value.enabled = !currentSettings.darkModeMenu.value.enabled
-	})
+	}, () => {
+		showCursorTextBox("Dark Mode Menu", "Switches most menus to a darker theme.")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Screenshot Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("screenshotMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.screenshotMode.value.enabled, ()=>{
 		currentSettings.screenshotMode.value.enabled = !currentSettings.screenshotMode.value.enabled
-	})
+	}, () => {
+		showCursorTextBox("Screenshot Mode", "Hides most UI elements including health and names.")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Chat", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
@@ -239,7 +242,9 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("disableGameMessages", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.disableGameMessages.value.enabled, ()=>{
 		currentSettings.disableGameMessages.value.enabled = !currentSettings.disableGameMessages.value.enabled
-	})
+	}, () => {
+		showCursorTextBox("Disable Game Messages", "Hides all messages from the game (i.e. kill messages, upgrading messages, etc.)")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Chat Message Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
@@ -259,9 +264,10 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("upgradeMenuScale", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.upgradeMenuScale.value.number, (newNumber)=>{
 		currentSettings.upgradeMenuScale.value.number = newNumber;
-	})
+	}, () => {
+		showCursorTextBox("Upgrade Menu Scale", "A multiplier for the upgrade menu size.")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
-
 
 	text = renderText("Visuals", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
@@ -374,7 +380,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.neonMode.value.enabled = !currentSettings.neonMode.value.enabled
 	}, () => {
 		showCursorTextBox("Neon Mode", "For a Neon Experience")
-	})
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Glass Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
@@ -486,7 +492,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	hideCursorTextBox();
 	lowestY = y;
 	ctx.restore();
 })

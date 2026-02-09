@@ -113,7 +113,7 @@ function drawTile(tile, ctx, upgradeIndex) {
 	// Check hover
 	tile.isHovering = false;
 	if (canInteract && !tile.removing) {
-		const click = clickableActive(upgrades, tile.x, tile.y, tile.x + size, tile.y + size);
+		const click = clickableActive(tile.x, tile.y, tile.x + size, tile.y + size);
 		if (click) {
 			tile.isHovering = true;
 			if (click.left) {
@@ -146,12 +146,11 @@ function drawTile(tile, ctx, upgradeIndex) {
 			const maxSize = size * 0.7 * tile.hoverScale;
 			const scale = maxSize / Math.max(entityRender.width, entityRender.height);
 
-			ctx.save();
-			ctx.translate(centerX, centerY);
-			ctx.rotate(tile.rotation);
-			ctx.scale(scale, scale);
+			const cos = Math.cos(tile.rotation) * scale;
+			const sin = Math.sin(tile.rotation) * scale;
+			ctx.setTransform(cos, sin, -sin, cos, centerX, centerY);
 			ctx.drawImage(entityRender, -entityRender.width / 2, -entityRender.height / 2);
-			ctx.restore();
+			ctx.setTransform(1, 0, 0, 1, 0, 0);
 		}
 		
 		// Label
@@ -175,8 +174,8 @@ function drawTile(tile, ctx, upgradeIndex) {
 
 // --- Scene ---
 
-const upgrades = new Scene(document.getElementById("upgradesCanvas"));
-drawLoop.scenes.set("upgrades", upgrades);
+const upgrades = new Scene(60);
+drawLoop.addScene("upgrades", upgrades);
 
 function updatePanelMetrics(canvas){
 	const scale = currentSettings.upgradeMenuScale?.value?.number ?? 1;
@@ -199,7 +198,7 @@ upgrades.utilityFuncts.set("fade", ({ canvas, ctx, delta }) => {
 	}
 });
 
-upgrades.utilityFuncts.set("syncAndUpdate", ({ canvas, ctx, delta }) => {
+function drawTiles({ canvas, ctx, delta }){
 	updatePanelMetrics(canvas);
 	syncUpgradeTiles(canvas.width, canvas.height);
 	
@@ -208,14 +207,7 @@ upgrades.utilityFuncts.set("syncAndUpdate", ({ canvas, ctx, delta }) => {
 			upgradeTiles.delete(upgradeId);
 		}
 	}
-});
 
-upgrades.drawFuncts.set("clear", ({ canvas, ctx }) => {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-function drawTiles({ canvas, ctx, delta }){
-	updatePanelMetrics(canvas);
 	let anyHovered = false;
 	if (state.fade < 0.9) {
 		hideCursorTextBox()

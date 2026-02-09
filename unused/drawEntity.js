@@ -1,11 +1,11 @@
 import { ctx, getGradient } from "./canvas.js";
-import { mockups } from "../mockups.js";
-import { getColor, color, setColors, setColorsUnmixB, setColorsUnmix, specialColors } from "../colors.js"
+import { mockups } from "../client/js/mockups.js";
+import { getColor, color, setColors, setColorsUnmixB, setColorsUnmix, specialColors } from "../client/js/colors.js"
 import { mixColors } from "../../shared/mix_colors.js";
-import { lerpAngle, lerp, expLerp } from "../lerp.js"
-import { imageCache } from "../assets.js";
-import { global } from "../global.js";
-import { currentSettings } from "../settings.js";
+import { lerpAngle, lerp, expLerp } from "../client/js/lerp.js"
+import { imageCache } from "../client/js/assets.js";
+import { global } from "../client/js/global.js";
+import { currentSettings } from "../client/js/settings.js";
 
 const canvas2 = new OffscreenCanvas(1,1);
 const ctx2 = canvas2.getContext("2d")
@@ -1791,7 +1791,6 @@ let drawEntity = function () {
 			cacheCanvas = arguments[12],
 			source = turretInfo === 0 ? instance : turretInfo;
 
-		if (currentSettings.hideMiniRenders.value.enabled === true && !render.real) return;
 
 		let fade = turretInfo ? 1 : render.status.getFade(instance.size);
 		if (fade === 0 || alpha === 0) return;

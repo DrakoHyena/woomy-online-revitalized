@@ -20,7 +20,6 @@ const defaultSettings = {
 	disableGameMessages: false,
 	autoUpgrade: true,
 	screenshotMode: false,
-	hideMiniRenders: false,
 	lerpSize: true,
 	performanceMode: false,
 	animatedLasers: true,
@@ -38,7 +37,7 @@ const defaultSettings = {
 	vignetteStrength: 1,
 	fpsCap: 1000,
 	inputBufferSize: 500,
-	menuAnimSpeed: 0.3,
+	menuAnimSpeed: 0.25,
 	upgradeMenuScale: 1,
 
 	// String/Dropdown settings
@@ -76,7 +75,6 @@ const settingTypes = {
 	disableGameMessages: "checkbox",
 	autoUpgrade: "checkbox",
 	screenshotMode: "checkbox",
-	hideMiniRenders: "checkbox",
 	lerpSize: "checkbox",
 	performanceMode: "checkbox",
 	animatedLasers: "checkbox",

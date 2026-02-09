@@ -1,5 +1,6 @@
 import { global } from "../global.js";
 import { lerp } from "../lerp.js";
+import { canvas } from "../drawing/drawLoop.js";
 
 const mouse = {
 	x: 0,
@@ -41,8 +42,7 @@ setInterval(()=>{
 	mouse.scrollY = lerp(mouse.scrollY, 0, .13);
 })
 
-mouse.posRelativeToScene = function(scene){
-	const canvas = scene.canvas;
+mouse.posRelativeToCanvas = function(){
 	const rect = canvas.getBoundingClientRect();
 	const scaleX = canvas.width / rect.width;
 	const scaleY = canvas.height / rect.height;

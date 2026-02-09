@@ -4,8 +4,8 @@ import { Scene } from "../scene.js";
 import { renderText } from "../text.js";
 import { currentSettings } from "../../settings.js";
 
-const loadingScreen = new Scene(document.getElementById("loadingScreenCanvas"));
-drawLoop.scenes.set("loadingScreen", loadingScreen);
+const loadingScreen = new Scene(50);
+drawLoop.addScene("loadingScreen", loadingScreen);
 loadingScreen.active = false;
 
 const state = {
@@ -25,10 +25,6 @@ loadingScreen.utilityFuncts.set("fade", ({ canvas, ctx, delta })=>{
 		state.fade = lerp(state.fade, 1, 0.2*delta);
 	}
 })
-
-loadingScreen.drawFuncts.set("clear", ({ canvas, ctx }) => {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
 
 loadingScreen.drawFuncts.set("loadingScreen", ({ canvas, ctx }) => {
 	ctx.globalAlpha = state.fade;

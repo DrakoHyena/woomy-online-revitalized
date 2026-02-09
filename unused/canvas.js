@@ -1,9 +1,9 @@
-import { global, resizeEvent } from "../global.js";
-import { util, getWOSocketId } from "../util.js";
-import { socket } from "../socket.js";
-import { color } from "../colors.js"
-import { currentSettings } from "../settings.js";
-import { player } from "../player.js";
+import { global, resizeEvent } from "../client/js/global.js";
+import { util, getWOSocketId } from "../client/js/util.js";
+import { socket } from "../client/js/socket.js";
+import { color } from "../client/js/colors.js"
+import { currentSettings } from "../client/js/settings.js";
+import { player } from "../client/js/player.js";
 
 global.mobileClickables = [function () { // Toggle menu
 	let clickdata = global.clickables.mobileClicks.get()

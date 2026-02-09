@@ -1,14 +1,14 @@
 import { ctx, drawBar, drawText, measureText, _clearScreen } from "./canvas.js"
-import { mockups } from "../mockups.js";
+import { mockups } from "../client/js/mockups.js";
 import {
 	getColor,
 	color,
 	hslToColor
-} from "../colors.js"
+} from "../client/js/colors.js"
 import { mixColors } from "../../shared/mix_colors.js";
-import { util } from "../util.js";
-import { global } from "../global.js";
-import { currentSettings } from "../settings.js";
+import { util } from "../client/js/util.js";
+import { global } from "../client/js/global.js";
+import { currentSettings } from "../client/js/settings.js";
 
 function drawHealth(x, y, instance, ratio, alpha) {
 	let health = instance.render.health.get(),

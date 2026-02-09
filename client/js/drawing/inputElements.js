@@ -1,8 +1,9 @@
-import { currentSettings } from "../../settings.js";
-import { renderText } from "../text.js";
-import { clickableActive } from "./clickable.js";
-import { keyboard } from "../../controls/keyboard.js";
-import { lerp } from "../../lerp.js";
+import { currentSettings } from "../settings.js";
+import { renderText } from "./text.js";
+import { clickableActive } from "./scenes/clickable.js";
+import { keyboard } from "../controls/keyboard.js";
+import { lerp } from "../lerp.js";
+import { ctx } from "./drawLoop.js";
 
 // ============================================================================
 // Constants
@@ -11,9 +12,9 @@ import { lerp } from "../../lerp.js";
 const BORDER_WIDTH = 4;
 const DEBOUNCE_DELAY = 200;
 const KEY_REPEAT_DELAY = 100;
-const DROPDOWN_FADE_DURATION = 75; // ms per option
-const DROPDOWN_FADE_STAGGER = 25; // ms delay between each option
-const CHECKBOX_TRANSITION_DURATION = 75; // ms for color transition
+const DROPDOWN_FADE_DURATION = 25; // ms per option
+const DROPDOWN_FADE_STAGGER = 8; // ms delay between each option
+const CHECKBOX_TRANSITION_DURATION = 10; // ms for color transition
 
 const COLORS = {
 	border: "grey",
@@ -30,7 +31,6 @@ const SCALE = {
 	clicked: 0.8,
 	hovered: 1.1,
 	default: 1.0,
-	lerpSpeed: 0.15
 };
 
 // ============================================================================
@@ -54,6 +54,7 @@ function createElementState() {
 		checkboxValue: false,
 		checkboxTransitionStart: 0,
 		checkboxTransitionFrom: 0,
+		wasHovering: false,
 		currentScale: 1.0
 	};
 }
@@ -167,7 +168,7 @@ function applyHoverScale(x, y, width, height, scale) {
 // Dropdown Helpers
 // ============================================================================
 
-function isHoveringDropdownOptions(scene, element, x, y, width, height, uniqueId) {
+function isHoveringDropdownOptions(element, x, y, width, height, uniqueId) {
 	if (!element.dropdownOpen) return false;
 
 	const options = currentSettings[uniqueId]?.value?.options;
@@ -177,21 +178,21 @@ function isHoveringDropdownOptions(scene, element, x, y, width, height, uniqueId
 	const optionX = x + width;
 	for (let i = 0; i < options.length; i++) {
 		const optionY = y + i * height;
-		const optionCheck = clickableActive(scene, optionX, optionY, optionX + width, optionY + height);
+		const optionCheck = clickableActive(optionX, optionY, optionX + width, optionY + height);
 		if (optionCheck !== false) return true;
 	}
 
 	return false;
 }
 
-function handleDropdownOptionInteraction(scene, element, options, originalX, originalY, originalWidth, originalHeight, inputCallback) {
+function handleDropdownOptionInteraction(element, options, originalX, originalY, originalWidth, originalHeight, inputCallback) {
 	let hoveringOverOptions = false;
 	// First option is to the right, rest stack below it
 	const optionX = originalX + originalWidth;
 
 	for (let i = 0; i < options.length; i++) {
 		const optionY = originalY + i * originalHeight;
-		const optionInteraction = clickableActive(scene, optionX, optionY, optionX + originalWidth, optionY + originalHeight);
+		const optionInteraction = clickableActive(optionX, optionY, optionX + originalWidth, optionY + originalHeight);
 
 		if (optionInteraction !== false) {
 			hoveringOverOptions = true;
@@ -209,10 +210,12 @@ function handleDropdownOptionInteraction(scene, element, options, originalX, ori
 	return hoveringOverOptions;
 }
 
-function drawDropdownOptions(ctx, scene, element, options, selectedValue, originalX, originalY, originalWidth, originalHeight) {
+function drawDropdownOptions(ctx, scene, element, options, selectedValue, originalX, originalY, originalWidth, originalHeight, menuAnimSpeed) {
 	// First option is to the right, rest stack below it
 	const optionX = originalX + originalWidth;
 	const baseAlpha = ctx.globalAlpha;
+	const fadeDuration = DROPDOWN_FADE_DURATION / menuAnimSpeed;
+	const fadeStagger = DROPDOWN_FADE_STAGGER / menuAnimSpeed;
 	
 	// Calculate time based on whether opening or closing
 	const isClosing = element.dropdownClosing;
@@ -223,14 +226,14 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 	for (let i = 0; i < options.length; i++) {
 		const option = options[i];
 		const optionY = originalY + i * originalHeight;
-		const optionHover = clickableActive(scene, optionX, optionY, optionX + originalWidth, optionY + originalHeight);
+		const optionHover = clickableActive(optionX, optionY, optionX + originalWidth, optionY + originalHeight);
 
 		// Calculate staggered fade alpha for this option
 		// For closing, reverse the stagger order (last options fade first)
 		const staggerIndex = isClosing ? (options.length - 1 - i) : i;
-		const optionDelay = staggerIndex * DROPDOWN_FADE_STAGGER;
+		const optionDelay = staggerIndex * fadeStagger;
 		const optionTime = animationTime - optionDelay;
-		let optionAlpha = Math.min(1, Math.max(0, optionTime / DROPDOWN_FADE_DURATION));
+		let optionAlpha = Math.min(1, Math.max(0, optionTime / fadeDuration));
 		
 		// Invert alpha for closing animation
 		if (isClosing) {
@@ -276,7 +279,7 @@ function renderButton(ctx, element, x, y, width, height, text, click, clickCallb
 	drawCenteredText(ctx, textImage, x, y, width, height);
 }
 
-function renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback) {
+function renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback, menuAnimSpeed) {
 	if (click.left === true && canDebounce(element)) {
 		resetDebounce(element);
 		inputCallback();
@@ -291,7 +294,8 @@ function renderCheckbox(ctx, element, x, y, width, height, value, click, inputCa
 
 	// Calculate transition progress
 	const transitionTime = performance.now() - element.checkboxTransitionStart;
-	const transitionProgress = Math.min(1, transitionTime / CHECKBOX_TRANSITION_DURATION);
+	const transitionDuration = CHECKBOX_TRANSITION_DURATION / menuAnimSpeed;
+	const transitionProgress = Math.min(1, transitionTime / transitionDuration);
 	
 	// Lerp from previous state to current state
 	const targetBlend = value ? 1 : 0;
@@ -358,7 +362,7 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 	ctx.drawImage(text, x + width / 2 - text.width / 2, y);
 }
 
-function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, click, inputCallback) {
+function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, click, inputCallback, menuAnimSpeed) {
 	const setting = currentSettings[uniqueId];
 
 	if (!setting?.value?.options) {
@@ -370,7 +374,9 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 	const selectedValue = setting.value.selected;
 
 	// Calculate total animation duration for all options
-	const totalFadeDuration = DROPDOWN_FADE_DURATION + (options.length - 1) * DROPDOWN_FADE_STAGGER;
+	const fadeDuration = DROPDOWN_FADE_DURATION / menuAnimSpeed;
+	const fadeStagger = DROPDOWN_FADE_STAGGER / menuAnimSpeed;
+	const totalFadeDuration = fadeDuration + (options.length - 1) * fadeStagger;
 
 	// Check if closing animation is complete
 	if (element.dropdownClosing) {
@@ -400,7 +406,7 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 	let hoveringOverOptions = false;
 	if (element.dropdownOpen && !element.dropdownClosing) {
 		hoveringOverOptions = handleDropdownOptionInteraction(
-			scene, element, options, x, y, width, height, inputCallback
+			element, options, x, y, width, height, inputCallback
 		);
 
 		// Start close animation if not hovering over main button or options
@@ -419,7 +425,7 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 
 	// Draw dropdown options if open (including during close animation)
 	if (element.dropdownOpen) {
-		drawDropdownOptions(ctx, scene, element, options, selectedValue, x, y, width, height);
+		drawDropdownOptions(ctx, scene, element, options, selectedValue, x, y, width, height, menuAnimSpeed);
 	}
 }
 
@@ -427,9 +433,9 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 // Main Render Function
 // ============================================================================
 
-function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCallback, hoverCallback) {
-	const ctx = scene._ctx;
+function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCallback, hoverCallback, lostFocusCallback) {
 	ctx.save();
+	const menuAnimSpeed = currentSettings.menuAnimSpeed.value.number;
 
 	const element = getOrCreateElement(uniqueId);
 
@@ -442,12 +448,13 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 
 	// Check if hovering over dropdown options (using already-scaled coords)
 	const hoveringOverDropdownOptions = isHoveringDropdownOptions(
-		scene, element, x, y, width, height, uniqueId
+		element, x, y, width, height, uniqueId
 	);
 
 	// Handle click detection on the scaled button area
-	const click = clickableActive(scene, x, y, x + width, y + height);
+	const click = clickableActive(x, y, x + width, y + height);
 	const isInteracting = click !== false || hoveringOverDropdownOptions;
+	const isHoveringForBlur = click !== false || hoveringOverDropdownOptions;
 
 	// Determine target scale based on interaction state
 	let targetScale = SCALE.default;
@@ -460,8 +467,13 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 		element.originalValue = null;
 	}
 
+	if (element.wasHovering && !isHoveringForBlur && lostFocusCallback) {
+		lostFocusCallback();
+	}
+	element.wasHovering = isHoveringForBlur;
+
 	// Update scale target for next frame
-	element.currentScale = lerp(element.currentScale, targetScale, SCALE.lerpSpeed);
+	element.currentScale = lerp(element.currentScale, targetScale, menuAnimSpeed);
 
 	// Handle input buffer for text-based inputs
 	if (type === "number" || type === "text") {
@@ -487,7 +499,7 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 			break;
 
 		case "checkbox":
-			renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback);
+			renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback, menuAnimSpeed);
 			break;
 
 		case "number":
@@ -502,7 +514,7 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 			renderDropdown(
 				ctx, scene, element, uniqueId,
 				x, y, width, height,
-				click, inputCallback
+				click, inputCallback, menuAnimSpeed
 			);
 			break;
 	}

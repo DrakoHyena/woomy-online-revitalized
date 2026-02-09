@@ -2171,7 +2171,7 @@ function calculateMEC(entity) {
 
 const entityImgCache = new Map();
 function makeEntityImgCacheKey(entity, padding){
-	let key = `${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.size}|${entity.widthHeightRatio}|${entity.color}`;
+	let key = `${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.widthHeightRatio}|${entity.color}`;
 	return key;
 }
 
@@ -2179,57 +2179,46 @@ const CANVAS_SIZE = 256;
 const canvasPool = [];
 function getEntityImage(entity, liveRender, padding = 1) {
 	const imgCacheKey = makeEntityImgCacheKey(entity, padding);
-	if(liveRender === false){
-		const savedImg = entityImgCache.get(imgCacheKey);
-		if(savedImg){
-			return savedImg;
-		}
-		console.log("Generating image for entity:", entity)
+	const savedImg = entityImgCache.get(imgCacheKey);
+	if (savedImg) {
+		return savedImg; // Returns ImageBitmap (GPU-resident, fast to paint)
 	}
+
+	// Already queued for rendering — don't re-render, just wait for the bitmap
+	if (entityImgCache.has(imgCacheKey)) return null;
+
+	// Mark as in-progress so we don't re-render next frame
+	entityImgCache.set(imgCacheKey, null);
 
 	const canvas = canvasPool.length === 0 ? new OffscreenCanvas(1, 1) : canvasPool.pop();
 	canvas.width = CANVAS_SIZE * padding;
 	canvas.height = CANVAS_SIZE * padding;
-	if(!canvas.ctx){
+	if (!canvas.ctx) {
 		canvas.ctx = canvas.getContext("2d");
 		canvas.ctx.imageSmoothingEnabled = false;
 	}
 	const ctx = canvas.ctx;
 
-	// // FIXME: remove after testing
-	// ctx.fillStyle = "red";
-	// ctx.globalAlpha = .2;
-	// ctx.fillRect(0, 0, canvas.width, canvas.height)
-	// ctx.globalAlpha = 1;
-
 	ctx.save();
-
-	// Translate to center of canvas
 	ctx.translate(canvas.width / 2, canvas.height / 2);
 
-	// Calculate the MEC to ensure nothing gets clipped
 	const maxExtent = calculateMEC(entity);
-
-	// Scale so the full entity fits within the canvas (with padding)
 	const targetSize = CANVAS_SIZE;
 	const scale = targetSize / maxExtent;
 	ctx.scale(scale, scale);
 
 	renderEntity(ctx, entity);
-
 	ctx.restore();
 
-	canvas.upscaleVal = maxExtent / CANVAS_SIZE;
+	const upscaleVal = maxExtent / CANVAS_SIZE;
 
-	if(liveRender === false){
-		createImageBitmap(canvas).then((bmp)=>{
-			bmp.upscaleVal = canvas.upscaleVal;
-			entityImgCache.set(imgCacheKey, bmp);
-			canvasPool.push(canvas);
-		})
-	}
+	createImageBitmap(canvas).then((bmp) => {
+		bmp.upscaleVal = upscaleVal;
+		entityImgCache.set(imgCacheKey, bmp);
+		canvasPool.push(canvas);
+	});
 
-	return canvas;
+	return null; // Don't paint OffscreenCanvas — wait for ImageBitmap
 }
 
 
