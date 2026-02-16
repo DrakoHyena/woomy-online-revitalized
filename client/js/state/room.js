@@ -9,13 +9,15 @@ const roomState = {
 	cellSkins: {
 		default: {
 			assets: ["defaultCellSkin1", "defaultCellSkin2", "defaultCellSkin3", "defaultCellSkin4", "defaultCellSkin5"],
+			tintColor: "#000",
+			tintOpacity: 0,
 			frameInterval: 75,
-			repeat: false,
-			stretch: true
 		}
 	},
 	blackout: false,
-	propAnimations: new Map()
+	propAnimations: new Map(),
+	chatMessageLimit: 50,
+	chatMessages: []
 }
 
 export { roomState };

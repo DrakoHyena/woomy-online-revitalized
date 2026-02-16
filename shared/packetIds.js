@@ -24,7 +24,8 @@ const clientPackets = {
 	inputUpdate: 2,
 	levelUp: 3,
 	upgradeRequest: 4,
-	switchToBasic: 5
+	switchToBasic: 5,
+	chatMessage: 6
 }
 
 export { serverPackets, clientPackets }

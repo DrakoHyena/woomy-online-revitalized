@@ -17,7 +17,6 @@ let config = {
 	uiScale: 1.2,
 	neon: 0,
 	disableGameMessages: 0,
-	chatMessageDuration: 5,
 	roundUpgrades: 0,
 	autoUpgrade: true,
 	tintedDamage: true,

@@ -11,7 +11,7 @@ import { ctx } from "./drawLoop.js";
 
 const BORDER_WIDTH = 4;
 const DEBOUNCE_DELAY = 200;
-const KEY_REPEAT_DELAY = 100;
+const KEY_REPEAT_DELAY = 30;
 const DROPDOWN_FADE_DURATION = 25; // ms per option
 const DROPDOWN_FADE_STAGGER = 8; // ms delay between each option
 const CHECKBOX_TRANSITION_DURATION = 10; // ms for color transition
@@ -29,7 +29,7 @@ const COLORS = {
 
 const SCALE = {
 	clicked: 0.8,
-	hovered: 1.1,
+	hovered: 1.05,
 	default: 1.0,
 };
 
@@ -91,10 +91,37 @@ function handleKeyboardInput(element, allowedChars = "all", lengthLimit = Infini
 	const now = performance.now();
 	if (now - element.lastKeyPress < KEY_REPEAT_DELAY) return;
 
-	// Handle printable characters
-	for (const key of Object.keys(keyboard.keys)) {
-		if (!keyboard.keys[key]) continue;
+	// Handle special keys
+	if (keyboard.keys["Enter"]) {
+		element._submitRequested = true;
+		element.lastKeyPress = now;
+		return;
+	}
+	if (keyboard.keys["Escape"]) {
+		element._cancelRequested = true;
+		element.lastKeyPress = now;
+		return;
+	}
 
+	// Track which keys have already been processed to prevent repeats (except for Backspace)
+	if (!element._pressedKeys) element._pressedKeys = new Set();
+	for (const key of Object.keys(keyboard.keys)) {
+		if (!keyboard.keys[key]) {
+			// Key is not pressed, remove from pressed set
+			element._pressedKeys.delete(key);
+			continue;
+		}
+		if (element._pressedKeys && element._pressedKeys.has(key)) continue;
+		if (key === "Backspace") {
+			element.inputBuffer = element.inputBuffer.slice(0, -1);
+			element.lastKeyPress = now;
+			break;
+		}
+		if (key === "shift" || key === "Shift") {
+			continue;
+		}
+
+		element._pressedKeys.add(key)
 		if (isValidChar(key, allowedChars)) {
 			// Check length limit before adding character
 			if (element.inputBuffer.length < lengthLimit) {
@@ -103,12 +130,6 @@ function handleKeyboardInput(element, allowedChars = "all", lengthLimit = Infini
 			}
 			break;
 		}
-	}
-
-	// Handle backspace
-	if (keyboard.keys["Backspace"]) {
-		element.inputBuffer = element.inputBuffer.slice(0, -1);
-		element.lastKeyPress = now;
 	}
 }
 
@@ -343,12 +364,28 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 	const setting = currentSettings[uniqueId];
 	const lengthLimit = setting?.value?.lengthLimit || Infinity;
 
+
 	if (element.focused) {
 		ctx.fillStyle = "black";
 		ctx.globalAlpha = alpha * Math.abs(Math.sin(performance.now() * 0.005));
 
 		handleKeyboardInput(element, "all", lengthLimit);
-		inputCallback(element.inputBuffer);
+
+		// Only submit value on Enter or blur
+		if (element._submitRequested) {
+			inputCallback(element.inputBuffer);
+			element.focused = false;
+			element._submitRequested = false;
+		} else if (element._cancelRequested) {
+			// Revert to original value on Escape
+			if (element.originalValue !== null) {
+				inputCallback(element.originalValue);
+				element.inputBuffer = "";
+			}
+			element.focused = false;
+			element._cancelRequested = false;
+		}
+		// Do not submit on every frame
 	} else {
 		ctx.fillStyle = COLORS.border;
 	}
@@ -489,6 +526,8 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 		} else {
 			element.originalValue = value;
 			element.inputBuffer = "";
+			element._submitRequested = false;
+			element._cancelRequested = false;
 		}
 	}
 

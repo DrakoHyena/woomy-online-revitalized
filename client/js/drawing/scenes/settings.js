@@ -80,9 +80,9 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 	let click = clickableActive(x, y, x+width, y+height)
 	if(click.left === true){
-		yOffset -= lastMouseY - mouse.y;
+		mouse.scrollY += (lastMouseY - mouse.y)*.25;
 	}
-	yOffset -= mouse.scrollY;
+	if(click) yOffset -= mouse.scrollY*.75;
 
 	if(yOffset > 0) {
 		yOffset = lerp(yOffset, 0, Math.min(1, (yOffset/height) * 4) * delta)
@@ -122,12 +122,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.animatedLasers.value.enabled = !currentSettings.animatedLasers.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
-	
-	text = renderText("Resolution Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+
+	text = renderText("Entity Resolution", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("resolutionScale", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*6, y, text.height*6, text.height, currentSettings.resolutionScale.value.selected, (newValue)=>{
-		currentSettings.resolutionScale.value.selected = newValue;
-		drawLoop.updateSceneSizes();
+	renderInput("entityResolution", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.entityResolution.value.number, (newValue)=>{
+	   currentSettings.entityResolution.value.number = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -247,11 +246,31 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Chat Message Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("In-Game Chat Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("chatMessageDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatMessageDuration.value.number, (newNumber)=>{
 		currentSettings.chatMessageDuration.value.number = newNumber;
-	})
+	}, ()=>{
+		showCursorTextBox("In-Game Chat Duration", "How long in milliseconds chat messages linger above entities after they're sent.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("In-Game Chat Limit", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("chatMessageLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatMessageLimit.value.number, (newNumber)=>{
+		currentSettings.chatMessageDuration.value.number = newNumber;
+	}, ()=>{
+		showCursorTextBox("In-Game Chat Limit", "How many chat messages can be above an entity at one time.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Message History Limit", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("messageHistoryLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.messageHistoryLimit.value.number, (newNumber)=>{
+		currentSettings.messageHistoryLimit.value.number = newNumber;
+	}, ()=>{
+		showCursorTextBox("Message History Limit", "How many messages will render in the chatbox. Note: Higher values can impact performance")
+	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Upgrade Menu", SETTINGS_CONFIG.HEADER_TEXT_SIZE)

@@ -1507,17 +1507,13 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					"assets": ["normCellSkin"],
 					"tintColor": "#000",
 					"tintOpacity": 0,
-					"frameInterval": 0,
-					"repeat": true,
-					"stretch": false
+					"frameInterval": 0
 				},
 				"boundary": {
 					"assets": ["boundaryCellSkin"],
 					"tintColor": "#000",
 					"tintOpacity": 0,
-					"frameInterval": 0,
-					"repeat": true,
-					"stretch": false
+					"frameInterval": 0
 				},
 			},
 			"X_GRID": 18,
@@ -6005,7 +6001,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					if (set.HITS_OWN_TEAM != null) this.hitsOwnTeam = set.HITS_OWN_TEAM;
 					if (set.LABEL != null) this.label = set.LABEL;
 					this.labelOverride = "";
-					if (set.TOOLTIP != null) this.socket?.talk(serverPackets.gameMessage, `${set.TOOLTIP}`, "#8cff9f");
+					if (set.TOOLTIP != null) this.socket?.talk(serverPackets.gameMessage, "[TIP]", `${set.TOOLTIP}`, "#FFF", "#8cff9f");
 					if (set.TYPE != null) this.type = set.TYPE;
 					if (set.SHAPE != null) {
 						this.shape = typeof set.SHAPE === 'number' ? set.SHAPE : 0
@@ -7687,7 +7683,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 				}
 				player.body.underControl = false;
 				player.body.autoOverride = false;
-				player.body.sendMessage = (content, color = 0) => { this.talk(serverPackets.gameMessage, content, color) };
+				player.body.sendMessage = (content, color = 0) => { this.talk(serverPackets.gameMessage, "[GAME]", content, color) };
 				player.body.rewardManager = (id, amount) => { };
 				let fakeBody = new Entity({
 					x: player.body.x,
@@ -8524,6 +8520,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					const player = this.player;
 					const body = this.player.body;
 					switch(key.toLowerCase()){
+						// Fundemental Controls
 						case "arrowup":
 						case "w":
 							player.command.up = val;
@@ -8552,6 +8549,19 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							player.command.rmb = val;
 						break;
 
+						case "c":
+							if(val === 1) player.command.autospin = !player.command.autospin;
+						break;
+
+						case "e":
+							if(val === 1) player.command.autofire = !player.command.autofire;
+						break;
+
+						case "r":
+							if(val === 1) player.command.override = !player.command.override;
+						break;
+
+						// Testbed Controls
 						case "`":
 							if(!body.isAlive()) return;
 							body.define(Class.genericTank);
@@ -8571,6 +8581,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							}
 							if (room.gameMode === "ffa") body.color = "FFA_RED";
 							else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
+						break;
+
+						case "k":
 						break;
 					}
 				}
@@ -8793,45 +8806,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								}
 							}
 						} break;
-						case "t": { // Player toggle
-							if (m.length !== 1) {
-								this.error("control toggle", "Ill-sized toggle", true);
-								return 1;
-							}
-							let given = "",
-								tog = m[0];
-							if (typeof tog !== "number") {
-								this.error("control toggle", "Non-numeric toggle value", true);
-								return 1;
-							}
-							if (!isAlive) return;
-							switch (tog) {
-								case 0:
-									given = "autospin";
-									break;
-								case 1:
-									given = "autofire";
-									break;
-								case 2:
-									given = "override";
-									break;
-								case 3:
-									given = "reversed";
-									break;
-								default:
-									this.error("control toggle", `Unknown toggle value (${tog})`, true);
-									return 1;
-							}
-							if (player.command != null) {
-								player.command[given] = !player.command[given];
-								if (given === "reversed") given = "Target Flip"
-								if (given === 'override' && body.onOverride !== undefined) {
-									body.onOverride(body);
-								} else {
-									body.sendMessage(given.charAt(0).toUpperCase() + given.slice(1) + (player.command[given] ? ": ON" : ": OFF"));
-								}
-							}
-						} break;
 						case clientPackets.upgradeRequest: // Upgrade request
 							if (m.length !== 1) {
 								this.error("tank upgrade", "Ill-sized tank upgrade request", true);
@@ -8947,7 +8921,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 									}, 5000);
 									player.body.name = name;
 									player.body.nameColor = nameColor;
-									player.body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, content, color);
+									player.body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, "[GAME]", content, color);
 									player.body.controllers = [new ioTypes.listenToPlayerStatic(player.body, player)];
 									player.body.FOV = 1;
 									player.body.refreshFOV();
@@ -8987,7 +8961,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 									player.body.settings.leaderboardable = false;
 									player.body.name = name;
 									player.body.nameColor = ["#00B0E1", "#F04F54", "#00E06C", "#BE7FF5", "#FFEB8E", "#F37C20", "#E85DDF", "#8EFFFB"][player.team - 1];
-									player.body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, content, color);
+									player.body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, "[GAME]", content, color);
 									player.body.rewardManager = (id, amount) => {
 										this.talk("AA", id, amount);
 									}
@@ -9645,7 +9619,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							}
 							if (keys.length === 0) this.talk(serverPackets.assetDownload, 0, 0)
 							break;
-						case "cs": // short for chat send
+						case clientPackets.chatMessage: // short for chat send
 							// Do they even exist
 							if (body.isAlive() === false) {
 								return
@@ -9661,18 +9635,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								}
 							}
 							if (!text.length) return 1;
-
-							let replaces = {
-								":100:": "💯",
-								":fire:": "🔥",
-								":alien:": "👽",
-								":speaking_head:": "🗣️",
-							}
-							for (let key in replaces) {
-								text = text.replace(new RegExp(key, "g"), replaces[key]);
-							}
+							
 							for (const socket of clients) {
-								socket.talk(serverPackets.chatMessage, text, this.player.body.id)
+								socket.talk(serverPackets.chatMessage, this.player.body.id, `${this.player.body.name} (TEAM ${this.player.team})`, text, "#FFFFFF", 0)
 							}
 							break;
 						case clientPackets.requestEntityMockups:
@@ -9737,8 +9702,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								if (player.team < 1 || room.defeatedTeams.includes(-player.team) || room.tagMode) {
 									//this.talk("m", "That party link is expired or invalid!");
 									player.team = null;
-								} else {
-									this.talk(serverPackets.gameMessage, "Team set with proper party link!");
 								}
 							}
 							if (player.team == null || room.defeatedTeams.includes(-player.team)) {
@@ -9795,7 +9758,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					}
 					body.name = name || this.betaData.globalName;
 					body.addController(new ioTypes.listenToPlayer(body, player));
-					body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, content, color);
+					body.sendMessage = (content, color = 0) => this.talk(serverPackets.gameMessage, "[GAME]", content, color);
 					body.isPlayer = true;
 					if (this.sandboxId) {
 						body.sandboxId = this.sandboxId;
@@ -10027,7 +9990,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					}
 				},
 				broadcast: (message, color = "") => {
-					for (let socket of clients) socket.talk(serverPackets.gameMessage, message, color);
+					for (let socket of clients) socket.talk(serverPackets.gameMessage, "[GAME]", message, color);
 				},
 				broadcastRoom: () => { // TODO: Replace with the R packet
 					for (let socket of clients) socket.talk(serverPackets.layerInfo, room.width, room.height, JSON.stringify(c.ROOM_SETUP), JSON.stringify(c.CELL_SKINS), room.speed, +c.ARENA_TYPE, c.BLACKOUT);

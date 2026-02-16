@@ -4,7 +4,7 @@ import { multiplayer } from "../../multiplayer.js";
 import { playerState } from "../../state/player.js";
 import { connectClientSocket, socket } from "../../socket.js";
 import { getWOSocketId, util } from "../../util.js";
-import { drawLoop } from "../drawLoop.js";
+import { canvas, drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import { renderText } from "../text.js";
 import { closeLoadingScreen, openLoadingScreen } from "./loadingScreen.js";
@@ -18,6 +18,7 @@ import { keyboard } from "../../controls/keyboard.js";
 import { mouse } from "../../controls/mouse.js";
 import { clientPackets } from "../../../../shared/packetIds.js";
 import { mockups } from "../../mockups.js";
+import "./chat.js";
 
 const state = {
 	renderingStarted: false,
@@ -33,15 +34,15 @@ const state = {
 const main = new Scene(0);
 drawLoop.addScene("main", main);
 
-function onInputTrue(key){
-	switch(key){
+function onInputTrue(key) {
+	switch (key) {
 		case "n":
 			socket.send(clientPackets.levelUp)
-		break;
+			break;
 	}
 }
 
-function onInputFalse(key){
+function onInputFalse(key) {
 
 }
 
@@ -50,8 +51,8 @@ main.utilityFuncts.set("mockups", ({ canvas, ctx, delta }) => {
 })
 
 main.utilityFuncts.set("gameInput", ({ canvas, ctx, delta }) => {
-	if(state.lastInput.changes.length > currentSettings.inputBufferSize.value.number) state.lastInput.changes.length = 0;
-	
+	if (state.lastInput.changes.length > currentSettings.inputBufferSize.value.number) state.lastInput.changes.length = 0;
+
 	//console.log(playerState.entity)
 	// Compute target inline relative to the camera (mouse offset from canvas center, scaled)
 	const rect = canvas.getBoundingClientRect();
@@ -69,15 +70,15 @@ main.utilityFuncts.set("gameInput", ({ canvas, ctx, delta }) => {
 		mouse.buttons.right,
 		mouse.scrollY
 	)
-	for(let key in keyboard.keys){
+	for (let key in keyboard.keys) {
 		const newVal = keyboard.keys[key]
 		const oldVal = state.lastInput.keyboard[key];
-		if(newVal !== oldVal){
+		if (newVal !== oldVal) {
 			state.lastInput.keyboard[key] = newVal;
 			state.lastInput.changes.push(key, newVal)
-			if(newVal === true){
+			if (newVal === true) {
 				onInputTrue(key);
-			}else{
+			} else {
 				onInputFalse(key);
 			}
 		}
@@ -96,10 +97,6 @@ main.drawFuncts.set("clear", ({ canvas, ctx, delta }) => {
 	state.screenScale = Math.max(canvas.width / fov, canvas.height / fov / 9 * 16);
 })
 
-/**
- * Resolves a cell skin's current-frame asset image data.
- * Returns { skin, asset } or null if the skin is invalid / has no loadable asset.
- */
 function resolveSkinAsset(skinKey) {
 	const skin = roomState.cellSkins[skinKey];
 	if (!skin || !Array.isArray(skin.assets) || skin.assets.length === 0) return null;
@@ -118,24 +115,7 @@ function resolveSkinAsset(skinKey) {
  * Handles repeat-pattern, stretch, and optional colour tint.
  */
 function drawCellTile(ctx, skin, asset, left, top, scaledW, scaledH, offsetX, offsetY, scale) {
-	if (skin.repeat) {
-		// Cache the pattern on the skin object so we don't recreate it every cell
-		if (skin._cachedPatternAsset !== asset) {
-			skin._cachedPattern = ctx.createPattern(asset, "repeat");
-			skin._cachedPatternAsset = asset;
-		}
-		ctx.fillStyle = skin._cachedPattern;
-		ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);
-		ctx.fillRect(
-			(left - 1 - offsetX) / scale,
-			(top  - 1 - offsetY) / scale,
-			(scaledW + 2) / scale,
-			(scaledH + 2) / scale
-		);
-		ctx.setTransform(1, 0, 0, 1, 0, 0);
-	} else if (skin.stretch) {
-		ctx.drawImage(asset, left - 1, top - 1, scaledW + 2, scaledH + 2);
-	}
+	ctx.drawImage(asset, left - 1, top - 1, scaledW + 2, scaledH + 2);
 
 	// Colour tint overlay
 	if (skin.tintOpacity > 0) {
@@ -239,84 +219,85 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
 
 		ctx.globalAlpha = entity.alpha;
 
-		// Draw text (unrotated) using setTransform instead of save/restore
-		let scoreText = { height: 0 };
-		let nameText = { height: 0 };
-		if (entity.score || entity.name) {
-			ctx.setTransform(scale, 0, 0, scale, screenX, screenY);
-			if (entity.score) {
-				scoreText = renderText(entity.score, entitySize * 2);
-				if (scoreText) ctx.drawImage(scoreText, -scoreText.width / 2, -render.height / 2 - scoreText.height / 2);
-			}
-			if (entity.name) {
-				nameText = renderText(entity.name, entitySize * 3);
-				if (nameText) ctx.drawImage(nameText, -nameText.width / 2, -render.height / 2 - scoreText.height - nameText.height / 2);
-			}
-		}
-
 		// Draw entity image (rotated) using setTransform
 		const cos = Math.cos(entity.facing) * scale;
 		const sin = Math.sin(entity.facing) * scale;
 		ctx.setTransform(cos, sin, -sin, cos, screenX, screenY);
 		ctx.drawImage(render, -render.width / 2, -render.height / 2);
+	
+		// Draw text (scaled with entity, but not rotated)
+		let scoreText = { height: 0 };
+		let nameText = { height: 0 };
+		if (entity.score || entity.name) {
+			ctx.setTransform(1, 0, 0, 1, screenX, screenY);
+			const baseTextSize = state.screenScale * entitySize * .75;
+			const textYOffset = -(render.height * scale) * .5;
+			if (entity.score) {
+				scoreText = renderText(entity.score.toString(), baseTextSize||1);
+				if (scoreText) ctx.drawImage(scoreText, -scoreText.width / 2, textYOffset - scoreText.height);
+			}
+			if (entity.name) {
+				nameText = renderText(entity.name, baseTextSize||1);
+				if (nameText) ctx.drawImage(nameText, -nameText.width / 2, textYOffset - nameText.height - scoreText.height);
+			}
+		}
 	};
 
 	// Reset transform and alpha after entity loop
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	ctx.globalAlpha = 1;
 
-	if(currentSettings.showFps.value.enabled){
+	if (currentSettings.showFps.value.enabled) {
 		ctx.globalAlpha = .25;
-		const text = renderText(`${drawLoop.measuredFps}FPS`);
-		ctx.drawImage(text, canvas.width/2-text.width/2, canvas.height/2-text.height/2)
+		const text = renderText(`${drawLoop.measuredFps}FPS|${drawLoop._targetFps|0}`);
+		ctx.drawImage(text, canvas.width / 2 - text.width / 2, canvas.height / 2 - text.height / 2)
 		ctx.globalAlpha = 1;
 	}
 })
-
-async function startGame(gamemodeCode, joinRoomId, maxPlayers, maxBots){
+async function startGame(gamemodeCode, joinRoomId, maxPlayers, maxBots) {
 	drawLoop.start();
 
-    document.getElementById("startMenuWrapper").remove();
+	document.getElementById("startMenuWrapper").remove();
 	document.getElementById("legalDisclaimer").remove()
-    document.getElementById("mainWrapper").remove()
-    
-	playerState.name = util._cleanString(document.getElementById("nameInput").value || "", 25)
-    playerState.socketName = playerState.name.split('').map(x=>x.charCodeAt());
-    if (playerState.name === "") rewardManager.unlockAchievement("anonymous");
+	document.getElementById("mainWrapper").remove()
 
-    if (window.creatingRoom === true) { // Create game
+	playerState.name = util._cleanString(document.getElementById("nameInput").value || "", 25)
+	playerState.socketName = playerState.name.split('').map(x => x.charCodeAt());
+	if (playerState.name === "") rewardManager.unlockAchievement("anonymous");
+
+	if (window.creatingRoom === true) { // Create game
 		openLoadingScreen("Downloading Server...", "")
-        window.serverWorker = new Worker("./server/server.js", {type:"module"});
-		window.serverWorker.onerror = function(err){
+		window.serverWorker = new Worker("./server/server.js", { type: "module" });
+		window.serverWorker.onerror = function (err) {
 			openLoadingScreen("Failed to Start Server", "Please reload the page and try again")
 			console.error(err)
 		}
 		openLoadingScreen("Starting Server...", "")
-        console.log("Starting server...")
-        await multiplayer.startServerWorker(gamemodeCode, undefined, undefined, maxPlayers, maxBots)
-        console.log("...Server started!")
+		console.log("Starting server...")
+		await multiplayer.startServerWorker(gamemodeCode, undefined, undefined, maxPlayers, maxBots)
+		console.log("...Server started!")
 		window.serverWorker.onerror = undefined;
-        await multiplayer.wrmHost()
+		await multiplayer.wrmHost()
 		joinRoomId = await multiplayer.getHostRoomId();
 		settingsState.showEntityEditor = true;
 	}
 
 	openLoadingScreen("Joining Server...", "")
-    await connectClientSocket(joinRoomId).catch((err)=>{
+	await connectClientSocket(joinRoomId).catch((err) => {
 		openLoadingScreen("Connection Timed Out", "There was an issue connecting to this player. Try a different room or make your own and play alone for the time being.")
 		throw err;
 	})
-	
+
 	openLoadingScreen("Loading Assets...", "(0/0)")
-	await new Promise((res, rej)=>{
+	await new Promise((res, rej) => {
 		window.assetLoadingPromise = res;
 		socket.send("as");
 	})
-	
+
 	openLoadingScreen("Loading Room...", "")
-    console.log(socket)
-    socket.send("s", 0, playerState.socketName.toString(), 1, getWOSocketId());
-    window.selectedRoomId = joinRoomId;
+	console.log(socket)
+	socket.send("s", 0, playerState.socketName.toString(), 1, getWOSocketId());
+	window.selectedRoomId = joinRoomId;
 
 	closeLoadingScreen("Have Fun", ":)")
 	closeLoadingScreen()

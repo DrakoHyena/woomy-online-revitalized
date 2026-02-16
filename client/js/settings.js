@@ -28,7 +28,9 @@ const defaultSettings = {
 	showFps: true,
 
 	// Number settings
-	chatMessageDuration: 5,
+	chatMessageDuration: 3000,
+	chatMessageLimit: 3,
+	messageHistoryLimit: 50, // UI > Chat: Message History Limit
 	uiScale: 1.2,
 	fontStrokeRatio: 7,
 	borderWidth: 2.5, // borderChunk
@@ -43,6 +45,7 @@ const defaultSettings = {
 	// String/Dropdown settings
 	barStyle: "Circle",
 	resolutionScale: "High (100%)",
+	entityResolution: 256,
 	fontFamily: "Ubuntu",
 	theme: "normal",
 	shaders: "Disabled",
@@ -84,6 +87,8 @@ const settingTypes = {
 
 	// Number settings
 	chatMessageDuration: "number",
+	chatMessageLimit: "number",
+	messageHistoryLimit: "number",
 	uiScale: "number",
 	fontStrokeRatio: "number",
 	borderWidth: "number",
@@ -98,6 +103,7 @@ const settingTypes = {
 	// Dropdown settings
 	barStyle: "dropdown",
 	resolutionScale: "dropdown",
+	entityResolution: "number",
 	fontFamily: "dropdown",
 	theme: "dropdown",
 	shaders: "dropdown",
@@ -116,7 +122,11 @@ const settingLimits = {
 
 	// Number setting limits
 	chatMessageDurationMin: 0,
-	chatMessageDurationMax: 60,
+	chatMessageDurationMax: 60000,
+	chatMessageLimitMin: 0,
+	chatMessageLimitMax: 1000,
+	messageHistoryLimitMin: 0,
+	messageHistoryLimitMax: 500,
 	uiScaleMin: 0.5,
 	uiScaleMax: 3,
 	fontStrokeRatioMin: 0,
@@ -141,6 +151,8 @@ const settingLimits = {
 	// Dropdown setting options
 	barStyleOptions: ["Circle", "Square", "Triangle"],
 	resolutionScaleOptions: ["Very Low (35%)", "Low (50%)", "Medium (75%)", "High (100%)"],
+	entityResolutionMin: 1,
+	entityResolutionMax: 1080,
 	fontFamilyOptions: ["Ubuntu", "Alfa Slab One", "Bebas Neue", "Bungee", "Cutive Mono", "Dancing Script", "Fredoka One", "Indie Flower", "Nanum Brush Script", "Pacifico", "Passion One", "Permanent Marker", "Zen Dots", "Rampart One", "Roboto Mono", "Share Tech Mono", "Syne Mono", "wingdings", "serif", "sans-serif", "cursive", "system-ui"],
 	themeOptions: ["normal", "classic", "dark", "natural", "ocean", "midnight", "pastel", "space", "halloween", "christmas", "neon", "retro", "forest", "cyber", "fantasy"],
 	shadersOptions: ["Disabled", "Light Blur", "Dark Blur", "Colorful Blur", "Light", "Dark", "Colorful Dense", "Fake 3D", "Dynamic Fake 3D"],

@@ -25,93 +25,83 @@
         ["bas2", "n_b2", "norm", "norm", "norm", "roid", "norm", "norm", "norm", "roid", "roid", "norm", "norm", "norm", "roid", "norm", "norm", "norm", "n_b3", "bas3"]
     ],
 	"CELL_SKINS": {
+		"nest": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#C3B9DC",
+			"tintOpacity": 0.25,
+			"frameInterval": 0
+		},
 		"n_b1": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#3CA4CB",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"bas1": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#3CA4CB",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"n_b2": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#E03E41",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"bas2": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#E03E41",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"n_b3": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#8ABC3F",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"bas3": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#8ABC3F",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"n_b4": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#CC669C",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"bas4": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#CC669C",
 			"tintOpacity": 0.25,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"norm": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#000",
 			"tintOpacity": 0,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
+		},
+		"rock": {
+			"assets": ["normCellSkin"],
+			"tintColor": "#000",
+			"tintOpacity": 0,
+			"frameInterval": 0
 		},
 		"roid": {
 			"assets": ["normCellSkin"],
 			"tintColor": "#000",
 			"tintOpacity": 0,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		},
 		"boundary": {
 			"assets": ["boundaryCellSkin"],
 			"tintColor": "#000",
 			"tintOpacity": 0,
-			"frameInterval": 0,
-			"repeat": true,
-			"stretch": false
+			"frameInterval": 0
 		}
 	},
     "X_GRID": 20,

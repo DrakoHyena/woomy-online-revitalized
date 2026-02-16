@@ -19,6 +19,7 @@ import { roomState } from "./state/room.js";
 import { playerState } from "./state/player.js";
 import { serverPackets, clientPackets } from "../../shared/packetIds.js";
 import { gameState } from "./drawing/scenes/game.js";
+import { ChatMessage, mutedSenders } from "./drawing/scenes/chat.js";
 
 let entities = new Map();
 const entitiesArr = [];
@@ -337,6 +338,8 @@ class ClientEntity {
 		this.guns = [];
 		this.turrets = [];
 		this.props = [];
+
+		this.messages = [];
 
 		this.sizeFade = 0;
 		this.hurtFade = 0;
@@ -659,13 +662,13 @@ async function onmessage (message) {
 			console.log("Room data recieved! Starting game...");
 			break;
 		case serverPackets.gameMessage:
-			global.messages.push({
-				text: m[0],
-				status: 2,
-				alpha: 0,
-				time: Date.now(),
-				color: m[1] || color.black
-			});
+			if(currentSettings.disableGameMessages.value.enabled) return;
+			roomState.chatMessages.push(new ChatMessage(
+				m[0],
+				m[1],
+				m[2],
+				m[3]
+			));
 			break;
 		case serverPackets.assetDownload:
 			if (window.loadedAssets === undefined) window.loadedAssets = 0;
@@ -689,20 +692,23 @@ async function onmessage (message) {
 			}
 			break;
 		case serverPackets.chatMessage:
-			let arr = global.chatMessages.get(m[1])
-			if (arr === undefined) {
-				arr = [[m[0], performance.now()]]
-				global.chatMessages.set(m[1], arr)
-			} else {
-				arr.push([m[0], performance.now()])
-			}
-			function removeChatMessage() {
-				arr.shift();
-				if (arr.length === 0) {
-					global.chatMessages.delete(m[1])
+			if(mutedSenders.has(m[1])) return;
+			const chatMessage = new ChatMessage(m[1], m[2], m[3], m[4]||false, m[0]);
+			const entity = entities.get(m[0]);
+			if(entity){
+				let skipRemove = false;
+				if (entity.messages.length >= currentSettings.chatMessageLimit.value.number) {
+					entity.messages.shift();
+					skipRemove = true;
+				}
+				entity.messages.push(chatMessage);
+				if(skipRemove === false){
+					setTimeout(()=>{
+						entity.messages.shift();
+					}, currentSettings.chatMessageDuration.value.number)
 				}
 			}
-			setTimeout(removeChatMessage, currentSettings.chatMessageDuration.value.number * 1000 - 50)
+			roomState.chatMessages.push(chatMessage);
 			break;
 		case serverPackets.roomId:
 			roomState.roomId = m[0]

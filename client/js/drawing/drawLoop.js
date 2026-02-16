@@ -2,7 +2,9 @@ import { global } from "../global.js";
 import { currentSettings } from "../settings.js";
 
 const canvas = document.getElementById("mainCanvas");
-const ctx = canvas.getContext("2d")
+const ctx = canvas.getContext("2d", {
+	willReadFrequently: false
+})
 ctx.imageSmoothingEnabled = false;
 
 const resolutionScaleMap = {
@@ -82,6 +84,7 @@ drawLoop.updateSceneSizes = function(){
 	const resScale = resolutionScaleMap[resSetting] ?? 1;
 	canvas.width = Math.round(window.innerWidth * resScale);
 	canvas.height = Math.round(window.innerHeight * resScale);
+	ctx.imageSmoothingEnabled = false;
 	for(let [, scene] of drawLoop.scenes){
 		for(let [, resizeFunct] of scene.resizeFuncts){
 			resizeFunct({canvas, ctx})
@@ -89,5 +92,6 @@ drawLoop.updateSceneSizes = function(){
 	}
 }
 window.addEventListener("resize", drawLoop.updateSceneSizes)
+drawLoop.updateSceneSizes()
 
 export { drawLoop, canvas, ctx} 

@@ -8,6 +8,7 @@ import { lerp } from "../../lerp.js";
 import { currentSettings } from "../../settings.js";
 import { socket } from "../../socket.js";
 import { clientPackets } from "../../../../shared/packetIds.js";
+import { toggleChatMenu } from "./chat.js";
 
 const TOPLEFTBUTTONS_CONFIG = {
 	MARGIN_MULT: 0.01,
@@ -48,6 +49,9 @@ const buttons = [
 		socket.send(clientPackets.switchToBasic)
 	}, "#13b6df", "#2d8fbd", "basicSwitchIconBitmap"),
 	newButton(()=>{
+		toggleChatMenu();
+	}, "#bd9869", "#b17d4d", "chattoggleIconBitmap"),
+	newButton(()=>{
 		state.menuOpen = !state.menuOpen;
 		if(!state.menuOpen){
 			closeSettingsMenu();
@@ -69,6 +73,7 @@ const iconsToPreload = {
 	upgradesIconBitmap: "/resources/icons/upgrades-icon.png",
 	basicSwitchIconBitmap: "/resources/icons/basicSwitch-icon.png",
 	menutoggleIconBitmap: "/resources/icons/menutoggle-icon.png",
+	chattoggleIconBitmap: "/resources/icons/chattoggle-icon.png"
 };
 for(let [key, url] of Object.entries(iconsToPreload)){
 	try {
