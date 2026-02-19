@@ -2,7 +2,7 @@ import { currentSettings } from "../settings.js";
 
 const textCanvas = new OffscreenCanvas(1, 1);
 const ctx = textCanvas.getContext("2d");
-ctx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 
 const textRenders = new Map();
 
@@ -69,9 +69,9 @@ function renderText(text, size, renderOptions = {}, shouldStroke = true, maxWidt
 	}
 	const totalHeight = (ascent + descent) * lines.length;
 
-	textCanvas.width = Math.ceil(maxLineWidth + options.lineWidth);
-	textCanvas.height = Math.ceil(totalHeight);
-	ctx.imageSmoothingEnabled = false;
+	textCanvas.width = Math.max(1, Math.ceil(maxLineWidth + options.lineWidth));
+	textCanvas.height = Math.max(1, Math.ceil(totalHeight));
+	ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 
 	for (let key in options) {
 		ctx[key] = options[key];

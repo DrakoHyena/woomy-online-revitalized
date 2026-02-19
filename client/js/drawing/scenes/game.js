@@ -1,5 +1,4 @@
 import { rewardManager } from "../../achievements.js";
-import { lerp, lerpAngle } from "../../lerp.js";
 import { multiplayer } from "../../multiplayer.js";
 import { playerState } from "../../state/player.js";
 import { connectClientSocket, socket } from "../../socket.js";
@@ -16,9 +15,7 @@ import { currentSettings } from "../../settings.js";
 import { entitiesArr } from "../../socket.js";
 import { keyboard } from "../../controls/keyboard.js";
 import { mouse } from "../../controls/mouse.js";
-import { clientPackets } from "../../../../shared/packetIds.js";
 import { mockups } from "../../mockups.js";
-import "./chat.js";
 
 const state = {
 	renderingStarted: false,
@@ -33,18 +30,6 @@ const state = {
 
 const main = new Scene(0);
 drawLoop.addScene("main", main);
-
-function onInputTrue(key) {
-	switch (key) {
-		case "n":
-			socket.send(clientPackets.levelUp)
-			break;
-	}
-}
-
-function onInputFalse(key) {
-
-}
 
 main.utilityFuncts.set("mockups", ({ canvas, ctx, delta }) => {
 	mockups.flushPending();
@@ -71,16 +56,11 @@ main.utilityFuncts.set("gameInput", ({ canvas, ctx, delta }) => {
 		mouse.scrollY
 	)
 	for (let key in keyboard.keys) {
-		const newVal = keyboard.keys[key]
-		const oldVal = state.lastInput.keyboard[key];
+		const newVal = keyboard.locked ? false : keyboard.keys[key]
+		const oldVal = !!state.lastInput.keyboard[key];
 		if (newVal !== oldVal) {
 			state.lastInput.keyboard[key] = newVal;
 			state.lastInput.changes.push(key, newVal)
-			if (newVal === true) {
-				onInputTrue(key);
-			} else {
-				onInputFalse(key);
-			}
 		}
 	}
 	state.lastInput.changes.push(-1) // end of block flag
@@ -204,18 +184,13 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
 			playerState.gameName = entity.name == null ? mockups.get(entity.index).name : entity.name;
 		}
 
-		const render = getEntityImage(entity, true, 1.25); // Add padding to accomadate border width and other misc things
+		const render = getEntityImage(entity, false, 1.25); // Add padding to accomadate border width and other misc things
 		if (!render) continue; // ImageBitmap not ready yet, skip this frame
 
 		const screenX = state.screenScale * entity.x + offsetX;
 		const screenY = state.screenScale * entity.y + offsetY;
 		const entitySize = entity.size || 1;
 		const scale = state.screenScale * render.upscaleVal;
-
-		// Viewport culling — skip entities fully off-screen
-		const halfDraw = render.width * scale * 0.5;
-		if (screenX + halfDraw < 0 || screenX - halfDraw > canvas.width ||
-			screenY + halfDraw < 0 || screenY - halfDraw > canvas.height) continue;
 
 		ctx.globalAlpha = entity.alpha;
 

@@ -373,8 +373,22 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 
 		// Only submit value on Enter or blur
 		if (element._submitRequested) {
-			inputCallback(element.inputBuffer);
-			element.focused = false;
+			// callback may return `false` to explicitly blur, `true` to explicitly keep focus
+			const keepFocus = inputCallback(element.inputBuffer);
+			if (keepFocus === false) {
+				element.focused = false;
+				// clear programmatic focus immediately so the next frame triggers lostFocusCallback
+				element._programmaticFocus = false;
+			} else if (keepFocus === true) {
+				element.inputBuffer = "";
+			} else {
+				// default behavior: keep focus only if programmatically focused
+				if (element._programmaticFocus) {
+					element.inputBuffer = "";
+				} else {
+					element.focused = false;
+				}
+			}
 			element._submitRequested = false;
 		} else if (element._cancelRequested) {
 			// Revert to original value on Escape
@@ -476,6 +490,9 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 
 	const element = getOrCreateElement(uniqueId);
 
+	// remember the input type for this element so we can compute global focus state
+	element._type = type;
+
 	// Apply current scale FIRST so all hit-testing matches drawn positions
 	const scaled = applyHoverScale(x, y, width, height, element.currentScale);
 	x = scaled.x;
@@ -490,27 +507,62 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 
 	// Handle click detection on the scaled button area
 	const click = clickableActive(x, y, x + width, y + height);
-	const isInteracting = click !== false || hoveringOverDropdownOptions;
-	const isHoveringForBlur = click !== false || hoveringOverDropdownOptions;
+	// Respect programmatic focus so keyboard can be captured without mouse interaction
+	const isInteracting = click !== false || hoveringOverDropdownOptions || element._programmaticFocus === true;
+	const isHoveringForBlur = click !== false || hoveringOverDropdownOptions || element._programmaticFocus === true;
 
 	// Determine target scale based on interaction state
 	let targetScale = SCALE.default;
 	if (isInteracting) {
 		if (hoverCallback) hoverCallback();
-		element.focused = element.focused || click.left;
+
+		// If the user *clicked* this element, clear focus/programmatic-focus from
+		// other text/number inputs so only one text input receives keyboard events.
+		if (click && click.left) {
+			for (const [otherId, otherElem] of elements.entries()) {
+				if (otherId !== uniqueId && (otherElem._type === "number" || otherElem._type === "text") && otherElem.focused) {
+					otherElem.focused = false;
+					otherElem._programmaticFocus = false;
+					otherElem._submitRequested = false;
+					otherElem._cancelRequested = false;
+					otherElem.inputBuffer = "";
+					otherElem.wasHovering = false;
+				}
+			}
+			// Mark this element focused from the click
+			element.focused = true;
+		} else {
+			// preserve programmatic focus if present
+			element.focused = element.focused || false;
+		}
+
 		targetScale = click.left ? SCALE.clicked : SCALE.hovered;
 	} else {
 		element.focused = false;
 		element.originalValue = null;
 	}
 
-	if (element.wasHovering && !isHoveringForBlur && lostFocusCallback) {
-		lostFocusCallback();
+	if (element.wasHovering && !isHoveringForBlur) {
+		if(lostFocusCallback) lostFocusCallback();
+		// Clear programmatic focus when element actually loses focus
+		element._programmaticFocus = false;
 	}
 	element.wasHovering = isHoveringForBlur;
 
 	// Update scale target for next frame
 	element.currentScale = lerp(element.currentScale, targetScale, menuAnimSpeed);
+
+	// If any text/number input is focused, lock the keyboard; otherwise unlock.
+	{
+		let anyTextNumberFocused = false;
+		for (const e of elements.values()) {
+			if (e.focused && (e._type === "number" || e._type === "text")) {
+				anyTextNumberFocused = true;
+				break;
+			}
+		}
+		keyboard.locked = anyTextNumberFocused;
+	}
 
 	// Handle input buffer for text-based inputs
 	if (type === "number" || type === "text") {
@@ -565,4 +617,47 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 // Exports
 // ============================================================================
 
-export { renderInput };
+function focusInput(uniqueId, { initialValue = null } = {}) {
+	const element = getOrCreateElement(uniqueId);
+	element.focused = true;
+	element._programmaticFocus = true;
+	// Prevent immediate lost-focus handling
+	element.wasHovering = true;
+	if (initialValue !== null) {
+		element.originalValue = initialValue;
+	}
+	element.inputBuffer = "";
+	element._submitRequested = false;
+	element._cancelRequested = false;
+	element.lastRender = performance.now();
+	keyboard.locked = true;
+	return element;
+}
+
+function isTextOrNumberFocused(){
+    for(const e of elements.values()){
+        if(e.focused && (e._type === "number" || e._type === "text")) return true;
+    }
+    return false;
+}
+
+function blurAllTextNumberInputs(){
+    for(const e of elements.values()){
+        if(e.focused && (e._type === "number" || e._type === "text")){
+            e.focused = false;
+            e._programmaticFocus = false;
+            e._submitRequested = false;
+            e._cancelRequested = false;
+            e.inputBuffer = "";
+            e.wasHovering = false;
+        }
+    }
+    // keyboard.locked will be recomputed by the next renderInput call
+}
+
+function isElementFocused(uniqueId){
+    const e = elements.get(uniqueId);
+    return !!(e && e.focused);
+}
+
+export { renderInput, focusInput, isTextOrNumberFocused, blurAllTextNumberInputs, isElementFocused };

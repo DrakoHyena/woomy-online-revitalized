@@ -9,6 +9,8 @@ import { currentSettings } from "../../settings.js";
 import { socket } from "../../socket.js";
 import { clientPackets } from "../../../../shared/packetIds.js";
 import { toggleChatMenu } from "./chat.js";
+import { toggleLeaderboard } from "./leaderboard.js";
+import { toggleStatsMenu } from "./stats.js";
 
 const TOPLEFTBUTTONS_CONFIG = {
 	MARGIN_MULT: 0.01,
@@ -46,11 +48,17 @@ const buttons = [
 		toggleUpgradeMenu();
 	}, "#a6d469", "#7fad3a", "upgradesIconBitmap"),
 	newButton(()=>{
-		socket.send(clientPackets.switchToBasic)
-	}, "#13b6df", "#2d8fbd", "basicSwitchIconBitmap"),
+		toggleStatsMenu()
+	}, "#0066aa", "#004e81", "skillstoggleIconBitmap"),
 	newButton(()=>{
 		toggleChatMenu();
 	}, "#bd9869", "#b17d4d", "chattoggleIconBitmap"),
+	newButton(()=>{
+		toggleLeaderboard();
+	}, "#3ed8b7", "#3ba38d", "leaderboardtoggleIconBitmap"),
+	newButton(()=>{
+		socket.send(clientPackets.switchToBasic)
+	}, "#13b6df", "#2d8fbd", "basicSwitchIconBitmap"),
 	newButton(()=>{
 		state.menuOpen = !state.menuOpen;
 		if(!state.menuOpen){
@@ -71,9 +79,11 @@ const state = {
 const iconsToPreload = {
 	settingsIconBitmap: "/resources/icons/settings-icon.png",
 	upgradesIconBitmap: "/resources/icons/upgrades-icon.png",
+	skillstoggleIconBitmap: "/resources/icons/skillstoggle-icon.png",
 	basicSwitchIconBitmap: "/resources/icons/basicSwitch-icon.png",
 	menutoggleIconBitmap: "/resources/icons/menutoggle-icon.png",
-	chattoggleIconBitmap: "/resources/icons/chattoggle-icon.png"
+	chattoggleIconBitmap: "/resources/icons/chattoggle-icon.png",
+	leaderboardtoggleIconBitmap: "/resources/icons/leaderboardtoggle-icon.png",
 };
 for(let [key, url] of Object.entries(iconsToPreload)){
 	try {
@@ -200,9 +210,5 @@ function draw({canvas, ctx, delta}){
 	}
 }
 topLeftButtons.drawFuncts.set("drawTLButtons", draw)
-
-function openTLButtonMenu(){}
-
-function closeTLButtonMenu(){}
 
 export { state as topLeftButtonsState, TOPLEFTBUTTONS_CONFIG }

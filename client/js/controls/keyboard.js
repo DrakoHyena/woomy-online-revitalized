@@ -1,6 +1,7 @@
 import { global } from "../global.js";
 
 const keyboard = {
+	locked: false,
 	keys: {
 		shift: false,
 		alt: false,

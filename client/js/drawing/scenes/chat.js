@@ -1,6 +1,7 @@
 import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import { renderInput } from "../inputElements.js";
+import { focusInput } from "../inputElements.js";
 import { roomState } from "../../state/room.js";
 import { socket } from "../../socket.js";
 import { clientPackets } from "../../../../shared/packetIds.js";
@@ -8,15 +9,11 @@ import { renderText } from "../text.js";
 import { currentSettings } from "../../settings.js";
 import { clickableActive } from "./clickable.js";
 import { mouse } from "../../controls/mouse.js";
+import { keyboard } from "../../controls/keyboard.js";
+import { isTextOrNumberFocused, blurAllTextNumberInputs, isElementFocused } from "../inputElements.js";
 import { lerp } from "../../lerp.js";
 import { hideCursorTextBox, showCursorTextBox } from "./cursorUi.js";
-
-/*
-TODO:
-- Isolate input capture
-- 
-*/
-
+import { getColor } from "../../colors.js";
 
 const state = {
 	messagePadding: 5,
@@ -29,15 +26,44 @@ const state = {
 const chat = new Scene(40);
 drawLoop.addScene("chat", chat);
 
+const chatEnterDebounce = 200;
+let lastEnterPress = 0;
+let _prevEnterDown = false;
+chat.utilityFuncts.set("enterToChat", ()=>{
+	// trigger on Enter **down** edge only (prevents hold/first-frame issues)
+	const enterDown = !!keyboard.keys["Enter"];
+	if (enterDown && !_prevEnterDown && Date.now() - lastEnterPress > chatEnterDebounce) {
+		lastEnterPress = Date.now();
+
+		// If the chat input is already focused, let renderInput handle Enter (submit) — do nothing here
+		if (isElementFocused && isElementFocused("chatInput")){
+			// intentionally empty: allow normal submit flow
+		} else {
+			// If another text/number input is focused, blur it so chat opens with one Enter press
+			if (isTextOrNumberFocused()) {
+				blurAllTextNumberInputs();
+			}
+
+			if (!state.active) {
+				openChatMenu();
+				state._openedByEnter = true;
+			}
+			focusInput("chatInput", { initialValue: "Type here to chat" });
+		}
+	}
+	_prevEnterDown = enterDown;
+})
+
 class ChatMessage{
-	constructor(sender, content, textColor, backgroundColor="transparent", entityId=false){
+	constructor(sender, content, textColor, backgroundColor, entityId=false){
 		this.sender = sender;
 		this.content = content;
 		this.textColor = textColor;
-		this.backgroundColor = backgroundColor;
+		this.backgroundColor = typeof backgroundColor === "number" ? getColor(backgroundColor) : backgroundColor || "transparent";
 		this.entityId = entityId;
 		this.creationStamp = performance.now();
-		this.alphaFade = 0;
+		// start visible (alphaFade used for hover boost/fade) — new messages already use creationStamp-based fade
+		this.alphaFade = 1;
 	}
 	getSenderRender(size, maxWidth){
 		return renderText(`${this.sender}:`, size, {
@@ -83,6 +109,9 @@ let selectedMessage = {
 function draw({canvas, ctx, delta}){
 	if(state.active){
 		state.fade = lerp(state.fade, .5, currentSettings.menuAnimSpeed.value.number*delta);
+		if(state.fade > .499){
+			chat.drawFuncts.delete("drawNewChats")
+		}
 	}else{
 		state.fade = lerp(state.fade, 0, currentSettings.menuAnimSpeed.value.number*delta);
 		if(state.fade < 0.001){
@@ -90,8 +119,8 @@ function draw({canvas, ctx, delta}){
 		}
 	}
 
-	const WIDTH = canvas.height/2;
-	const HEIGHT = canvas.height/3.5;
+	const WIDTH = canvas.height/2.8;
+	const HEIGHT = canvas.height/4;
 
 	let padding = state.padding;
 
@@ -104,7 +133,8 @@ function draw({canvas, ctx, delta}){
 		drawSelectedMessage(canvas, ctx, delta)
 	}
 
-	ctx.globalAlpha = state.fade;
+	// normalize state.fade (0..0.5) -> (0..1) so chatAlpha 1 => fully visible, 0 => hidden
+	ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5);
 	ctx.fillStyle = ACCENT;
 	ctx.fillRect(x, y, WIDTH, HEIGHT);
 	ctx.fillStyle = BACKGROUND;
@@ -120,11 +150,18 @@ function draw({canvas, ctx, delta}){
 		HEIGHT * (1 - boxInputRatio) - padding,
 		"Type here to chat",
 		(val)=>{
-			if(val === "Type here to chat") return;
+			if(val === "" || val === "Type here to chat") return;
 			const lengthLimit = roomState.chatMessageLimit;
 			for(let i = 0; i < val.length; i += lengthLimit){
 				socket.send(clientPackets.chatMessage, val.substring(i, lengthLimit))
 			}
+			lastEnterPress = Date.now();
+			if(state._openedByEnter){
+				closeChatMenu();
+				state._openedByEnter = false;
+				return false; // tell renderInput to blur the field
+			}
+			return false;
 		}
 	)
 	padding /= 3;
@@ -153,10 +190,10 @@ function draw({canvas, ctx, delta}){
 	cy += yOffset;
 
 	for (let chatMessage of roomState.chatMessages) {
-		const chatMessageFade = Math.min(1, (performance.now() - chatMessage.creationStamp) / 200);
-		ctx.globalAlpha = state.fade * chatMessageFade;
+		const chatMessageFade = Math.min(1, (performance.now() - chatMessage.creationStamp) / Math.max(1, 500*(1-currentSettings.menuAnimSpeed.value.number)));
+		ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5) * chatMessageFade;
 
-		const senderText = chatMessage.getSenderRender(textSize / 3, maxWidth);
+		const senderText = chatMessage.getSenderRender(textSize / 2.5, maxWidth);
 		const contentText = chatMessage.getContentRender(textSize / 2, maxWidth);
 
 		const totalHeight = senderText.height + contentText.height + state.messagePadding;
@@ -175,7 +212,8 @@ function draw({canvas, ctx, delta}){
 
 		click = clickableActive(cx, msgTop, cx+maxWidth, msgBottom);
 		if(click){
-			chatMessage.alphaFade = lerp(chatMessage.alphaFade, 2, currentSettings.menuAnimSpeed.value.number*delta)
+			// subtle hover boost (avoid clamping the canvas alpha by keeping this close to 1)
+			chatMessage.alphaFade = lerp(chatMessage.alphaFade, 1.25, currentSettings.menuAnimSpeed.value.number*delta)
 			if(click.left){
 				selectedMessage.author = chatMessage.sender;
 				selectedMessage.content = chatMessage.content;
@@ -202,10 +240,10 @@ let hadMuteFocus = false;
 let lastClick = 0;
 let clickDebounce = 200;
 function drawSelectedMessage(canvas, ctx, delta){
-	const height = canvas.height/13;
-	const width = canvas.height/2;
-	let x = state.x;
-	let y = (state.y - state.margin - height) * (selectedMessage.fade) + canvas.height * (1 - selectedMessage.fade);
+	const height = canvas.height/15;
+	const width = canvas.height/2.8;
+	let x = state.x + width * (1 - selectedMessage.fade);
+	let y = (state.y - state.margin - height)
 
 	if(selectedMessage.active){
 		selectedMessage.fade = lerp(selectedMessage.fade, 1, currentSettings.menuAnimSpeed.value.number*delta);
@@ -216,7 +254,7 @@ function drawSelectedMessage(canvas, ctx, delta){
 		}
 	}
 
-	ctx.globalAlpha = state.fade*selectedMessage.fade;
+	ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5) * selectedMessage.fade;
 	ctx.fillStyle = ACCENT;
 	ctx.fillRect(x, y, width - state.margin + state.padding*2, height);
 	ctx.fillStyle = BACKGROUND;
@@ -268,6 +306,73 @@ function drawSelectedMessage(canvas, ctx, delta){
 	const text = renderText(selectedMessage.author, height/3, {}, true, width-(x-state.x));
 	ctx.drawImage(text,x  + state.padding, y + (height/2) - text.height/2)
 }
+
+function drawNewChats({canvas, ctx, delta}){
+	const fade = (.5 - state.fade)/.5;
+	let newChatAlpha = currentSettings.chatAlpha.value.number;
+	let y = canvas.height - state.margin;
+	const maxWidth = canvas.height / 2.8;
+	let x = canvas.width - state.margin + maxWidth*(1-fade);
+	const maxDur = currentSettings.closedMessageShowDuration.value.number;
+	const fadeTime = Math.max(1, 400 * (1 - currentSettings.menuAnimSpeed.value.number))
+
+	if(maxDur === 0) return;
+
+	for(let i = roomState.chatMessages.length-1; i >= 0; i--){
+		const chatMessage = roomState.chatMessages[i];
+		const tDiff = (performance.now()-chatMessage.creationStamp);
+		if(tDiff > maxDur){
+			return;
+		}
+		if(tDiff < fadeTime){
+			ctx.globalAlpha = Math.min(newChatAlpha, newChatAlpha * tDiff / fadeTime);
+		} else if(tDiff > maxDur - fadeTime){
+			ctx.globalAlpha = Math.max(0, newChatAlpha * (maxDur - tDiff) / fadeTime);
+		}else {
+			ctx.globalAlpha = newChatAlpha;
+		}
+		ctx.globalAlpha *= fade;
+
+		// render sender to the left of the message rect and keep content at full maxWidth
+		const senderText = chatMessage.getSenderRender(canvas.height / 60, maxWidth);
+		const contentText = chatMessage.getContentRender(canvas.height / 60, maxWidth);
+
+		// visibility 0..1 during fade-in only; remain at 1 during steady and fade-out
+		let vis = 1;
+		if (tDiff < fadeTime) {
+			vis = Math.max(0, Math.min(1, tDiff / fadeTime));
+		}
+
+		// compute message height (center both texts vertically)
+		const msgHeight = Math.max(senderText.height, contentText.height);
+		const rectLeft = x - maxWidth;
+		const rectTop = y - msgHeight * vis;
+
+		ctx.globalAlpha *= .5;
+		ctx.fillStyle = chatMessage.backgroundColor;
+
+		// position content right-aligned in the rect and place sender immediately to its left
+		const contentX = rectLeft + maxWidth - state.padding - contentText.width;
+		const senderX = contentX - state.messagePadding - senderText.width;
+		// include sender area to the left of the content rect in the background
+		const bgLeft = Math.min(senderX - state.padding, rectLeft);
+		const bgRight = rectLeft + maxWidth;
+		const bgWidth = bgRight - bgLeft;
+		ctx.fillRect(bgLeft, rectTop, bgWidth, msgHeight * vis);
+		ctx.globalAlpha *= 2;
+
+		// draw sender to the left of the rect (now inside the background) and content inside the rect
+		const senderY = rectTop + (msgHeight * vis - senderText.height) / 2;
+		ctx.drawImage(senderText, senderX, senderY);
+
+		const contentY = rectTop + (msgHeight * vis - contentText.height) / 2;
+		ctx.drawImage(contentText, contentX, contentY);
+
+		// move up by the (possibly scaled) message height
+		y -= msgHeight * vis ;
+	}
+}
+
 chat.drawFuncts.set("drawchat", draw)
 
 function openChatMenu(){
@@ -277,6 +382,11 @@ function openChatMenu(){
 
 function closeChatMenu(){
 	state.active = false;
+	chat.drawFuncts.set("drawNewChats", drawNewChats)
+	// ensure programmatic focus is cleared when chat closes
+	blurAllTextNumberInputs();
+	// prevent Enter-down from immediately re-opening the chat
+	lastEnterPress = Date.now();
 }
 
 function toggleChatMenu(){

@@ -9,7 +9,11 @@ const playerState = {
 	},
 	gui: {
 		minimap: [],
-		leaderboard: [],
+		leaderboard: {
+			type: 0,
+			title: "Leaderboard",
+			entries: []
+		},
 		upgrades: [],
 		skills: {
 			points: 0
@@ -42,6 +46,7 @@ const playerState = {
 		hideHealth: 0
 	},
 	entityId: -1,
+	level: 0
 }
 
 export { playerState }

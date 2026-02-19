@@ -26,10 +26,14 @@ const defaultSettings = {
 	clientSideAim: false,
 	darkModeMenu: false,
 	showFps: true,
+	squareLeaderboardBars: false,
+	squareStatsBars: false,
+	imageSmoothing: false,
 
 	// Number settings
-	chatMessageDuration: 3000,
-	chatMessageLimit: 3,
+	inGameChatMessageDuration: 3000,
+	inGameChatMessageLimit: 3,
+	closedMessageShowDuration: 5000,
 	messageHistoryLimit: 50, // UI > Chat: Message History Limit
 	uiScale: 1.2,
 	fontStrokeRatio: 7,
@@ -37,10 +41,15 @@ const defaultSettings = {
 	barWidth: 4, // barChunk
 	fontSizeBoost: 10,
 	vignetteStrength: 1,
+	leaderboardAlpha: .75,
+	leaderboardBackgroundAlpha: .5,
+	chatAlpha: .6,
 	fpsCap: 1000,
 	inputBufferSize: 500,
 	menuAnimSpeed: 0.25,
 	upgradeMenuScale: 1,
+	statsAlpha: .75,
+	statsBackgroundAlpha: .5,
 
 	// String/Dropdown settings
 	barStyle: "Circle",
@@ -53,7 +62,6 @@ const defaultSettings = {
 
 
 	// Input Elements
-	debugInputElements: false,
 	inputElementsCacheInterval: 1000,
 	textRenderCacheSize: 7500,
 }
@@ -84,10 +92,14 @@ const settingTypes = {
 	clientSideAim: "checkbox",
 	darkModeMenu: "checkbox",
 	showFps: "checkbox",
+	squareLeaderboardBars: "checkbox",
+	squareStatsBars: "checkbox",
+	imageSmoothing: "checkbox",
 
 	// Number settings
-	chatMessageDuration: "number",
-	chatMessageLimit: "number",
+	inGameChatMessageDuration: "number",
+	inGameChatMessageLimit: "number",
+	closedMessageShowDuration: "number",
 	messageHistoryLimit: "number",
 	uiScale: "number",
 	fontStrokeRatio: "number",
@@ -95,6 +107,11 @@ const settingTypes = {
 	barWidth: "number",
 	fontSizeBoost: "number",
 	vignetteStrength: "number",
+	leaderboardAlpha: "number",
+	leaderboardBackgroundAlpha: "number",
+	statsAlpha: "number",
+	statsBackgroundAlpha: "number",
+	chatAlpha: "number",
 	fpsCap: "number",
 	inputBufferSize: "number",
 	menuAnimSpeed: "number",
@@ -110,7 +127,6 @@ const settingTypes = {
 	filter: "dropdown",
 
 	// Input Elements
-	debugInputElements: "checkbox",
 	inputElementsCacheInterval: "number",
 	textRenderCacheSize: "number",
 }
@@ -121,10 +137,12 @@ const settingLimits = {
 	networkProtocolVersionMax: 99999,
 
 	// Number setting limits
-	chatMessageDurationMin: 0,
-	chatMessageDurationMax: 60000,
-	chatMessageLimitMin: 0,
-	chatMessageLimitMax: 1000,
+	inGameChatMessageDurationMin: 0,
+	inGameChatMessageDurationMax: 60000,
+	inGameChatMessageLimitMin: 0,
+	inGameChatMessageLimitMax: 1000,
+	closedMessageShowDurationMin: 0,
+	closedMessageShowDurationMax: 30000,
 	messageHistoryLimitMin: 0,
 	messageHistoryLimitMax: 500,
 	uiScaleMin: 0.5,
@@ -139,6 +157,16 @@ const settingLimits = {
 	fontSizeBoostMax: 50,
 	vignetteStrengthMin: 0,
 	vignetteStrengthMax: 5,
+	leaderboardAlphaMin: 0,
+	leaderboardAlphaMax: 1,
+	statsAlphaMin: 0,
+	statsAlphaMax: 1,
+	leaderboardBackgroundAlphaMin: 0,
+	leaderboardBackgroundAlphaMax: 1,
+	statsBackgroundAlphaMin: 0,
+	statsBackgroundAlphaMax: 1,
+	chatAlphaMin: 0,
+	chatAlphaMax: 1,
 	fpsCapMin: 1,
 	fpsCapMax: 1000,
 	inputBufferSizeMin: 100,

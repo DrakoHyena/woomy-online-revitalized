@@ -62,18 +62,18 @@
 				for (let i = 0; i < retries; i++) {
 					try {
 						return await new Promise((resolve, reject) => {
-							const script = document.createElement('script');
-							script.type = 'module';
-							script.src = url;
-							script.onload = () => {
-								script.remove(); // Keep the DOM clean
+                    		const link = document.createElement('link');
+                    		link.rel = 'modulepreload';
+                   			link.href = url;
+							link.onload = () => {
+								link.remove(); // Keep the DOM clean
 								resolve();
 							};
-							script.onerror = () => {
-								script.remove();
+							link.onerror = () => {
+								link.remove();
 								reject();
 							};
-							document.head.appendChild(script);
+							document.head.appendChild(link);
 						});
 					} catch (error) {
 						if (i === retries - 1) throw new Error(`Failed to load ${url}`);

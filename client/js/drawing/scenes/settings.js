@@ -248,8 +248,8 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 	text = renderText("In-Game Chat Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("chatMessageDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatMessageDuration.value.number, (newNumber)=>{
-		currentSettings.chatMessageDuration.value.number = newNumber;
+	renderInput("inGameChatMessageDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inGameChatMessageDuration.value.number, (newNumber)=>{
+		currentSettings.inGameChatMessageDuration.value.number = newNumber;
 	}, ()=>{
 		showCursorTextBox("In-Game Chat Duration", "How long in milliseconds chat messages linger above entities after they're sent.")
 	}, hideCursorTextBox)
@@ -257,10 +257,19 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 	text = renderText("In-Game Chat Limit", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("chatMessageLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatMessageLimit.value.number, (newNumber)=>{
-		currentSettings.chatMessageDuration.value.number = newNumber;
+	renderInput("inGameChatMessageLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inGameChatMessageLimit.value.number, (newNumber)=>{
+		currentSettings.inGameChatMessageLimit.value.number = newNumber;
 	}, ()=>{
 		showCursorTextBox("In-Game Chat Limit", "How many chat messages can be above an entity at one time.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("New Chat Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("closedMessageShowDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.closedMessageShowDuration.value.number, (newNumber)=>{
+		currentSettings.closedMessageShowDuration.value.number = newNumber;
+	}, ()=>{
+		showCursorTextBox("New Chat Duration", "How long in milliseconds new chats will linger on the side with the chat menu closed.")
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -273,7 +282,84 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Upgrade Menu", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Chat Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("chatAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatAlpha.value.number, (newNumber)=>{
+		currentSettings.chatAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Chat Opacity", "Controls overall opacity of the chat UI (0.0 - 2.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// Leaderboard settings
+	text = renderText("Leaderboard", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Leaderboard Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("leaderboardAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardAlpha.value.number, (newNumber)=>{
+		currentSettings.leaderboardAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Leaderboard Opacity", "Controls overall opacity of the leaderboard UI (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Leaderboard Background Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("leaderboardBackgroundAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardBackgroundAlpha.value.number, (newNumber)=>{
+		currentSettings.leaderboardBackgroundAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Leaderboard Opacity", "Controls the opacity of the leaderboard UI background (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Square Leaderboard Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("squareLeaderboardBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareLeaderboardBars.value.enabled, ()=>{
+		currentSettings.squareLeaderboardBars.value.enabled = !currentSettings.squareLeaderboardBars.value.enabled
+	}, () => {
+		showCursorTextBox("Square Leaderboard Bars", "Toggles the leaderboard bars to be squared instead of rounded.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// Stats settings
+	text = renderText("Stats", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Stats Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsAlpha.value.number, (newNumber)=>{
+		currentSettings.statsAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Opacity", "Controls overall opacity of the stats UI (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Stats Background Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsBackgroundAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsBackgroundAlpha.value.number, (newNumber)=>{
+		currentSettings.statsBackgroundAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Background Opacity", "Controls the opacity of the stats UI background (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Square Stats Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("squareStatsBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareStatsBars.value.enabled, ()=>{
+		currentSettings.squareStatsBars.value.enabled = !currentSettings.squareStatsBars.value.enabled
+	}, () => {
+		showCursorTextBox("Square Stats Bars", "Toggles the stats segments to be squared instead of rounded.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Upgrade Menu", SETTINGS_CONFIG.HEADER_TEXT_SIZE) 
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
@@ -295,6 +381,15 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x, y, x+width/2-text.width/2, y)
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
+
+	text = renderText("Image Smoothing", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("imageSmoothing", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.imageSmoothing.value.enabled, ()=>{
+		currentSettings.imageSmoothing.value.enabled = !currentSettings.imageSmoothing.value.enabled
+	}, () => {
+		showCursorTextBox("Image Smoothing", "Toggles image smoothing. Note: This might affect performance on some devices and could lead to blurriness or other visual artifacts. Takes effect when restarting/resizing.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Style", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
@@ -489,13 +584,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		})
 		y += text.height + SETTINGS_CONFIG.PADDING
 	}
-
-	text = renderText("Debug Input Elements", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("debugInputElements", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.debugInputElements.value.enabled, ()=>{
-		currentSettings.debugInputElements.value.enabled = !currentSettings.debugInputElements.value.enabled
-	})
-	y += text.height + SETTINGS_CONFIG.PADDING
 
 	text = renderText("Input Elements Cache Interval", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);

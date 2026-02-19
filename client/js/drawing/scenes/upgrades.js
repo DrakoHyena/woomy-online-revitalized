@@ -46,26 +46,37 @@ function calculateTargetPosition(index, canvasWidth, canvasHeight) {
 }
 
 function syncUpgradeTiles(canvasWidth, canvasHeight) {
-	const currentUpgrades = playerState.gui.upgrades;
-	const currentUpgradeSet = new Set(currentUpgrades);
-	
+	// The server sends upgrades as a flat array of pairs: [upgradeId, level, upgradeId, level, ...]
+	const raw = playerState.gui.upgrades || [];
+	const parsed = [];
+	for (let i = 0; i < raw.length; i += 2) {
+		const id = raw[i];
+		const level = raw[i + 1];
+		if (id !== undefined && id !== null) parsed.push({ id, level });
+	}
+
+	const currentUpgradeSet = new Set(parsed.map(u => u.id));
+
 	// Mark removed upgrades for exit animation
 	for (const [upgradeId, tile] of upgradeTiles) {
 		if (!currentUpgradeSet.has(upgradeId) && !tile.removing) {
 			tile.removing = true;
 		}
 	}
-	
+
 	// Add new tiles / update existing positions
-	currentUpgrades.forEach((upgradeId, index) => {
+	parsed.forEach((entry, index) => {
+		const upgradeId = entry.id;
+		const level = entry.level;
 		const pos = calculateTargetPosition(index, canvasWidth, canvasHeight);
-		
+
 		if (upgradeTiles.has(upgradeId)) {
 			const tile = upgradeTiles.get(upgradeId);
 			if (!tile.removing) {
 				tile.targetX = pos.x;
 				tile.targetY = pos.y;
 				tile.upgradeIndex = index;
+				tile.level = level; // update level
 			}
 		} else {
 			upgradeTiles.set(upgradeId, {
@@ -80,24 +91,29 @@ function syncUpgradeTiles(canvasWidth, canvasHeight) {
 				hoverScale: 1,
 				isHovering: false,
 				rotation: 0,
-				dimFactor: 1
+				dimFactor: 1,
+				lockAlpha: (level <= playerState.level ? 0 : 1),
+				level: level // store level on tile
 			});
 		}
 	});
 }
 
 function updateTile(tile, delta, fadeFactor) {
+	const unlocked = tile.level <= playerState.level;
 	const lerpAmount = currentSettings.menuAnimSpeed.value.number * delta;
 	const size = panelSize;
 	
 	tile.rotation += 0.0075 * delta;
-	tile.hoverScale = lerp(tile.hoverScale, tile.isHovering ? 1.25 : 1, lerpAmount);
+	tile.hoverScale = lerp(tile.hoverScale, tile.isHovering && unlocked ? 1.25 : 1, lerpAmount);
+	// animate locked-overlay alpha so it fades out when the tile becomes unlocked
+	tile.lockAlpha = lerp(tile.lockAlpha ?? (unlocked ? 0 : 1), unlocked ? 0 : 1, lerpAmount);
 	
 	if (tile.removing) {
 		tile.x = lerp(tile.x, -size * 2, lerpAmount);
 		tile.alpha = lerp(tile.alpha, 0, lerpAmount);
 		return tile.alpha < 0.01;
-	}
+	} 
 	
 	const offScreenX = -(size + panelMargin);
 	tile.x = lerp(tile.x, lerp(offScreenX, tile.targetX, fadeFactor), lerpAmount);
@@ -106,17 +122,26 @@ function updateTile(tile, delta, fadeFactor) {
 	return false;
 }
 
+let lockedImg = new Image();
+lockedImg.src = "/resources/icons/upgradelocked-icon.png";
+lockedImg.onload = () => {
+	createImageBitmap(lockedImg).then(bmp => {
+		lockedImg = bmp
+	})
+}
+
 function drawTile(tile, ctx, upgradeIndex) {
 	const size = panelSize;
+	const unlocked = tile.level <= playerState.level;
 	const canInteract = state.fade >= .99;
-	
+
 	// Check hover
 	tile.isHovering = false;
 	if (canInteract && !tile.removing) {
 		const click = clickableActive(tile.x, tile.y, tile.x + size, tile.y + size);
 		if (click) {
 			tile.isHovering = true;
-			if (click.left) {
+			if (unlocked && click.left) {
 				const now = Date.now();
 				if (now - lastUpgradeClickAt >= CLICK_DEBOUNCE_MS) {
 					lastUpgradeClickAt = now;
@@ -156,10 +181,14 @@ function drawTile(tile, ctx, upgradeIndex) {
 		// Label
 		if (mockup.label) {
 			const fontSize = size * 0.15;
-			const labelText = renderText(mockup.label, fontSize);
+			const labelText = renderText(unlocked ? mockup.label : "?".repeat(mockup.label.length), fontSize);
 			ctx.drawImage(labelText, tile.x + size / 2 - labelText.width / 2, tile.y + size - labelText.height - 4);
 			if (canInteract && tile.isHovering) {
-				showCursorTextBox(mockup.label, "Click to Upgrade")
+				if(unlocked){
+					showCursorTextBox(mockup.label, "Click to Upgrade")
+				} else {
+					showCursorTextBox("?".repeat(mockup.label.length), `Reach level ${tile.level} to unlock this tank.`)
+				}
 			}
 		}
 	}
@@ -169,6 +198,16 @@ function drawTile(tile, ctx, upgradeIndex) {
 	ctx.lineWidth = size * 0.05;
 	ctx.strokeRect(tile.x, tile.y, size, size);
 	
+	// Level badge (show the level sent from the server as the second value per upgrade)
+	// Draw the locked overlay and icon — it now fades out via tile.lockAlpha when the tile becomes unlocked.
+	if (tile.lockAlpha > 0.001) {
+		ctx.globalAlpha = 0.5 * tile.alpha * tile.dimFactor * tile.lockAlpha;
+		ctx.fillStyle = "black";
+		ctx.fillRect(tile.x, tile.y, size, size);
+		const padding = size * .15 * tile.lockAlpha;
+		ctx.drawImage(lockedImg, tile.x + padding, tile.y + padding, size - padding * 2, size - padding * 2);
+	}
+
 	ctx.globalAlpha = 1;
 }
 

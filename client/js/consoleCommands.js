@@ -30,27 +30,27 @@ window["help"] = function () {
 };
 window["broadcast"] = function (message, hex) {
 	if (!hex) hex = color.black;
-	socket.talk("D", 0, message, hex);
+	socket.send("D", 0, message, hex);
 	logger.info("Broadcasting your message to all players.");
 };
 window["setSkill"] = function (amount) {
 	if (isNaN(amount) || amount < 0) return logger.warn("Please specify a valid amount of stats! Note that the amount can't be below 0 or above 90.");
-	socket.talk("D", 2, amount);
+	socket.send("D", 2, amount);
 	logger.info("Set your amount of skill points to " + amount + ".");
 };
 window["setScore"] = function (score) {
 	if (isNaN(score)) return logger.warn("Please specify a valid score!");
-	socket.talk("D", 3, score);
+	socket.send("D", 3, score);
 	logger.info("Set your score to " + score + ".");
 };
 window["setSize"] = function (size) {
 	if (isNaN(size) || size < 0 || size > 3000) return logger.warn("Please specify a valid size value!");
-	socket.talk("D", 4, size);
+	socket.send("D", 4, size);
 	logger.info("Set your size to " + size + ".");
 };
 window["setTank"] = function (tank) {
 	if (!tank) return logger.warn("Please specify a valid tank!");
-	socket.talk("D", 5, tank);
+	socket.send("D", 5, tank);
 	logger.info("Set your tank to " + tank + ".");
 };
 window["setDevKey"] = function (num, tank, isCode) {
@@ -87,7 +87,7 @@ window["setStat"] = function (stat, value) {
 	if (stat !== "weapon_speed" && stat !== "weapon_reload" && stat !== "move_speed" && stat !== "max_health" && stat !== "body_damage" && stat !== "weapon_damage" && stat !== "names") return logger.warn("Invalid stat name! Input setStat('names') for a list of stats.");
 	if (stat == "names") return logger.info("Stat Names: weapon_speed, weapon_reload, move_speed, max_health, body_damage, weapon_damage."), value = 0;
 	if (isNaN(value) || (stat == "weapon_reload" && value <= 0)) return logger.warn("Please specify a valid value for this stat!");
-	socket.talk("D", 6, stat, value);
+	socket.send("D", 6, stat, value);
 	logger.info("Set " + stat + " to " + value + ".");
 };
 window["spawnEntity"] = function (entity, x, y, team, color, size, value) {
@@ -95,42 +95,42 @@ window["spawnEntity"] = function (entity, x, y, team, color, size, value) {
 	if (!x || !y || (isNaN(x) && x !== "me" || isNaN(y) && y !== "me")) return logger.warn("Please specify a valid (X,Y) position!");
 	if (!team || (isNaN(team) && team !== "me")) return logger.warn("Please specify a valid team!");
 	if (color < 0 || (isNaN(color) && color !== "rainbow" && color !== "default")) return logger.warn("Please specify a valid color ID!");
-	socket.talk("D", 7, entity, x, y, team, color, size, value);
+	socket.send("D", 7, entity, x, y, team, color, size, value);
 	logger.info("Spawned " + entity + " at (" + x + ", " + y + ") with the team ID " + team + ", a color ID of " + color + ", a size of " + size + ", and a value of " + value);
 };
 window["setChildren"] = function (amount) {
 	if (!amount || amount < 0 || isNaN(amount)) return logger.warn("Please specify a valid maxChildren value!");
-	socket.talk("D", 8, amount);
+	socket.send("D", 8, amount);
 	logger.info("Set your maxChildren to " + amount + ".");
 };
 window["teleport"] = function (x, y) {
 	if (isNaN(x) || isNaN(x)) return logger.warn("Please specify a valid (X, Y) position!");
-	socket.talk("D", 9, x, y);
+	socket.send("D", 9, x, y);
 	logger.info("Teleported to (" + x + ", " + y + ").");
 };
 window["setFOV"] = function (fov) {
 	if (!fov || fov < 0 || fov > 500 || isNaN(fov)) return logger.warn("Please specify a valid FoV value!");
-	socket.talk("D", 11, fov);
+	socket.send("D", 11, fov);
 	logger.info("Set your FoV to " + fov + ".");
 };
 window["setSpinSpeed"] = function (speed) {
 	if (!speed || isNaN(speed)) return logger.warn("Please specify a valid speed value!");
-	socket.talk("D", 12, speed);
+	socket.send("D", 12, speed);
 	logger.info("Set your autospin speed to " + speed + ".");
 };
 window["setEntity"] = function (entity, spawnAmount=1, size = 0, isMinion = false) {
 	if (!entity || !isNaN(entity)) return logger.warn("Please specify a valid entity!");
 	if (isNaN(size)) return logger.warn("Please specify a valid size, or do not provide one at all.");
-	socket.talk("D", 13, entity, spawnAmount, size, isMinion);
+	socket.send("D", 13, entity, spawnAmount, size, isMinion);
 	logger.info("Set the F key entity to " + entity + ".");
 };
 window["clearChildren"] = function () {
-	socket.talk("D", 14);
+	socket.send("D", 14);
 	logger.info("Cleared all children entities.");
 };
 window["setTeam"] = function (teamID) {
 	if (isNaN(teamID)) return logger.warn("Please specify a valid team ID!");
-	socket.talk("D", 15, teamID);
+	socket.send("D", 15, teamID);
 	logger.info("Set your team ID to " + teamID + ".");
 };
 window["skillSet"] = function (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10) { // Simplify?
@@ -138,27 +138,27 @@ window["skillSet"] = function (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10) { // Sim
 		return skill < 0 || isNaN(skill);
 	};
 	if (s(s1) || s(s2) || s(s3) || s(s4) || s(s5) || s(s6) || s(s7) || s(s8) || s(s9) || s(s10)) return logger.warn("Please specify a valid skill-set array!");
-	socket.talk("D", 17, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10);
+	socket.send("D", 17, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10);
 	logger.info("Changed your skill-set to [" + s1 + ", " + s2 + ", " + s3 + ", " + s4 + ", " + s5 + ", " + s6 + ", " + s7 + ", " + s8 + ", " + s9 + ", " + s10 + "].");
 };
 window["rainbowSpeed"] = function (speed) {
 	if (isNaN(speed)) return logger.warn("Please specify a valid rainbow speed value!");
-	socket.talk("D", 18, speed);
+	socket.send("D", 18, speed);
 	logger.info("Set your rainbow color change speed to " + speed + ".");
 };
 window["setControl"] = function (amount) {
 	if (isNaN(amount) || amount < 0) return logger.warn("Please specify a valid amount of entities to control!");
-	socket.talk("D", 19, amount);
+	socket.send("D", 19, amount);
 };
 window["setRoomLayer"] = function(layer, layerless) {
-	socket.talk("D", 23, layer, layerless)
+	socket.send("D", 23, layer, layerless)
 }
 window["addController"] = function (ioType) {
-	socket.talk("D", 20, ioType);
+	socket.send("D", 20, ioType);
 }
 window["removeController"] = function (ioType) {
-	socket.talk("D", 21, ioType);
+	socket.send("D", 21, ioType);
 }
 window["clearControllers"] = function () {
-	socket.talk("D", 22);
+	socket.send("D", 22);
 }

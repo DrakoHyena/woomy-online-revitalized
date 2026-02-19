@@ -5,7 +5,7 @@ const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d", {
 	willReadFrequently: false
 })
-ctx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 
 const resolutionScaleMap = {
 	"Very Low (35%)": 0.35,
@@ -84,7 +84,7 @@ drawLoop.updateSceneSizes = function(){
 	const resScale = resolutionScaleMap[resSetting] ?? 1;
 	canvas.width = Math.round(window.innerWidth * resScale);
 	canvas.height = Math.round(window.innerHeight * resScale);
-	ctx.imageSmoothingEnabled = false;
+	ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 	for(let [, scene] of drawLoop.scenes){
 		for(let [, resizeFunct] of scene.resizeFuncts){
 			resizeFunct({canvas, ctx})

@@ -17,6 +17,7 @@ import { currentSettings } from "./settings.js";
 import { loadingScreenState } from "./drawing/scenes/loadingScreen.js";
 import { roomState } from "./state/room.js";
 import { playerState } from "./state/player.js";
+import { blurAllTextNumberInputs } from "./drawing/inputElements.js";
 import { serverPackets, clientPackets } from "../../shared/packetIds.js";
 import { gameState } from "./drawing/scenes/game.js";
 import { ChatMessage, mutedSenders } from "./drawing/scenes/chat.js";
@@ -572,12 +573,13 @@ function convertEntities() {
 
 // CONVERT GUI //
 function convertFastGui() {
+	playerState.level = convert.reader.next()
 	playerState.gui.skills.points = convert.reader.next();
 	const upgradeAmount = convert.reader.next();
 	if (upgradeAmount > 0) {
 		playerState.gui.upgrades.length = 0;
 		for (let i = 0; i < upgradeAmount; i++) {
-			playerState.gui.upgrades.push(convert.reader.next());
+			playerState.gui.upgrades.push(convert.reader.next(), convert.reader.next());
 		}
 	}else{
 		playerState.gui.upgrades.length = 0;
@@ -608,15 +610,17 @@ function convertSlowGui(data) {
 		})
 	}
 
-	playerState.gui.leaderboard.length = 0;
+	playerState.gui.leaderboard.title = m[i++];
+	playerState.gui.leaderboard.entries.length = 0;
 	let leaderboardEntries = m[i++];
 	for (let j = 0; j < leaderboardEntries; j++) {
-		playerState.gui.leaderboard.push({
+		playerState.gui.leaderboard.entries.push({
 			score: m[i++],
 			name: m[i++],
 			label: m[i++],
 			color: m[i++],
 			nameColor: m[i++],
+			index: m[i++]
 		})
 	}
 }
@@ -697,7 +701,7 @@ async function onmessage (message) {
 			const entity = entities.get(m[0]);
 			if(entity){
 				let skipRemove = false;
-				if (entity.messages.length >= currentSettings.chatMessageLimit.value.number) {
+				if (entity.messages.length >= currentSettings.inGameChatMessageLimit.value.number) {
 					entity.messages.shift();
 					skipRemove = true;
 				}
@@ -705,7 +709,7 @@ async function onmessage (message) {
 				if(skipRemove === false){
 					setTimeout(()=>{
 						entity.messages.shift();
-					}, currentSettings.chatMessageDuration.value.number)
+					}, currentSettings.inGameChatMessageDuration.value.number)
 				}
 			}
 			roomState.chatMessages.push(chatMessage);
@@ -719,7 +723,13 @@ async function onmessage (message) {
 				y: m[1],
 				FoV: m[2]
 			};
+			const prevPlayerEntityId = playerState.entityId;
 			playerState.entityId = m[3];
+			// Clear focus only when the player's entityId changed (spawn/respawn/join),
+			// not on every frequent viewUpdate packet.
+			if(prevPlayerEntityId !== playerState.entityId){
+				blurAllTextNumberInputs();
+			}
 			convert.reader.set(m, 4);
 			window.movementSmoothing = 1
 			convert.fastGui();

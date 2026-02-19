@@ -69,7 +69,7 @@ function drawHealth(x, y, instance, ratio, alpha) {
 
 	// draw chat messages
 	let messages = global.chatMessages.get(instance.id)
-	const msgFadeTime = currentSettings.chatMessageDuration.value.number*1000*.025
+	const msgFadeTime = currentSettings.inGameChatMessageDuration.value.number*1000*.025
 	if (messages) {
 		let nameRatio = ((ratio * instance.size) / 20)*fade;
 		let nameplateOffset = y - 6 - (instance.nameplate&&instance.name!==""?30 * nameRatio:0)
@@ -91,8 +91,8 @@ function drawHealth(x, y, instance, ratio, alpha) {
 			let msgFade = performance.now()-msg[1]
 			if(msgFade < msgFadeTime){
 				msgFade /= msgFadeTime
-			}else if((currentSettings.chatMessageDuration.value.number*1000)-msgFade < msgFadeTime ){
-				msgFade = ((currentSettings.chatMessageDuration.value.number*1000)-msgFade)/msgFadeTime
+			}else if((currentSettings.inGameChatMessageDuration.value.number*1000)-msgFade < msgFadeTime ){
+				msgFade = ((currentSettings.inGameChatMessageDuration.value.number*1000)-msgFade)/msgFadeTime
 			}else{
 				msgFade = 1
 			}

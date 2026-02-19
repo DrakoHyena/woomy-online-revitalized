@@ -1810,8 +1810,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					square: this.width * this.height / 100000000,
 					linear: Math.sqrt(c.WIDTH * c.HEIGHT / 100000000)
 				};
-				this.rankedRoomTicker = 0;
-				this.rankedRooms = [];
+				this.leaderboardTitle = config.LEADERBOARD_TITLE || "Leaderboard";
 				this.tagMode = c.serverName.includes("Tag");
 				this.mapPoints = [];
 				if (c.ARENA_TYPE === 3) {
@@ -8499,6 +8498,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					let body = this?.player?.body;
 
 					if (body) {
+						output.push(body.skill.level)
 						output.push(body.skill.points);
 
 						if (!body._lastUpgradesLength) body._lastFirstUpgradeIndex = -1;
@@ -8506,12 +8506,23 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 						output.push(upgradeLength);
 						for (let i = 0; i < upgradeLength; i++) {
 							output.push(body.upgrades[i].index);
+							output.push(body.upgrades[i].level);
 						}
-						output.push(body.skill.name.length)
-						for (let i = 0; i < body.skill.name.length; i++) {
-							output.push(body.skill.name[i])
-							output.push(body.skill.caps[i])
-							output.push(body.skill.raw[i])
+						// Preserve a specific client-friendly ordering (matches client UI labels)
+						// Desired order indices (server skill indices):
+						// [6] Body Damage, [7] Max Health, [4] Weapon Speed, [2] Weapon Health,
+						// [1] Weapon Penetration, [3] Weapon Damage, [0] Reload,
+						// [9] Movement Speed, [8] Shield Regeneration, [5] Shield Capacity
+						const desiredOrder = [6, 7, 4, 2, 1, 3, 0, 9, 8, 5].reverse();
+						output.push(desiredOrder.length);
+						for (let k = 0; k < desiredOrder.length; k++) {
+							const i = desiredOrder[k];
+							// Defensive: ensure indices exist
+							if (i < body.skill.name.length) {
+								output.push(body.skill.name[i]);
+								output.push(body.skill.caps[i]);
+								output.push(body.skill.raw[i]);
+							}
 						}
 					}
 					return output;
@@ -8561,6 +8572,64 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							if(val === 1) player.command.override = !player.command.override;
 						break;
 
+						case "n":
+							for(let i = 0; i < 60; i++){
+								body.skill.score += body.skill.levelScore;
+								body.lvlCheated = true;
+								body.skill.maintain();
+							}
+						break;
+
+						case "1":
+							if(val === 0) break;
+							body.skillUp("atk");
+						break;
+
+						case "2":
+							if(val === 0) break;
+							body.skillUp("hlt");
+						break;
+
+						case "3":
+							if(val === 0) break;
+							body.skillUp("spd");
+						break;
+
+						case "4":
+							if(val === 0) break;
+							body.skillUp("str");
+						break;
+
+						case "5":
+							if(val === 0) break;
+							body.skillUp("pen");
+						break;
+
+						case "6":
+							if(val === 0) break;
+							body.skillUp("dam")
+						break;
+
+						case "7":
+							if(val === 0) break;
+							body.skillUp("rld");
+						break;
+
+						case "8":
+							if(val === 0) break;
+							body.skillUp("mob")
+						break;
+
+						case "9":
+							if(val === 0) break;
+							body.skillUp("rgn");
+						break;
+						
+						case "0":
+							if(val === 0) break;
+							body.skillUp("shi")
+						break;
+
 						// Testbed Controls
 						case "`":
 							if(!body.isAlive()) return;
@@ -8582,6 +8651,19 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							if (room.gameMode === "ffa") body.color = "FFA_RED";
 							else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
 						break;
+
+						case "p":
+							body.define(Class.genericTank);
+							body.upgradeTank("basic");
+							if (this.betaData.permissions === 3) {
+								body.health.amount = body.health.max;
+								body.shield.amount = body.shield.max;
+								body.invuln = true;
+								body.skill.reset();
+							}
+							if (room.gameMode === "ffa") body.color = "FFA_RED";
+							else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
+						break; 
 
 						case "k":
 						break;
@@ -8837,55 +8919,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								}, cooldown);
 							}
 						break;
-						case "x": { // Skill upgrade request
-							if (m.length !== 1) {
-								this.error("skill upgrade", "Ill-sized skill upgrade request", true);
-								return 1;
-							}
-							let num = m[0],
-								stat = "";
-							if (typeof num !== "number") {
-								this.error("skill upgrade", "Non-numeric stat upgrade value", true);
-								return 1;
-							}
-							if (!isAlive) break;
-							switch (num) {
-								case 0:
-									stat = "atk";
-									break;
-								case 1:
-									stat = "hlt";
-									break;
-								case 2:
-									stat = "spd";
-									break;
-								case 3:
-									stat = "str";
-									break;
-								case 4:
-									stat = "pen";
-									break;
-								case 5:
-									stat = "dam";
-									break;
-								case 6:
-									stat = "rld";
-									break;
-								case 7:
-									stat = "mob";
-									break;
-								case 8:
-									stat = "rgn";
-									break;
-								case 9:
-									stat = "shi";
-									break;
-								default:
-									this.error("skill upgrade", `Unknown skill upgrade value (${num})`, true);
-									return 1;
-							}
-							body.skillUp(stat);
-						} break;
 						case "z": { // Leaderboard desync report
 							if (m.length !== 0) {
 								this.error("leaderboard", "Ill-sized leaderboard desync request", true);
@@ -8983,14 +9016,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								}
 							}
 						} break;
-						case clientPackets.levelUp: // Level up cheat
-							while (body.skill.level < c.SKILL_CHEAT_CAP) {
-								body.skill.score += body.skill.levelScore;
-								body.lvlCheated = true;
-								body.skill.maintain();
-							}
-							body.refreshBodyAttributes();
-							break;
 						case "da": // Server Data Stats
 							if (m.length !== 0) {
 								this.error("Server Data Stats", "Ill-sized request", true)
@@ -9038,15 +9063,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 									util.info(trimName(body.name) + " used k to suicide. Token: " + this.betaData.username || "Unknown Token");
 								} break;
 								case 2: { // Reset to Basic
-									body.define(Class.genericTank);
-									body.upgradeTank("basic");
-									if (this.betaData.permissions === 3) {
-										body.health.amount = body.health.max;
-										body.shield.amount = body.shield.max;
-										body.invuln = true;
-									}
-									if (room.gameMode === "ffa") body.color = "FFA_RED";
-									else body.color = [10, 12, 11, 15, 3, 35, 36, 0][player.team - 1];
+
 								} break;
 								case 4: { // Passive mode
 									if (room.arenaClosed) return body.sendMessage("Passive Mode is disabled when the arena is closed.");
@@ -9619,7 +9636,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 							}
 							if (keys.length === 0) this.talk(serverPackets.assetDownload, 0, 0)
 							break;
-						case clientPackets.chatMessage: // short for chat send
+						case clientPackets.chatMessage:
 							// Do they even exist
 							if (body.isAlive() === false) {
 								return
@@ -9948,12 +9965,14 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								entry.labelOverride || entry.label || "",
 								entry.color ?? 0,
 								entry.nameColor,
+								entry.index||0
 							]
 						});
 						output.leaderboard.splice(top, 1);
 					}
 					room.topPlayerID = topTen.length ? topTen[0].id : -1
-					output.leaderboard = topTen.sort((a, b) => a.id - b.id);
+					// sort leaderboard by score (data[0]) descending so clients receive highest-first
+					output.leaderboard = topTen.sort((a, b) => b.data[0] - a.data[0]);
 					output.minimapAll = [counters.minimapAll, ...output.minimapAll];
 					for (let team in output.minimapTeams) {
 						output.minimapTeams[team] = [counters.minimapTeams[team], ...output.minimapTeams[team]];
@@ -9961,7 +9980,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					for (let team in output.minimapSandboxes) {
 						output.minimapSandboxes[team] = [counters.minimapSandboxes[team], ...output.minimapSandboxes[team]];
 					}
-					output.leaderboard = [output.leaderboard.length, ...output.leaderboard.map(entry => {
+					output.leaderboard = [room.leaderboardTitle, output.leaderboard.length, ...output.leaderboard.map(entry => {
 						return entry.data;
 					}).flat()];
 					return output;

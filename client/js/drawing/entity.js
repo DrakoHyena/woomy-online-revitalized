@@ -1924,6 +1924,24 @@ function renderGunsAtLayer(context, entity, layer) {
 	}
 }
 
+const gradientCache = new Map()
+function getGradient(color, colorStop = 0) {
+	let key = `${color}|${colorStop}`
+	let grad = gradientCache.get(key)
+	if (grad === undefined) {
+		grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+		grad.addColorStop(colorStop, `${color}FF`);
+		grad.addColorStop(1, `${color}00`);
+		gradientCache.set(key, grad)
+	}
+	return grad
+}
+
+setInterval(() => {
+	console.log("Aura Gradient Cache Cleared", gradientCache.size)
+	gradientCache.clear()
+}, 60000)
+
 function renderProp(ctx, entity, prop, propColor) {
 	let rpmAngle = (Date.now() * (prop.rpm || 0) / 1000) % (2 * Math.PI);
 	let propX = prop.x;
@@ -2170,14 +2188,10 @@ function calculateMEC(entity) {
 }
 
 const entityImgCache = new Map();
-function makeEntityImgCacheKey(entity, padding){
-	return `${currentSettings.entityResolution.value.number}|${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.size}|${entity.widthHeightRatio}|${entity.color}`;
-}
-
 const canvas = new OffscreenCanvas(1, 1);
 const ctx = canvas.getContext("2d");
 function getEntityImage(entity, liveRender, padding = 1) {
-	const imgCacheKey = makeEntityImgCacheKey(entity, padding);
+	const imgCacheKey =`${currentSettings.entityResolution.value.number}|${padding}|${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.shape}|${entity.size|0}|${entity.widthHeightRatio}|${entity.color}`;
 	if(liveRender === false){
 		const savedImg = entityImgCache.get(imgCacheKey);
 		if (savedImg) {
@@ -2188,7 +2202,7 @@ function getEntityImage(entity, liveRender, padding = 1) {
 	const CANVAS_SIZE = currentSettings.entityResolution.value.number
 	canvas.width = CANVAS_SIZE * padding;
 	canvas.height = CANVAS_SIZE * padding;
-	ctx.imageSmoothingEnabled = false;
+	ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 
 	ctx.save();
 	ctx.translate(canvas.width / 2, canvas.height / 2);
