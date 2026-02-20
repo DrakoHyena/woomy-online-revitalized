@@ -22,7 +22,7 @@ const state = {
 }
 
 const CLICK_DEBOUNCE_MS = 200;
-const PANEL_SIZE_MULT = 0.09;
+const PANEL_SIZE_MULT = 0.08;
 let lastUpgradeClickAt = 0;
 let panelSize = 0;
 let panelMargin = 0;

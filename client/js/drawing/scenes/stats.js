@@ -1,4 +1,3 @@
-import { color } from "../../colors.js";
 import { keyboard } from "../../controls/keyboard.js";
 import { lerp } from "../../lerp.js";
 import { currentSettings } from "../../settings.js";
@@ -14,6 +13,10 @@ const state = {
 	margin: 10,
 	fade: 0,
 	active: true,
+	x: 0,
+	y: 0,
+	width: 0,
+	height: 0
 };
 
 const STAT_BARS = new Map();
@@ -21,7 +24,30 @@ const REMOVING_STAT_BARS = [];
 let sortedBars = []; // cached, rebuilt only when bars are added/removed
 
 function rebuildSortedBars() {
-	sortedBars = Array.from(STAT_BARS.values());
+	// Build sortedBars using the server-sent skill order (preserves visual order)
+	const canonical = Object.keys(playerState.gui.skills).filter(k => k !== "points");
+	const arr = [];
+	for (let i = 0; i < canonical.length; i++) {
+		const skillName = canonical[i];
+		const bar = STAT_BARS.get(skillName);
+		if (bar) {
+			arr.push(bar);
+			// assign hotkey only if not already set (preserve existing hotkeys)
+			if (bar.hotkey === null || typeof bar.hotkey === "undefined") {
+				bar.hotkey = (canonical.length - i) % 10;
+			}
+		}
+	}
+	// Append any remaining bars that didn't come from playerState (fallback)
+	for (const [skillName, bar] of STAT_BARS) {
+		if (!canonical.includes(skillName)) {
+			arr.push(bar);
+			if (bar.hotkey === null || typeof bar.hotkey === "undefined") {
+				bar.hotkey = arr.length % 10;
+			}
+		}
+	}
+	sortedBars = arr;
 }
 
 function simNumberPress(num) {
@@ -37,9 +63,10 @@ class StatBar {
 		this.label = label;
 		this.max = max;
 		this.current = current;
-		this.x = -200;
+		this.hotkey = null; // assigned from server order when the bar is created
+		this.x = -state.width;
 		this.targetX = 0;
-		this.y = 0;
+		this.y = state.y;
 		this.targetY = 0;
 		this.removing = false;
 		this.removingFade = 0;
@@ -112,7 +139,7 @@ function draw({ canvas, ctx, delta }) {
 	// BAR_GAP    : visible gap between adjacent bar shadow boxes
 	// PANEL_BORDER: outer grey strip thickness
 	const BASE_BAR_HEIGHT = canvas.height / 75;
-	const BAR_WIDTH       = canvas.height / 3.5;
+	const BAR_WIDTH       = canvas.height / 4.5;
 	const HOVER_SCALE     = 1.175;
 	const JIB_PADDING     = 2;
 	const SHADOW          = state.padding/2;  // shadow outset around coloured area
@@ -128,6 +155,10 @@ function draw({ canvas, ctx, delta }) {
 		let bar = STAT_BARS.get(skill);
 		if (!bar) {
 			bar = new StatBar(skill, skillData.current, skillData.max);
+			// derive a stable hotkey from the server-sent skill order
+			const canonical = Object.keys(playerState.gui.skills).filter(k => k !== "points");
+			const idx = canonical.indexOf(skill);
+			bar.hotkey = idx !== -1 ? (canonical.length - idx) % 10 : 0;
 			STAT_BARS.set(skill, bar);
 			dirty = true;
 		} else {
@@ -158,7 +189,8 @@ function draw({ canvas, ctx, delta }) {
 			if (now - bar.lastClickTime >= 200) {
 				bar.lastClickTime = now;
 				bar.clickPunch = 1;
-				simNumberPress((sortedBars.length - i)%10);
+				// use stable hotkey assigned to the StatBar; fall back to old index-based formula
+				simNumberPress(typeof bar.hotkey !== 'undefined' && bar.hotkey !== null ? bar.hotkey : ((sortedBars.length - i) % 10));
 			}
 		}
 	}
@@ -221,6 +253,11 @@ function draw({ canvas, ctx, delta }) {
 		panelH - PANEL_BORDER * 2
 	);
 
+	state.x = outerX;
+	state.y = outerY;
+	state.width = panelW;
+	state.height = panelH;
+
 	// Title: positioned in the top inner-pad area
 	ctx.globalAlpha = state.fade * currentSettings.statsAlpha.value.number;
 	if (titleBmp) {
@@ -252,10 +289,14 @@ function draw({ canvas, ctx, delta }) {
 			jX += jibSize;
 		} 
 
-		// Label
+		// Label + hotkey digit
 		ctx.globalAlpha = state.fade * currentSettings.statsAlpha.value.number;
 		const text = renderText(bar.label, drawH * 0.85);
 		ctx.drawImage(text, drawX + drawW / 2 - text.width / 2, drawY + drawH / 2 - text.height / 2);
+		if (bar.hotkey !== null && typeof bar.hotkey !== 'undefined') {
+			const keyBmp = renderText(String(bar.hotkey), Math.round(drawH * 0.55));
+			ctx.drawImage(keyBmp, drawX + 6, drawY + drawH / 2 - keyBmp.height / 2);
+		}
 	}
 
 	// ── Fading-out (removed) bars ───────────────────────────────────────
@@ -265,7 +306,19 @@ function draw({ canvas, ctx, delta }) {
 		const fade = (1 - bar.removingFade) * state.fade;
 		ctx.globalAlpha = fade;
 		const barH = BASE_BAR_HEIGHT * bar.scale;
-		drawBar(ctx, bar.x * fade, bar.y, BAR_WIDTH, barH, 0, "black", "black", fade, cornerStyle);
+		// slide left as it fades (keep Y unchanged)
+		const slideX = bar.x - (1 - fade) * BAR_WIDTH;
+		drawBar(ctx, slideX, bar.y, BAR_WIDTH, barH, 0, "black", "black", fade, cornerStyle);
+
+		// show label + preserved hotkey while fading
+		ctx.globalAlpha = fade;
+		const labelBmp = renderText(bar.label, barH * 0.85);
+		ctx.drawImage(labelBmp, slideX + BAR_WIDTH / 2 - labelBmp.width / 2, bar.y + barH / 2 - labelBmp.height / 2);
+		if (bar.hotkey !== null && typeof bar.hotkey !== 'undefined') {
+			const keyBmp = renderText(String(bar.hotkey), Math.round(barH * 0.55));
+			ctx.drawImage(keyBmp, slideX + 6, bar.y + barH / 2 - keyBmp.height / 2);
+		}
+
 		if (bar.removingFade >= 0.99) REMOVING_STAT_BARS.splice(i, 1);
 	}
 
@@ -294,4 +347,4 @@ function toggleStatsMenu() {
 window.openStatsMenu = openStatsMenu;
 window.closeStatsMenu = closeStatsMenu;
 
-export { openStatsMenu, closeStatsMenu, toggleStatsMenu };
+export { openStatsMenu, closeStatsMenu, toggleStatsMenu, state as statMenuState};

@@ -11,10 +11,11 @@ import { clientPackets } from "../../../../shared/packetIds.js";
 import { toggleChatMenu } from "./chat.js";
 import { toggleLeaderboard } from "./leaderboard.js";
 import { toggleStatsMenu } from "./stats.js";
+import { openMinimap, closeMinimap, toggleMinimap } from "./minimap.js";
 
 const TOPLEFTBUTTONS_CONFIG = {
 	MARGIN_MULT: 0.01,
-	SIZE_MULT: .045,
+	SIZE_MULT: .04,
 	CLICK_DEBOUNCE: 300,
 	IMAGE_PADDING: .125,
 	IDLE_FADE_DELAY: 3000,

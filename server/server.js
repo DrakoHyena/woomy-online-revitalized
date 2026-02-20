@@ -8498,6 +8498,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 					let body = this?.player?.body;
 
 					if (body) {
+						output.push(Math.min(10, body.skill.progress*10)|0)
 						output.push(body.skill.level)
 						output.push(body.skill.points);
 

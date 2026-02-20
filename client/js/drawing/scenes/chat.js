@@ -19,8 +19,12 @@ const state = {
 	messagePadding: 5,
 	padding: 5,
 	margin: 10,
-	fade: .5,
-	active: true,
+	fade: 0,
+	active: false,
+	x: 0, 
+	y: 0,
+	width: 0, 
+	height: 0
 }
 
 const chat = new Scene(40);
@@ -108,8 +112,8 @@ let selectedMessage = {
 }
 function draw({canvas, ctx, delta}){
 	if(state.active){
-		state.fade = lerp(state.fade, .5, currentSettings.menuAnimSpeed.value.number*delta);
-		if(state.fade > .499){
+		state.fade = lerp(state.fade, 1, currentSettings.menuAnimSpeed.value.number*delta);
+		if(state.fade > .999){
 			chat.drawFuncts.delete("drawNewChats")
 		}
 	}else{
@@ -124,7 +128,10 @@ function draw({canvas, ctx, delta}){
 
 	let padding = state.padding;
 
-	state.x = (canvas.width - WIDTH - state.margin) * (state.fade+.5) + canvas.width * (.5 - state.fade);
+	state.width = WIDTH;
+	state.height = HEIGHT;
+	// position: interpolate from off-screen/right (fade=0) to final X (fade=1)
+	state.x = (canvas.width - WIDTH - state.margin) * state.fade + canvas.width * (1 - state.fade);
 	state.y = canvas.height - HEIGHT - state.margin;
 	const x = state.x;
 	const y = state.y;
@@ -133,8 +140,8 @@ function draw({canvas, ctx, delta}){
 		drawSelectedMessage(canvas, ctx, delta)
 	}
 
-	// normalize state.fade (0..0.5) -> (0..1) so chatAlpha 1 => fully visible, 0 => hidden
-	ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5);
+	// `state.fade` is now 0..1 so chatAlpha 1 => fully visible, 0 => hidden
+	ctx.globalAlpha = currentSettings.chatAlpha.value.number * state.fade;
 	ctx.fillStyle = ACCENT;
 	ctx.fillRect(x, y, WIDTH, HEIGHT);
 	ctx.fillStyle = BACKGROUND;
@@ -191,7 +198,7 @@ function draw({canvas, ctx, delta}){
 
 	for (let chatMessage of roomState.chatMessages) {
 		const chatMessageFade = Math.min(1, (performance.now() - chatMessage.creationStamp) / Math.max(1, 500*(1-currentSettings.menuAnimSpeed.value.number)));
-		ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5) * chatMessageFade;
+		ctx.globalAlpha = currentSettings.chatAlpha.value.number * state.fade * chatMessageFade;
 
 		const senderText = chatMessage.getSenderRender(textSize / 2.5, maxWidth);
 		const contentText = chatMessage.getContentRender(textSize / 2, maxWidth);
@@ -254,7 +261,7 @@ function drawSelectedMessage(canvas, ctx, delta){
 		}
 	}
 
-	ctx.globalAlpha = currentSettings.chatAlpha.value.number * (state.fade / 0.5) * selectedMessage.fade;
+	ctx.globalAlpha = currentSettings.chatAlpha.value.number * state.fade * selectedMessage.fade;
 	ctx.fillStyle = ACCENT;
 	ctx.fillRect(x, y, width - state.margin + state.padding*2, height);
 	ctx.fillStyle = BACKGROUND;
@@ -308,7 +315,7 @@ function drawSelectedMessage(canvas, ctx, delta){
 }
 
 function drawNewChats({canvas, ctx, delta}){
-	const fade = (.5 - state.fade)/.5;
+	const fade = 1 - state.fade;
 	let newChatAlpha = currentSettings.chatAlpha.value.number;
 	let y = canvas.height - state.margin;
 	const maxWidth = canvas.height / 2.8;

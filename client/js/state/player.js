@@ -35,7 +35,9 @@ const playerState = {
 		layer: 0,
 		color: 0,
 		team: 0,
+		maxHealth: 0,
 		health: 0,
+		maxShield: 0,
 		shield: 0,
 		alpha: 1,
 		seeInvisible: 0,
@@ -46,6 +48,7 @@ const playerState = {
 		hideHealth: 0
 	},
 	entityId: -1,
+	levelProgress: 0,
 	level: 0
 }
 

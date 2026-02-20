@@ -28,6 +28,8 @@ const defaultSettings = {
 	showFps: true,
 	squareLeaderboardBars: false,
 	squareStatsBars: false,
+	squareNameplateBars: false,
+	linkNameplateToStats: false,
 	imageSmoothing: false,
 
 	// Number settings
@@ -50,6 +52,7 @@ const defaultSettings = {
 	upgradeMenuScale: 1,
 	statsAlpha: .75,
 	statsBackgroundAlpha: .5,
+	nameplateOpacity: .6,
 
 	// String/Dropdown settings
 	barStyle: "Circle",
@@ -94,6 +97,8 @@ const settingTypes = {
 	showFps: "checkbox",
 	squareLeaderboardBars: "checkbox",
 	squareStatsBars: "checkbox",
+	squareNameplateBars: "checkbox",
+	linkNameplateToStats: "checkbox",
 	imageSmoothing: "checkbox",
 
 	// Number settings
@@ -116,6 +121,7 @@ const settingTypes = {
 	inputBufferSize: "number",
 	menuAnimSpeed: "number",
 	upgradeMenuScale: "number",
+	nameplateOpacity: "number",
 
 	// Dropdown settings
 	barStyle: "dropdown",
@@ -175,6 +181,8 @@ const settingLimits = {
 	menuAnimSpeedMax: 1,
 	upgradeMenuScaleMin: 0.1,
 	upgradeMenuScaleMax: 5,
+	nameplateOpacityMin: 0,
+	nameplateOpacityMax: 1,
 
 	// Dropdown setting options
 	barStyleOptions: ["Circle", "Square", "Triangle"],

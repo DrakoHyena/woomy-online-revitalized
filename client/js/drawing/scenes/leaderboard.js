@@ -12,7 +12,7 @@ import { drawBar } from "../bar.js";
 // --- Config ---
 const ROW_HEIGHT_MULT = 0.028;
 const ROW_MARGIN = 2.5;
-const BAR_WIDTH_MULT = 0.3; // fraction of canvas height used for bar width
+const BAR_WIDTH_MULT = 0.27; // fraction of canvas height used for bar width
 const MARGIN = 5;
 const PADDING = 5;
 const ANIM_SPEED = .8;

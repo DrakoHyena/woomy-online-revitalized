@@ -21,6 +21,7 @@ import { blurAllTextNumberInputs } from "./drawing/inputElements.js";
 import { serverPackets, clientPackets } from "../../shared/packetIds.js";
 import { gameState } from "./drawing/scenes/game.js";
 import { ChatMessage, mutedSenders } from "./drawing/scenes/chat.js";
+import { invalidateMinimapCache } from "./drawing/scenes/minimap.js";
 
 let entities = new Map();
 const entitiesArr = [];
@@ -464,7 +465,7 @@ function updateEntity(entityId, updateType) {
 			if(!entity.leash){
 				entity.leash = { x: convert.reader.next(), y: convert.reader.next(), points: [] };
 				for (let i = 0; i < 10; i++) {
-					entity.leash.points.push(new RopePoint((entity.x + leashX) / 2, (entity.y + leashY) / 2))
+					entity.leash.points.push(new RopePoint((entity.x + entity.leash.x) / 2, (entity.y + entity.leash.y) / 2))
 				}
 			} else {
 				entity.leash.x = convert.reader.next();
@@ -573,6 +574,7 @@ function convertEntities() {
 
 // CONVERT GUI //
 function convertFastGui() {
+	playerState.levelProgress = convert.reader.next()*.1; // multiplied by 10 before sending
 	playerState.level = convert.reader.next()
 	playerState.gui.skills.points = convert.reader.next();
 	const upgradeAmount = convert.reader.next();
@@ -663,8 +665,8 @@ async function onmessage (message) {
 			roomState.serverTargetMs = m[i++]
 			roomState.mapType = m[i++];
 			roomState.blackout = m[i++];
-			console.log("Room data recieved! Starting game...");
-			break;
+			console.log("Room data received! Starting game...");		// Map / cell skins changed — invalidate minimap cache so it will be rebuilt
+		invalidateMinimapCache();			break;
 		case serverPackets.gameMessage:
 			if(currentSettings.disableGameMessages.value.enabled) return;
 			roomState.chatMessages.push(new ChatMessage(
@@ -689,8 +691,8 @@ async function onmessage (message) {
 						p4: m[9]
 					})
 				window.loadedAssets++;
-				loadingScreenState.subtitle = `(${window.loadedAssets}/${m[0]})`
-			}
+				loadingScreenState.subtitle = `(${window.loadedAssets}/${m[0]})`			// Asset arrival may affect cell skins — invalidate minimap cache
+			invalidateMinimapCache();			}
 			if (window.loadedAssets === m[0]) {
 				window.assetLoadingPromise()
 			}

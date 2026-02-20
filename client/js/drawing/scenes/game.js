@@ -16,6 +16,8 @@ import { entitiesArr } from "../../socket.js";
 import { keyboard } from "../../controls/keyboard.js";
 import { mouse } from "../../controls/mouse.js";
 import { mockups } from "../../mockups.js";
+import "./nameplate.js"
+import { resolveSkinAsset, drawCellTile } from "../tileUtils.js";
 
 const state = {
 	renderingStarted: false,
@@ -77,34 +79,7 @@ main.drawFuncts.set("clear", ({ canvas, ctx, delta }) => {
 	state.screenScale = Math.max(canvas.width / fov, canvas.height / fov / 9 * 16);
 })
 
-function resolveSkinAsset(skinKey) {
-	const skin = roomState.cellSkins[skinKey];
-	if (!skin || !Array.isArray(skin.assets) || skin.assets.length === 0) return null;
 
-	const frameIndex = (skin.frameInterval > 0)
-		? Math.floor(state.frame / skin.frameInterval) % skin.assets.length
-		: 0;
-	const assetObj = getAsset(skin.assets[frameIndex]);
-	if (!assetObj?.data) return null;
-
-	return { skin, asset: assetObj.data };
-}
-
-/**
- * Draws a single cell tile using the resolved skin + asset.
- * Handles repeat-pattern, stretch, and optional colour tint.
- */
-function drawCellTile(ctx, skin, asset, left, top, scaledW, scaledH, offsetX, offsetY, scale) {
-	ctx.drawImage(asset, left - 1, top - 1, scaledW + 2, scaledH + 2);
-
-	// Colour tint overlay
-	if (skin.tintOpacity > 0) {
-		ctx.globalAlpha = skin.tintOpacity;
-		ctx.fillStyle = skin.tintColor;
-		ctx.fillRect(left - 1, top - 1, scaledW + 2, scaledH + 2);
-		ctx.globalAlpha = 1;
-	}
-}
 
 main.drawFuncts.set("background", ({ canvas, ctx, delta }) => {
 	if (roomState.mapType === 1) return;
@@ -124,7 +99,7 @@ main.drawFuncts.set("background", ({ canvas, ctx, delta }) => {
 	state.frame++;
 
 	// ── Pre-resolve the "default" fallback skin once ────────────────
-	const defaultResolved = resolveSkinAsset("default");
+	const defaultResolved = resolveSkinAsset("default", state.frame);
 
 	// ── Render in-bounds cells ──────────────────────────────────────
 	for (let y = 0; y < H; y++) {
@@ -140,15 +115,14 @@ main.drawFuncts.set("background", ({ canvas, ctx, delta }) => {
 			if (cell === "edge") continue;
 
 			// Resolve skin: cell-specific → default fallback
-			const resolved = (cell && resolveSkinAsset(cell)) || defaultResolved;
-			if (!resolved) continue;
+		const resolved = (cell && resolveSkinAsset(cell, state.frame)) || defaultResolved;
 
 			drawCellTile(ctx, resolved.skin, resolved.asset, left, top, scaledW, scaledH, offsetX, offsetY, scale);
 		}
 	}
 
 	// ── Render out-of-bounds (boundary) cells ───────────────────────
-	const boundaryResolved = resolveSkinAsset("boundary");
+	const boundaryResolved = resolveSkinAsset("boundary", state.frame);
 	if (!boundaryResolved) return;
 
 	const minX = Math.floor(-offsetX / scaledW) - 1;
@@ -212,7 +186,7 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
 				if (scoreText) ctx.drawImage(scoreText, -scoreText.width / 2, textYOffset - scoreText.height);
 			}
 			if (entity.name) {
-				nameText = renderText(entity.name, baseTextSize||1);
+				nameText = renderText(entity.name, baseTextSize||1, { fillStyle: entity.nameColor || "#FFFFFF"}, true, render.width);
 				if (nameText) ctx.drawImage(nameText, -nameText.width / 2, textYOffset - nameText.height - scoreText.height);
 			}
 		}

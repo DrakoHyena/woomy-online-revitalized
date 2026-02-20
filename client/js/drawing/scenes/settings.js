@@ -13,10 +13,7 @@ const SETTINGS_CONFIG = {
 	MARGIN: 10,
 	PADDING: 10,
 	BACKGROUND: "#c2c9c1",
-	BORDER: "#959c94ff",
-	TITLE_TEXT_SIZE: 35,
-	HEADER_TEXT_SIZE: 25,
-	SETTING_TEXT_SIZE: 20
+	BORDER: "#959c94ff"
 }
 
 const state = {
@@ -45,8 +42,11 @@ let lastMouseY = 0;
 let lowestY = 0;
 settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	const borderWidth = 5;
-	const width = 500;
-	const height = 800;
+	const width = canvas.height/2;
+	const height = canvas.height/1.66;
+	const TITLE_TEXT_SIZE = height/20;
+	const HEADER_TEXT_SIZE = height/25;
+	const SETTING_TEXT_SIZE = height/30;
 	let x = topLeftButtonsState.width+SETTINGS_CONFIG.MARGIN + (-width*.5) * (1-state.fade)
 	let y = SETTINGS_CONFIG.MARGIN
 	let text = undefined;
@@ -80,9 +80,9 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 	let click = clickableActive(x, y, x+width, y+height)
 	if(click.left === true){
-		mouse.scrollY += (lastMouseY - mouse.y)*.25;
+		mouse.scrollY += (lastMouseY - mouse.y)*.325;
 	}
-	if(click) yOffset -= mouse.scrollY*.75;
+	if(click) yOffset -= mouse.scrollY*.4;
 
 	if(yOffset > 0) {
 		yOffset = lerp(yOffset, 0, Math.min(1, (yOffset/height) * 4) * delta)
@@ -95,7 +95,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 	ctx.globalAlpha = 1*state.fade;
 
-	text = renderText("Gameplay", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	text = renderText("Gameplay", TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -103,40 +103,40 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
 
-	text = renderText("Entities", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Entities", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Shield Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Shield Bars", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("shieldbars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.shieldbars.value.enabled, ()=>{
 		currentSettings.shieldbars.value.enabled = !currentSettings.shieldbars.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Animated Lasers", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Animated Lasers", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("animatedLasers", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.animatedLasers.value.enabled, ()=>{
 		currentSettings.animatedLasers.value.enabled = !currentSettings.animatedLasers.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Entity Resolution", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Entity Resolution", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("entityResolution", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.entityResolution.value.number, (newValue)=>{
 	   currentSettings.entityResolution.value.number = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Misc.", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Misc.", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("FPS Cap", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("FPS Cap", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("fpsCap", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.fpsCap.value.number, (newNumber)=>{
 		currentSettings.fpsCap.value.number = newNumber;
@@ -145,7 +145,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Auto Upgrade", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Auto Upgrade", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("autoUpgrade", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.autoUpgrade.value.enabled, ()=>{
 		currentSettings.autoUpgrade.value.enabled = !currentSettings.autoUpgrade.value.enabled
@@ -154,7 +154,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Performance Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Performance Mode", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("performanceMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.performanceMode.value.enabled, ()=>{
 		currentSettings.performanceMode.value.enabled = !currentSettings.performanceMode.value.enabled
@@ -163,7 +163,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Controls", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	text = renderText("Controls", TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -171,7 +171,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
 
-	text = renderText("Client Side Aim", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Client Side Aim", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("clientSideAim", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.clientSideAim.value.enabled, ()=>{
 		currentSettings.clientSideAim.value.enabled = !currentSettings.clientSideAim.value.enabled
@@ -180,7 +180,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Input Buffer Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Input Buffer Size", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("inputBufferSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inputBufferSize.value.number, (newNumber)=>{
 		currentSettings.inputBufferSize.value.number = newNumber;
@@ -189,7 +189,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("GUI", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	text = renderText("GUI", TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -197,13 +197,13 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
 
-	text = renderText("General", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("General", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Menu Animations Speed", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Menu Animations Speed", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("menuAnimSpeed", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.menuAnimSpeed.value.number, (newNumber)=>{
 		currentSettings.menuAnimSpeed.value.number = newNumber;
@@ -213,7 +213,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	// mainMenuStyle
-	text = renderText("Dark Mode Menu", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Dark Mode Menu", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("darkModeMenu", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.darkModeMenu.value.enabled, ()=>{
 		currentSettings.darkModeMenu.value.enabled = !currentSettings.darkModeMenu.value.enabled
@@ -222,7 +222,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Screenshot Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Screenshot Mode", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("screenshotMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.screenshotMode.value.enabled, ()=>{
 		currentSettings.screenshotMode.value.enabled = !currentSettings.screenshotMode.value.enabled
@@ -231,13 +231,13 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Chat", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Chat", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Disable Game Messages", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Disable Game Messages", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("disableGameMessages", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.disableGameMessages.value.enabled, ()=>{
 		currentSettings.disableGameMessages.value.enabled = !currentSettings.disableGameMessages.value.enabled
@@ -246,7 +246,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("In-Game Chat Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("In-Game Chat Duration", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("inGameChatMessageDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inGameChatMessageDuration.value.number, (newNumber)=>{
 		currentSettings.inGameChatMessageDuration.value.number = newNumber;
@@ -255,7 +255,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("In-Game Chat Limit", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("In-Game Chat Limit", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("inGameChatMessageLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inGameChatMessageLimit.value.number, (newNumber)=>{
 		currentSettings.inGameChatMessageLimit.value.number = newNumber;
@@ -264,7 +264,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("New Chat Duration", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("New Chat Duration", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("closedMessageShowDuration", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.closedMessageShowDuration.value.number, (newNumber)=>{
 		currentSettings.closedMessageShowDuration.value.number = newNumber;
@@ -273,7 +273,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Message History Limit", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Message History Limit", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("messageHistoryLimit", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.messageHistoryLimit.value.number, (newNumber)=>{
 		currentSettings.messageHistoryLimit.value.number = newNumber;
@@ -282,7 +282,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Chat Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Chat Opacity", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("chatAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatAlpha.value.number, (newNumber)=>{
 		currentSettings.chatAlpha.value.number = newNumber;
@@ -292,13 +292,13 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 	// Leaderboard settings
-	text = renderText("Leaderboard", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Leaderboard", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Leaderboard Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Leaderboard Opacity", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("leaderboardAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardAlpha.value.number, (newNumber)=>{
 		currentSettings.leaderboardAlpha.value.number = newNumber;
@@ -307,7 +307,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Leaderboard Background Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Leaderboard Background Opacity", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("leaderboardBackgroundAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardBackgroundAlpha.value.number, (newNumber)=>{
 		currentSettings.leaderboardBackgroundAlpha.value.number = newNumber;
@@ -316,7 +316,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Square Leaderboard Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Square Leaderboard Bars", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("squareLeaderboardBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareLeaderboardBars.value.enabled, ()=>{
 		currentSettings.squareLeaderboardBars.value.enabled = !currentSettings.squareLeaderboardBars.value.enabled
@@ -325,47 +325,13 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	// Stats settings
-	text = renderText("Stats", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Upgrade Menu", HEADER_TEXT_SIZE) 
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Stats Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("statsAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsAlpha.value.number, (newNumber)=>{
-		currentSettings.statsAlpha.value.number = newNumber;
-	}, () => {
-		showCursorTextBox("Stats Opacity", "Controls overall opacity of the stats UI (0.0 - 1.0)")
-	}, hideCursorTextBox)
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Stats Background Opacity", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("statsBackgroundAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsBackgroundAlpha.value.number, (newNumber)=>{
-		currentSettings.statsBackgroundAlpha.value.number = newNumber;
-	}, () => {
-		showCursorTextBox("Stats Background Opacity", "Controls the opacity of the stats UI background (0.0 - 1.0)")
-	}, hideCursorTextBox)
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Square Stats Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	renderInput("squareStatsBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareStatsBars.value.enabled, ()=>{
-		currentSettings.squareStatsBars.value.enabled = !currentSettings.squareStatsBars.value.enabled
-	}, () => {
-		showCursorTextBox("Square Stats Bars", "Toggles the stats segments to be squared instead of rounded.")
-	}, hideCursorTextBox)
-	y += text.height + SETTINGS_CONFIG.PADDING
-
-	text = renderText("Upgrade Menu", SETTINGS_CONFIG.HEADER_TEXT_SIZE) 
-	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
-	y += text.height*.5;
-	renderLine(x+text.width+lineMargin, y, x+width, y);
-	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
-
-	text = renderText("Upgrade Menu Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Upgrade Menu Scale", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("upgradeMenuScale", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.upgradeMenuScale.value.number, (newNumber)=>{
 		currentSettings.upgradeMenuScale.value.number = newNumber;
@@ -374,7 +340,74 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Visuals", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	// Stats settings
+	text = renderText("Stats", HEADER_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Stats Opacity", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsAlpha.value.number, (newNumber)=>{
+		currentSettings.statsAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Opacity", "Controls overall opacity of the stats UI (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Stats Background Opacity", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsBackgroundAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsBackgroundAlpha.value.number, (newNumber)=>{
+		currentSettings.statsBackgroundAlpha.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Background Opacity", "Controls the opacity of the stats UI background (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Square Stats Bars", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("squareStatsBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareStatsBars.value.enabled, ()=>{
+		currentSettings.squareStatsBars.value.enabled = !currentSettings.squareStatsBars.value.enabled
+	}, () => {
+		showCursorTextBox("Square Stats Bars", "Toggles the stats segments to be squared instead of rounded.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Nameplate", HEADER_TEXT_SIZE) 
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Link To Stats Menu", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("linkNameplateToStats", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.linkNameplateToStats.value.enabled, ()=>{
+		currentSettings.linkNameplateToStats.value.enabled = !currentSettings.linkNameplateToStats.value.enabled
+	}, () => {
+		showCursorTextBox("Link To Stats Menu", "Toggles it so that the nameplate is only active when the stats menu is active.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Square Nameplate Bars", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("squareNameplateBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareNameplateBars.value.enabled, ()=>{
+		currentSettings.squareNameplateBars.value.enabled = !currentSettings.squareNameplateBars.value.enabled
+	}, () => {
+		showCursorTextBox("Square Nameplate Bars", "Toggles the health, shield, and score bars to be squared instead of rounded.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Nameplate Opacity", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("nameplateOpacity", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.nameplateOpacity.value.number, (newNumber)=>{
+		currentSettings.nameplateOpacity.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Nameplate Opacity", "Controls the opacity of the nameplate")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Visuals", TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -382,7 +415,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x+width/2+text.width/2, y, x+width, y)
 	y += text.height*.5;
 
-	text = renderText("Image Smoothing", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Image Smoothing", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("imageSmoothing", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.imageSmoothing.value.enabled, ()=>{
 		currentSettings.imageSmoothing.value.enabled = !currentSettings.imageSmoothing.value.enabled
@@ -391,69 +424,69 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Style", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Style", HEADER_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Round Upgrades", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Round Upgrades", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("roundUpgrades", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.roundUpgrades.value.enabled, ()=>{
 		currentSettings.roundUpgrades.value.enabled = !currentSettings.roundUpgrades.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Pointy", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Pointy", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("pointy", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.pointy.value.enabled, ()=>{
 		currentSettings.pointy.value.enabled = !currentSettings.pointy.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("UI Scale", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("UI Scale", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("uiScale", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.uiScale.value.number, (newNumber)=>{
 		currentSettings.uiScale.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Font Stroke Ratio", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Font Stroke Ratio", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("fontStrokeRatio", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.fontStrokeRatio.value.number, (newNumber)=>{
 		currentSettings.fontStrokeRatio.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Font Size Boost", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Font Size Boost", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("fontSizeBoost", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.fontSizeBoost.value.number, (newNumber)=>{
 		currentSettings.fontSizeBoost.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Vignette Strength", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Vignette Strength", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("vignetteStrength", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.vignetteStrength.value.number, (newNumber)=>{
 		currentSettings.vignetteStrength.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Bar Width", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Bar Width", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("barWidth", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.barWidth.value.number, (newNumber)=>{
 		currentSettings.barWidth.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Bar Style", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Bar Style", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("barStyle", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.barStyle.value.selected, (newValue)=>{
 		currentSettings.barStyle.value.selected = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Font Family", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Font Family", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("fontFamily", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*5, y, text.height*5, text.height, currentSettings.fontFamily.value.selected, (newValue)=>{
 		currentSettings.fontFamily.value.selected = newValue;
@@ -461,34 +494,34 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 
-	text = renderText("Colors", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Colors", TITLE_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("Theme", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Theme", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("theme", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*5, y, text.height*5, text.height, currentSettings.theme.value.selected, (newValue)=>{
 		currentSettings.theme.value.selected = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Shaders", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Shaders", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("shaders", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*5, y, text.height*5, text.height, currentSettings.shaders.value.selected, (newValue)=>{
 		currentSettings.shaders.value.selected = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Filter", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Filter", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("filter", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*4, y, text.height*4, text.height, currentSettings.filter.value.selected, (newValue)=>{
 		currentSettings.filter.value.selected = newValue;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Neon Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Neon Mode", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("neonMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.neonMode.value.enabled, ()=>{
 		currentSettings.neonMode.value.enabled = !currentSettings.neonMode.value.enabled
@@ -497,28 +530,28 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Glass Mode", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Glass Mode", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("glassMode", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.glassMode.value.enabled, ()=>{
 		currentSettings.glassMode.value.enabled = !currentSettings.glassMode.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Tinted Damage", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Tinted Damage", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("tintedDamage", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.tintedDamage.value.enabled, ()=>{
 		currentSettings.tintedDamage.value.enabled = !currentSettings.tintedDamage.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Tinted Health", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Tinted Health", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("tintedHealth", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.tintedHealth.value.enabled, ()=>{
 		currentSettings.tintedHealth.value.enabled = !currentSettings.tintedHealth.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Colored Health Bars", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Colored Health Bars", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("coloredHealthBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.coloredHealthBars.value.enabled, ()=>{
 		currentSettings.coloredHealthBars.value.enabled = !currentSettings.coloredHealthBars.value.enabled
@@ -526,49 +559,49 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height + SETTINGS_CONFIG.PADDING
 
 
-	text = renderText("Borders", SETTINGS_CONFIG.HEADER_TEXT_SIZE)
+	text = renderText("Borders", TITLE_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	y += text.height*.5;
 	renderLine(x+text.width+lineMargin, y, x+width, y);
 	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
 
 
-	text = renderText("No Borders", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("No Borders", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("noBorders", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.noBorders.value.enabled, ()=>{
 		currentSettings.noBorders.value.enabled = !currentSettings.noBorders.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Dark Borders", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Dark Borders", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("darkBorders", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.darkBorders.value.enabled, ()=>{
 		currentSettings.darkBorders.value.enabled = !currentSettings.darkBorders.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("RGB Borders", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("RGB Borders", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("rgbBorders", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.rgbBorders.value.enabled, ()=>{
 		currentSettings.rgbBorders.value.enabled = !currentSettings.rgbBorders.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Inverse Border Color", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Inverse Border Color", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("inverseBorderColor", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.inverseBorderColor.value.enabled, ()=>{
 		currentSettings.inverseBorderColor.value.enabled = !currentSettings.inverseBorderColor.value.enabled
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Border Width", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Border Width", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("borderWidth", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.borderWidth.value.number, (newNumber)=>{
 		currentSettings.borderWidth.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Advanced Settings", SETTINGS_CONFIG.TITLE_TEXT_SIZE);
+	text = renderText("Advanced Settings", TITLE_TEXT_SIZE);
 	y += SETTINGS_CONFIG.PADDING;
 	ctx.drawImage(text, x+width/2-text.width/2, y)
 	y += text.height*.5;
@@ -577,7 +610,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height*.5;
 
 	if(state.showEntityEditor){
-		text = renderText("Entity Editor", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+		text = renderText("Entity Editor", SETTING_TEXT_SIZE)
 		ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 		renderInput("entityEditor", "button", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, "Open", ()=>{
 			window.open("/editor.html", "_blank", "width=600,height=400,top=0,left=0");
@@ -585,14 +618,14 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		y += text.height + SETTINGS_CONFIG.PADDING
 	}
 
-	text = renderText("Input Elements Cache Interval", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Input Elements Cache Interval", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("inputElementsCacheInterval", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.inputElementsCacheInterval.value.number, (newNumber)=>{
 		currentSettings.inputElementsCacheInterval.value.number = newNumber;
 	})
 	y += text.height + SETTINGS_CONFIG.PADDING
 
-	text = renderText("Text Render Cache Size", SETTINGS_CONFIG.SETTING_TEXT_SIZE)
+	text = renderText("Text Render Cache Size", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("textRenderCacheSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.textRenderCacheSize.value.number, (newNumber)=>{
 		currentSettings.textRenderCacheSize.value.number = newNumber;
