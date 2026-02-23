@@ -282,6 +282,27 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
+	// chat menu scaling
+	text = renderText("Chat Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("chatSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatSize.value.number, (newNumber)=>{
+		currentSettings.chatSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Chat Size", "Scale factor applied to chat menu width and height (0.1–5)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// chat border multiplier
+	text = renderText("Chat Border Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("chatBorderSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatBorderSize.value.number, (newNumber)=>{
+		currentSettings.chatBorderSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Chat Border Size", "Multiplier for the chat UI border thickness (0.01–5)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// existing chat opacity setting
 	text = renderText("Chat Opacity", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("chatAlpha", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.chatAlpha.value.number, (newNumber)=>{
@@ -316,6 +337,26 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
+	// new border size setting
+	text = renderText("Leaderboard Border Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("leaderboardBorderSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardBorderSize.value.number, (newNumber)=>{
+		currentSettings.leaderboardBorderSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Leaderboard Border Size", "Multiplier for border thickness (0.01–5)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// new overall size scale setting
+	text = renderText("Leaderboard Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("leaderboardSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.leaderboardSize.value.number, (newNumber)=>{
+		currentSettings.leaderboardSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Leaderboard Size", "Overall scale multiplier for leaderboard dimensions")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
 	text = renderText("Square Leaderboard Bars", SETTING_TEXT_SIZE)
 	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
 	renderInput("squareLeaderboardBars", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.squareLeaderboardBars.value.enabled, ()=>{
@@ -337,6 +378,62 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.upgradeMenuScale.value.number = newNumber;
 	}, () => {
 		showCursorTextBox("Upgrade Menu Scale", "A multiplier for the upgrade menu size.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// minimap GUI settings subsection
+	text = renderText("Minimap", HEADER_TEXT_SIZE);
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	y += text.height*.5;
+	renderLine(x+text.width+lineMargin, y, x+width, y);
+	y += text.height*.5 + SETTINGS_CONFIG.PADDING;
+
+	// minimap size
+	text = renderText("Minimap Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("minimapSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.minimapSize.value.number, (newValue)=>{
+		currentSettings.minimapSize.value.number = newValue;
+	}, () => {
+		showCursorTextBox("Minimap Size", "Determines the height of the minimap as a fraction of screen height (0.05 - 0.5).")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// minimap opacity
+	text = renderText("Minimap Opacity", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("minimapOpacity", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.minimapOpacity.value.number, (newValue)=>{
+		currentSettings.minimapOpacity.value.number = newValue;
+	}, () => {
+		showCursorTextBox("Minimap Opacity", "Adjusts the transparency of the minimap (0.0 - 1.0).")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// true size toggle
+	text = renderText("True Size on Minimap", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("minimapScaleEntities", "checkbox", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height, y, text.height, text.height, currentSettings.minimapScaleEntities.value.enabled, ()=>{
+		currentSettings.minimapScaleEntities.value.enabled = !currentSettings.minimapScaleEntities.value.enabled
+	}, () => {
+		showCursorTextBox("True Size on Minimap", "When enabled, entities on the minimap will be drawn scaled according to their in-game size.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	text = renderText("Minimap Scale Factor", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("minimapScaleFactor", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.minimapScaleFactor.value.number, (newValue)=>{
+		currentSettings.minimapScaleFactor.value.number = newValue;
+	}, () => {
+		showCursorTextBox("Minimap Scale Factor", "Applies an additional multiplier to entity sizes on the minimap (0.001‑5).")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// render type dropdown
+	text = renderText("Render Type", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("minimapRenderType", "dropdown", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*5, y, text.height*5, text.height, currentSettings.minimapRenderType.value.selected, (newValue)=>{
+		currentSettings.minimapRenderType.value.selected = newValue;
+	}, () => {
+		showCursorTextBox("Render Type", "Choose how entities are drawn on the minimap.")
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -362,6 +459,26 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.statsBackgroundAlpha.value.number = newNumber;
 	}, () => {
 		showCursorTextBox("Stats Background Opacity", "Controls the opacity of the stats UI background (0.0 - 1.0)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// new border size control
+	text = renderText("Stats Border Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsBorderSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsBorderSize.value.number, (newNumber)=>{
+		currentSettings.statsBorderSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Border Size", "Multiplier for border thickness (0.01–5)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// new overall size control
+	text = renderText("Stats Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("statsSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.statsSize.value.number, (newNumber)=>{
+		currentSettings.statsSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Stats Size", "Overall scale multiplier for stats UI dimensions")
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 
@@ -395,6 +512,26 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		currentSettings.squareNameplateBars.value.enabled = !currentSettings.squareNameplateBars.value.enabled
 	}, () => {
 		showCursorTextBox("Square Nameplate Bars", "Toggles the health, shield, and score bars to be squared instead of rounded.")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// new border size control
+	text = renderText("Nameplate Border Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("nameplateBorderSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.nameplateBorderSize.value.number, (newNumber)=>{
+		currentSettings.nameplateBorderSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Nameplate Border Size", "Multiplier for border thickness (0.01–5)")
+	}, hideCursorTextBox)
+	y += text.height + SETTINGS_CONFIG.PADDING
+
+	// new overall size control
+	text = renderText("Nameplate Size", SETTING_TEXT_SIZE)
+	ctx.drawImage(text, x+SETTINGS_CONFIG.PADDING, y);
+	renderInput("nameplateSize", "number", settings, (x+width)-SETTINGS_CONFIG.PADDING-text.height*3, y, text.height*3, text.height, currentSettings.nameplateSize.value.number, (newNumber)=>{
+		currentSettings.nameplateSize.value.number = newNumber;
+	}, () => {
+		showCursorTextBox("Nameplate Size", "Overall scale multiplier for nameplate UI dimensions")
 	}, hideCursorTextBox)
 	y += text.height + SETTINGS_CONFIG.PADDING
 

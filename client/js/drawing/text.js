@@ -9,7 +9,7 @@ const textRenders = new Map();
 function renderText(text, size, renderOptions = {}, shouldStroke = true, maxWidth = 0) {
 	if (textRenders.size > currentSettings.textRenderCacheSize.value.number) {
 		textRenders.clear();
-		console.log("Cleared text cache")
+		console.log("Cleared text cache");
 	}
 
 	const roundedSize = Math.round(size);
@@ -17,13 +17,19 @@ function renderText(text, size, renderOptions = {}, shouldStroke = true, maxWidt
 		fillStyle: renderOptions.fillStyle || "#FFFFFF",
 		strokeStyle: renderOptions.strokeStyle || "#000000",
 		lineWidth: renderOptions.lineWidth || size ? roundedSize / 7 : 4,
-		lineJoin: renderOptions.lineJoin || "miter",
-		textBaseline: renderOptions.textBaseline || "top",
-		font: renderOptions.font || size ? `${roundedSize}px Ubuntu` : '48px Ubuntu',
-	}
+		lineJoin: renderOptions.lineJoin || "miter",		
+		// Alphabetic for os compat
+		textBaseline: "alphabetic", 
+		textRendering: renderOptions.textRendering || "optimizeLegibility",
+		font: renderOptions.font || size ? `${roundedSize}px Ubuntu` : '48px Ubuntu'
+	};
 
-	const saveKey = `${text}|${options.fillStyle}|${options.strokeStyle}|${options.lineWidth}|${options.textBaseline}|${options.font}|${shouldStroke}|${maxWidth}`;
+	// We preserve the caller's requested baseline in the cache key just in case.
+	const saveKey = `${text}|${options.fillStyle}|${options.strokeStyle}|${options.lineWidth}|${options.font}|${shouldStroke}|${maxWidth}`;
 	if (textRenders.has(saveKey)) return textRenders.get(saveKey);
+
+	ctx.font = options.font;
+	ctx.textBaseline = options.textBaseline;
 
 	// Helper to split text into lines based on maxWidth
 	function wrapText(ctx, text, maxWidth) {
@@ -45,7 +51,6 @@ function renderText(text, size, renderOptions = {}, shouldStroke = true, maxWidt
 		return lines;
 	}
 
-	ctx.font = options.font;
 	let lines = [text];
 	if (maxWidth && maxWidth > 0) {
 		lines = wrapText(ctx, text, maxWidth);
@@ -58,38 +63,43 @@ function renderText(text, size, renderOptions = {}, shouldStroke = true, maxWidt
 		for (let line of lines) {
 			const metrics = ctx.measureText(line);
 			maxLineWidth = Math.max(maxLineWidth, metrics.width);
-			ascent = Math.max(ascent, metrics.fontBoundingBoxAscent || 0);
-			descent = Math.max(descent, metrics.fontBoundingBoxDescent || 0);
+			ascent = Math.max(ascent, metrics.actualBoundingBoxAscent);
+			descent = Math.max(descent, metrics.actualBoundingBoxDescent);
 		}
 	} else {
 		const metrics = ctx.measureText(text);
 		maxLineWidth = metrics.width;
-		ascent = metrics.fontBoundingBoxAscent || 0;
-		descent = metrics.fontBoundingBoxDescent || 0;
+		ascent = metrics.actualBoundingBoxAscent;
+		descent = metrics.actualBoundingBoxDescent;
 	}
-	const totalHeight = (ascent + descent) * lines.length;
+
+	const totalHeight = (ascent + descent) * lines.length + options.lineWidth;
 
 	textCanvas.width = Math.max(1, Math.ceil(maxLineWidth + options.lineWidth));
 	textCanvas.height = Math.max(1, Math.ceil(totalHeight));
 	ctx.imageSmoothingEnabled = currentSettings.imageSmoothing.value.enabled;
 
+	// Canvas resize clears context state, so re-apply here
 	for (let key in options) {
 		ctx[key] = options[key];
 	}
 
 	// Draw each line
 	for (let i = 0; i < lines.length; i++) {
-		const y = i * (ascent + descent);
+		// FIX 3: Push the draw Y coordinate down by `ascent`. 
+		// Because we are using the "alphabetic" baseline, drawing at Y = ascent guarantees
+		// that the very top edge of the bounding box will sit perfectly flush at Y = 0.
+		const y = ascent + i * (ascent + descent) + options.lineWidth/2;
+		
 		if (shouldStroke === true) ctx.strokeText(lines[i], options.lineWidth / 2, y);
 		ctx.fillText(lines[i], options.lineWidth / 2, y);
 	}
 
-
 	createImageBitmap(textCanvas, 0, 0, textCanvas.width, textCanvas.height).then(image => {
 		textRenders.set(saveKey, image);
-	})
-	textRenders.set(saveKey, textCanvas)
-	return textCanvas
+	});
+	textRenders.set(saveKey, textCanvas);
+	return textCanvas;
 }
 
-export { renderText }
+export { renderText };

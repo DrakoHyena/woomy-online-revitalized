@@ -24,7 +24,9 @@ const state = {
 	x: 0, 
 	y: 0,
 	width: 0, 
-	height: 0
+	height: 0,
+	// amount of vertical space taken by the selected-message popup (including its margin)
+	popupHeight: 0
 }
 
 const chat = new Scene(40);
@@ -111,6 +113,18 @@ let selectedMessage = {
 	fade: 0
 }
 function draw({canvas, ctx, delta}){
+	// update popup height every frame so other systems (minimap) can query it
+	(function updatePopupHeight(){
+		// same math used in drawSelectedMessage for consistency
+		const scale = currentSettings.chatSize.value.number;
+		const baseHeight = (canvas.height/15) * scale;
+		const borderMult = currentSettings.chatBorderSize.value.number;
+		const baseSize = Math.min(canvas.width, canvas.height);
+		const border = baseSize * 0.005 * borderMult * scale;
+		const popupFullHeight = baseHeight + border * 2 + state.margin;
+		state.popupHeight = popupFullHeight * selectedMessage.fade;
+	})();
+
 	if(state.active){
 		state.fade = lerp(state.fade, 1, currentSettings.menuAnimSpeed.value.number*delta);
 		if(state.fade > .999){
@@ -123,16 +137,28 @@ function draw({canvas, ctx, delta}){
 		}
 	}
 
-	const WIDTH = canvas.height/2.8;
-	const HEIGHT = canvas.height/4;
+	// overall scale and layout
+	const scale = currentSettings.chatSize ? currentSettings.chatSize.value.number : 1;
+	const baseWidth = (canvas.height/2.8) * scale;
+	const baseHeight = (canvas.height/4) * scale;
 
-	let padding = state.padding;
+	let padding = state.padding * scale;
+	const margin = state.margin * scale;
+
+	// compute border thickness (depends on canvas size & user multiplier)
+	const borderMult = currentSettings.chatBorderSize ? currentSettings.chatBorderSize.value.number : 1;
+	const baseSize = Math.min(canvas.width, canvas.height);
+	const border = baseSize * 0.005 * borderMult * scale;
+
+	// include border in the overall dimensions so increasing it pushes outward
+	const WIDTH = baseWidth + border * 2;
+	const HEIGHT = baseHeight + border * 2;
 
 	state.width = WIDTH;
 	state.height = HEIGHT;
 	// position: interpolate from off-screen/right (fade=0) to final X (fade=1)
-	state.x = (canvas.width - WIDTH - state.margin) * state.fade + canvas.width * (1 - state.fade);
-	state.y = canvas.height - HEIGHT - state.margin;
+	state.x = (canvas.width - WIDTH - margin) * state.fade + canvas.width * (1 - state.fade);
+	state.y = canvas.height - HEIGHT - margin;
 	const x = state.x;
 	const y = state.y;
 
@@ -143,18 +169,23 @@ function draw({canvas, ctx, delta}){
 	// `state.fade` is now 0..1 so chatAlpha 1 => fully visible, 0 => hidden
 	ctx.globalAlpha = currentSettings.chatAlpha.value.number * state.fade;
 	ctx.fillStyle = ACCENT;
+	// draw border box (thickness scales with canvas size)
 	ctx.fillRect(x, y, WIDTH, HEIGHT);
 	ctx.fillStyle = BACKGROUND;
 	const boxInputRatio = .88;
-	ctx.fillRect(x + padding, y + padding, WIDTH - padding * 2, HEIGHT * boxInputRatio - padding); 
-	padding *= 3;
+	// inner area dimensions (independent of border)
+	const innerWidth = baseWidth - padding * 2;
+	const innerHeight = baseHeight * boxInputRatio - padding;
+	ctx.fillRect(x + border + padding, y + border + padding, innerWidth, innerHeight);
+	padding *= 1.5;
+	// chat input sits below the inner message box (within border/padding)
 	renderInput("chatInput",
 		"text",
 		chat,
-		x + padding,
-		y + HEIGHT * boxInputRatio + padding/2,
-		WIDTH - padding * 2,
-		HEIGHT * (1 - boxInputRatio) - padding,
+		x + border + padding,
+		y + border + baseHeight * boxInputRatio + padding/2,
+		baseWidth - padding*2,
+		baseHeight * (1 - boxInputRatio) - padding,
 		"Type here to chat",
 		(val)=>{
 			if(val === "" || val === "Type here to chat") return;
@@ -171,14 +202,14 @@ function draw({canvas, ctx, delta}){
 			return false;
 		}
 	)
-	padding /= 3;
+	padding /= 1.5;
 
 	if(roomState.chatMessages.length > currentSettings.messageHistoryLimit.value.number) roomState.chatMessages.shift();
-	let cx = x + padding;
-	let cy = y + padding;
-	const height = HEIGHT * boxInputRatio - padding * 2;
-	const maxWidth = WIDTH - padding * 2;
-	const textSize = HEIGHT * (1 - boxInputRatio) - padding;
+	let cx = x + border + padding; // start inside border + outer padding
+	let cy = y + border + padding;
+	const height = innerHeight - padding * 2;
+	const maxWidth = innerWidth - padding * 2;
+	const textSize = baseHeight * (1 - boxInputRatio) - padding;
 	ctx.save();
 	let path = new Path2D();
 	path.rect(cx, cy, maxWidth, height);
@@ -247,8 +278,21 @@ let hadMuteFocus = false;
 let lastClick = 0;
 let clickDebounce = 200;
 function drawSelectedMessage(canvas, ctx, delta){
-	const height = canvas.height/15;
-	const width = canvas.height/2.8;
+	const scale = currentSettings.chatSize ? currentSettings.chatSize.value.number : 1;
+	const baseWidth = (canvas.height/2.8) * scale;
+	const baseHeight = (canvas.height/15) * scale;
+
+	// compute border thickness (same formula used elsewhere)
+	const borderMult = currentSettings.chatBorderSize ? currentSettings.chatBorderSize.value.number : 1;
+	const baseSize = Math.min(canvas.width, canvas.height);
+	const border = baseSize * 0.005 * borderMult * scale;
+
+	const width = baseWidth + border * 2;
+	const height = baseHeight + border * 2;
+
+	// update popupHeight so minimap stays in sync even while this popup is animating
+	state.popupHeight = (height + state.margin) * selectedMessage.fade;
+
 	let x = state.x + width * (1 - selectedMessage.fade);
 	let y = (state.y - state.margin - height)
 
@@ -263,12 +307,17 @@ function drawSelectedMessage(canvas, ctx, delta){
 
 	ctx.globalAlpha = currentSettings.chatAlpha.value.number * state.fade * selectedMessage.fade;
 	ctx.fillStyle = ACCENT;
-	ctx.fillRect(x, y, width - state.margin + state.padding*2, height);
+	const pad = state.padding * scale;
+	ctx.fillRect(x, y, width - state.margin + pad*2, height);
 	ctx.fillStyle = BACKGROUND;
-	ctx.fillRect(x + state.padding, y + state.padding, width - state.margin, height - state.padding*2);
-    x += state.padding * 2;
+	// calculate inner content area (without border)
+	const innerW = baseWidth - pad * 2;
+	const innerH = baseHeight - pad * 2;
+	ctx.fillRect(x + border + pad, y + border + pad, innerW, innerH);
+    x += pad * 2;
 
 	const boxSize = height / 1.5;
+	const marg = state.margin * scale;
 	ctx.fillStyle = "#E02121";
 	let click = clickableActive(x, y + (height/2) - (boxSize/2), x+boxSize, y + (height/2) - (boxSize/2) + boxSize);
 	if(click){
@@ -280,8 +329,8 @@ function drawSelectedMessage(canvas, ctx, delta){
 		}
 	}
 	ctx.fillRect(x, y + (height/2) - (boxSize/2), boxSize, boxSize);
-	ctx.drawImage(closeIcon, x + state.padding, y + (height/2) - (boxSize/2) + state.padding, boxSize - state.padding*2, boxSize-state.padding*2)
-	x += boxSize + state.margin;
+	ctx.drawImage(closeIcon, x + pad, y + (height/2) - (boxSize/2) + pad, boxSize - pad*2, boxSize-pad*2)
+	x += boxSize + marg;
 	ctx.globalAlpha = state.fade * selectedMessage.fade;
 	ctx.fillStyle = "#878787";
 	click = clickableActive(x, y + (height/2) - (boxSize/2), x + boxSize, y + (height/2) - (boxSize/2) + boxSize);
@@ -307,14 +356,18 @@ function drawSelectedMessage(canvas, ctx, delta){
 		}
 	}
 	ctx.fillRect(x, y + (height/2) - (boxSize/2), boxSize, boxSize);
-	ctx.drawImage(muteIcon, x + state.padding, y + (height/2) - (boxSize/2) + state.padding, boxSize - state.padding*2, boxSize - state.padding*2);
-	x += boxSize + state.margin;
+	ctx.drawImage(muteIcon, x + pad, y + (height/2) - (boxSize/2) + pad, boxSize - pad*2, boxSize - pad*2);
+	x += boxSize + marg;
 
 	const text = renderText(selectedMessage.author, height/3, {}, true, width-(x-state.x));
-	ctx.drawImage(text,x  + state.padding, y + (height/2) - text.height/2)
+	ctx.drawImage(text,x  + pad, y + (height/2) - text.height/2)
 }
 
 function drawNewChats({canvas, ctx, delta}){
+	// compute scaled padding for layout (matches main chat box calculations)
+	const scale = currentSettings.chatSize ? currentSettings.chatSize.value.number : 1;
+	const pad = state.padding * scale;
+
 	const fade = 1 - state.fade;
 	let newChatAlpha = currentSettings.chatAlpha.value.number;
 	let y = canvas.height - state.margin;
@@ -359,10 +412,10 @@ function drawNewChats({canvas, ctx, delta}){
 		ctx.fillStyle = chatMessage.backgroundColor;
 
 		// position content right-aligned in the rect and place sender immediately to its left
-		const contentX = rectLeft + maxWidth - state.padding - contentText.width;
+		const contentX = rectLeft + maxWidth - pad - contentText.width;
 		const senderX = contentX - state.messagePadding - senderText.width;
 		// include sender area to the left of the content rect in the background
-		const bgLeft = Math.min(senderX - state.padding, rectLeft);
+		const bgLeft = Math.min(senderX - pad, rectLeft);
 		const bgRight = rectLeft + maxWidth;
 		const bgWidth = bgRight - bgLeft;
 		ctx.fillRect(bgLeft, rectTop, bgWidth, msgHeight * vis);

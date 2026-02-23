@@ -1,18 +1,20 @@
 import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
-import { lerp } from "../../lerp.js";
 import { currentSettings } from "../../settings.js";
 import { chatState } from "./chat.js";
 import { roomState } from "../../state/room.js";
-import { playerState } from "../../state/player.js";
 import { entitiesArr } from "../../socket.js";
-import { getColor } from "../../colors.js";
 import { resolveSkinAsset, drawCellTile } from "../tileUtils.js";
+import { getEntityImage } from "../entity.js";
+import { getColor } from "../../colors.js";
+import { lerp } from "../../lerp.js";
 
 // --- Config ---
 
-let state = {
-	active : true,
+const ANIM_SPEED = 1; // multiplier for fade animation (combined with menuAnimSpeed)
+
+let minimapState = {
+	active: true,
 	fade: 1,
 	margin: 10,
 	padding: 5,
@@ -24,9 +26,16 @@ const minimap = new Scene(10);
 drawLoop.addScene("minimap", minimap);
 
 // Cache for the full-map minimap image
-const minimapCache = {
+// we allocate a single offscreen canvas once and never change its size thereafter
+const MAX_CACHE_SIZE = 4096; // should be large enough for any map (ppc<=4)
+const offscreenCacheCanvas = document.createElement('canvas');
+offscreenCacheCanvas.width = MAX_CACHE_SIZE;
+offscreenCacheCanvas.height = MAX_CACHE_SIZE;
+const offscreenCacheCtx = offscreenCacheCanvas.getContext('2d');
+
+const minimapCacheData = {
 	dirty: true,
-	canvas: null,
+	canvas: offscreenCacheCanvas,
 	bitmap: null, // ImageBitmap when available
 	widthCells: 0,
 	heightCells: 0,
@@ -35,149 +44,207 @@ const minimapCache = {
 	lastSkinVersion: null
 };
 
-function invalidateMinimapCache(){
-	minimapCache.dirty = true;
-	minimapCache.bitmap = null;
-	minimapCache.canvas = null;
-	minimapCache.animatedCells.length = 0;
+function invalidateMinimapCache() {
+	minimapCacheData.dirty = true;
+	minimapCacheData.bitmap = null;
+	// keep the persistent canvas around; contents will be overwritten on rebuild
+	minimapCacheData.animatedCells.length = 0;
 }
 
-async function rebuildMinimapCache(){
-	if(!roomState.cells || roomState.cells.length === 0) return;
-	const W = roomState.cells[0].length;
-	const H = roomState.cells.length;
+async function rebuildMinimapCache() {
+	if (!roomState.cells || roomState.cells.length === 0) return;
+	const mapWidthCells = roomState.cells[0].length;
+	const mapHeightCells = roomState.cells.length;
 	// Decide pixels-per-cell based on map size (cap to keep canvas reasonable)
-	const ppc = Math.min(4, Math.max(1, Math.floor(1024 / Math.max(W, H))));
-	const cw = W * ppc;
-	const ch = H * ppc;
+	const pixelsPerCell = Math.min(4, Math.max(1, Math.floor(1024 / Math.max(mapWidthCells, mapHeightCells))));
+	const cachePixelWidth = mapWidthCells * pixelsPerCell;
+	const cachePixelHeight = mapHeightCells * pixelsPerCell;
 
-	const c = document.createElement('canvas');
-	c.width = Math.max(1, cw);
-	c.height = Math.max(1, ch);
-	const cctx = c.getContext('2d');
+	// verify that our single canvas can contain the drawing area
+	if (cachePixelWidth > offscreenCacheCanvas.width || cachePixelHeight > offscreenCacheCanvas.height) {
+		console.warn('Minimap cache canvas too small', cachePixelWidth, cachePixelHeight, 'max', offscreenCacheCanvas.width, offscreenCacheCanvas.height);
+		// clipping will occur, but we don't resize the canvas again per requirements
+	}
 
-	const frameNow = Math.floor(performance.now() / 16);
-	minimapCache.animatedCells.length = 0;
+	// clear only the region we'll be using
+	offscreenCacheCtx.clearRect(0, 0, cachePixelWidth, cachePixelHeight);
 
-	const defaultResolved = resolveSkinAsset("default", frameNow);
+	const frameTick = Math.floor(performance.now() / 16);
+	minimapCacheData.animatedCells.length = 0;
 
-	for (let y = 0; y < H; y++) {
-		for (let x = 0; x < W; x++) {
-			const cell = roomState.cells[y][x];
+	const defaultResolved = resolveSkinAsset("default", frameTick);
+
+	for (let mapY = 0; mapY < mapHeightCells; mapY++) {
+		for (let mapX = 0; mapX < mapWidthCells; mapX++) {
+			const cell = roomState.cells[mapY][mapX];
 			if (cell === 'edge') continue;
 
-			const resolved = (cell && resolveSkinAsset(cell, frameNow)) || defaultResolved;
+			const resolved = (cell && resolveSkinAsset(cell, frameTick)) || defaultResolved;
 			if (!resolved) continue; // asset not ready yet
 
 			// Draw tile into cache canvas at 1..4 px per cell
-			drawCellTile(cctx, resolved.skin, resolved.asset, x * ppc, y * ppc, ppc, ppc, 0, 0, 1);
+			drawCellTile(offscreenCacheCtx, resolved.skin, resolved.asset, mapX * pixelsPerCell, mapY * pixelsPerCell, pixelsPerCell, pixelsPerCell, 0, 0, 1);
 
 			if (resolved.skin.frameInterval && resolved.skin.frameInterval > 0) {
-				minimapCache.animatedCells.push({ x, y, key: cell });
+				minimapCacheData.animatedCells.push({ x: mapX, y: mapY, key: cell });
 			}
 		}
 	}
 
-	minimapCache.canvas = c;
-	minimapCache.pixelsPerCell = ppc;
-	minimapCache.widthCells = W;
-	minimapCache.heightCells = H;
-	minimapCache.dirty = false;
-	
+	// update metadata; canvas reference already set at creation
+	minimapCacheData.pixelsPerCell = pixelsPerCell;
+	minimapCacheData.widthCells = mapWidthCells;
+	minimapCacheData.heightCells = mapHeightCells;
+	minimapCacheData.dirty = false;
+
 	// Try to create an ImageBitmap for faster blits; fallback to using the canvas directly.
 	try {
-		minimapCache.bitmap = await createImageBitmap(c);
+		minimapCacheData.bitmap = await createImageBitmap(offscreenCacheCanvas, 0, 0, cachePixelWidth, cachePixelHeight);
 	} catch (err) {
-		minimapCache.bitmap = null;
+		minimapCacheData.bitmap = null;
 	}
 }
 
 function drawMinimap({ canvas, ctx, delta }) {
-	const ANIM_SPEED = currentSettings.menuAnimSpeed.value.number * delta
-	const BASE_ALPHA = 1;
-	if(BASE_ALPHA === 0) return;
+	// update fade state (used for alpha and horizontal sliding)
+	const animationSpeedDelta = currentSettings.menuAnimSpeed.value.number * delta * ANIM_SPEED;
+	if (minimapState.active) {
+		minimapState.fade = lerp(minimapState.fade, 1, animationSpeedDelta);
+	} else {
+		minimapState.fade = lerp(minimapState.fade, 0, animationSpeedDelta);
+		if (minimapState.fade < 0.01) {
+			minimapState.fade = 0;
+			minimap.drawFuncts.delete("drawMinimap");
+		}
+	}
 
-	let height = canvas.height / 4;
-	let width = height;
-	let x = canvas.width - width - state.margin;
-	let y = canvas.height - height - state.margin - ((chatState.height+state.margin) * chatState.fade);
+	// opacity can be controlled by setting; multiply by menu fade
+	const BASE_ALPHA = currentSettings.minimapOpacity ? currentSettings.minimapOpacity.value.number : 1;
+	if (BASE_ALPHA === 0 || minimapState.fade === 0) return;
 
-	ctx.globalAlpha = BASE_ALPHA * state.fade;
+	// size of minimap as fraction of screen height (default 0.2 -> height/5)
+	const sizeFraction = currentSettings.minimapSize ? currentSettings.minimapSize.value.number : 0.2;
+	let minimapPixelHeight = canvas.height * sizeFraction;
+	let minimapPixelWidth = minimapPixelHeight;
+	const baseX = canvas.width - minimapPixelWidth - minimapState.margin;
+	// slide off-screen to right when fading out/in
+	let posX = baseX * minimapState.fade + canvas.width * (1 - minimapState.fade);
+	// account for chat menu and any popup above it
+	let posY = canvas.height - minimapPixelHeight - minimapState.margin - ((chatState.height + chatState.popupHeight + minimapState.margin) * chatState.fade);
+
+	ctx.globalAlpha = BASE_ALPHA * minimapState.fade;
 	ctx.fillStyle = "#777777";
-	ctx.fillRect(x, y, width, height);
-	x += state.padding;
-	y += state.padding;
-	width -= state.padding * 2;
-	height -= state.padding * 2;
+	ctx.fillRect(posX, posY, minimapPixelWidth, minimapPixelHeight);
+	posX += minimapState.padding;
+	posY += minimapState.padding;
+	minimapPixelWidth -= minimapState.padding * 2;
+	minimapPixelHeight -= minimapState.padding * 2;
+	// Draw inner area (leave a visible border, no extra content padding)
 	ctx.fillStyle = "#666666";
-	ctx.fillRect(x, y, width, height);
-	x += state.padding;
-	y += state.padding;
+	// Use a small fixed border thickness so we only have margin + border
+	const border = 2;
+	ctx.fillRect(posX + border, posY + border, minimapPixelWidth - border * 2, minimapPixelHeight - border * 2);
+	// Content will fill the inner rectangle directly (no extra padding)
+	posX += border;
+	posY += border;
+	minimapPixelWidth -= border * 2;
+	minimapPixelHeight -= border * 2;
 
 	// Draw cached map (rebuild if needed)
 	if (roomState.cells && roomState.cells.length > 0) {
-		const W = roomState.cells[0].length;
-		const H = roomState.cells.length;
+		const mapWidthCells = roomState.cells[0].length;
+		const mapHeightCells = roomState.cells.length;
 
-		if (minimapCache.dirty || minimapCache.widthCells !== W || minimapCache.heightCells !== H) {
+		if (minimapCacheData.dirty || minimapCacheData.widthCells !== mapWidthCells || minimapCacheData.heightCells !== mapHeightCells) {
 			rebuildMinimapCache();
 		}
 
-		// Draw cached bitmap (or canvas fallback)
-		if (minimapCache.bitmap) {
-			ctx.drawImage(minimapCache.bitmap, x, y, width, height);
-		} else if (minimapCache.canvas) {
-			ctx.drawImage(minimapCache.canvas, x, y, width, height);
-		} else {
-			// Fallback: draw a coarse grid if cache isn't ready yet
-			const cellW = width / Math.max(1, W);
-			const cellH = height / Math.max(1, H);
-			const defaultResolved = resolveSkinAsset("default", 0);
-			for (let yy = 0; yy < H; yy++) {
-				for (let xx = 0; xx < W; xx++) {
-					const cell = roomState.cells[yy][xx];
-					if (cell === 'edge') continue;
-					const resolved = (cell && resolveSkinAsset(cell, 0)) || defaultResolved;
-					if (!resolved) continue;
-					ctx.fillStyle = resolved.skin.tintColor || '#666';
-					ctx.fillRect(x + xx * cellW, y + yy * cellH, cellW, cellH);
-				}
-			}
+		// Draw cached bitmap (or canvas fallback) using only the portion we actually built
+		const srcPixelWidth = minimapCacheData.widthCells * minimapCacheData.pixelsPerCell;
+		const srcPixelHeight = minimapCacheData.heightCells * minimapCacheData.pixelsPerCell;
+		if (minimapCacheData.bitmap) {
+			ctx.drawImage(minimapCacheData.bitmap, 0, 0, srcPixelWidth, srcPixelHeight, posX, posY, minimapPixelWidth, minimapPixelHeight);
+		} else if (minimapCacheData.canvas) {
+			ctx.drawImage(minimapCacheData.canvas, 0, 0, srcPixelWidth, srcPixelHeight, posX, posY, minimapPixelWidth, minimapPixelHeight);
 		}
 
 		// Animated cell overlays (render current frame for animated skins)
-		if (minimapCache.animatedCells.length > 0) {
+		if (minimapCacheData.animatedCells.length > 0) {
 			const nowFrame = Math.floor(performance.now() / 16);
-			const cellDrawW = width / W;
-			const cellDrawH = height / H;
-			for (const ac of minimapCache.animatedCells) {
-				const resolved = resolveSkinAsset(ac.key, nowFrame);
+			const drawCellWidth = minimapPixelWidth / mapWidthCells;
+			const drawCellHeight = minimapPixelHeight / mapHeightCells;
+			for (const animatedCell of minimapCacheData.animatedCells) {
+				const resolved = resolveSkinAsset(animatedCell.key, nowFrame);
 				if (!resolved) continue;
-				const left = x + (ac.x / W) * width;
-				const top  = y + (ac.y / H) * height;
+				const left = posX + (animatedCell.x / mapWidthCells) * minimapPixelWidth;
+				const top = posY + (animatedCell.y / mapHeightCells) * minimapPixelHeight;
 				// Draw the animated frame scaled to the minimap cell size
-				drawCellTile(ctx, resolved.skin, resolved.asset, left, top, cellDrawW, cellDrawH, 0, 0, 1);
+				drawCellTile(ctx, resolved.skin, resolved.asset, left, top, drawCellWidth, drawCellHeight, 0, 0, 1);
 			}
 		}
 
 		// Dynamic overlays: players / moving objects
-		const cellDrawW = width / Math.max(1, W);
-		const cellDrawH = height / Math.max(1, H);
-		for (let i = 0; i < entitiesArr.length; i++) {
-			const e = entitiesArr[i];
-			if (!e) continue;
-			const nx = (e.x) / (roomState.width || 1);
-			const ny = (e.y) / (roomState.height || 1);
-			const px = x + nx * width;
-			const py = y + ny * height;
-			ctx.beginPath();
-			ctx.fillStyle = e.nameColor || getColor(e.color);
-			ctx.arc(px, py, Math.max(1, Math.min(cellDrawW, cellDrawH) * 0.45), 0, Math.PI * 2);
-			ctx.fill();
-			if (e.id === playerState.entityId) {
-				ctx.lineWidth = 1;
-				ctx.strokeStyle = '#FFFFFF';
-				ctx.stroke();
+		const drawCellWidth = minimapPixelWidth / mapWidthCells;
+		const drawCellHeight = minimapPixelHeight / mapHeightCells;
+		const scaleEntities = currentSettings.minimapScaleEntities.value.enabled;
+		ctx.globalAlpha = 1;
+		for (const entity of entitiesArr) {
+			if (entity.isTurret) continue;
+			const normalizedX = (entity.x) / (roomState.width || 1);
+			const normalizedY = (entity.y) / (roomState.height || 1);
+			const drawX = posX + normalizedX * minimapPixelWidth;
+			const drawY = posY + normalizedY * minimapPixelHeight;
+
+			// compute per-entity dimensions
+			let cellW = drawCellWidth;
+			let cellH = drawCellHeight;
+			// true size toggle
+			if (scaleEntities) {
+				const factor = (entity.size * .02) || 1;
+				cellW *= factor;
+				cellH *= factor;
+			}
+			// additional user-controlled multiplier (always applied)
+			const userFactor = currentSettings.minimapScaleFactor.value.number;
+			cellW *= userFactor;
+			cellH *= userFactor;
+
+			switch (currentSettings.minimapRenderType.value.selected) {
+				case "Circle": // Circle
+					ctx.setTransform(1, 0, 0, 1, 0, 0);
+					let color = entity.color;
+					if(typeof color === "number") color = getColor(color);
+					ctx.fillStyle = color;
+					ctx.beginPath();
+					ctx.arc(drawX, drawY, cellW / 2, 0, Math.PI * 2);
+					ctx.fill();
+					break;
+
+				case "Entity Image": // Entity Image
+					const img = getEntityImage(entity, false, 1);
+					const ang = entity.facing;
+					const cosA = Math.cos(ang);
+					const sinA = Math.sin(ang);
+					ctx.setTransform(cosA, sinA, -sinA, cosA, drawX, drawY);
+					ctx.drawImage(img,
+						-cellW / 2,
+						-cellH / 2,
+						cellW,
+						cellH);
+					break;
+
+				case "Live Render": // Live Render (WHY WOULD YOU EVER DO THIS)
+					const img2 = getEntityImage(entity, true, 1);
+					const ang2 = entity.facing;
+					const cosA2 = Math.cos(ang2);
+					const sinA2 = Math.sin(ang2);
+					ctx.setTransform(cosA2, sinA2, -sinA2, cosA2, drawX, drawY);
+					ctx.drawImage(img2,
+						-cellW / 2,
+						-cellH / 2,
+						cellW,
+						cellH);
+					break;
 			}
 		}
 	}
@@ -187,19 +254,19 @@ function drawMinimap({ canvas, ctx, delta }) {
 
 minimap.drawFuncts.set("drawMinimap", drawMinimap);
 
-function openMinimap(){
-	state.active = true;
+function openMinimap() {
+	minimapState.active = true;
 	minimap.drawFuncts.set("drawMinimap", drawMinimap)
 }
 
-function closeMinimap(){
-	state.active = false;
+function closeMinimap() {
+	minimapState.active = false;
 }
 
-function toggleMinimap(){
-	if(state.active){
+function toggleMinimap() {
+	if (minimapState.active) {
 		closeMinimap();
-	}else{
+	} else {
 		openMinimap();
 	}
 }

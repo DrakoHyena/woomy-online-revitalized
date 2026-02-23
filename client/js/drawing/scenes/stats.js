@@ -134,18 +134,25 @@ function draw({ canvas, ctx, delta }) {
 	}
 
 	// ── Layout constants ───────────────────────────────────────────────
+	// scale multiplier for overall stats menu dimensions and bar sizes
+	const scale = currentSettings.statsSize ? currentSettings.statsSize.value.number : 1;
+	// multiplier applied to border thickness (0.01–5)
+	const borderMult = currentSettings.statsBorderSize ? currentSettings.statsBorderSize.value.number : 1;
+	// compute border based on average canvas dimension so it scales with resolution
+	const borderBase = (canvas.width + canvas.height) / 2;
+
 	// SHADOW     : black outline outset drawn around each coloured bar area
 	// INNER_PAD  : gap between the inner panel border and the bar shadow edges (all sides)
 	// BAR_GAP    : visible gap between adjacent bar shadow boxes
-	// PANEL_BORDER: outer grey strip thickness
-	const BASE_BAR_HEIGHT = canvas.height / 75;
-	const BAR_WIDTH       = canvas.height / 4.5;
+	// PANEL_BORDER: outer grey strip thickness (scaled)
+	const BASE_BAR_HEIGHT = canvas.height / 75 * scale;
+	const BAR_WIDTH       = canvas.height / 4.5 * scale;
 	const HOVER_SCALE     = 1.175;
 	const JIB_PADDING     = 2;
 	const SHADOW          = state.padding/2;  // shadow outset around coloured area
 	const INNER_PAD       = 6;             // inner panel border → bar shadow
 	const BAR_GAP         = 3;            // gap between bar shadow boxes
-	const PANEL_BORDER    = 5;             // outer grey border strip
+	const PANEL_BORDER    = borderBase * 0.005 * borderMult * scale; // dependent on canvas & settings
 
 	// Sync STAT_BARS with current player skills
 	let dirty = false;
@@ -217,7 +224,7 @@ function draw({ canvas, ctx, delta }) {
 	const heightRatio = fullPanelH > maxPanelH ? maxPanelH / fullPanelH : 1;
 
 	// Panel width: border + inner-pad + shadow + bar + shadow + inner-pad + border
-	const panelW = PANEL_BORDER * 2 + INNER_PAD * 2 + SHADOW * 2 + BAR_WIDTH;
+	let panelW = PANEL_BORDER * 2 + INNER_PAD * 2 + SHADOW * 2 + BAR_WIDTH;
 
 	// Panel anchored to bottom-left, slides in from the left
 	const outerX = state.margin - panelW * (1 - state.fade);

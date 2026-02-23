@@ -13,8 +13,9 @@ import { drawBar } from "../bar.js";
 const ROW_HEIGHT_MULT = 0.028;
 const ROW_MARGIN = 2.5;
 const BAR_WIDTH_MULT = 0.27; // fraction of canvas height used for bar width
-const MARGIN = 5;
-const PADDING = 5;
+// base constants for margin/padding; will be scaled below
+const BASE_MARGIN = 5;
+const BASE_PADDING = 5;
 const ANIM_SPEED = .8;
 
 let state = {
@@ -30,18 +31,33 @@ drawLoop.addScene("leaderboard", leaderboard);
 const leaderboardTiles = new Map();
 
 function calculateMetrics(canvas) {
-	const rowHeight = Math.round(canvas.height * ROW_HEIGHT_MULT);
-	const barWidth  = Math.round(canvas.height * BAR_WIDTH_MULT);
+	const scale = currentSettings.leaderboardSize ? currentSettings.leaderboardSize.value.number : 1;
+	const rowHeight = Math.round(canvas.height * ROW_HEIGHT_MULT * scale);
+	const barWidth  = Math.round(canvas.height * BAR_WIDTH_MULT * scale);
 
 	const titleText    = playerState.gui?.leaderboard?.title || "";
 	const titleSize    = titleText ? Math.round(rowHeight * 0.85) : 0;
 	const titleSpacing = titleText ? Math.round(rowHeight * 0.25) : 0;
 
-	// Anchor to top-right; content is inset by PADDING inside the outer box.
-	const rootX = Math.round(canvas.width - MARGIN - barWidth - 2 * PADDING);
-	const top   = MARGIN + 2 * PADDING + titleSize + titleSpacing;
+	const margin = BASE_MARGIN * scale;
+	const padding = BASE_PADDING * scale;
+	// compute border thickness once so the layout can take it into account
+	const borderMult = currentSettings.leaderboardBorderSize ? currentSettings.leaderboardBorderSize.value.number : 1;
+	// use average dim so border scales with canvas size, times global scale (same formula used later)
+	const borderBase = (canvas.width + canvas.height) / 2;
+	const border = borderBase * 0.005 * borderMult * scale;
 
-	return { rowHeight, rootX, barWidth, top, titleSize, titleSpacing };
+	// Anchor to top-right; content is inset by padding inside the outer box.
+	// rootX is the x-coordinate where the bars themselves begin.  When a border
+	// is present we need to shift the whole panel left by that amount so the
+	// right margin remains constant.  (previous implementation ignored the
+	// border, causing the border to “eat” into the margin.)
+	const rootX = Math.round(canvas.width - margin - border - barWidth - 2 * padding);
+	// Add border to the top offset so entries and title move down when the
+	// border grows; without this the vertical margin would shrink.
+	const top   = margin + border + 2 * padding + titleSize + titleSpacing;
+
+	return { rowHeight, rootX, barWidth, top, titleSize, titleSpacing, margin, padding, scale, border };
 }
 
 function makeEntryKey(entry) {
@@ -232,19 +248,31 @@ function drawBars({ canvas, ctx, delta }) {
 	const rootX = metrics.rootX + metrics.barWidth * (1 - state.fade);
 
 	// Outer and inner background panels (use animated state.contentH)
+	// already computed in calculateMetrics so the layout knows about it
+	const border = metrics.border;
 	ctx.globalAlpha = state.fade * currentSettings.leaderboardAlpha.value.number * currentSettings.leaderboardBackgroundAlpha.value.number;
-	const outerX = rootX - 2 * PADDING + metrics.barWidth * (1 - state.fade);
+	// adjust rootX according to fade (slide animation)
+	const outerX = rootX - 2 * metrics.padding - border + metrics.barWidth * (1 - state.fade);
+	// keep the top margin constant regardless of border thickness
+	const outerY = metrics.margin;
+	const outerW = metrics.barWidth + 4 * metrics.padding + 2 * border;
+	const outerH = state.contentH + 4 * metrics.padding + 2 * border;
 	ctx.fillStyle = "#777777";
-	ctx.fillRect(outerX, MARGIN, metrics.barWidth + 4 * PADDING, state.contentH + 4 * PADDING);
+	ctx.fillRect(outerX, outerY, outerW, outerH);
 	ctx.fillStyle = "#444444";
-	ctx.fillRect(outerX + PADDING, MARGIN + PADDING, metrics.barWidth + 2 * PADDING, state.contentH + 2 * PADDING);
+	ctx.fillRect(outerX + border + metrics.padding, outerY + border + metrics.padding, metrics.barWidth + 2 * metrics.padding, state.contentH + 2 * metrics.padding);
 	ctx.globalAlpha = state.fade * currentSettings.leaderboardAlpha.value.number;
 
 	// Title.
 	const titleText = playerState.gui?.leaderboard?.title || "";
 	if (titleText) {
 		const bmp = renderText(titleText, metrics.titleSize, { fillStyle: "#FFFFFF" }, true, metrics.barWidth - 8);
-		ctx.drawImage(bmp, rootX + Math.round((metrics.barWidth - bmp.width) / 2), MARGIN + 2 * PADDING);
+		// shift title down by border so it stays inside the outer panel
+		ctx.drawImage(
+			bmp,
+			rootX + Math.round((metrics.barWidth - bmp.width) / 2),
+			metrics.margin + metrics.border + 2 * metrics.padding
+		);
 	}
 
 	// Draw active tiles in server order, then any still-exiting tiles.

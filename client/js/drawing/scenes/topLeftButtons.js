@@ -55,6 +55,9 @@ const buttons = [
 		toggleChatMenu();
 	}, "#bd9869", "#b17d4d", "chattoggleIconBitmap"),
 	newButton(()=>{
+		toggleMinimap();
+	}, "#ff75b5", "#ff4d82", "mapIconBitmap"),
+	newButton(()=>{
 		toggleLeaderboard();
 	}, "#3ed8b7", "#3ba38d", "leaderboardtoggleIconBitmap"),
 	newButton(()=>{
@@ -84,6 +87,7 @@ const iconsToPreload = {
 	basicSwitchIconBitmap: "/resources/icons/basicSwitch-icon.png",
 	menutoggleIconBitmap: "/resources/icons/menutoggle-icon.png",
 	chattoggleIconBitmap: "/resources/icons/chattoggle-icon.png",
+	mapIconBitmap: "/resources/icons/map-icon.png",
 	leaderboardtoggleIconBitmap: "/resources/icons/leaderboardtoggle-icon.png",
 };
 for(let [key, url] of Object.entries(iconsToPreload)){
