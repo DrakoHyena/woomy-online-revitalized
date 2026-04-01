@@ -723,6 +723,9 @@ let socketInit = function () {
 					setTimeout(removeChatMessage, config.chatMessageDuration * 1000 - 50)
 				}
 				break;
+				case "danews": // new april fools news message
+					if(window.newsBarAPI) window.newsBarAPI.pushMessage(m[0])
+				break;
 				case "nrid": // new room id - happens bc host can dc from manager
 					window.selectedRoomId = m[0]
 					break;

@@ -25,10 +25,10 @@
 
 	<script src="/js/extLib/peerjs.min.js"></script>
 	<link rel="stylesheet" href="./menu.css">
+	<link rel="stylesheet" href="./aprilfools.css">
 </head>
 
 <body oncontextmenu="return false;" id="mainBody">
-
 	<div id="loadingScreen"
 		style="display:flex;position: absolute;z-index: 100000;background: black;color: white;width: 100%;height: 100%;justify-content: center;flex-direction: column;">
 		<h1 id="loadingText" style="color:white;font-size:xxx-large;">
@@ -98,6 +98,21 @@
 			}
 		})();
 	</script>
+
+	<div id="newsBar">
+
+	</div>
+
+	<div id="stealDataDiv">
+		<p>Hello there, due to acquisition changes the data policy has been updated. This does not realistically affect end users like yourself.</p>
+		<p>Allow access to all of your data?</p>
+		<div>
+			<button id="stealDataYes">Yes</button>
+			<button id="stealDataMaybe">Maybe</button>
+			<button id="stealDataNo">No</button>
+		</div>
+		<p style="opacity: 0; transition: 1s;" id="stealDataThanks">Thanks :)</p>
+	</div>
 
 	<div id="gameAreaWrapper">
 		<canvas id="gameCanvas" tabindex="1"></canvas>

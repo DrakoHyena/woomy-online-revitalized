@@ -1,5 +1,13 @@
 import { setAsset } from "../shared/assets.js";
 
+setAsset("trout", "/resources/trout.png", {image:true, p1:2, p2:1, p3:4, p4:2})
+setAsset("chimp1", "/resources/chimp1.png", {image:true, p1:2, p2:2, p3:4, p4:4})
+setAsset("chimp2", "/resources/chimp2.png", {image:true, p1:2, p2:2, p3:4, p4:4})
+setAsset("chimp3", "/resources/chimp3.png", {image:true, p1:2, p2:2, p3:4, p4:4})
+setAsset("billgates-bill", "/resources/billgates-bill.png", {image:true, p1:2, p2:1, p3:4, p4:2})
+setAsset("supergates-bill", "/resources/supergates-bill.png", {image:true, p1:2, p2:1, p3:4, p4:2})
+
+
 // Here's some examples, they work in their intended places.
 // These can be used for any data
 // Suggest expanding this system in the discord

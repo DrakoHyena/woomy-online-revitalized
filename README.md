@@ -1,8 +1,2 @@
-# Setup
-- Run `npm i`
-- Setup complete
-
-# Running
-- Run `npm start` or `node webserver.js`
-- Go to http://localhost
-- Running complete
+All the code in this branch is shit and is meant for giggles
+This is largely here for archival/historical purposes

@@ -195775,6 +195775,368 @@ defExports.laserTest5 = {
     }]
 }
 
+// APRIL FOOLS DEFS
+defExports.trout = {
+    TYPE: 'minion',
+    LABEL: 'Trout',
+    VALUE: 5000,
+    COLOR: 5,
+    SHAPE: getAsset("trout"),
+    SIZE: 10,
+    VARIES_IN_SIZE: true,
+    HEALTH_WITH_LEVEL: false,
+    CONTROLLERS: ['nearestDifferentMaster', 'mapTargetToGoal', "flee"],
+    AI: {
+        NO_LEAD: true
+    },
+    BODY: {
+        SPEED: 10,
+        ACCELERATION: 1,
+        HEALTH: 25,
+        DAMAGE: 1.5,
+        PENETRATION: 2,
+        PUSHABILITY: .5,
+        DENSITY: 10,
+        RESIST: 2
+    },
+    MOTION_TYPE: 'motor',
+    FACING_TYPE: 'smoothWithMotion',
+    HITS_OWN_TYPE: 'hard',
+    HAS_NO_MASTER: true,
+    DRAW_HEALTH: true,
+    GUNS: [],
+    TURRETS: [],
+};
+defExports.chimpShit = {
+    PARENT: [defExports.bullet],
+    ON_DEALT_DAMAGE: (me, them) => {
+        poison(me, them, .8, 3.5);
+    }
+};
+const chimpMsgs = [
+    "OO-OO-AHH-AHH",
+    "RAHHHHHHH",
+    "*UNINTELLIGIBLE SCREAMING*",
+    "*SCREECHING*",
+    "OO-OO-OO-OO-OO-AH-AH-AH",
+    "Activating.. Monkey Mode.",
+    "RAH AH AH",
+    "GRAAHHHHHHH",
+];
+defExports.chimp1 = {
+    TYPE: 'minion',
+    LABEL: 'Chimpanzee #1',
+    VALUE: 1000,
+    COLOR: 5,
+    SHAPE: getAsset("chimp1"),
+    SIZE: 15,
+    VARIES_IN_SIZE: true,
+    HEALTH_WITH_LEVEL: false,
+    CAN_BE_ON_LEADERBOARD: true,
+    CONTROLLERS: ['nearestDifferentMaster', "minion"],
+    AI: {
+        NO_LEAD: true
+    },
+    BODY: {
+        SPEED: 3.5,
+        ACCELERATION: 1,
+        HEALTH: 35,
+        SHIELD: 35/2,
+        REGEN: .05,
+        DAMAGE: 3,
+        PENETRATION: 2,
+        PUSHABILITY: .1,
+        DENSITY: 20,
+        RESIST: 2
+    },
+    MOTION_TYPE: 'motor',
+    FACING_TYPE: 'smoothWithMotion',
+    HITS_OWN_TYPE: 'hard',
+    HAS_NO_MASTER: true,
+    DRAW_HEALTH: true,
+    GUNS: [{
+        POSITION: [15, 5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.slow, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.less_reload, g.less_reload, g.less_reload]),
+            TYPE: defExports.chimpShit,
+            COLOR_OVERRIDE: 2,
+            SKIN: 15,
+        }
+    }],
+    TURRETS: [],
+    VARIABLES: {
+        tickNum: 0
+    },
+    ON_TICK: (me, sockets)=>{
+        me.variables.tickNum++;
+        if(me.variables.tickNum % 100 === 0){
+            sockets.talkToAll("cs", chimpMsgs[Math.floor(Math.random()*chimpMsgs.length)], me.id)
+        }
+    }
+};
+defExports.chimp2 = {
+    TYPE: 'minion',
+    LABEL: 'Chimpanzee #2',
+    VALUE: 1000,
+    COLOR: 5,
+    SHAPE: getAsset("chimp2"),
+    SIZE: 10,
+    VARIES_IN_SIZE: true,
+    HEALTH_WITH_LEVEL: false,
+    CAN_BE_ON_LEADERBOARD: true,
+    CONTROLLERS: ['nearestDifferentMaster', "minion"],
+    AI: {
+        NO_LEAD: true
+    },
+    BODY: {
+        SPEED: 3.5,
+        ACCELERATION: 1,
+        HEALTH: 35,
+        SHIELD: 35/2,
+        REGEN: .05,
+        DAMAGE: 3,
+        PENETRATION: 2,
+        PUSHABILITY: .1,
+        DENSITY: 20,
+        RESIST: 2
+    },
+    MOTION_TYPE: 'motor',
+    FACING_TYPE: 'smoothWithMotion',
+    HITS_OWN_TYPE: 'hard',
+    HAS_NO_MASTER: true,
+    DRAW_HEALTH: true,
+    GUNS: [{
+        POSITION: [15, 5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.slow, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.less_reload, g.less_reload, g.less_reload]),
+            TYPE: defExports.chimpShit,
+            COLOR_OVERRIDE: 2,
+            SKIN: 15,
+        }
+    }],
+    TURRETS: [],
+    VARIABLES: {
+        tickNum: 0
+    },
+    ON_TICK: (me, sockets)=>{
+        me.variables.tickNum++;
+        if(me.variables.tickNum % 100 === 0){
+            sockets.talkToAll("cs", chimpMsgs[Math.floor(Math.random()*chimpMsgs.length)], me.id)
+        }
+    }
+};
+defExports.chimp3 = {
+    TYPE: 'minion',
+    LABEL: 'Chimpanzee #3',
+    VALUE: 1000,
+    COLOR: 5,
+    SHAPE: getAsset("chimp3"),
+    SIZE: 10,
+    VARIES_IN_SIZE: true,
+    HEALTH_WITH_LEVEL: false,
+    CAN_BE_ON_LEADERBOARD: true,
+    CONTROLLERS: ['nearestDifferentMaster', "minion"],
+    AI: {
+        NO_LEAD: true
+    },
+    BODY: {
+        SPEED: 3.5,
+        ACCELERATION: 1,
+        HEALTH: 35,
+        SHIELD: 35/2,
+        REGEN: .05,
+        DAMAGE: 3,
+        PENETRATION: 2,
+        PUSHABILITY: .1,
+        DENSITY: 20,
+        RESIST: 2
+    },
+    MOTION_TYPE: 'motor',
+    FACING_TYPE: 'smoothWithMotion',
+    HITS_OWN_TYPE: 'hard',
+    HAS_NO_MASTER: true,
+    DRAW_HEALTH: true,
+    GUNS: [{
+        POSITION: [15, 5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.slow, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.more_damage, g.less_reload, g.less_reload, g.less_reload]),
+            TYPE: defExports.chimpShit,
+            COLOR_OVERRIDE: 2,
+            SKIN: 15,
+        }
+    }],
+    TURRETS: [],
+    VARIABLES: {
+        tickNum: 0
+    },
+    ON_TICK: (me, sockets)=>{
+        me.variables.tickNum++;
+        if(me.variables.tickNum % 100 === 0){
+            sockets.talkToAll("cs", chimpMsgs[Math.floor(Math.random()*chimpMsgs.length)], me.id)
+        }
+    }
+};
+defExports.microslopShare = {
+    PARENT: [defExports.food],
+    LABEL: 'Microslop Share',
+    VALUE: 10000,
+    SHAPE: getAsset("billgates-bill"),
+    SIZE: 15,
+    COLOR: 13,
+    GIVE_KILL_MESSAGE: true,
+    BODY: {
+        DAMAGE: 1,
+        DENSITY: 4,
+        HEALTH: 2,
+        ACCELERATION: 0.01,
+        PENETRATION: 2
+    },
+    DRAW_HEALTH: true,
+    INTANGIBLE: false,
+    EVOLUTIONS: [
+        ["microslopShare", .85],
+        ["superMicroslopShare", .25]
+    ]
+};
+defExports.superMicroslopShare = {
+    PARENT: [defExports.food],
+    LABEL: 'Super Microslop Share',
+    VALUE: 100000,
+    SHAPE: getAsset("supergates-bill"),
+    SIZE: 30,
+    COLOR: 13,
+    GIVE_KILL_MESSAGE: true,
+    BODY: {
+        DAMAGE: 1,
+        DENSITY: 4,
+        HEALTH: 100,
+        ACCELERATION: 0.01,
+        PENETRATION: 2
+    },
+    DRAW_HEALTH: true,
+    INTANGIBLE: false,
+    EVOLUTIONS: [
+    ]
+};
+defExports.meteorp1 = {
+    SHAPE: 307,
+    CONTROLLERS: ['reverseSpin'],
+    COLOR: 207,
+};
+defExports.meteorp2 = {
+    SHAPE: 307,
+    CONTROLLERS: ['spin'],
+    COLOR: 207,
+};
+defExports.meteorp3 = {
+    CONTROLLRES: ['reverseSpin'],
+    SHAPE: 308,
+    COLOR: 207,
+    TURRETS: [{
+        POSITION: [17.5, 0, 0, 45, 361, 0],
+        TYPE: [defExports.meteorp1],
+    }, {
+        POSITION: [17.5, 0, 0, 45, 361, 0],
+        TYPE: [defExports.meteorp2],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp1],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp2],
+    },],
+};
+defExports.meteorp4 = {
+    CONTROLLRES: ['reverseSpin'],
+    SHAPE: 308,
+    COLOR: 207,
+    TURRETS: [{
+        POSITION: [10, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp3],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp1],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp2],
+    },],
+};
+defExports.meteorinsignia = {
+    TYPE: 'minion',
+    LABEL: 'Meteor Strike',
+    COLOR: 207,
+    SIZE: 30,
+    VARIES_IN_SIZE: true,
+    HEALTH_WITH_LEVEL: false,
+    CAN_GO_OUTSIDE_ROOM: true,
+    DIE_AT_RANGE: true,
+    CONTROLLERS: [],
+    BODY: {
+        RANGE: 35 * 2.25,
+    },
+    FACING_TYPE: 'smoothWithMotion',
+    HAS_NO_MASTER: true,
+    PROPS: [makeAura(207)],
+    LAYER: 21,
+    SHAPE: 308,
+    HITS_OWN_TYPE: "forcedNever",
+    TURRETS: [{
+        POSITION: [15, 0, 0, 45, 361, 0],
+        TYPE: [defExports.meteorp1],
+    }, {
+        POSITION: [15, 0, 0, 45, 361, 0],
+        TYPE: [defExports.meteorp2],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp1],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp2],
+    }, {
+        POSITION: [10, 0, 0, 0, 361, 0],
+        TYPE: [defExports.meteorp4],
+    },],
+    GUNS: [{
+        POSITION: [0, 20, 1, 10, 0, 0, Infinity],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.shrapnelExplosion]),
+            ALT_FIRE: true,
+            TYPE: [defExports.bullet, {
+                BODY: {
+                    PENETRATION: 1,
+                    SPEED: 3.75,
+                    RANGE: 120,
+                    DENSITY: 1.25,
+                    HEALTH: 100,
+                    DAMAGE: 20,
+                    PUSHABILITY: .3
+                },
+                MOTION_TYPE: 'crockett',
+                LABEL: 'Explosion',
+                PERSISTS_AFTER_DEATH: true,
+                GO_THRU_OBSTACLES: true,
+                CAN_GO_OUTSIDE_ROOM: true,
+                ON_DAMAGED: (me, them) => {
+                    torch(me, them, 1, 1);
+                },
+            }],
+            SHOOT_ON_DEATH: true,
+            SKIN: 15
+        }
+    },],
+};
+defExports.snowstormFlake = {
+    PARENT: [defExports.bullet],
+    SHAPE: 0, // 292
+    SIZE: 5,
+    COLOR: 6, // 243
+    BODY: {
+        RANGE: 90
+    },
+    ON_DEALT_DAMAGE: (me, them) => {
+        ice(them, 1.5, 1);
+    }
+};
 
 /* TO DO:
 Make Snipe Guard level 30 and adjust its branches accordingly
