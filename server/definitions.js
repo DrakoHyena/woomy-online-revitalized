@@ -7,6042 +7,449 @@ var defExports = {}
 // Stats
 let convert = (stat) => [stat.reload, stat.recoil, stat.shudder, stat.size, stat.health, stat.damage, stat.pen, stat.speed, stat.maxSpeed, stat.range, stat.density, stat.spray, stat.resist];
 
-const stats = {
-    blank: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_health: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 2,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    serpenttail: {
-        reload: 0.5,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 75,
-        damage: 3,
-        pen: 0.75,
-        speed: 0,
-        maxSpeed: 0,
-        range: 5959,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    sparkle: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.35,
-        damage: 1.15,
-        pen: 1.35,
-        speed: 0.8,
-        maxSpeed: 0.8,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    explosion: {
-        reload: 1,
-        recoil: 0,
-        shudder: .1,
-        size: 50,
-        health: 50,
-        damage: .125,
-        pen: 100,
-        speed: 0,
-        maxSpeed: 0,
-        range: 1.75,
-        density: 5,
-        spray: 1,
-        resist: 2
-    },
-	trap: {//buffed - nerfed
-        reload: 48,
-        recoil: 1,
-        shudder: .25,
-        size: .65,
-        health: 0.3,//1.025
-        damage: .7,//.3
-        pen: 1.08,
-        speed: 4.9,
-        maxSpeed: 1,
-        range: 1.125,
-        density: 1,
-        spray: 15,
-        resist: 1.15//3
-    },
-    swarm: {
-        reload: 27,
-        recoil: .25,
-        shudder: .05,
-        size: .4,
-        health: .9,
-        damage: .235,
-        pen: .85,
-        speed: 3.5,
-        maxSpeed: 1,
-        range: 1,
-        density: .8,
-        spray: 5,
-        resist: 1.25
-    },
-    drone: {//nerfed - buffed
-        reload: 60,
-        recoil: .25,
-        shudder: .1,
-        size: .6,
-        health: 4.334/*4.334*/, //4.2
-        damage: 0.9,/*.334*/ // 0.6,
-        pen: 1.1,
-        speed: 2.334,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .1,
-        resist: 1.1
-    },
-    factory: {//nerfed - buffed
-        reload: 72,
-        recoil: 1,
-        shudder: .1,
-        size: .7,
-        health: 1.6,//1.6
-        damage: .425,//.2
-        pen: 1,
-        speed: 3,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .1,
-        resist: 1
-    },
-    pushFactory: {
-        reload: 72,
-        recoil: 1,
-        shudder: .1,
-        size: .7,
-        health: 5,
-        damage: .1,
-        pen: 1,
-        speed: 1.5,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .1,
-        resist: 1
-    },
-    basic: {//buffed
-        reload: 20,
-        recoil: 1.4,
-        shudder: .1,
-        size: 1,
-        health: 1.775/*2*/,//1.8
-        damage: 0.197/*.2*/,//0.15
-        pen: 1,
-        speed: 4.5,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 15,
-        resist: 1
-    },
-    command: {//buffed
-        reload: 3,
-        recoil: 1.5,
-        shudder: .1,
-        size: 1.25,
-        health: 1,
-        damage: .75,
-        pen: .85,
-        speed: 1.5,//1
-        maxSpeed: 1.5,//1
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    spam: {//buffed
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1.12,//1.1
-        pen: 1,
-        speed: .9,
-        maxSpeed: .785,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    minion: {
-        reload: 1,
-        recoil: 1,
-        shudder: 2,
-        size: 1,
-        health: .4,
-        damage: .8,
-        pen: 1.5,
-        speed: 1,
-        maxSpeed: 1,
-        range: .75,
-        density: 1,
-        spray: 2,
-        resist: 1
-    },
-    single: {//buffed
-        reload: 1.05,//1.1
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.075,//1.05
-        damage: 1.075,//1.05
-        pen: 1,
-        speed: 1.05,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    sniper: {//buffed
-        reload: 1.32/*1.295*/,
-        recoil: 1,
-        shudder: .25,
-        size: 1,
-        health: 1.15,//1
-        damage: 1.425,//1.075
-        pen: 1.225,
-        speed: 1.25,
-        maxSpeed: 1.35,
-        range: 1,
-        density: 1.1,
-        spray: .25,
-        resist: 1.03//1.1
-    },
-    assassin: {//buffed
-        reload: 1.5,
-        recoil: 1,
-        shudder: .25,
-        size: 1,
-        health: 1.2,//1.1
-        damage: 1.325,//1
-        pen: 1.1,
-        speed: 1.1,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1.05,
-        spray: .5,
-        resist: 1.025//1.05
-    },
-    ranger: {//buffed
-        reload: 1.1,
-        recoil: 1.1,
-        shudder: .5,
-        size: 1,
-        health: .7,//1.1
-        damage: 1.5,//1
-        pen: 1,
-        speed: 1.3,
-        maxSpeed: 1.3,
-        range: 1.05,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    warden: {//buffed
-        reload: 1.1,
-        recoil: 1.05,
-        shudder: .5,
-        size: 1,
-        health: .5,
-        damage: 2.12,//1
-        pen: 1,
-        speed: 1.05,
-        maxSpeed: 1.05,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    rifle: {//buffed
-        reload: .85,
-        recoil: .8,
-        shudder: 1.5,
-        size: .95,
-        health: .975,//.9
-        damage: 1,//.785
-        pen: .9,
-        speed: 1.05,
-        maxSpeed: 1.05,
-        range: 1,
-        density: 1,
-        spray: 2,
-        resist: 1
-    },
-    pistol: {//buffed
-        reload: .8,
-        recoil: .7,
-        shudder: 1.75,
-        size: 1,
-        health: .975,//.95
-        damage: 1,
-        pen: .95,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1,
-        density: .9,
-        spray: 2.5,
-        resist: .9
-    },
-    snake: {//buffed
-        reload: .4,
-        recoil: 1,
-        shudder: 4,
-        size: 1,
-        health: 1.5,
-        damage: .95,//.9
-        pen: 1.2,
-        speed: .2,
-        maxSpeed: .35,
-        range: 1,
-        density: 3,
-        spray: 6,
-        resist: .5
-    },
-    sidewind: {//buffed
-        reload: 1.5,
-        recoil: 2,
-        shudder: 1,
-        size: 1,
-        health: 1.6,
-        damage: 1.05,//1
-        pen: 1,
-        speed: .2,
-        maxSpeed: .6,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    snake_skin: {
-        reload: .6,
-        recoil: 1,
-        shudder: 2,
-        size: 1,
-        health: .5,
-        damage: .5,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .2,
-        range: .4,
-        density: 1,
-        spray: 5,
-        resist: 1
-    },
-    hunter: {
-        reload: 1.5,
-        recoil: .7,
-        shudder: 1,
-        size: .8,
-        health: .9,
-        damage: .8,
-        pen: 1,
-        speed: 1.05,
-        maxSpeed: .8,
-        range: 1,
-        density: 1.2,
-        spray: 1,
-        resist: 1.15
-    },
-    hunter2: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .85,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: 1,
-        resist: 1
-    },
-    preda: {
-        reload: 1.3,
-        recoil: 1,
-        shudder: 1,
-        size: .9,
-        health: 1.35,
-        damage: .9,
-        pen: 1.2,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    rocket_thrust: {
-        reload: .5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    mach: {//buffed
-        reload: .5,
-        recoil: .8,
-        shudder: 1.7,
-        size: 1,
-        health: .8,//.75
-        damage: .8,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .82,
-        range: 1,
-        density: 1,
-        spray: 2.5,
-        resist: 1
-    },
-    blast: {
-        reload: .88,
-        recoil: 1.25,
-        shudder: 1.25,
-        size: 1.05,
-        health: .95,
-        damage: 1.1,
-        pen: 1.1,
-        speed: .8,
-        maxSpeed: .465,
-        range: .65,
-        density: .5,
-        spray: 1.5,
-        resist: .8
-    },
-    chain: {//buffed
-        reload: 1.25,
-        recoil: 1.33,
-        shudder: .8,
-        size: 1,
-        health: .8,
-        damage: 1.34,//1
-        pen: 6,//1
-        speed: 1.275,//1.25
-        maxSpeed: 1.275,//1.25
-        range: 1.1,
-        density: 3.2,//1.25
-        spray: .5,
-        resist: 2//1.1
-    },
-    mini: {//buffed
-        reload: 1.25,
-        recoil: .6,
-        shudder: 1,
-        size: .8,
-        health: .625,//.55
-        damage: .685,//.55
-        pen: 1,
-        speed: 1.315,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .6,
-        resist: 1
-    },
-    stream: {//buffed
-        reload: 1.1,
-        recoil: .6,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .675,//.65
-        pen: 1,
-        speed: 1.24,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    smother: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1.1,
-        size: 1,
-        health: .95,
-        damage: .95,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .9,
-        resist: 1
-    },
-    x_smother: {
-        reload: 1.325,
-        recoil: 1,
-        shudder: .9,
-        size: 1,
-        health: .95,
-        damage: .95,
-        pen: 1,
-        speed: 1.05,
-        maxSpeed: 1.1,
-        range: .95,
-        density: 1,
-        spray: .9,
-        resist: 1
-    },
-    barricade: {
-        reload: .475,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: 1.15,
-        pen: .9,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: .5,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    sgun: {//buffed
-        reload: 7,//9
-        recoil: .325,
-        shudder: 1.1,
-        size: 1.5,
-        health: 1,
-        damage: .825,//.75
-        pen: .78,//.72
-        speed: 1.675,
-        maxSpeed: .6,
-        range: 1,
-        density: 5,//1.2
-        spray: 1.2,
-        resist: 1
-    },
-    flank: {//buffed
-        reload: 1,
-        recoil: 1.2,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .95,
-        pen: .915,//.9
-        speed: 1,
-        maxSpeed: .875,
-        range: 1,
-        density: 1.2,
-        spray: 1,
-        resist: 1
-    },
-    tri: {//buffed
-        reload: 1,
-        recoil: .9,
-        shudder: 1,
-        size: 1,
-        health: 1.04,//1
-        damage: 1,//.95
-        pen: .95,
-        speed: .8,
-        maxSpeed: .8,
-        range: .6,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    tri_front: {
-        reload: 1,
-        recoil: .2,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.3,
-        maxSpeed: 1.1,
-        range: 1.5,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    thruster: {
-        reload: 1,
-        recoil: 1.33,
-        shudder: 2,
-        size: 1,
-        health: .5,
-        damage: .8,//.5
-        pen: .7,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: .7
-    },
-    auto: {//buffed
-        reload: 1.1,
-        recoil: .75,
-        shudder: .5,
-        size: .8,
-        health: 1.5,
-        damage: .525,//.45
-        pen: 1.5,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: .8,
-        density: 1.25,
-        spray: 1,
-        resist: 1.25
-    },
-    five: {
-        reload: 1.125,
-        recoil: 1,
-        shudder: 1.1,
-        size: 1,
-        health: .85,
-        damage: .85,
-        pen: 1.2,
-        speed: 1.05,
-        maxSpeed: 1.05,
-        range: 1.1,
-        density: 1,
-        spray: 1.1,
-        resist: 1
-    },
-    seven: {
-        reload: 1.15,
-        recoil: .9,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.05,
-        density: 1.75,
-        spray: 1.1,
-        resist: 1
-    },
-    snipe3: {
-        reload: 1.85,
-        recoil: 1,
-        shudder: .25,
-        size: 1.4,
-        health: 1,
-        damage: .95,
-        pen: .95,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 2,
-        spray: .5,
-        resist: 1.3
-    },
-    heavy3: {
-        reload: .95,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    clusterbomb: {
-        reload: 2.15,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.8,
-        damage: 1.375,
-        pen: 1.5,
-        speed: .7,
-        maxSpeed: .7,
-        range: .67,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    clbexplode: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .4,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    giga3: {
-        reload: 1.25,
-        recoil: 1.3,
-        shudder: 1,
-        size: 1.1,
-        health: .9,
-        damage: .9,
-        pen: .9,
-        speed: 1,
-        maxSpeed: .95,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    boomer3: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.25,
-        health: .95,
-        damage: .95,
-        pen: .95,
-        speed: 1,
-        maxSpeed: .95,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    auto_turret: {//buffed
-        reload: 1.1,
-        recoil: .3,
-        shudder: .9,
-        size: 1.125,
-        health: .95,//.6
-        damage: .95,//.255
-        pen: .95,
-        speed: 1.6,
-        maxSpeed: 1.2,
-        range: 1,
-        density: .3,
-        spray: .75,
-        resist: 1.75
-    },
-    sanctuaryPoly: {
-        reload: 1,
-        recoil: 0,
-        shudder: .01,
-        size: 1,
-        health: 1.1,
-        damage: 1.2,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    super_auto: {
-        reload: 3.5,
-        recoil: 0,
-        shudder: .65,
-        size: .9,
-        health: .85,
-        damage: .75,
-        pen: 1.15,
-        speed: 1.1,
-        maxSpeed: 1.1,
-        range: .875,
-        density: 1.3,
-        spray: 1.1,
-        resist: 1.25
-    },
-    defend_auto: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1.1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.2,
-        maxSpeed: 1,
-        range: 1.1,
-        density: 1,
-        spray: 1.1,
-        resist: 1
-    },
-    legacyclose: {
-        reload: 1.2,
-        recoil: 0.2,
-        shudder: 0.5,
-        size: 1,
-        health: 5.5,
-        damage: 0.55,
-        pen: 2.25,
-        speed: 2,
-        maxSpeed: 3,
-        range: 1,
-        density: 1.6,
-        spray: 0.5,
-        resist: 1.15
-    },
-    sans: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 50,
-        damage: 0.1,
-        pen: 4,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.6,
-        spray: 0.5,
-        resist: 1.15
-    },
-    pound: {//buffed - nerfed
-        reload: 2.2,//2
-        recoil: 1.8,//1.75
-        shudder: 1,
-        size: 1,
-        health: 1.45,//1.1
-        damage: 1.4,//1.65
-        pen: 1.05,
-        speed: 1,//.875
-        maxSpeed: .925,
-        range: 1,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    destroy: {//buffed
-        reload: 2.25,
-        recoil: 1.85,
-        shudder: .5,
-        size: 1,
-        health: 1.72,
-        damage: 1.7,//1.65
-        pen: 1.2,
-        speed: .75,
-        maxSpeed: .85,//.575
-        range: 1,
-        density: 1.6,
-        spray: 1,
-        resist: 3
-    },
-    anni: {//buffed
-        reload: 1,
-        recoil: 1.2,
-        shudder: 1,
-        size: 1,
-        health: 1.6,//1
-        damage: 1.45,//1.2
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1.075//1
-    },
-    rainbowMegaTrap: {
-        reload: 1,
-        recoil: 1.75,
-        shudder: 1,
-        size: 2.5,
-        health: 1.1,
-        damage: 1.65,
-        pen: 1.05,
-        speed: .675,
-        maxSpeed: .725,
-        range: 1,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    steam: {
-        reload: 1.125,
-        recoil: 1,
-        shudder: .85,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.25,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1,
-        spray: .85,
-        resist: 1
-    },
-    shell: {
-        reload: 2.5,
-        recoil: 1.75,
-        shudder: 1,
-        size: .7,
-        health: .7,
-        damage: 1,
-        pen: .9,
-        speed: .8,
-        maxSpeed: .925,
-        range: .7,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    sShell: {
-        reload: 3.5,
-        recoil: 1.75,
-        shudder: 1,
-        size: .7,
-        health: .7,
-        damage: 1,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1.2,
-        range: .7,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    ssShell: {
-        reload: 4.7,
-        recoil: 1.75,
-        shudder: 1,
-        size: .7,
-        health: .7,
-        damage: 1,
-        pen: .9,
-        speed: 1.5,
-        maxSpeed: 1.7,
-        range: .7,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    decentralize: {//buffed - nerfed
-        reload: 1.24,
-        recoil: 1.5,//1.3
-        shudder: 1.1,
-        size: 1.25,
-        health: 1.1,
-        damage: 1.15,//1.1
-        pen: 1.1,
-        speed: 1.1,
-        maxSpeed: 1.075,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    intercept: {
-        reload: 1.375,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .975,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .925,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    wreck: {
-        reload: 1.25,
-        recoil: .7,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .9,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: 1,
-        resist: .9
-    },
-    op_anni: {
-        reload: .5,
-        recoil: 0,
-        shudder: .25,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 2,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    mini_hive: {
-        reload: 1.05,
-        recoil: .25,
-        shudder: 1,
-        size: .9,
-        health: .85,
-        damage: .9,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .6,
-        range: .925,
-        density: .95,
-        spray: 1,
-        resist: .95
-    },
-    hive: {
-        reload: .75,
-        recoil: .3,
-        shudder: 1,
-        size: .8,
-        health: .85,
-        damage: .65,
-        pen: 1,
-        speed: 1.05,
-        maxSpeed: .65,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    arty: {//buffed
-        reload: 1.175,
-        recoil: .75,
-        shudder: 1,
-        size: .9,
-        health: 1.05,//1
-        damage: .975,
-        pen: 1.01,
-        speed: 1.15,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1.5,
-        spray: 1,
-        resist: 1
-    },
-    mortar: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1,
-        pen: 1,
-        speed: .8,
-        maxSpeed: .8,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    spread_main: {
-        reload: .75,
-        recoil: .25,
-        shudder: .5,
-        size: 1,
-        health: .63,
-        damage: 1,
-        pen: .9,
-        speed: 1.92,
-        maxSpeed: 1.154,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    spread: {
-        reload: 1.5,
-        recoil: 1,
-        shudder: .25,
-        size: 1,
-        health: 1.1,
-        damage: 1.16,
-        pen: 1,
-        speed: .7,
-        maxSpeed: .7,
-        range: 1,
-        density: 1,
-        spray: .25,
-        resist: 1
-    },
-    spread1: {
-        reload: 2.2,
-        recoil: .4375,
-        shudder: .125,
-        size: 1,
-        health: .65,
-        damage: 1.7,
-        pen: .95,
-        speed: 1.05,
-        maxSpeed: .75,
-        range: 1,
-        density: 1.5,
-        spray: .25,
-        resist: 1.15
-    },
-    spread2: {
-        reload: 1,
-        recoil: .1,
-        shudder: .345,
-        size: 1,
-        health: .835,
-        damage: .495,
-        pen: 1.2,
-        speed: .825,
-        maxSpeed: .775,
-        range: 1,
-        density: .9,
-        spray: .5,
-        resist: .8
-    },
-    skim: {
-        reload: 1.275,
-        recoil: .8,
-        shudder: .8,
-        size: .9,
-        health: 1.35,
-        damage: 1.05,
-        pen: 2,
-        speed: .4,
-        maxSpeed: .4,
-        range: 1.325,
-        density: 1,
-        spray: 1,
-        resist: .995
-    },
-    dustbowlDust: {
-        reload: 0.95,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 0.95,
-        pen: 1.5,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 2
-    },
-    twin: {
-        reload: 1.125,
-        recoil: .6,
-        shudder: .9,
-        size: 1,
-        health: .85,
-        damage: .9,
-        pen: .925,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1.2,
-        resist: 1
-    },
-    bent: {
-        reload: 1,
-        recoil: 1,
-        shudder: .8,
-        size: 1,
-        health: .85,
-        damage: 1,
-        pen: .85,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .8,
-        spray: .5,
-        resist: 1
-    },
-    triplet: {
-        reload: 1.2,
-        recoil: .6666666666666666,
-        shudder: .9,
-        size: 1,
-        health: .815,
-        damage: .95,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.1,
-        spray: .9,
-        resist: .95
-    },
-    quint: {
-        reload: 1.385,
-        recoil: .6666666666666666,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .95,
-        pen: .95,
-        speed: 1,
-        maxSpeed: .975,
-        range: 1,
-        density: 1,
-        spray: .9,
-        resist: .9
-    },
-    dual: {
-        reload: 2.85,
-        recoil: 1,
-        shudder: .8,
-        size: .98,
-        health: 1.32,
-        damage: 1,
-        pen: 1.1,
-        speed: 1.3,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1.25
-    },
-    dual2: {
-        reload: 1,
-        recoil: 1,
-        shudder: .8,
-        size: 1,
-        health: .5,
-        damage: .55,
-        pen: .7,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: .75
-    },
-    double: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .9,
-        pen: .9,
-        speed: 1,
-        maxSpeed: .975,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    hewn: {
-        reload: 1.25,
-        recoil: 1.5,
-        shudder: 1,
-        size: 1,
-        health: .95,
-        damage: .9,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .95,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    pure_gunner: {//buffed
-        reload: 1,
-        recoil: .25,
-        shudder: 1,
-        size: 1.1,
-        health: 1.45,
-        damage: .425,//.3
-        pen: 1.25,
-        speed: .9,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.5,
-        spray: 1,
-        resist: 1.2
-    },
-    machgun: {
-        reload: .66,
-        recoil: .8,
-        shudder: 2,
-        size: 1,
-        health: .95,
-        damage: .75,
-        pen: .9,
-        speed: 1.125,
-        maxSpeed: .8,
-        range: 1,
-        density: 1,
-        spray: 2.5,
-        resist: 1
-    },
-    gunner: {
-        reload: 1.25,
-        recoil: .25,
-        shudder: 1.5,
-        size: 1.1,
-        health: 1,
-        damage: .35,
-        pen: 1.25,
-        speed: .9,
-        maxSpeed: .8,
-        range: 1,
-        density: 1.5,
-        spray: 1.5,
-        resist: 1.2
-    },
-    power: {
-        reload: 1,
-        recoil: 1,
-        shudder: .6,
-        size: 1.2,
-        health: 1,
-        damage: 1,
-        pen: 1.25,
-        speed: 2,
-        maxSpeed: 1.7,
-        range: 1,
-        density: 2,
-        spray: .5,
-        resist: 1.5
-    },
-    nail: {//buffed
-        reload: .85,
-        recoil: 2.5,
-        shudder: 1,
-        size: .8,
-        health: 1.15,
-        damage: 1.675,//.8
-        pen: 1.1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    pebble: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.21,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.125,
-        maxSpeed: 1.1,
-        range: 1,
-        density: .5,
-        spray: 1,
-        resist: .5
-    },
-    nano: {//buffed
-        reload: 1.3,
-        recoil: 1,
-        shudder: 1,
-        size: 1.5,
-        health: 1,
-        damage: 1.475,//1.25
-        pen: 1.5,
-        speed: 1.25,
-        maxSpeed: 1.15,
-        range: 1,
-        density: .4,
-        spray: 1,
-        resist: .4
-    },
-    staple: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1.1,
-        size: 1,
-        health: .95,
-        damage: .65,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .9,
-        resist: 1
-    },
-    turret: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .85,
-        health: .6,
-        damage: .6,
-        pen: .6,
-        speed: .9,
-        maxSpeed: .85,
-        range: 1,
-        density: .1,
-        spray: 1,
-        resist: 1
-    },
-    bees: {
-        reload: 1.8,
-        recoil: 1,
-        shudder: 1,
-        size: 1.4,
-        health: 1.3,
-        damage: .9,
-        pen: .65,
-        speed: 3,
-        maxSpeed: 1.5,
-        range: 1,
-        density: .25,
-        spray: 1,
-        resist: 1
-    },
-    battle: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.2,
-        damage: 1.1,
-        pen: 1,
-        speed: .8,
-        maxSpeed: 1.15,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1.1
-    },
-    tempest: {
-        reload: .26,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 4,
-        damage: .2,
-        pen: 0.5,
-        speed: .01,
-        maxSpeed: 1.25,
-        range: 1,
-        density: 10,
-        spray: 1,
-        resist: 5
-    },
-    carrier: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .9,
-        pen: 1,
-        speed: 1.2,
-        maxSpeed: 1.2,
-        range: 1.1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    hexatrap: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1.2,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .8,
-        maxSpeed: 1,
-        range: .575,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    octog: {
-        reload: 1.25,
-        recoil: 0,
-        shudder: .25,
-        size: 1.45,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .6,
-        maxSpeed: 1,
-        range: 1.1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    defend: {
-        reload: 1.24,
-        recoil: 1,
-        shudder: .25,
-        size: .85,
-        health: 1.1,
-        damage: 1.2,
-        pen: 1.1,
-        speed: .85,
-        maxSpeed: 1,
-        range: 2.3,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    block: {//buffed - nerfed
-        reload: 1.25,
-        recoil: 2,
-        shudder: .1,
-        size: 1.5,
-        health: 1.25,//1.875
-        damage: 1.35,//1
-        pen: .95,
-        speed: 1.475,
-        maxSpeed: 2.475,
-        range: 1.215,
-        density: 1.1,
-        spray: 1,
-        resist: 1.5
-    },
-    construct: {//buffed
-        reload: 1.3,
-        recoil: 1,
-        shudder: 1,
-        size: .9,
-        health: 1.25,//1
-        damage: 1.1,//1.45
-        pen: 1,
-        speed: .87,
-        maxSpeed: .95,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    boomerang: {//buffed - nerfed
-        reload: .8,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,//1.1
-        damage: .725,//.7
-        pen: 1.5,
-        speed: .8,
-        maxSpeed: .75,
-        range: 1.35,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    decalibrate: {
-        reload: 1.45,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.15,
-        pen: 1.1,
-        speed: .95,
-        maxSpeed: .925,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    over: {
-        reload: 1.15,
-        recoil: 1,
-        shudder: 1,
-        size: .85,
-        health: .7,
-        damage: .75,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .9,
-        range: 1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    meta: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .85,
-        damage: .8,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    weak: {
-        reload: 2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .6,
-        damage: .6,
-        pen: .8,
-        speed: .5,
-        maxSpeed: .7,
-        range: .25,
-        density: .3,
-        spray: 1,
-        resist: 1
-    },
-    master: {
-        reload: 1.7,
-        recoil: 1,
-        shudder: 1,
-        size: .7,
-        health: .7,
-        damage: .5,
-        pen: .7,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .7,
-        spray: 1,
-        resist: 1
-    },
-    sunchip: {//buffed
-        reload: 2.45,
-        recoil: 1,
-        shudder: 1,
-        size: 1.35,
-        health: .55,//.525
-        damage: .35,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    pentachip: {//buffed
-        reload: 1.05,
-        recoil: 1,
-        shudder: 1,
-        size: .95,
-        health: 1.1,
-        damage: 1.1,//1.05
-        pen: 1,
-        speed: .925,
-        maxSpeed: .925,
-        range: 1,
-        density: 1.2,
-        spray: 1,
-        resist: 1
-    },
-    dorito: {//buffed
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .75,
-        health: 1,
-        damage: 1.2,//1.1
-        pen: 1,
-        speed: .95,
-        maxSpeed: .95,
-        range: 1,
-        density: 1.1,
-        spray: 1,
-        resist: 1
-    },
-    malefict: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.05,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: .8,
-        maxSpeed: .8,
-        range: 1,
-        density: 1.15,
-        spray: 1,
-        resist: 1
-    },
-    enchantress: {
-        reload: .425,
-        recoil: 1,
-        shudder: 1,
-        size: 0.835,
-        health: .45,
-        damage: .55,
-        pen: .5,
-        speed: 0.9,
-        maxSpeed: 0.9,
-        range: 1,
-        density: .8,
-        spray: 1,
-        resist: 1
-    },
-    excorcist: {
-        reload: .675,
-        recoil: 1,
-        shudder: 1,
-        size: 0.95,
-        health: .75,
-        damage: .75,
-        pen: .75,
-        speed: 0.8,
-        maxSpeed: 0.8,
-        range: 1,
-        density: .8,
-        spray: 1,
-        resist: 1
-    },
-    sorcer: {
-        reload: .125,
-        recoil: 1,
-        shudder: 1,
-        size: 0.85,
-        health: .25,
-        damage: .25,
-        pen: .15,
-        speed: 1.3,
-        maxSpeed: 1.3,
-        range: 1,
-        density: .8,
-        spray: 1,
-        resist: 1
-    },
-    summon: {
-        reload: .35,
-        recoil: 1,
-        shudder: 1,
-        size: 1.125,
-        health: .4,
-        damage: .35,
-        pen: .4,
-        speed: 0.95,
-        maxSpeed: 0.95,
-        range: 1,
-        density: .8,
-        spray: 1,
-        resist: 1
-    },
-    baby_factory: {
-        reload: 1.5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.8,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1.35,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    no_recoil: {
-        reload: 1,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    half_recoil: {
-        reload: 1,
-        recoil: .5,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_recoil: {
-        reload: 1,
-        recoil: .65,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_less_recoil: {
-        reload: 1,
-        recoil: .8,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_recoil: {
-        reload: 1,
-        recoil: 1.15,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    much_more_recoil: {
-        reload: 1,
-        recoil: 1.35,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    lots_more_recoil: {
-        reload: 1,
-        recoil: 1.8,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    tons_more_recoil: {
-        reload: 1,
-        recoil: 4,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    triple_reload: {
-        reload: .3333333333333333,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    quintuple_reload: {
-        reload: .2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_reload: {
-        reload: .5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    unfathomable_reload: {
-        reload: .0001,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_reload: {
-        reload: .85,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_more_reload: {
-        reload: .9,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_less_reload: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    one_fifth_reload: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    one_fourth_reload: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    one_third_reload: {
-        reload: 1.333,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_reload: {
-        reload: 1.5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    half_reload: {
-        reload: 2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    destroy_dominator: {
-        reload: 6.5,
-        recoil: 0,
-        shudder: 1,
-        size: .975,
-        health: 6,
-        damage: 6,
-        pen: 6,
-        speed: .575,
-        maxSpeed: .475,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    gun_dominator: {
-        reload: 1.1,
-        recoil: 0,
-        shudder: 1.1,
-        size: .5,
-        health: .5,
-        damage: .5,
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: 1.2,
-        resist: .8
-    },
-    trap_dominator: {
-        reload: .8,
-        recoil: 0,
-        shudder: .25,
-        size: 1,
-        health: .8,
-        damage: 1,
-        pen: 1.3,
-        speed: .5,
-        maxSpeed: 2,
-        range: .7,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    drone_dominator: {
-        reload: 1.5,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .8,
-        pen: 1.3,
-        speed: 1,
-        maxSpeed: .9,
-        range: 1,
-        density: 1.25,
-        spray: 1,
-        resist: 1
-    },
-    auto_dominator: {//buffed
-        reload: 1.6,//2.3
-        recoil: 0,
-        shudder: .75,
-        size: .85,
-        health: .8,
-        damage: .9,//.525
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: .9,
-        density: 1.15,
-        spray: 1,
-        resist: 1.1
-    },
-    dem_trap: {
-        reload: 1.35,
-        recoil: 0,
-        shudder: .5,
-        size: 1.25,
-        health: 1.05,
-        damage: 1,
-        pen: 1.25,
-        speed: .5,
-        maxSpeed: 1.55,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    dem_mach: {
-        reload: 2.85,
-        recoil: 0,
-        shudder: 1.25,
-        size: .55,
-        health: .75,
-        damage: .25,
-        pen: .75,
-        speed: 1,
-        maxSpeed: .85,
-        range: 1,
-        density: 1,
-        spray: 1.25,
-        resist: 1
-    },
-    dem_factory: {
-        reload: 175,
-        recoil: 0,
-        shudder: .25,
-        size: .315,
-        health: .5,
-        damage: .5,
-        pen: .5,
-        speed: 2.45,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    dem_minion: {
-        reload: 1.35,
-        recoil: .95,
-        shudder: 1.85,
-        size: .9,
-        health: .4,
-        damage: .35,
-        pen: .4,
-        speed: .5,
-        maxSpeed: 1,
-        range: .75,
-        density: 1,
-        spray: 1.85,
-        resist: 1
-    },
-    more_speed: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.3,
-        maxSpeed: 1.3,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_speed: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 2,
-        maxSpeed: 2,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fast: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.2,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    faster: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_slow: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    slow: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .7,
-        maxSpeed: .7,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fried_egg: {
-        reload: .4,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .0001,
-        maxSpeed: .0001,
-        range: 15,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    charge: {
-        reload: 1,
-        recoil: 1,
-        shudder: .5,
-        size: 1,
-        health: 1,
-        damage: .9,
-        pen: 1,
-        speed: .75,
-        maxSpeed: .75,
-        range: 1,
-        density: 1,
-        spray: 1.15,
-        resist: 1
-    },
-    not_dense: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .1,
-        spray: 1,
-        resist: 1
-    },
-    half_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .5,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .85,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    micro_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .001,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.15,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    extra_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.5,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 2,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fake: {
-        reload: 1,
-        recoil: 0,
-        shudder: 1,
-        size: .00001,
-        health: .0001,
-        damage: 1,
-        pen: 1,
-        speed: .0001,
-        maxSpeed: .0001,
-        range: 0,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    testbed: {
-        reload: 1,
-        recoil: .5,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1.2,
-        pen: 1,
-        speed: 1.2,
-        maxSpeed: 1.15,
-        range: 1,
-        density: 1.25,
-        spray: 1,
-        resist: 1
-    },
-    closer: {
-        reload: 1.25,
-        recoil: .25,
-        shudder: 1,
-        size: 1,
-        health: 1000,
-        damage: 1000,
-        pen: 1000,
-        speed: 2.5,
-        maxSpeed: 2.25,
-        range: 1.4,
-        density: 4,
-        spray: .25,
-        resist: 1
-    },
-    closer_drone: {
-        reload: 1.5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1000,
-        damage: 1000,
-        pen: 1000,
-        speed: 2.5,
-        maxSpeed: 2.25,
-        range: 1,
-        density: 4,
-        spray: .25,
-        resist: 1
-    },
-    closer_ai: {
-        reload: .625,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 100000,
-        damage: 100000,
-        pen: 100000,
-        speed: 5,
-        maxSpeed: 4.85,
-        range: 1.5,
-        density: 10,
-        spray: .25,
-        resist: 10
-    },
-    closer_ai_drone: {
-        reload: .75,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 100000,
-        damage: 100000,
-        pen: 100000,
-        speed: 5.5,
-        maxSpeed: 5,
-        range: 1,
-        density: 10,
-        spray: .25,
-        resist: 10
-    },
-    protect_swarm: {
-        reload: 3.5,
-        recoil: 0,
-        shudder: 1,
-        size: 1.6,
-        health: 200,
-        damage: 1.5,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .95,
-        range: 1,
-        density: 5,
-        spray: 1,
-        resist: 5
-    },
-    protectordrone: {
-        reload: .5,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 75000,
-        damage: .5,
-        pen: .15,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 10,
-        spray: .1,
-        resist: 10
-    },
-    dread: {
-        reload: .855,
-        recoil: .25,
-        shudder: .75,
-        size: .95,
-        health: 1.2,
-        damage: 1.05,
-        pen: 1.05,
-        speed: 1,
-        maxSpeed: .9,
-        range: 1,
-        density: 1,
-        spray: 1.25,
-        resist: 1
-    },
-    dread_trap: {
-        reload: 1.15,
-        recoil: .5,
-        shudder: .25,
-        size: .975,
-        health: 1.05,
-        damage: 1.05,
-        pen: 1.05,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 3
-    },
-    half_speed: {
-        reload: 1,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .5,
-        maxSpeed: .5,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_smaller: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .84,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    little_bit_smaller: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .93,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    mach_smaller: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .8,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    smaller: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .75,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    even_smaller: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .6,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    half_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .5,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    pellet: {//buffed
-        reload: .775,
-        recoil: 1,
-        shudder: .75,
-        size: 1,
-        health: 1.25,
-        damage: 1.3,//1.25
-        pen: 1.225,
-        speed: 1.2,
-        maxSpeed: 1.175,
-        range: 1,
-        density: 1,
-        spray: .75,
-        resist: 1
-    },
-    bore: {//buffed
-        reload: 1.2,
-        recoil: 1,
-        shudder: .7,
-        size: 1,
-        health: 1,
-        damage: 1.05,//1
-        pen: 1,
-        speed: 1.375,
-        maxSpeed: 1.35,
-        range: 1,
-        density: 1,
-        spray: .7,
-        resist: 1
-    },
-    punt: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1.5,
-        size: 1,
-        health: .8,
-        damage: .85,
-        pen: .8,
-        speed: .95,
-        maxSpeed: .925,
-        range: 1,
-        density: 1,
-        spray: 2,
-        resist: 1
-    },
-    triple_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 2,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 2,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bigger: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.25,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_bigger: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.16,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    little_bit_bigger: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.091,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    very_little_bit_bigger: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.067,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    double_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 2,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    near_double_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.85,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    low_power: {
-        reload: 1,
-        recoil: 1,
-        shudder: 2,
-        size: 1,
-        health: .5,
-        damage: .5,
-        pen: .7,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: .7
-    },
-    lower_power: {
-        reload: 1,
-        recoil: 0,
-        shudder: 1.25,
-        size: 1,
-        health: .5,
-        damage: .5,
-        pen: .75,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1.25,
-        resist: 1
-    },
-    half_power: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .5,
-        damage: .5,
-        pen: .5,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_power: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .9,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_power: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.15,
-        damage: 1.1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    three_fourths_more_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1.75,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_more_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1.1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_less_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .95,
-        damage: .9,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .85,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    pl_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.5,
-        damage: 12,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 6,
-        spray: 1,
-        resist: 1
-    },
-    damage_m25: {//buffed
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .8,//.75
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    damage_clone_strike: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .3,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    damage_m30: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .7,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    damage_p30: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1.3,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    reload_m5: {
-        reload: 1.05,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    recoil_m40: {
-        reload: 1,
-        recoil: .6,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    oxyrr: {
-        reload: 1.21,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .81,
-        damage: .85,
-        pen: 1,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    half_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .6,
-        damage: .5,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    vulc: {//buffed
-        reload: 1.25,
-        recoil: .1,
-        shudder: .0001,
-        size: .8,
-        health: .8,
-        damage: .4,
-        pen: 12,
-        speed: 1.3,
-        maxSpeed: 1.3,
-        range: 1,
-        density: 1.25,
-        spray: .001,
-        resist: 4//1.1
-    },
-    fallen_overlord: {
-        reload: .25,
-        recoil: 1,
-        shudder: 1,
-        size: .35,
-        health: .4,
-        damage: .3,
-        pen: .4,
-        speed: .76,
-        maxSpeed: .9,
-        range: 1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    demoman: {
-        reload: 1.5,
-        recoil: 1.25,
-        shudder: 1.5,
-        size: 1,
-        health: 1,
-        damage: .75,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: 1,
-        resist: .9
-    },
-    rocket: {
-        reload: .48,
-        recoil: 2,
-        shudder: 1.5,
-        size: .85,
-        health: .25,
-        damage: .25,
-        pen: .25,
-        speed: .75,
-        maxSpeed: 1,
-        range: .5,
-        density: 1,
-        spray: 1.25,
-        resist: 1
-    },
-    jump: {
-        reload: 11,
-        recoil: 30,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    jumpSmash: {
-        reload: 12,
-        recoil: 18,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    guardian: {
-        reload: .45,
-        recoil: 8,
-        shudder: 1,
-        size: .7,
-        health: 2,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.8,
-        density: .25,
-        spray: 1,
-        resist: .25
-    },
-    flame: {
-        reload: .518,
-        recoil: 1.25,
-        shudder: 4.25,
-        size: .25,
-        health: 1.25,
-        damage: 1.25,
-        pen: 2,
-        speed: .8,
-        maxSpeed: 0,
-        range: 1.85,
-        density: 1,
-        spray: 3,
-        resist: 1.6
-    },
-    levi_five: {
-        reload: 1.15,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: .95,
-        damage: .95,
-        pen: .95,
-        speed: 1.125,
-        maxSpeed: 1.1,
-        range: 1.15,
-        density: 2,
-        spray: 1.1,
-        resist: 1
-    },
-    levi: {
-        reload: 2,
-        recoil: 0,
-        shudder: 1.25,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .65,
-        maxSpeed: 1,
-        range: .75,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    a_lotta_damage: {
-        reload: .8,
-        recoil: 1,
-        shudder: 1,
-        size: 1.2,
-        health: 1.5,
-        damage: 1.75,
-        pen: 1.25,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    trap_minion: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.15,
-        health: .7,
-        damage: .7,
-        pen: 1.15,
-        speed: 1,
-        maxSpeed: 1,
-        range: .75,
-        density: 1,
-        spray: 1.1,
-        resist: 1
-    },
-    very_fast_launch: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 2.2,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    slow_launch: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 0.6,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fast_launch: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.4,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    less_spread: {
-        reload: 1,
-        recoil: 1,
-        shudder: .75,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .75,
-        resist: 1
-    },
-    click: {
-        reload: 1.25,
-        recoil: .275,
-        shudder: .5,
-        size: 1,
-        health: .58,
-        damage: .6,
-        pen: .53,
-        speed: .98,
-        maxSpeed: .975,
-        range: 1,
-        density: .875,
-        spray: 2,
-        resist: .9
-    },
-    socker: {
-        reload: 1.25,
-        recoil: 1.2,
-        shudder: 1,
-        size: .9,
-        health: 1.1,
-        damage: 1.15,
-        pen: 1.1,
-        speed: .875,
-        maxSpeed: .875,
-        range: .95,
-        density: .55,
-        spray: 1,
-        resist: .55
-    },
-    circle: {
-        reload: 1.575,
-        recoil: 2,
-        shudder: 1,
-        size: 1.1,
-        health: 1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .9,
-        density: 1,
-        spray: 1,
-        resist: 1.1
-    },
-    mothership: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1.1,
-        speed: .775,
-        maxSpeed: .8,
-        range: 15,
-        density: 1,
-        spray: 1,
-        resist: 1.15
-    },
-    skimboss: {
-        reload: 1,
-        recoil: .5,
-        shudder: 1,
-        size: .9,
-        health: 1.2,
-        damage: 1.2,
-        pen: 1.2,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: .7,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    quadtrap: {
-        reload: 1.15,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .75,
-        damage: .8,
-        pen: .8,
-        speed: 1.4,
-        maxSpeed: .9,
-        range: .75,
-        density: .9,
-        spray: 1,
-        resist: .9
-    },
-    laser: {//buffed
-        reload: .355,
-        recoil: .2,
-        shudder: 1,
-        size: 1,
-        health: .65,//.61
-        damage: .6,//.53
-        pen: .65,//.6
-        speed: 1.3875,//1.35
-        maxSpeed: 1,
-        range: 1.15,//1
-        density: .3,
-        spray: .000005,//.05
-        resist: 1.75//.5
-    },
-    basemaker: {
-        reload: 2.5,
-        recoil: 1.4,
-        shudder: .1,
-        size: 1,
-        health: 1,
-        damage: .5,
-        pen: 1,
-        speed: .5,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 15,
-        resist: 1
-    },
-    stronger: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1.05,
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_less_knock: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .95,
-        spray: 1,
-        resist: .95
-    },
-    contra: {
-        reload: .825,
-        recoil: 1,
-        shudder: 1,
-        size: 1.26,
-        health: 1.05,
-        damage: 1.1,
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: 1.05,
-        density: 1.05,
-        spray: 1,
-        resist: 1.05
-    },
-    redistribute: {//buffed
-        reload: 4.75,
-        recoil: 3,
-        shudder: 1,
-        size: .4,
-        health: 1.2,
-        damage: 5.2,//2.4
-        pen: 1.8,
-        speed: 2,
-        maxSpeed: 1.85,
-        range: 1,
-        density: 1.25,
-        spray: 1.15,
-        resist: 1.25
-    },
-    acolyte: {
-        reload: .1,
-        recoil: 4,
-        shudder: 1,
-        size: 1,
-        health: 1.35,
-        damage: 1.35,
-        pen: 1.4,
-        speed: 2,
-        maxSpeed: 1.85,
-        range: 1,
-        density: 1.25,
-        spray: 1.15,
-        resist: 1.25
-    },
-    much_less_knock: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .1,
-        spray: 1,
-        resist: .1
-    },
-    tele: {
-        reload: 9,
-        recoil: 50,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    hivemind: {
-        reload: 2.25,
-        recoil: 0,
-        shudder: 1,
-        size: 1.4,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    xenon: {
-        reload: 6,
-        recoil: 9,
-        shudder: 1,
-        size: 1.4,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1.75/*1.9*/,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    splitter: {
-        reload: .65,
-        recoil: 0,
-        shudder: 1,
-        size: 1.4,
-        health: .5,
-        damage: .5,
-        pen: 1.5,
-        speed: .525,
-        maxSpeed: 1.05,
-        range: .85,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_more_spread: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1.15,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    more_spread: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1.5,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    gatekeeper: {
-        reload: .875,
-        recoil: 1,
-        shudder: 1,
-        size: 1.25,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.05,
-        speed: 2,
-        maxSpeed: 3,
-        range: .8,
-        density: .1,
-        spray: 1,
-        resist: 1
-    },
-    contagi: {//buffed
-        reload: 1,
-        recoil: .5,
-        shudder: 1.5,
-        size: 1,
-        health: 1.23,//.6
-        damage: .8,//.6
-        pen: 2.5,//.75
-        speed: 1.05,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: .75,
-        resist: .7
-    },
-    shellExplode: {
-        reload: 1000,
-        recoil: 0,
-        shudder: 1,
-        size: .6,
-        health: 3,
-        damage: 6.25,
-        pen: 3,
-        speed: 0,
-        maxSpeed: 0,
-        range: .1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    c4: {//buffed
-        reload: 1000,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 3,
-        damage: 6,//.3.15
-        pen: 3,
-        speed: 0,
-        maxSpeed: 0,
-        range: .1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    detSwarm: {
-        reload: 1000,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: 3,
-        damage: 6.25,
-        pen: 3,
-        speed: 0.001,
-        maxSpeed: 0.001,
-        range: .1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    trap_fragment: {
-        reload: 1000,
-        recoil: 0,
-        shudder: .75,
-        size: .7,
-        health: 2,
-        damage: 2,
-        pen: 1.25,
-        speed: 1.15,
-        maxSpeed: 1,
-        range: .4,
-        density: 1.5,
-        spray: .5,
-        resist: 1.15
-    },
-    sock: {//buffed
-        reload: .85,
-        recoil: 0,
-        shudder: 1,
-        size: .8,
-        health: .63,
-        damage: .9,//.62
-        pen: .725,
-        speed: .825,
-        maxSpeed: .785,
-        range: .3,
-        density: .5,
-        spray: 1,
-        resist: .7
-    },
-    redistribute2: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .7,
-        health: 2.5,
-        damage: 2,
-        pen: 2,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.5,
-        spray: 1,
-        resist: 1.5
-    },
-    decelerate: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 0,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    mini_grower: {
-        reload: 1.2,
-        recoil: 1.2,
-        shudder: .7,
-        size: 1,
-        health: 1.35,
-        damage: .815,
-        pen: 1.75,
-        speed: 1.35,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1.25,
-        spray: .7,
-        resist: 1.25
-    },
-    grower: {//buffed
-        reload: 1.3,
-        recoil: 1.25,
-        shudder: .7,
-        size: 1,
-        health: 1.45,//1.4
-        damage: 1.05,
-        pen: 1.75,
-        speed: 1.35,
-        maxSpeed: 1.1,
-        range: 1.35,
-        density: 1.5,
-        spray: .7,
-        resist: 1.5
-    },
-    mega_grower: {//buffed
-        reload: 1.7,
-        recoil: 1.5,
-        shudder: .7,
-        size: 1,
-        health: 1.525,//1.45
-        damage: 1.1,
-        pen: 1.75,
-        speed: 1.35,
-        maxSpeed: 1.1,
-        range: 1.35,
-        density: 1.7,
-        spray: .7,
-        resist: 1.7
-    },
-    giga_grower: {//buffed
-        reload: 1.95,
-        recoil: 1.5,
-        shudder: .7,
-        size: 1,
-        health: 1.575,//1.5
-        damage: 1.1,
-        pen: 1.75,
-        speed: 1.35,
-        maxSpeed: 1.1,
-        range: 1.35,
-        density: 2,
-        spray: .7,
-        resist: 2
-    },
-    saddle: {
-        reload: 1.15,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: 1,
-        pen: .95,
-        speed: .975,
-        maxSpeed: .975,
-        range: .975,
-        density: .9,
-        spray: 1,
-        resist: .9
-    },
-    lance: {
-        reload: 6,
-        recoil: 0,
-        shudder: .1,
-        size: 1,
-        health: .5,
-        damage: 1.2,
-        pen: 1.6,
-        speed: .67,
-        maxSpeed: 1,
-        range: .08,
-        density: 1,
-        spray: 180,
-        resist: 1
-    },
-    flail: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.5,
-        health: 1.5,
-        damage: 2.5,
-        pen: 3,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.25,
-        spray: 1,
-        resist: 1
-    },
-    akafuji: {
-        reload: 2.25,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .7,
-        pen: 1.35,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    airship: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.1,
-        health: 1.25,
-        damage: 1.25,
-        pen: 1.25,
-        speed: 1.1,
-        maxSpeed: .825,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    osci: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1.14,
-        health: .95,
-        damage: .95,
-        pen: .95,
-        speed: .965,
-        maxSpeed: .965,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    real_sniper: {
-        reload: 1.525,
-        recoil: 1,
-        shudder: .5,
-        size: 1.675,
-        health: 1.3,
-        damage: 1.75,
-        pen: 1.5,
-        speed: 2.45,
-        maxSpeed: 2.4,
-        range: 1.15,
-        density: 1.2,
-        spray: .5,
-        resist: 1
-    },
-    real_shotgun: {
-        reload: 2.85,
-        recoil: .8,
-        shudder: 2.5,
-        size: 1.775,
-        health: 1.25,
-        damage: 1.25,
-        pen: 1.5,
-        speed: 1.625,
-        maxSpeed: 1.625,
-        range: 1,
-        density: 1.1,
-        spray: 2.2,
-        resist: 1
-    },
-    grenade_throw: {
-        reload: 8,
-        recoil: .25,
-        shudder: 1,
-        size: 17,
-        health: 2,
-        damage: .75,
-        pen: 1,
-        speed: 2.1,
-        maxSpeed: 0,
-        range: 1.5,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    grenade_explosion: {
-        reload: 8,
-        recoil: 0,
-        shudder: 4.25,
-        size: 2,
-        health: 2.25,
-        damage: 1.75,
-        pen: 1.5,
-        speed: 1.35,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 4,
-        resist: 1
-    },
-    rpg_explosion: {
-        reload: 8,
-        recoil: 0,
-        shudder: 5,
-        size: 4.5,
-        health: 4,
-        damage: 1,
-        pen: 1.25,
-        speed: 1.5,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.1,
-        spray: 4.25,
-        resist: 1
-    },
-    rpg_propeller: {
-        reload: .3,
-        recoil: .85,
-        shudder: 1,
-        size: 4,
-        health: .25,
-        damage: .25,
-        pen: .2,
-        speed: .5,
-        maxSpeed: .25,
-        range: 1,
-        density: 1,
-        spray: .9,
-        resist: 1
-    },
-    rpg_launch: {
-        reload: 9.85,
-        recoil: 3,
-        shudder: 1.25,
-        size: 12,
-        health: 1.25,
-        damage: 3,
-        pen: 2,
-        speed: 1.15,
-        maxSpeed: 1.1,
-        range: 1.4,
-        density: 1.5,
-        spray: 1.25,
-        resist: 1
-    },
-    railgun: {//buffed
-        reload: 1,
-        recoil: 1.15,
-        shudder: .75,
-        size: 1.2,
-        health: 1.05,//1
-        damage: 1.3,//1.1
-        pen: 1.15,//1
-        speed: 1.175,
-        maxSpeed: 1.17,
-        range: 1,
-        density: 1.1,
-        spray: .75,
-        resist: 1
-    },
-    no_speed: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 0.00001,
-        maxSpeed: 0.00001,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    marksman_pistol: {
-        reload: 1.9,
-        recoil: 1.75,
-        shudder: 1.1,
-        size: 3.5,
-        health: 2,
-        damage: 3.75,
-        pen: 2,
-        speed: 2.15,
-        maxSpeed: 2.05,
-        range: 1.1,
-        density: 1.5,
-        spray: .9,
-        resist: 1.1
-    },
-    fat_nuke: {
-        reload: 8,
-        recoil: 0,
-        shudder: 5.5,
-        size: 1.4,
-        health: 3,
-        damage: 4,
-        pen: 1.75,
-        speed: 1.75,
-        maxSpeed: 1.1,
-        range: 1.05,
-        density: 1.15,
-        spray: 5,
-        resist: 1
-    },
-    tsar_launch: {
-        reload: 10.75,
-        recoil: 5.25,
-        shudder: 1,
-        size: 12,
-        health: 1.7,
-        damage: 2.8,
-        pen: 1.8,
-        speed: 2.85,
-        maxSpeed: 0,
-        range: 1.85,
-        density: 1.5,
-        spray: 1,
-        resist: 1.25
-    },
-    rpg_explosion_2: {
-        reload: 8,
-        recoil: 0,
-        shudder: 5,
-        size: 4.75,
-        health: .4,
-        damage: .65,
-        pen: .35,
-        speed: 1.35,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 4,
-        resist: 1
-    },
-    lot_more_knock: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 20,
-        spray: 1,
-        resist: 20
-    },
-    less_pen: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: .9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    swarmlet: {
-        reload: 36,
-        recoil: .25,
-        shudder: .05,
-        size: .4,
-        health: 1.2,
-        damage: .2,
-        pen: 1,
-        speed: 3.5,
-        maxSpeed: 1,
-        range: 1,
-        density: 1.25,
-        spray: 5,
-        resist: 1.25
-    },
-    more_health: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.15,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    minirang: {
-        reload: .775,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .35,
-        damage: 1,
-        pen: 1,
-        speed: 1.85,
-        maxSpeed: 1.7,
-        range: 1.333,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    donjon: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .75,
-        damage: 1,
-        pen: .75,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    no_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 0,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    cage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 110,
-        health: 10000000,
-        damage: 0,
-        pen: 1,
-        speed: 0.0001,
-        maxSpeed: 0.0001,
-        range: .4,
-        density: 0.0001,
-        spray: 1,
-        resist: 1
-    },
-    course: {
-        reload: 2.5,
-        recoil: 0,
-        shudder: 1,
-        size: 1,
-        health: .3,
-        damage: .24,
-        pen: .7,
-        speed: 1.4,
-        maxSpeed: 1.4,
-        range: .25,
-        density: .3,
-        spray: 1,
-        resist: .3
-    },
-    pillbox_turret: {//buffed - nerfed
-        reload: 1.75,
-        recoil: .75,
-        shudder: .6,
-        size: .825,
-        health: .3,//.21
-        damage: 1.5,//.185
-        pen: 1.1,
-        speed: 1.475,//1.7
-        maxSpeed: 1.25,//1.5
-        range: .6,
-        density: .05,
-        spray: 1,
-        resist: 1.75
-    },
-    thicc_swarm: {
-        reload: 36,
-        recoil: .5,
-        shudder: .1,
-        size: .6,
-        health: 1.5,
-        damage: 1.25,
-        pen: 1.25,
-        speed: 2.75,
-        maxSpeed: 1,
-        range: 1.125,
-        density: 1,
-        spray: 5,
-        resist: 1
-    },
-    migrate: {
-        reload: 1.195,
-        recoil: 1.1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1.05,
-        speed: 1,
-        maxSpeed: .975,
-        range: .96,
-        density: 1,
-        spray: 1,
-        resist: 1.05
-    },
-    sass_supreme: {
-        reload: 576,
-        recoil: 1.75,
-        shudder: .1,
-        size: 1.24,
-        health: 1.8,
-        damage: .27,
-        pen: 1.05,
-        speed: 2.295,
-        maxSpeed: .72,
-        range: 1,
-        density: 1.6,
-        spray: .1,
-        resist: 1.15
-    },
-    plasma: {
-        reload: 1.765,
-        recoil: 0,
-        shudder: 1,
-        size: 30,
-        health: 3,
-        damage: 0,
-        pen: 3,
-        speed: 0,
-        maxSpeed: 0,
-        range: .1,
-        density: 2,
-        spray: 1,
-        resist: 1
-    },
-    gust: {//buffed
-        reload: 34.65,
-        recoil: .09,
-        shudder: .0001,
-        size: 1.2,
-        health: 1.8,
-        damage: .12,//.04
-        pen: 1,
-        speed: 3.6,
-        maxSpeed: 3.6,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1.2
-    },
-    inferno: {//buffed
-        reload: .075,
-        recoil: 0,
-        shudder: 2.25,
-        size: .65,
-        health: .715,
-        damage: .31,//.225
-        pen: .815,
-        speed: 1.4,
-        maxSpeed: 2,
-        range: .24,
-        density: .3,
-        spray: 2.25,
-        resist: 1
-    },
-    rocket_booster: {
-        reload: .225/*0.25*/,
-        recoil: .2 /*0.325*/,
-        shudder: .001,
-        size: 1,
-        health: .707,
-        damage: .001,
-        pen: .8,
-        speed: 1.4,
-        maxSpeed: 2,
-        range: .075,
-        density: .3,
-        spray: .001,
-        resist: 1
-    },
-    precice: {
-        reload: 1,
-        recoil: 1,
-        shudder: .0001,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .001,
-        resist: 1
-    },
-    spiteshot: {
-        reload: 181.5,
-        recoil: .224,
-        shudder: .187,
-        size: 1.5,
-        health: 1.5,
-        damage: .0664,
-        pen: .725,
-        speed: 7.2,
-        maxSpeed: .492,
-        range: 1,
-        density: 1.2,
-        spray: 45,
-        resist: 1
-    },
-    splatter: {
-        reload: 220,
-        recoil: .175,
-        shudder: .135,
-        size: 1.2,
-        health: 2.352,
-        damage: .0464,
-        pen: 1.25,
-        speed: 3.96,
-        maxSpeed: .65,
-        range: 1,
-        density: 1.5,
-        spray: 27,
-        resist: 1.2
-    },
-    strange: {
-        reload: 220,
-        recoil: .175,
-        shudder: .135,
-        size: 1.2,
-        health: 1000,
-        damage: .00001,
-        pen: 0.001,
-        speed: 4,
-        maxSpeed: 6,
-        range: 1,
-        density: 1.5,
-        spray: 27,
-        resist: 1.2
-    },
-    bar: {
-        reload: 2,
-        recoil: 0,
-        shudder: 1,
-        size: 2,
-        health: .0001,
-        damage: 1,
-        pen: 1,
-        speed: .00001,
-        maxSpeed: 2,
-        range: 0,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bar_split: {
-        reload: 5.4,
-        recoil: 3.2375,
-        shudder: .5,
-        size: 1,
-        health: .867,
-        damage: 1.0368,
-        pen: 1.848,
-        speed: .1836765,
-        maxSpeed: .110446,
-        range: 1,
-        density: 2.56,
-        spray: 1,
-        resist: 3.795
-    },
-    bar_missile: {
-        reload: .36,
-        recoil: .6,
-        shudder: 2.55,
-        size: .935,
-        health: .271875,
-        damage: .06,
-        pen: .3125,
-        speed: .675,
-        maxSpeed: .82,
-        range: .5,
-        density: 1.5,
-        spray: 3.125,
-        resist: 1.2
-    },
-    centurion: {
-        reload: .9,
-        recoil: 0,
-        shudder: .7,
-        size: .8,
-        health: 1.8,
-        damage: 1,
-        pen: 1,
-        speed: .5,
-        maxSpeed: .6,
-        range: 1,
-        density: 1,
-        spray: 1.2,
-        resist: 1
-    },
-    cent_missile: {
-        reload: .15,
-        recoil: .6,
-        shudder: 2.55,
-        size: .935,
-        health: .4,
-        damage: .09,
-        pen: .5,
-        speed: .875,
-        maxSpeed: .92,
-        range: .3,
-        density: 1.5,
-        spray: 6,
-        resist: 1.2
-    },
-    droneTitan: {
-        reload: 300,
-        recoil: .25,
-        shudder: .1,
-        size: .6,
-        health: 12,
-        damage: 10,
-        pen: 999,
-        speed: .1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .1,
-        resist: 1
-    },
-    k: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: .25,
-        health: .9,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    firestick: {//buffed
-        reload: 1,
-        recoil: 0,
-        shudder: 1.5,
-        size: 1,
-        health: 1.1,//1
-        damage: 1.15,//1
-        pen: 1,
-        speed: .5,
-        maxSpeed: .5,
-        range: .825,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    firestick_destroy: {
-        reload: 1,
-        recoil: 0,
-        shudder: 1,
-        size: 1.4,
-        health: 1.1,
-        damage: 1.2,
-        pen: 1,
-        speed: .7,
-        maxSpeed: .9,
-        range: .925,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    no_spread: {
-        reload: 1,
-        recoil: 1,
-        shudder: .0001,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .0001,
-        resist: 1
-    },
-    bunker: {
-        reload: 46.215,
-        recoil: 2,
-        shudder: .025,
-        size: .9,
-        health: 16.667,
-        damage: 0,
-        pen: 16.667,
-        speed: 7.23,
-        maxSpeed: 2.475,
-        range: 10,
-        density: 1.1,
-        spray: 5,
-        resist: 4.5
-    },
-    sidethrow: {//buffed
-        reload: 4.5,
-        recoil: 0,
-        shudder: .0001,
-        size: .1,
-        health: 1,
-        damage: .125,//.05
-        pen: 1,
-        speed: 13.4,
-        maxSpeed: 0,
-        range: .1,
-        density: 1,
-        spray: .00001,
-        resist: 1
-    },
-    trireme: {
-        reload: 10.725,
-        recoil: 1.512,
-        shudder: .16,
-        size: .9,
-        health: 1.35,
-        damage: .09,
-        pen: 1.4,
-        speed: 2.852,
-        maxSpeed: .634,
-        range: 1.3,
-        density: 1,
-        spray: 7.5,
-        resist: .77
-    },
-    shield: {
-        reload: 4,
-        recoil: 0,
-        shudder: .1,
-        size: 4,
-        health: 387420489,
-        damage: 0,
-        pen: .9,
-        speed: .7,
-        maxSpeed: 1,
-        range: .02,
-        density: 3387420489,
-        spray: 1,
-        resist: 9
-    },
-    dropship: {//buffed
-        reload: 53,
-        recoil: 1,
-        shudder: .0001,
-        size: 1,
-        health: 2.25,
-        damage: .875,//.75
-        pen: 1.25,
-        speed: 4.15,
-        maxSpeed: 0,
-        range: 1,
-        density: 1,
-        spray: .0001,
-        resist: 1
-    },
-    shoot_once: {
-        reload: Infinity,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    nest_keeper: {
-        reload: 3,
-        recoil: 1,
-        shudder: 1,
-        size: .75,
-        health: 1.05,
-        damage: 1.05,
-        pen: 1.1,
-        speed: .5,
-        maxSpeed: .5,
-        range: .5,
-        density: 1.1,
-        spray: 1,
-        resist: 1
-    },
-    ceptionist: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .95,
-        maxSpeed: .95,
-        range: .95,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    ceptionist_bullet: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .5,
-        damage: .475,
-        pen: .5,
-        speed: .7,
-        maxSpeed: .7,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    leviathan: {
-        reload: 43,
-        recoil: 0,
-        shudder: .05,
-        size: .28,
-        health: 1.8,
-        damage: .18,
-        pen: .65,
-        speed: 2.45,
-        maxSpeed: .7,
-        range: 1.8,
-        density: .3125,
-        spray: 5,
-        resist: .3125
-    },
-    smoke_spawner: {
-        reload: 1,
-        recoil: 1,
-        shudder: 25,
-        size: 14,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 10,
-        maxSpeed: .05,
-        range: 5,
-        density: 1,
-        spray: 50,
-        resist: 1
-    },
-    bomb: {
-        reload: 1.4,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .5,
-        damage: .45,
-        pen: .9,
-        speed: .8,
-        maxSpeed: .8,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    musketeer: {
-        reload: .85,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .95,
-        range: .85,
-        density: .1,
-        spray: 1,
-        resist: 1
-    },
-    matchlock: {
-        reload: 1.21,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: .725,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    planter: {
-        reload: .55,
-        recoil: .8,
-        shudder: 1.7,
-        size: .75,
-        health: .75,
-        damage: .8,
-        pen: 1,
-        speed: 1,
-        maxSpeed: .8,
-        range: .735,
-        density: 1,
-        spray: 5,
-        resist: 1
-    },
-    barber: {
-        reload: .4,
-        recoil: 1,
-        shudder: 2.125,
-        size: .785,
-        health: .55,
-        damage: .8,
-        pen: .6,
-        speed: 1.275,
-        maxSpeed: .575,
-        range: .525,
-        density: .5,
-        spray: 10,
-        resist: .8
-    },
-    less_health: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    blazer: {
-        reload: .55,
-        recoil: 1.15,
-        shudder: 1,
-        size: .5625,
-        health: .95,
-        damage: 1,
-        pen: .925,
-        speed: 1.15,
-        maxSpeed: 1.1,
-        range: .85,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    hyper: {
-        reload: 1,
-        recoil: 1.15,
-        shudder: 2,
-        size: 1,
-        health: .5,
-        damage: .5,
-        pen: .7,
-        speed: 1.69,
-        maxSpeed: 1.69,
-        range: .425,
-        density: 1,
-        spray: .5,
-        resist: .7
-    },
-    atrophy: {
-        reload: 2.238,
-        recoil: 1,
-        shudder: .0001,
-        size: 1,
-        health: 1,
-        damage: 0,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 4.5,
-        range: 1,
-        density: 1,
-        spray: .0001,
-        resist: 1
-    },
-    gravity: {
-        reload: .625,
-        recoil: 1,
-        shudder: .68,
-        size: .8,
-        health: .9,
-        damage: .9,
-        pen: 1,
-        speed: .6,
-        maxSpeed: .55,
-        range: .675,
-        density: 1.25,
-        spray: 1.44,
-        resist: 1.1
-    },
-    inoculist: {
-        reload: 4,
-        recoil: 0,
-        shudder: 1,
-        size: .3,
-        health: 1.7,
-        damage: .25,
-        pen: 1,
-        speed: 0,
-        maxSpeed: 0,
-        range: 1.15,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    kinesis: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .7,
-        damage: .75,
-        pen: .75,
-        speed: .85,
-        maxSpeed: .825,
-        range: 1,
-        density: .75,
-        spray: 1,
-        resist: .75
-    },
-    rocketeer: {//buffed
-        reload: 1.25,
-        recoil: .9,
-        shudder: .8,
-        size: .95,
-        health: 1.35,
-        damage: 1,//.925
-        pen: 2,
-        speed: .4,
-        maxSpeed: .385,
-        range: 1.3,
-        density: 1,
-        spray: 1,
-        resist: 1.1
-    },
-    blackholeRocketeer: {
-        reload: 1.25,
-        recoil: .9,
-        shudder: .8,
-        size: 2,
-        health: 9,
-        damage: .4,
-        pen: 2,
-        speed: .3,
-        maxSpeed: .385,
-        range: 1.3,
-        density: 1,
-        spray: 1,
-        resist: 1.1
-    },
-    riftWizardExplosion: {
-        reload: 1.25,
-        recoil: .9,
-        shudder: .8,
-        size: 2,
-        health: 5,
-        damage: .2,
-        pen: 5,
-        speed: 0,
-        maxSpeed: 0,
-        range: .1,
-        density: 0.1,
-        spray: 1,
-        resist: 1.1
-    },
-    twister: {
-        reload: .975,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.3,
-        maxSpeed: 1.3,
-        range: 1.1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    twist_missile: {//buffed
-        reload: .5,
-        recoil: 1,
-        shudder: 2,
-        size: 1,
-        health: .875,//.75
-        damage: .95,
-        pen: .7,
-        speed: 1.69,
-        maxSpeed: 1.69,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: .7
-    },
-    skim_missile: {//buffed
-        reload: .55,
-        recoil: 1.35,
-        shudder: 2,
-        size: 1,
-        health: .5,
-        damage: .7,//.5
-        pen: .7,
-        speed: 1.69,
-        maxSpeed: 1.69,
-        range: 1,
-        density: 1,
-        spray: .5,
-        resist: .7
-    },
-    hotshot: {
-        reload: 1.675,
-        recoil: 1.75,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1.7,
-        pen: 1.12,
-        speed: .75,
-        maxSpeed: .675,
-        range: 1,
-        density: 1.6,
-        spray: 1,
-        resist: 1.15
-    },
-    steam_shot: {
-        reload: 1.27,
-        recoil: 1,
-        shudder: .25,
-        size: 1,
-        health: 1,
-        damage: 1.1,
-        pen: 1,
-        speed: 1.32,
-        maxSpeed: 1.32,
-        range: 1,
-        density: 1.1,
-        spray: .25,
-        resist: 1.1
-    },
-    razor: {
-        reload: 2.15,
-        recoil: 2.15,
-        shudder: .5,
-        size: 1,
-        health: 1.72,
-        damage: 1.625,
-        pen: 1.2,
-        speed: .75,
-        maxSpeed: .6,
-        range: 1,
-        density: 1.6,
-        spray: 1,
-        resist: 3
-    },
-    mailman: {
-        reload: 1.15,
-        recoil: 1.1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: .9,
-        maxSpeed: .9,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    kash_thrust: {
-        reload: .125,
-        recoil: 1,
-        shudder: 1,
-        size: 2,
-        health: .36,
-        damage: .25,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: .5,
-        spray: 1,
-        resist: .5
-    },
-    kash: {
-        reload: 1.333,
-        recoil: 1,
-        shudder: 1,
-        size: 2,
-        health: 1.1,
-        damage: .9,
-        pen: 1,
-        speed: .645,
-        maxSpeed: .5,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    vibe: {
-        reload: .75,
-        recoil: 1.25,
-        shudder: 1.4,
-        size: 1.2,
-        health: 1.1,
-        damage: 1.15,
-        pen: 1.1,
-        speed: .775,
-        maxSpeed: .5,
-        range: .8,
-        density: .5,
-        spray: 1.5,
-        resist: .8
-    },
-    volley: {
-        reload: .55,
-        recoil: 1,
-        shudder: 1.15,
-        size: .75,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 0.8,
-        maxSpeed: 0.8,
-        range: .9,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    bee_swarm: {
-        reload: 1.31,
-        recoil: .25,
-        shudder: 1.5,
-        size: 1.75,
-        health: .875,
-        damage: .8,
-        pen: 1.3,
-        speed: .9,
-        maxSpeed: .8,
-        range: 1,
-        density: 1,
-        spray: 1.5,
-        resist: 1
-    },
-    collect: {
-        reload: 1.5,
-        recoil: 1,
-        shudder: 1,
-        size: 1.5625,
-        health: .855,
-        damage: .265,
-        pen: 1.25,
-        speed: .9,
-        maxSpeed: .8,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    half_pen: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: .5,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    more_pen: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1.15,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    tiny_bit_more_speed: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1.07,
-        maxSpeed: 1.07,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bit_more_range: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.05,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    quarter_less_damage: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: .25,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bunsen: {
-        reload: .33,
-        recoil: .37,
-        shudder: 1,
-        size: .4,
-        health: 1,
-        damage: .5,
-        pen: .35,
-        speed: 2,
-        maxSpeed: .125,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    cartograph: {
-        reload: 1.525,
-        recoil: 1,
-        shudder: 1,
-        size: .95,
-        health: .725,
-        damage: .8,
-        pen: .8,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    mecha: {
-        reload: 1.925 / 2/*1.925*/,
-        recoil: .01,
-        shudder: .01,
-        size: 1,
-        health: .625,
-        damage: .294,
-        pen: .845,
-        speed: 1.35,
-        maxSpeed: 1.1,
-        range: 1,
-        density: 1,
-        spray: 1.4,
-        resist: 1
-    },
-    heavymecha: {//buffed
-        reload: 2/*4.5*/,
-        recoil: .01,
-        shudder: 1.2,
-        size: 1.1,
-        health: .85,//.79
-        damage: .675,//.44
-        pen: 1.06,
-        speed: 1.8,
-        maxSpeed: 1.1,
-        range: 1.1,
-        density: 1,
-        spray: 1.175,
-        resist: 1
-    },
-    sixshot: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1.5,
-        size: 1,
-        health: 1,
-        damage: 2,
-        pen: 2,
-        speed: 1.3,
-        maxSpeed: 1.8,
-        range: 1,
-        density: .875,
-        spray: 1,
-        resist: 1
-    },
-    kamikazeCrasherExplosion: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 10000,
-        damage: 2,
-        pen: 5,
-        speed: 0,
-        maxSpeed: 0,
-        range: 0.25,
-        density: 100,
-        spray: 1,
-        resist: 1
-    },
-    kami: {
-        reload: 4,
-        recoil: 0,
-        shudder: .5,
-        size: 1.5,
-        health: 3,
-        damage: 4.8,
-        pen: 5,
-        speed: .01,
-        maxSpeed: .01,
-        range: .25,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    bigCrunch: {
-        reload: 6.5,
-        recoil: 0,
-        shudder: .5,
-        size: 1.5,
-        health: 30,
-        damage: .7,
-        pen: 5,
-        speed: .01,
-        maxSpeed: .01,
-        range: .45,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    bigBang: {
-        reload: 6.5,
-        recoil: 0,
-        shudder: .5,
-        size: 1.5,
-        health: 20,
-        damage: 1.4,
-        pen: 5,
-        speed: .01,
-        maxSpeed: .01,
-        range: .4,
-        density: 1,
-        spray: .5,
-        resist: 1
-    },
-    assin: {
-        reload: 1,
-        recoil: 1.7,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.2,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fivex_size: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 5,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    fires_once: {
-        reload: Infinity,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    homing: {
-        reload: 1.2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    harp: {//buffed
-        reload: 3.885,
-        recoil: 0,
-        shudder: .25,
-        size: .84,
-        health: 1.7,//1.2
-        damage: 2,//1.05
-        pen: 1,
-        speed: 1.2,
-        maxSpeed: 1.2,
-        range: 1,
-        density: 1.1,
-        spray: .25,
-        resist: 1.1
-    },
-    harp_dart: {//buffed
-        reload: 4,
-        recoil: 1,
-        shudder: .0001,
-        size: 16,
-        health: 1,
-        damage: 1.75,//1
-        pen: 1.4,//1
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: .001,
-        resist: 1
-    },
-    surgeon: {
-        reload: 2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: .9,
-        damage: .85,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    orbitalstrike: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 25,
-        damage: 1.1,
-        pen: 1,
-        speed: 0,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    orbitalstrikeInsignia: {
-        reload: 2,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1,
-        damage: 1,
-        pen: 1,
-        speed: 0,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    shrapnel: {
-        reload: 2.5,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1.1,
-        pen: 1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.05,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    shrapnelExplosion: {//nerfed - buffed
-        reload: 4.5,
-        recoil: 3.2375000000000003,
-        shudder: 0.5,
-        size: 0.3,
-        health: 40,
-        damage: 0.5,
-        pen: 1.32,
-        speed: 0,
-        maxSpeed: 0,
-        range: 1,//1
-        density: 2.5600000000000005,
-        spray: 1,
-        resist: 3.4499999999999997
-    },
-    oppenheimer: {//nerfed - buffed
-        reload: 4.5,
-        recoil: 3.2375000000000003,
-        shudder: 0.5,
-        size: 0.3,
-        health: 50,
-        damage: 0.7,
-        pen: 1.32,
-        speed: 0,
-        maxSpeed: 0,
-        range: 1.6,//1.6
-        density: 2.5600000000000005,
-        spray: 1,
-        resist: 3.4499999999999997
-    },
-    engineer: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.05,
-        damage: 1.05,
-        pen: 1,
-        speed: 1.1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb1d: {//Balance Buff power 1 Damage
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb2d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.225,
-        pen: 1.15,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb3d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.2,
-        damage: 1.5,
-        pen: 1.35,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb4d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.5,
-        damage: 1.85,
-        pen: 1.5,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb5d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.6,
-        damage: 2.5,
-        pen: 2,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb6d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.65,
-        damage: 3.25,
-        pen: 2.25,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb7d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 2.4,
-        damage: 3.85,
-        pen: 2.4,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb8d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 2.75,
-        damage: 4.45,
-        pen: 2.6,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb9d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 4,
-        damage: 5,
-        pen: 2.75,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb10d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 6,
-        damage: 6.5,
-        pen: 2.8,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bn1d: {//Balance Nerf power 1 Damage
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.95,
-        damage: 0.95,
-        pen: 0.95,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bn2d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.9,
-        damage: 0.875,
-        pen: 0.9,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bn3d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.85,
-        damage: 0.7,
-        pen: 0.8,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bn4d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.8,
-        damage: 0.5,
-        pen: 0.65,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bn5d: {
-        reload: 1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.65,
-        damage: 0.25,
-        pen: 0.5,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1,
-        density: 1,
-        spray: 1,
-        resist: 1
-    },
-    bb1a: {//Balance Buff power 1 All
-        reload: 0.95,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.1,
-        pen: 1.1,
-        speed: 1.05,
-        maxSpeed: 1.05,
-        range: 1.05,
-        density: 1.02,
-        spray: 1,
-        resist: 1.02
-    },
-    bb2a: {
-        reload: 0.9,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.1,
-        damage: 1.225,
-        pen: 1.15,
-        speed: 1.1,
-        maxSpeed: 1.1,
-        range: 1.075,
-        density: 1.05,
-        spray: 1,
-        resist: 1.04
-    },
-    bb3a: {
-        reload: 0.85,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.2,
-        damage: 1.5,
-        pen: 1.35,
-        speed: 1.15,
-        maxSpeed: 1.15,
-        range: 1.1,
-        density: 1.1,
-        spray: 1,
-        resist: 1.1
-    },
-    bb4a: {
-        reload: 0.725,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.5,
-        damage: 1.85,
-        pen: 1.5,
-        speed: 1.225,
-        maxSpeed: 1.225,
-        range: 1.2,
-        density: 1.15,
-        spray: 1,
-        resist: 1.15
-    },
-    bb5a: {
-        reload: 0.6,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 1.6,
-        damage: 2.5,
-        pen: 2,
-        speed: 1,
-        maxSpeed: 1,
-        range: 1.35,
-        density: 1.3,
-        spray: 1,
-        resist: 1.3
-    },
-    bn1a: {//Balance Nerf power 1 AllStats
-        reload: 1.05,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.95,
-        damage: 0.95,
-        pen: 0.95,
-        speed: 0.95,
-        maxSpeed: 0.95,
-        range: 0.975,
-        density: 0.95,
-        spray: 1,
-        resist: 0.95
-    },
-    bn2a: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.9,
-        damage: 0.875,
-        pen: 0.9,
-        speed: 0.9,
-        maxSpeed: 0.9,
-        range: 0.925,
-        density: 0.9,
-        spray: 1,
-        resist: 0.9
-    },
-    bn3a: {
-        reload: 1.25,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.85,
-        damage: 0.7,
-        pen: 0.8,
-        speed: 0.85,
-        maxSpeed: 0.85,
-        range: 0.85,
-        density: 0.85,
-        spray: 1,
-        resist: 0.85
-    },
-    bn4a: {
-        reload: 1.35,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.8,
-        damage: 0.5,
-        pen: 0.65,
-        speed: 0.75,
-        maxSpeed: 0.75,
-        range: 0.8,
-        density: 0.7,
-        spray: 1,
-        resist: 0.7
-    },
-    bn5a: {
-        reload: 1.6,
-        recoil: 1,
-        shudder: 1,
-        size: 1,
-        health: 0.65,
-        damage: 0.25,
-        pen: 0.5,
-        speed: 0.5,
-        maxSpeed: 0.5,
-        range: 0.65,
-        density: 0.6,
-        spray: 1,
-        resist: 0.6
-    },
-	sonic: {
-        reload: 0.56,
-        recoil: 0.8,
-        shudder: 1,
-        size: .95,
-        health: .72,
-        damage: 1,
-        pen: 1,
-        speed: .6,
-        maxSpeed: 1,
-        range: .67,
-        density: .9,
-        spray: 1,
-        resist: 1.3
-    },
-	shredder: {
-        reload: 1.1,
-        recoil: 1,
-        shudder: 1,
-        size: .9,
-        health: 10,
-        damage: .25,
-        pen: 1.4,
-        speed: .79,
-        maxSpeed: 1,
-        range: 1,
-        density: .9,
-        spray: 1,
-        resist: 2.2
-    },
-};
+
+
+/* [
+    0: Reload
+    1: Recoil
+    2: Shudder
+    3: Size
+    4: Health
+    5: Damage
+    6: Penetration
+    7: Speed
+    8: Max Speed
+    9: Range
+    10: Density
+    11: Spray
+    12: Resistance
+]*/
+
+const g = {
+    //base
+    // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
+    "blank": [1,1,1,1,1,1,1,1,1,1,1,1,1],
+    "basic": [20,1.4,0.1,1,1.775,0.197,1,4.5,1,1,1,15,1],
+    "trap": [48,1,0.25,0.65,0.3,0.75,1.08,4.9,1,1.125,1,15,1.15],
+    "swarm": [27,0.25,0.05,0.4,0.9,0.235,0.85,3.5,1,1,0.8,5,1.25],
+    "swarmlet": [36,0.25,0.05,0.4,1.2,0.2,1,3.5,1,1,1.25,5,1.25],
+    "drone": [60,0.25,0.1,0.6,4.334,0.5,1.1,2.334,1,1,1,0.1,1.1],
+    "factory": [72,1,0.1,0.7,1.6,0.425,1,3,1,1,1,0.1,1],
+    "pushFactory": [72,1,0.1,0.7,5,0.1,1,1.5,1,1,1,0.1,1],
+    "dropship": [53,1,0.0001,1,2.25,0.875,1.25,4.15,0,1,1,0.0001,1],
+    "shoot_once": [Infinity,1,1,1,1,1,1,1,1,1,1,1,1],
+    //tier 1
+    "single": [1.05,1,1,1,1.075,1.075,1.075,1.05,1,1,1,1,1],
+    "sniper": [1.32,1,0.25,1,1.15,1.425,1.225,1.25,1.35,1,1.1,0.25,1.03],
+    "hunter": [1.5,0.7,1,0.8,0.9,0.8,1,1.05,0.8,1,1.2,1,1.15],
+    "hunter2": [1,1,1,1,0.9,0.85,0.9,1,1,1,0.9,1,1],
+    "mach": [0.5,0.8,1.7,1,0.8,0.8,1,1,0.82,1,1,2.5,1],
+    "flank": [1,1.2,1,1,1,0.95,0.915,1,0.875,1,1.2,1,1],
+    "tri": [1,0.9,1,1,1.04,1,0.95,0.8,0.8,0.6,1,1,1],
+    "tri_front": [1,0.2,1,1,1,1,1,1.3,1.1,1.5,1,1,1],
+    "thruster": [1,1.33,2,1,0.5,0.8,0.7,1,1,1,1,0.5,0.7],
+    "auto": [1.1,0.75,0.5,0.8,1.5,0.525,1.5,1.1,1,0.8,1.25,1,1.25],
+    "auto_turret": [1.1,0.3,0.9,1.125,0.95,0.95,0.95,1.6,1.2,1,0.3,0.75,1.75],
+    "pound": [2.2,1.8,1,1,1.45,1.4,1.05,1,0.925,1,1.6,1,1.15],
+    "arty": [1.175,0.75,1,0.9,1.05,0.975,1.01,1.15,1.1,1,1.5,1,1],
+    "twin": [1.125,0.6,0.9,1,0.85,0.9,0.925,1,1,1,1,1.2,1],
+    "turret": [1,1,1,0.85,0.6,0.6,0.6,0.9,0.85,1,0.1,1,1],
+    "pellet": [0.775,1,0.75,1,1.5,1.7,0.5,1.2,1.175,1,1,0.75,1],
+    "pelletrework": [1,0.35,0.75,1,1.25,1.5,0.5,0.75,0.15,2.5,1,0.75,1],
+    "hivemind": [2.25,0,1,1.4,1,1,1,1,1,1,1,1,1],
+    "mini_grower": [1.2,1.2,0.7,1,1.35,0.815,1.75,1.35,1.1,1,1.25,0.7,1.25],
+    "lance": [6,0,0.1,1,0.5,0.65,1.6,0.67,1,0.08,1,180,1],
+    //tier 2
+    // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
+    "minion": [1,1,2,1,0.4,0.8,1.5,1,1,0.75,1,2,1],
+    "spam": [1.1,1,1,1,1,1.12,1,0.9,0.785,1,1,1,1],
+    "assassin": [1.5,1,0.25,1,1.2,1.325,1.1,1.1,1.1,1,1.05,0.5,1.025],
+    "rifle": [0.85,0.8,1.5,0.95,0.975,1,0.9,1.05,1.05,1,1,2,1],
+    "rocket_thrust": [0.5,1,1,1,1,1,1,1,1,1,1,1,1],
+    "blast": [0.88,1.25,1.25,1.05,0.95,1.1,1.1,0.8,0.465,0.65,1,1.5,0.8],
+    "chain": [1.2,1.33,0.8,1,0.7,1.4,1.5,1.275,1.275,1.1,3.2,0.5,2],
+    "mini": [1.25,0.6,1,0.8,0.7,0.7,0.95,0.75,0.75,1.5,0.5,0.6,1],
+    "destroy": [2.25,1.85,0.5,1,1.72,1.7,1.2,0.75,0.85,1,1.6,1,3],
+    "mini_hive": [1.05,0.25,1,0.9,0.85,0.9,1,1,0.6,0.925,0.95,1,0.95],
+    "bees": [1.8,1,1,1.4,1.3,0.9,0.65,3,1.5,1,0.25,1,1],
+    "bent": [1,1,0.8,1,0.85,1,0.85,1,1,1,0.8,0.5,1],
+    "double": [1,1,1,1,0.9,0.9,0.9,1,0.975,1,1,1,1],
+    "hewn": [1.25,1.5,1,1,0.95,0.9,1,1,0.95,1,1,1,1],
+    "pure_gunner": [1,0.25,1,1.1,0.9,0.425,1.25,0.9,1,1,1.5,1,1.2],
+    "machgun": [0.66,0.8,2,1,0.95,0.75,0.9,1.125,0.8,1,1,2.5,1],
+    "gunner": [1.25,0.25,1.5,1.1,1,0.35,1.25,0.9,0.8,1,1.5,1.5,1.2],
+    "power": [1,1,0.6,1.2,1,1,1.25,2,1.7,1,2,0.5,1.5],
+    "block": [1.25,2,0.1,1.5,1.75,1.1,0.95,1.475,2.475,1.215,1.1,1,1.5],
+    "summon": [0.35,1,1,1.125,0.4,0.35,0.4,0.95,0.95,1,0.8,1,1],
+    "baby_factory": [1.5,1,1,1,0.8,1,1,1,1.35,1,1,1,1],
+    "bore": [1.2,1,0.7,1,1,1.05,1,1.375,1.35,1,1,0.7,1],
+    "punt": [1.25,1,1.5,1,0.8,0.85,0.8,0.95,0.925,1,1,2,1],
+    "vulc": [1.25,0.1,0.0001,0.5,0.4,0.3,2,1.3,1.3,1,1.25,0.001,1.2],
+    "rocket": [0.48,2,1.5,0.85,0.25,0.25,0.25,0.75,1,0.5,1,1.25,1],
+    "jump": [11,30,1,1,1,1,1,1,1,1,1,1,1],
+    "jumpSmash": [12,18,1,1,1,1,1,1,1,1,1,1,1],
+    "click": [1.25,0.275,0.5,1,0.58,0.6,0.53,0.98,0.975,1,0.875,2,0.9],
+    "laser": [0.355,0.2,1,1,2,0.1,12,1.3875,1,1.15,0.3,0.000005,1.75],
+    "gatekeeper": [0.875,1,1,1.25,1.1,1.1,1.05,2,3,0.8,0.1,1,1],
+    "contagi": [1,0.5,1.5,1,1.23,0.8,0.8,1.05,1,1,0.9,0.75,0.7],
+    "shellExplode": [1000,0,1,0.6,3,6.25,3,0,0,0.1,2,1,1],
+    "grower": [1.3,1.25,0.7,1,1.45,1.05,1.75,1.35,1.1,1.35,1.5,0.7,1.5],
+    "flail": [1,1,1,1.5,1,1.25,3,1,1,1,1.25,1,1],
+    "akafuji": [2.25,1,1,1,1,0.7,1.35,1,1,1,1,1,1],
+    "ceptionist": [1.2,1,1,1,1,1,1,0.95,0.95,0.95,1,1,1],
+    "ceptionist_bullet": [1.2,1,1,1,0.5,0.475,0.5,0.7,0.7,1,1,1,1],
+    "homing": [1.2,1,1,1,1,1,1,1,1,1,1,1,1],
+    "navyistdrone": [0.5,1,1.7,1,0.8,0.8,1,1,0.82,1,0.5,2.5,1],
+    "navyist": [1.15,1,1,0.85,1,0.5,1,1,0.9,1,2,1,1],
+    "over": [1.15,0.5,1,1,1,1,1,1,1,1,1,1,1],
+    //tier 3
+    // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
+    "command": [3,1.5,0.1,1.25,1,0.75,0.85,1.5,1.5,1,1,1,1],
+    "explosion": [1,0,0.1,50,50,0.125,100,0,0,1.75,5,1,2],
+    "ranger": [1.1,1.1,0.5,1,0.7,1.5,1,1.3,1.3,1.05,1,0.5,1],   
+    "pistol": [0.8,0.7,1.75,1,0.975,1,0.95,0.9,0.9,1,0.9,2.5,0.9],
+    "snake": [0.4,1,4,1,1.5,0.95,1.2,0.2,0.35,1,3,6,0.5],
+    "sidewind": [1.5,2,1,1,1.6,1.05,1,0.2,0.6,1,1,1,1],
+    "snake_skin": [0.6,1,2,1,0.5,0.5,1,1,0.2,0.4,1,5,1],
+    "preda": [1.3,1,1,0.9,1.35,0.9,1.2,0.9,0.9,1,1,1,1],
+    "stream": [1.1,0.6,1,1,1,0.675,1,1.24,1,1,1,1,1],
+    "smother": [1.2,1,1.1,1,0.95,0.95,1,1,1,1,1,0.9,1],
+    "x_smother": [1.325,1,0.9,1,0.95,0.95,1,1.05,1.1,0.95,1,0.9,1],
+    "barricade": [0.475,1,1,1,0.9,1.15,0.9,1.1,1,0.5,1,1,1],
+    "sgun": [7,0.325,1.1,1.5,1,0.825,0.78,1.675,0.6,1,5,1.2,1],
+    "five": [1.125,1,1.1,1,0.85,0.85,1.2,1.05,1.05,1.1,1,1.1,1],
+    "snipe3": [1.85,1,0.25,1.4,1,0.95,0.95,1,1,1,2,0.5,1.3],
+    "heavy3": [0.95,1,1,1,1.1,1.1,1.1,1,1,1,1,1,1],
+    "clusterbomb": [2.15,1,1,1,1.8,1.375,1.5,0.7,0.7,0.67,1,1,1],
+    "clbexplode": [1,1,1,1,1,1,1,1,1,0.4,1,1,1],
+    "giga3": [1.25,1.3,1,1.1,0.9,0.9,0.9,1,0.95,1,1,1,1],
+    "boomer3": [1.1,1,1,1.25,0.95,0.95,0.95,1,0.95,1,1,1,1],
+    "anni": [1,1.2,1,1,1.6,1.45,1,1,1,1,1,1,1.075],
+    "intercept": [1.375,1,1,1,1,0.975,1,1,1,0.925,1,1,1],
+    "hive": [0.75,0.3,1,0.8,0.85,0.65,1,1.05,0.65,1,1,1,1],
+    "mortar": [1.2,1,1,1,1.1,1,1,0.8,0.8,1,1,1,1],
+    "spread_main": [0.75,0.25,0.5,1,0.63,1,0.9,1.92,1.154,1,1,1,1],
+    "spread": [1.5,1,0.25,1,1.1,1.16,1,0.7,0.7,1,1,0.25,1],
+    "spread1": [2.2,0.4375,0.125,1,0.65,1.7,0.95,1.05,0.75,1,1.5,0.25,1.15],
+    "spread2": [1,0.1,0.345,1,0.835,0.495,1.2,0.825,0.775,1,0.9,0.5,0.8],
+    "skim": [1.275,0.8,0.8,0.9,1.35,1.05,2,0.4,0.4,1.325,1,1,0.995],
+    "dustbowlDust": [0.95,1,1,1,1.1,0.95,1.5,1,1,1,1,1,2],
+    "triplet": [1.2,0.6666666666666666,0.9,1,0.815,0.95,0.9,1,1,1,1.1,0.9,0.95],
+    "dual": [2.85,1,0.8,0.98,1.32,1,1.1,1.3,1.1,1,1,1,1.25],
+    "dual2": [1,1,0.8,1,0.5,0.55,0.7,1,1,1,1,1,0.75],
+    "nail": [0.85,2.5,1,0.8,1.15,1.675,1.1,1,1,1,2,1,1],
+    "battle": [1,1,1,1,1.2,1.1,1,0.8,1.15,1,1,1,1.1],
+    "tempest": [0.26,1,1,1,4,0.2,0.5,0.01,1.25,1,10,1,5],
+    "carrier": [1.1,1,1,1,1,0.9,1,1.2,1.2,1.1,1,1,1],
+    "hexatrap": [1.25,1,1.2,1,1,1,1,0.8,1,0.575,1,1,1],
+    "construct": [1.3,1,1,0.9,1.75,1.1,1,0.87,0.95,1,1,1,1],
+    "boomerang": [0.8,1,1,1,1.05,0.725,1.5,0.8,0.75,1.35,1,1,1],
+    "meta": [1.25,1,1,1,0.85,0.8,1,1,1,1,1,1,1],
+    "weak": [2,1,1,1,0.6,0.6,0.8,0.5,0.7,0.25,0.3,1,1],
+    "master": [1.7,1,1,0.7,0.7,0.5,0.7,1,1,1,0.7,1,1],
+    "sunchip": [2.45,1,1,1.35,0.55,0.35,1,1,1,1,1,1,1],
+    "malefict": [1,1,1,1.05,1.1,1.1,1.1,0.8,0.8,1,1.15,1,1],
+    "oxyrr": [1.21,1,1,1,0.81,0.85,1,0.9,0.9,1,1,1,1],
+    "socker": [1.25,1.2,1,0.9,1.1,1.15,1.1,0.875,0.875,0.95,0.55,1,0.55],
+    "mega_grower": [1.7,1.5,0.7,1,1.525,1.1,1.75,1.35,1.1,1.35,1.7,0.7,1.7],
+    "grenade_throw": [8,0.25,1,17,2,0.75,1,2.1,0,1.5,1,1,1],
+    "grenade_explosion": [8,0,4.25,2,2.25,1.75,1.5,1.35,1,1,1,4,1],
+    "rpg_explosion": [8,0,5,4.5,4,1,1.25,1.5,1,1,1.1,4.25,1],
+    "rpg_propeller": [0.3,0.85,1,4,0.25,0.25,0.2,0.5,0.25,1,1,0.9,1],
+    "rpg_launch": [9.85,3,1.25,12,1.25,3,2,1.15,1.1,1.4,1.5,1.25,1],
+    "railgun": [1,1.15,0.75,1.2,1.05,1.15,4,1.175,1.17,1,1.1,0.75,1],
+    "cage": [1,1,1,110,10000000,0,1,0.0001,0.0001,0.4,0.0001,1,1],
+    "course": [2.5,0,1,1,0.3,0.24,0.7,1.4,1.4,0.25,0.3,1,0.3],
+    "pillbox_turret": [1.75,0.75,0.6,0.825,0.3,0.5,1.1,1.475,1.25,0.6,0.05,1,1.75],
+    "thicc_swarm": [36,0.5,0.1,0.6,1.5,1.25,1.25,2.75,1,1.125,1,5,1],
+    "migrate": [1.195,1.1,1,1,1,1,1.05,1,0.975,0.96,1,1,1.05],
+    "gust": [34.65,0.09,0.0001,1.2,1.8,0.12,1,3.6,3.6,1,1,1,1.2],
+    "inferno": [0.075,0,2.25,0.65,0.715,0.31,0.815,1.4,2,0.24,0.3,2.25,1],
+    "rocket_booster": [0.225,0.2,0.001,1,0.707,0.001,0.8,1.4,2,0.075,0.3,0.001,1],
+    "bar": [2,0,1,2,0.0001,1,1,0.00001,2,0,1,1,1],
+    "bar_split": [5.4,3.2375,0.5,1,0.867,1.0368,1.848,0.1836765,0.110446,1,2.56,1,3.795],
+    "bar_missile": [0.36,0.6,2.55,0.935,0.271875,0.06,0.3125,0.675,0.82,0.5,1.5,3.125,1.2],
+    "centurion": [0.9,0,0.7,0.8,1.8,1,1,0.5,0.6,1,1,1.2,1],
+    "cent_missile": [0.15,0.6,2.55,0.935,0.4,0.09,0.5,0.875,0.92,0.3,1.5,6,1.2],
+    "firestick": [1,0,1.5,1,1.1,1.15,1,0.5,0.5,0.825,1,1.5,1],
+    "firestick_destroy": [1,0,1,1.4,1.1,1.2,1,0.7,0.9,0.925,1,1.5,1],
+    "blazer": [0.55,1.15,1,0.5625,0.95,1,0.925,1.15,1.1,0.85,1,1,1],
+    "rocketeer": [1.25,0.9,0.8,0.95,1.35,1,2,0.4,0.385,1.3,1,1,1.1],
+    "twister": [0.975,1,1,1,1,1,1,1.3,1.3,1.1,1,1,1],
+    "twist_missile": [0.5,1,2,1,0.875,0.95,0.7,1.69,1.69,1,1,0.5,0.7],
+    "skim_missile": [0.55,1.35,2,1,0.5,0.7,0.7,1.69,1.69,1,1,0.5,0.7],
+    "hotshot": [1.675,1.75,1,1,1.05,1.7,1.12,0.75,0.675,1,1.6,1,1.15],
+    "mailman": [1.15,1.1,1,1,1,1,1,0.9,0.9,1,1,1,1],
+    "kash_thrust": [0.125,1,1,2,0.36,0.25,1,1,1,1,0.5,1,0.5],
+    "kash": [1.333,1,1,2,1.1,0.9,1,0.645,0.5,1,1,1,1],
+    "vibe": [0.75,1.25,1.4,1.2,1.1,1.15,1.1,0.775,0.5,0.8,0.5,1.5,0.8],
+    "bee_swarm": [1.31,0.25,1.5,1.75,0.875,0.8,1.3,0.9,0.8,1,1,1.5,1],
+    "mecha": [0.9625,0.01,0.01,1,0.625,0.294,0.845,1.35,1.1,1,1,1.4,1],
+    "assin": [1,1.7,1,1,1,1,1,1,1,1.2,1,1,1],
+    "harp": [3.885,0,0.25,0.84,1.7,2,1,1.2,1.2,1,1.1,0.25,1.1],
+    "harp_dart": [4,1,0.0001,16,1,1.75,1.4,1,1,1,1,0.001,1],
+    "surgeon": [2,1,1,1,0.9,0.85,1,1,1,1,1,1,1],
+    "orbitalstrike": [1,1,1,1,15,1.1,1,0,1,1,1,1,1],
+    "orbitalstrikeInsignia": [2,1,1,1,1,1,1,0,1,1,1,1,1],
+    "shrapnel": [2.5,1,1,1,1.05,1.1,1,1,1,1.05,1,1,1],
+    "shrapnelExplosion": [4.5,3.2375,0.5,0.3,40,0.5,1.32,0,0,1,2.56,1,3.45],
+    "oppenheimer": [4.5,3.2375,0.5,0.3,50,0.7,1.32,0,0,1.6,2.56,1,3.45],
+    "engineer": [1,1,1,1,1.05,1.05,1,1.1,1,1,1,1,1],
+    "mercenarydrone": [0.9,1.35,1,1,1,1,1,1,1,1,1,0.9,1],
+    "decanter": [3,1.8,1,1,1.5,1.4,1.05,1,0.9,1,1.6,1,1.15],
+    //tier 4
+    // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
+    "sparkle": [1,1,1,1,1.35,1.15,1.35,0.8,0.8,1,1,1,1],
+    "warden": [1.1,1.05,0.5,1,0.5,2.12,1,1.05,1.05,1,1,0.5,1],
+    "seven": [1.15,0.9,1,1,1,1,1,1,1,1.05,1.75,1.1,1],
+    "rainbowMegaTrap": [1,1.75,1,2.5,1.1,1.65,1.05,0.675,0.725,1,1.6,1,1.15],
+    "steam": [1.125,1,0.85,1,1,1,1,1.25,1.1,1,1,0.85,1],
+    "shell": [2.5,1.75,1,0.7,0.7,1,0.9,0.8,0.925,0.7,1.6,1,1.15],
+    "sShell": [3.5,1.75,1,0.7,0.7,1,0.9,1,1.2,0.7,1.6,1,1.15],
+    "ssShell": [4.7,1.75,1,0.7,0.7,1,0.9,1.5,1.7,0.7,1.6,1,1.15],
+    "decentralize": [1.24,1.5,1.1,1.25,1.1,1.15,1.1,1.1,1.075,1,1,1,1],
+    "wreck": [1.25,0.7,1,1,0.9,0.9,0.9,1,1,1,0.9,1,0.9],
+    "op_anni": [0.5,0,0.25,1,1,1,1,2,1,1,1,1,1],
+    "quint": [1.385,0.6666666666666666,1,1,1,0.95,0.95,1,0.975,1,1,0.9,0.9],
+    "pebble": [1,1,1,1.21,1,1,1,1.125,1.1,1,0.5,1,0.5],
+    "nano": [1.3,1,1,1.5,1,1.475,1.5,1.25,1.15,1,0.4,1,0.4],
+    "staple": [1.25,1,1.1,1,0.95,0.65,1,1,1,1,1,0.9,1],
+    "octog": [1.25,0,0.25,1.45,1,1,1,0.6,1,1.1,1,1,1],
+    "defend": [1.24,1,0.25,0.85,1.1,1.2,1.1,0.85,1,2.3,1,1,1],
+    "decalibrate": [1.45,1,1,1,1.4,1.15,1.1,0.95,0.925,1,1,1,1],
+    "pentachip": [1.05,1,1,0.95,1.1,1.1,1,0.925,0.925,1,1.2,1,1],
+    "dorito": [1,1,1,0.75,1,1.2,1,0.95,0.95,1,1.1,1,1],
+    "enchantress": [0.425,1,1,0.835,0.45,0.55,0.5,0.9,0.9,1,0.8,1,1],
+    "excorcist": [0.675,1,1,0.95,0.75,0.75,0.75,0.8,0.8,1,0.8,1,1],
+    "sorcer": [0.125,1,1,0.85,0.25,0.25,0.15,1.3,1.3,1,0.8,1,1],
+    "demoman": [1.5,1.25,1.5,1,1,0.75,1,1,1,1,0.9,1,0.9],
+    "trap_minion": [1,1,1,1.15,0.7,0.7,1.15,1,1,0.75,1,1.1,1],
+    "circle": [1.575,2,1,1.1,1,1.1,1.1,1,1,0.9,1,1,1.1],
+    "contra": [0.825,1,1,1.26,1.05,1.1,1,1.1,1,1.05,1.05,1,1.05],
+    "redistribute": [4.75,3,1,0.4,1.2,5.2,1.8,2,1.85,1,1.25,1.15,1.25],
+    "acolyte": [0.1,4,1,1,1.35,1.35,1.4,2,1.85,1,1.25,1.15,1.25],
+    "tele": [9,50,1,1,1,1,1,1,1,1,1,1,1],
+    "xenon": [6,9,1,1.4,1,1,1,0.9,0.9,1.75,1,1,1],
+    "splitter": [0.65,0,1,1.4,0.5,0.5,1.5,0.525,1.05,0.85,1,1,1],
+    "c4": [1000,0,1,1,3,6,3,0,0,0.1,2,1,1],
+    "sock": [0.85,0,1,0.8,0.63,0.9,0.725,0.825,0.785,0.3,0.5,1,0.7],
+    "redistribute2": [1,1,1,0.7,2.5,2,2,1,1,1,1.5,1,1.5],
+    "decelerate": [1,1,1,1,1,1,1,1,0,1,1,1,1],
+    "giga_grower": [1.95,1.5,0.7,1,1.575,1.1,1.75,1.35,1.1,1.35,2,0.7,2],
+    "saddle": [1.15,1,1,1,0.9,1,0.95,0.975,0.975,0.975,0.9,1,0.9],
+    "airship": [1.1,1,1,1.1,1.25,1.25,1.25,1.1,0.825,1,1,1,1],
+    "osci": [1.1,1,1,1.14,0.95,0.95,0.95,0.965,0.965,1,1,1,1],
+    "real_sniper": [1.525,1,0.5,1.675,1.3,1.75,1.5,2.45,2.4,1.15,1.2,0.5,1],
+    "real_shotgun": [2.85,0.8,2.5,1.775,1.25,1.25,1.5,1.625,1.625,1,1.1,2.2,1],
+    "marksman_pistol": [1.9,1.75,1.1,3.5,2,3.75,2,2.15,2.05,1.1,1.5,0.9,1.1],
+    "fat_nuke": [8,0,5.5,1.4,3,4,1.75,1.75,1.1,1.05,1.15,5,1],
+    "tsar_launch": [10.75,5.25,1,12,1.7,2.8,1.8,2.85,0,1.85,1.5,1,1.25],
+    "rpg_explosion_2": [8,0,5,4.75,0.4,0.65,0.35,1.35,1,1,1,4,1],
+    "minirang": [0.775,1,1,1,0.35,1,1,1.85,1.7,1.333,1,1,1],
+    "donjon": [1,1,1,1,0.75,1,0.75,1,1,1,1,1,1],
+    "sass_supreme": [576,1.75,0.1,1.24,1.8,0.27,1.05,2.295,0.72,1,1.6,0.1,1.15],
+    "plasma": [1.765,0,1,30,3,0,3,0,0,0.1,2,1,1],
+    "precice": [1,1,0.0001,1,1,1,1,1,1,1,1,0.001,1],
+    "spiteshot": [181.5,0.224,0.187,1.5,1.5,0.0664,0.725,7.2,0.492,1,1.2,45,1],
+    "splatter": [220,0.175,0.135,1.2,2.352,0.0464,1.25,3.96,0.65,1,1.5,27,1.2],
+    "strange": [220,0.175,0.135,1.2,1000,0.00001,0.001,4,6,1,1.5,27,1.2],
+    "bunker": [46.215,2,0.025,0.9,16.667,0,16.667,7.23,2.475,10,1.1,5,4.5],
+    "sidethrow": [4.5,0,0.0001,0.1,1,0.125,1,13.4,0,0.1,1,0.00001,1],
+    "trireme": [10.725,1.512,0.16,0.9,1.35,0.09,1.4,2.852,0.634,1.3,1,7.5,0.77],
+    "shield": [4,0,0.1,4,387420489,0,0.9,0.7,1,0.02,3387420489,1,9],
+    "smoke_spawner": [1,1,25,14,1,1,1,10,0.05,5,1,50,1],
+    "bomb": [1.4,1,1,1,0.5,0.45,0.9,0.8,0.8,1,1,1,1],
+    "musketeer": [0.85,1,1,1,1.05,1,1,1,0.95,0.85,0.1,1,1],
+    "matchlock": [1.21,1,1,1,1,1,1,1,1,0.725,1,1,1],
+    "planter": [0.55,0.8,1.7,0.75,0.75,0.8,1,1,0.8,0.735,1,5,1],
+    "barber": [0.4,1,2.125,0.785,0.55,0.8,0.6,1.275,0.575,0.525,0.5,10,0.8],
+    "hyper": [1,1.15,2,1,0.5,0.5,0.7,1.69,1.69,0.425,1,0.5,0.7],
+    "atrophy": [2.238,1,0.0001,1,1,0,1,1,4.5,1,1,0.0001,1],
+    "gravity": [0.625,1,0.68,0.8,0.9,0.9,1,0.6,0.55,0.675,1.25,1.44,1.1],
+    "inoculist": [4,0,1,0.3,1.7,0.25,1,0,0,1.15,1,1,1],
+    "kinesis": [1,1,1,1,0.7,0.75,0.75,0.85,0.825,1,0.75,1,0.75],
+    "blackholeRocketeer": [1.25,0.9,0.8,2,9,0.4,2,0.3,0.385,1.3,1,1,1.1],
+    "riftWizardExplosion": [1.25,0.9,0.8,2,5,0.2,5,0,0,0.1,0.1,1,1.1],
+    "steam_shot": [1.27,1,0.25,1,1,1.1,1,1.32,1.32,1,1.1,0.25,1.1],
+    "razor": [2.15,2.15,0.5,1,1.72,1.625,1.2,0.75,0.6,1,1.6,1,3],
+    "volley": [0.55,1,1.15,0.75,1,1,1,0.8,0.8,0.9,1,1.5,1],
+    "collect": [1.5,1,1,1.5625,0.855,0.265,1.25,0.9,0.8,1,1,1,1],
+    "bunsen": [0.33,0.37,1,0.4,1,0.5,0.35,2,0.125,1,1,1,1],
+    "cartograph": [1.525,1,1,0.95,0.725,0.8,0.8,1,1,1,1,1,1],
+    "heavymecha": [2,0.01,1.2,1.1,0.85,0.675,1.06,1.8,1.1,1.1,1,1.175,1],
+    "sixshot": [1,1,1.5,1,1,2,2,1.3,1.8,1,0.875,1,1],
+    "kamikazeCrasherExplosion": [1,1,1,1,10000,2,5,0,0,0.25,100,1,1],
+    "kami": [4,0,0.5,1.5,3,4.8,5,0.01,0.01,0.25,1,0.5,1],
+    "bigCrunch": [6.5,0,0.5,1.5,30,0.7,5,0.01,0.01,0.45,1,0.5,1],
+    "bigBang": [6.5,0,0.5,1.5,20,1.4,5,0.01,0.01,0.4,1,0.5,1],
+    "captainswarm": [0.9,1.8,0.6,1,1,1,1,1,1,0.6,1,0.5,1],
+    "combatantdrone": [0.9,1.35,1,1,1,1,1,1,1,1,1,0.9,1],
+    "enfilade": [2.5,2,1,1,1.8,1.8,1.05,1,0.925,1,1.6,1,1.15],
+    //Onechangers
+    // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
+    "double_health": [1,1,1,1,2,1,1,1,1,1,1,1,1],
+    "no_recoil": [1,0,1,1,1,1,1,1,1,1,1,1,1],
+    "half_recoil": [1,0.5,1,1,1,1,1,1,1,1,1,1,1],
+    "less_recoil": [1,0.65,1,1,1,1,1,1,1,1,1,1,1],
+    "bit_less_recoil": [1,0.8,1,1,1,1,1,1,1,1,1,1,1],
+    "more_recoil": [1,1.15,1,1,1,1,1,1,1,1,1,1,1],
+    "much_more_recoil": [1,1.35,1,1,1,1,1,1,1,1,1,1,1],
+    "lots_more_recoil": [1,1.8,1,1,1,1,1,1,1,1,1,1,1],
+    "tons_more_recoil": [1,4,1,1,1,1,1,1,1,1,1,1,1],
+    "triple_reload": [0.3333333333333333,1,1,1,1,1,1,1,1,1,1,1,1],
+    "quintuple_reload": [0.2,1,1,1,1,1,1,1,1,1,1,1,1],
+    "double_reload": [0.5,1,1,1,1,1,1,1,1,1,1,1,1],
+    "unfathomable_reload": [0.0001,1,1,1,1,1,1,1,1,1,1,1,1],
+    "more_reload": [0.85,1,1,1,1,1,1,1,1,1,1,1,1],
+    "bit_more_reload": [0.9,1,1,1,1,1,1,1,1,1,1,1,1],
+    "bit_less_reload": [1.1,1,1,1,1,1,1,1,1,1,1,1,1],
+    "one_fifth_reload": [1.2,1,1,1,1,1,1,1,1,1,1,1,1],
+    "one_fourth_reload": [1.25,1,1,1,1,1,1,1,1,1,1,1,1],
+    "one_third_reload": [1.333,1,1,1,1,1,1,1,1,1,1,1,1],
+    "less_reload": [1.5,1,1,1,1,1,1,1,1,1,1,1,1],
+    "half_reload": [2,1,1,1,1,1,1,1,1,1,1,1,1],
+    "more_speed": [1,1,1,1,1,1,1,1.3,1.3,1,1,1,1],
+    "double_speed": [1,1,1,1,1,1,1,2,2,1,1,1,1],
+    "fast": [1,1,1,1,1,1,1,1.2,1,1,1,1,1],
+    "faster": [1,1,1,1,1,1,1,1.1,1.1,1,1,1,1],
+    "bit_slow": [1,1,1,1,1,1,1,0.9,0.9,1,1,1,1],
+    "slow": [1,1,1,1,1,1,1,0.7,0.7,1,1,1,1],
+    "fried_egg": [0.4,1,1,1,1,1,1,0.0001,0.0001,15,1,1,1],
+    "charge": [1,1,0.5,1,1,0.9,1,0.75,0.75,1,1,1.15,1],
+    "not_dense": [1,1,1,1,1,1,1,1,1,1,0.1,1,1],
+    "half_range": [1,1,1,1,1,1,1,1,1,0.5,1,1,1],
+    "less_range": [1,1,1,1,1,1,1,1,1,0.85,1,1,1],
+    "micro_range": [1,1,1,1,1,1,1,1,1,0.001,1,1,1],
+    "more_range": [1,1,1,1,1,1,1,1,1,1.15,1,1,1],
+    "extra_range": [1,1,1,1,1,1,1,1,1,1.5,1,1,1],
+    "double_range": [1,1,1,1,1,1,1,1,1,2,1,1,1],
+    "fake": [1,0,1,0.00001,0.0001,1,1,0.0001,0.0001,0,1,1,1],
+    "half_speed": [1,0,1,1,1,1,1,0.5,0.5,1,1,1,1],
+    "bit_smaller": [1,1,1,0.84,1,1,1,1,1,1,1,1,1],
+    "little_bit_smaller": [1,1,1,0.93,1,1,1,1,1,1,1,1,1],
+    "mach_smaller": [1,1,1,0.8,1,1,1,1,1,1,1,1,1],
+    "smaller": [1,1,1,0.75,1,1,1,1,1,1,1,1,1],
+    "even_smaller": [1,1,1,0.6,1,1,1,1,1,1,1,1,1],
+    "half_size": [1,1,1,0.5,1,1,1,1,1,1,1,1,1],
+    "triple_size": [1,1,1,2,1,1,1,1,1,1,1,1,1],
+    "double_size": [1,1,1,2,1,1,1,1,1,1,1,1,1],
+    "bigger": [1,1,1,1.25,1,1,1,1,1,1,1,1,1],
+    "bit_bigger": [1,1,1,1.16,1,1,1,1,1,1,1,1,1],
+    "little_bit_bigger": [1,1,1,1.091,1,1,1,1,1,1,1,1,1],
+    "very_little_bit_bigger": [1,1,1,1.067,1,1,1,1,1,1,1,1,1],
+    "near_double_size": [1,1,1,1.85,1,1,1,1,1,1,1,1,1],
+    "low_power": [1,1,2,1,0.5,0.5,0.7,1,1,1,1,0.5,0.7],
+    "lower_power": [1,0,1.25,1,0.5,0.5,0.75,1,1,1,1,1.25,1],
+    "half_power": [1,1,1,1,0.5,0.5,0.5,1,1,1,1,1,1],
+    "less_power": [1,1,1,1,0.9,0.9,0.9,1,1,1,1,1,1],
+    "more_power": [1,1,1,1,1.1,1.1,1.1,1,1,1,1,1,1],
+    "more_damage": [1,1,1,1,1.15,1.1,1,1,1,1,1,1,1],
+    "three_fourths_more_damage": [1,1,1,1,1,1.75,1,1,1,1,1,1,1],
+    "bit_more_damage": [1,1,1,1,1.05,1.1,1,1,1,1,1,1,1],
+    "bit_less_damage": [1,1,1,1,0.95,0.9,1,1,1,1,1,1,1],
+    "less_damage": [1,1,1,1,0.9,0.85,1,1,1,1,1,1,1],
+    "pl_damage": [1,1,1,1,1.5,12,1,1,1,1,6,1,1],
+    "damage_m25": [1,1,1,1,1,0.8,1,1,1,1,1,1,1],
+    "damage_clone_strike": [1,1,1,1,1,0.3,1,1,1,1,1,1,1],
+    "damage_m30": [1,1,1,1,1,0.7,1,1,1,1,1,1,1],
+    "damage_p30": [1,1,1,1,1,1.3,1,1,1,1,1,1,1],
+    "reload_m5": [1.05,1,1,1,1,1,1,1,1,1,1,1,1],
+    "recoil_m40": [1,0.6,1,1,1,1,1,1,1,1,1,1,1],
+    "half_damage": [1,1,1,1,0.6,0.5,1,1,1,1,1,1,1],
+    "very_fast_launch": [1,1,1,1,1,1,1,2.2,1,1,1,1,1],
+    "slow_launch": [1,1,1,1,1,1,1,0.6,1,1,1,1,1],
+    "fast_launch": [1,1,1,1,1,1,1,1.4,1,1,1,1,1],
+    "less_spread": [1,1,0.75,1,1,1,1,1,1,1,1,0.75,1],
+    "stronger": [1,1,1,1,1.05,1.05,1,1.1,1,1,1,1,1],
+    "bit_less_knock": [1,1,1,1,1,1,1,1,1,1,0.95,1,0.95],
+    "much_less_knock": [1,1,1,1,1,1,1,1,1,1,0.1,1,0.1],
+    "bit_more_spread": [1,1,1.15,1,1,1,1,1,1,1,1,1.5,1],
+    "no_speed": [1,1,1,1,1,1,1,0.00001,0.00001,1,1,1,1],
+    "half_pen": [1,1,1,1,1,1,0.5,1,1,1,1,1,1],
+    "more_pen": [1,1,1,1,1,1,1.15,1,1,1,1,1,1],
+    "tiny_bit_more_speed": [1,1,1,1,1,1,1,1.07,1.07,1,1,1,1],
+    "bit_more_range": [1,1,1,1,1,1,1,1,1,1.05,1,1,1],
+    "quarter_less_damage": [1,1,1,1,1,0.25,1,1,1,1,1,1,1],
+    "more_spread": [1,1,1.5,1,1,1,1,1,1,1,1,1.5,1],
+    "lot_more_knock": [1,1,1,1,1,1,1,1,1,1,20,1,20],
+    "less_pen": [1,1,1,1,1,1,0.9,1,1,1,1,1,1],
+    "more_health": [1,1,1,1,1.15,1,1,1,1,1,1,1,1],
+    "no_damage": [1,1,1,1,1,0,1,1,1,1,1,1,1],
+    "no_spread": [1,1,0.0001,1,1,1,1,1,1,1,1,0.0001,1],
+    "less_health": [1,1,1,1,0.9,1,1,1,1,1,1,1,1],
+    "fivex_size": [1,1,1,5,1,1,1,1,1,1,1,1,1],
+    "fires_once": [Infinity,1,1,1,1,1,1,1,1,1,1,1,1],
+    //Boss
+    "serpenttail": [0.5,0,1,1,75,3,0.75,0,0,5959,1,1,1],
+    "sanctuaryPoly": [1,0,0.01,1,1.1,1.2,1,1,1,1,1,1,1],
+    "super_auto": [3.5,0,0.65,0.9,0.85,0.75,1.15,1.1,1.1,0.875,1.3,1.1,1.25],
+    "defend_auto": [1.25,1,1.1,1,1,1,1,1.2,1,1.1,1,1.1,1],
+    "legacyclose": [1.2,0.2,0.5,1,5.5,0.55,2.25,2,3,1,1.6,0.5,1.15],
+    "sans": [1,1,1,1,50,0.1,4,1,1,1,1.6,0.5,1.15],
+    "destroy_dominator": [6.5,0,1,0.975,6,6,6,0.575,0.475,1,1,0.5,1],
+    "gun_dominator": [1.1,0,1.1,0.5,0.5,0.5,1,1.1,1,1,0.9,1.2,0.8],
+    "trap_dominator": [0.8,0,0.25,1,0.8,1,1.3,0.5,2,0.7,1,0.5,1],
+    "drone_dominator": [1.5,0,1,1,1,0.8,1.3,1,0.9,1,1.25,1,1],
+    "auto_dominator": [1.6,0,0.75,0.85,0.8,0.9,1,1.1,1,0.9,1.15,1,1.1],
+    "dem_trap": [1.35,0,0.5,1.25,1.05,1,1.25,0.5,1.55,1,1,0.5,1],
+    "dem_mach": [2.85,0,1.25,0.55,0.75,0.25,0.75,1,0.85,1,1,1.25,1],
+    "dem_factory": [175,0,0.25,0.315,0.5,0.5,0.5,2.45,1,1,1,0.5,1],
+    "dem_minion": [1.35,0.95,1.85,0.9,0.4,0.35,0.4,0.5,1,0.75,1,1.85,1],
+    "testbed": [1,0.5,1,1,1,1.2,1,1.2,1.15,1,1.25,1,1],
+    "closer": [1.25,0.25,1,1,1000,1000,1000,2.5,2.25,1.4,4,0.25,1],
+    "closer_drone": [1.5,1,1,1,1000,1000,1000,2.5,2.25,1,4,0.25,1],
+    "closer_ai": [0.625,1,1,1,100000,100000,100000,5,4.85,1.5,10,0.25,10],
+    "closer_ai_drone": [0.75,1,1,1,100000,100000,100000,5.5,5,1,10,0.25,10],
+    "protect_swarm": [3.5,0,1,1.6,200,1.5,1,1,0.95,1,5,1,5],
+    "protectordrone": [0.5,0,1,1,75000,0.5,0.15,1,1,1,10,0.1,10],
+    "dread": [0.855,0.25,0.75,0.95,1.2,1.05,1.05,1,0.9,1,1,1.25,1],
+    "dread_trap": [1.15,0.5,0.25,0.975,1.05,1.05,1.05,1.1,1,1,1,1,3],
+    "fallen_overlord": [0.25,1,1,0.35,0.4,0.3,0.4,0.76,0.9,1,2,1,1],
+    "guardian": [0.45,8,1,0.7,2,1,1,1,1,1.8,0.25,1,0.25],
+    "flame": [0.518,1.25,4.25,0.25,1.25,1.25,2,0.8,0,1.85,1,3,1.6],
+    "levi_five": [1.15,0,1,1,0.95,0.95,0.95,1.125,1.1,1.15,2,1.1,1],
+    "levi": [2,0,1.25,1,1,1,1,0.65,1,0.75,1,1,1],
+    "a_lotta_damage": [0.8,1,1,1.2,1.5,1.75,1.25,1,1,1,1,1,1],
+    "mothership": [1.25,1,1,1,1,1,1.1,0.775,0.8,15,1,1,1.15],
+    "skimboss": [1,0.5,1,0.9,1.2,1.2,1.2,1.1,1,0.7,1,1,1],
+    "quadtrap": [1.15,1,1,1,0.75,0.8,0.8,1.4,0.9,0.75,0.9,1,0.9],
+    "basemaker": [2.5,1.4,0.1,1,1,0.5,1,0.5,1,1,1,15,1],
+    "detSwarm": [1000,0,1,1,3,6.25,3,0.001,0.001,0.1,2,1,1],
+    "trap_fragment": [1000,0,0.75,0.7,2,2,1.25,1.15,1,0.4,1.5,0.5,1.15],
+    "droneTitan": [300,0.25,0.1,0.6,12,10,999,0.1,1,1,1,0.1,1],
+    "k": [1,1,1,0.25,0.9,1,1,1,1,1,1,1,1],
+    "nest_keeper": [3,1,1,0.75,1.05,1.05,1.1,0.5,0.5,0.5,1.1,1,1],
+    "leviathan": [43,0,0.05,0.28,1.8,0.18,0.65,2.45,0.7,1.8,0.3125,5,0.3125],
+    "bb1d": [1,1,1,1,1.1,1.1,1.1,1,1,1,1,1,1],
+    "bb2d": [1,1,1,1,1.1,1.225,1.15,1,1,1,1,1,1],
+    "bb3d": [1,1,1,1,1.2,1.5,1.35,1,1,1,1,1,1],
+    "bb4d": [1,1,1,1,1.5,1.85,1.5,1,1,1,1,1,1],
+    "bb5d": [1,1,1,1,1.6,2.5,2,1,1,1,1,1,1],
+    "bb6d": [1,1,1,1,1.65,3.25,2.25,1,1,1,1,1,1],
+    "bb7d": [1,1,1,1,2.4,3.85,2.4,1,1,1,1,1,1],
+    "bb8d": [1,1,1,1,2.75,4.45,2.6,1,1,1,1,1,1],
+    "bb9d": [1,1,1,1,4,5,2.75,1,1,1,1,1,1],
+    "bb10d": [1,1,1,1,6,6.5,2.8,1,1,1,1,1,1],
+    "bn1d": [1,1,1,1,0.95,0.95,0.95,1,1,1,1,1,1],
+    "bn2d": [1,1,1,1,0.9,0.875,0.9,1,1,1,1,1,1],
+    "bn3d": [1,1,1,1,0.85,0.7,0.8,1,1,1,1,1,1],
+    "bn4d": [1,1,1,1,0.8,0.5,0.65,1,1,1,1,1,1],
+    "bn5d": [1,1,1,1,0.65,0.25,0.5,1,1,1,1,1,1],
+    "bb1a": [0.95,1,1,1,1.1,1.1,1.1,1.05,1.05,1.05,1.02,1,1.02],
+    "bb2a": [0.9,1,1,1,1.1,1.225,1.15,1.1,1.1,1.075,1.05,1,1.04],
+    "bb3a": [0.85,1,1,1,1.2,1.5,1.35,1.15,1.15,1.1,1.1,1,1.1],
+    "bb4a": [0.725,1,1,1,1.5,1.85,1.5,1.225,1.225,1.2,1.15,1,1.15],
+    "bb5a": [0.6,1,1,1,1.6,2.5,2,1,1,1.35,1.3,1,1.3],
+    "bn1a": [1.05,1,1,1,0.95,0.95,0.95,0.95,0.95,0.975,0.95,1,0.95],
+    "bn2a": [1.1,1,1,1,0.9,0.875,0.9,0.9,0.9,0.925,0.9,1,0.9],
+    "bn3a": [1.25,1,1,1,0.85,0.7,0.8,0.85,0.85,0.85,0.85,1,0.85],
+    "bn4a": [1.35,1,1,1,0.8,0.5,0.65,0.75,0.75,0.8,0.7,1,0.7],
+    "bn5a": [1.6,1,1,1,0.65,0.25,0.5,0.5,0.5,0.65,0.6,1,0.6]
+  }
 global.utility.log("Started parsing stats...");
 
-let g = {};
-for (let stat in stats) g[stat] = convert(stats[stat]);
+//let g = {};
+//for (let stat in stats) g[stat] = convert(stats[stat]);
 
 for (let key in g) {
     if (g[key].length !== 13) {
@@ -6140,18 +547,94 @@ const base = {
 const base = {
     ACCEL: 1.6,
     SPEED: 5.25,
-    HEALTH: 20,
-    DAMAGE: 3/*3*/,
+    HEALTH: 0.5,
+    DAMAGE: 8,
     RESIST: 1,
-    PENETRATION: 1.05/*1.05*/,
-    SHIELD: 3.5,//8
+    PENETRATION: 1,
+    SHIELD: 3.5,
     REGEN: .025,
-    DENSITY: 1,
-    FOV: 1.04,
-    PUSHABILITY: 1
+    DENSITY: 1.75,
+    FOV: 1,
+    PUSHABILITY: 1.15
 };
 base.ACCELERATION = base.ACCEL;
-
+const bullet = {
+        PENETRATION: 2.25,
+        SPEED: 3.75,
+        RANGE: 90,
+        DENSITY: 2,
+        HEALTH: 1.5,
+        DAMAGE: 5,
+        PUSHABILITY: 1.5
+};
+const drone = {
+        PENETRATION: 1.5,
+        PUSHABILITY: 2.25,
+        ACCELERATION: .05,
+        HEALTH: 1.5,
+        DAMAGE: 2,
+        SPEED: 3,
+        RANGE: 200,
+        DENSITY: 2,
+        FOV: .15
+};
+const swarm = {
+        ACCELERATION: 3.5, // 3
+        PENETRATION: 2.5,
+        HEALTH: 1,
+        DAMAGE: 2,
+        SPEED: 3.5,
+        RANGE: 225,
+        DENSITY: 1.5,
+        PUSHABILITY: 2,
+        FOV: 1.5
+};
+const trap = {
+        HEALTH: 3,
+        DAMAGE: 5,
+        RANGE: 450,
+        PENETRATION: 2.5,
+        DENSITY: 2,
+        PUSHABILITY: 1,
+        SPEED: 0
+};
+const block = {
+        HEALTH: 2.5,
+        DAMAGE: 5,
+        RANGE: 450,
+        PENETRATION: 3,
+        PUSHABILITY: 1,
+        SPEED: 1,
+        DENSITY: 5
+}; //*2
+const pellet = {
+        PENETRATION: 2.5,
+        SPEED: 3.25,
+        RANGE: 120,
+        DENSITY: 0.75,
+        HEALTH: 1,
+        DAMAGE: 3.75,
+        PUSHABILITY: 1.75
+};
+const food = {
+        DAMAGE: 3,
+        DENSITY: 1.5,
+        HEALTH: 7.5,
+        ACCELERATION: 0.01,
+        PENETRATION: 1.5,
+        PUSHABILITY: 4,
+        REGEN: 0.01
+};
+const crasher = {
+        SPEED: 5,
+        ACCELERATION: 1.4,
+        HEALTH: 10,
+        DAMAGE: 4,
+        PENETRATION: 2,
+        PUSHABILITY: 1,
+        DENSITY: 5,
+        RESIST: 2
+};
 // Prop functions
 class PropAnimation{
 	constructor(prop, index){
@@ -6578,9 +1061,9 @@ defExports.genericTank = {
         PENETRATION: base.PENETRATION,
         SHIELD: base.SHIELD,
         REGEN: base.REGEN,
-        FOV: 1,
-        DENSITY: base.DENSITY * 2,
-        PUSHABILITY: base.PUSHABILITY, // .9
+        FOV: base.FOV,
+        DENSITY: base.DENSITY,
+        PUSHABILITY: base.PUSHABILITY,
         HETERO: 3
     },
     GUNS: [],
@@ -8464,7 +2947,7 @@ defExports.food = {
     DANGER: 1, // tempfix
     BODY: {
         STEALTH: 30,
-        PUSHABILITY: .8
+        PUSHABLITY: base.PUSHABILITY
     },
     HEALTH_WITH_LEVEL: false,
     GUNS: [],
@@ -8482,15 +2965,495 @@ defExports.icosagon = {
     SIZE: 120,
     COLOR: 160,
     BODY: {
-        DAMAGE: 4.5,
-        DENSITY: 140,
-        HEALTH: 670.5,
-        RESIST: 1.6,//Math.pow(1.375, 3),
-        SHIELD: 110,
-        REGEN: .1
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 1000,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true
+};
+//Base_food
+defExports.decagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Decagon',
+    VALUE: 100000,
+    SHAPE: -10,
+    SIZE: 59,
+    COLOR: 6, // 207,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 500,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: []
+};
+defExports.nonagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Nonagon',
+    VALUE: 90000,
+    SHAPE: -9,
+    SIZE: 58,
+    COLOR: 195, // 28,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 350,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ["decagon", 100]
+    ]
+};
+defExports.octagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Octagon',
+    VALUE: 65000,
+    SHAPE: -8,
+    SIZE: 57,
+    COLOR: 242, //0,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 200,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ["nonagon", 99],
+        ["burntNonagon", 1]
+    ]
+};
+defExports.heptagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Heptagon',
+    VALUE: 50000,
+    SHAPE: -7,
+    SIZE: 56,
+    COLOR: 26, // 24,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 40,
+        HEALTH: food.HEALTH * 150,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ["octagon", 100]
+    ]
+};
+defExports.hexagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Hexagon',
+    VALUE: 35000,
+    SHAPE: -6,
+    SIZE: 54,
+    COLOR: 241, // 22,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 30,
+        HEALTH: food.HEALTH * 125,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ["heptagon", 100]
+    ]
+};
+defExports.alphaPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Alpha Pentagon',
+    VALUE: 25000,
+    SHAPE: -5,
+    SIZE: 52,
+    COLOR: 14,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 20,
+        HEALTH: food.HEALTH * 100,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ["hexagon", 99.99],
+        ["seniorPentagon", 0.01]
+    ]
+};
+defExports.betaPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Beta Pentagon',
+    VALUE: 2500,
+    SHAPE: 5,
+    SIZE: 30,
+    COLOR: 14,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 50,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: [
+        ['betaPentagon', 83.9999999],
+        ['greenBetaPentagon', 6],
+        ['hendecagon', 4],
+        ['splitterBetaPentagon', 6]
+    ],
+};
+defExports.seniorPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Senior Pentagon',
+    VALUE: 25000,
+    SHAPE: 10021,
+    SIZE: 52,
+    COLOR: 14,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 25,
+        HEALTH: food.HEALTH * 1000,
+        ACCELERATION: food.ACCELERATION * 5,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    EVOLUTIONS: []
+};
+defExports.pentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Pentagon',
+    VALUE: 400,
+    SHAPE: 5,
+    SIZE: 16,
+    COLOR: 14,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 5,
+        HEALTH: food.HEALTH * 5,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    EVOLUTIONS: [
+        ["pentagon", 80],
+        ["greenPentagon", 5],
+        ["splitterPentagon", 8],
+        ["boompentagon", 1],
+        ["protpentagon", 1],
+        ["betaPentagon", 4.9979999],
+        ["pentagonColony", 0.003],
+        ["ascendedPentagonAI", .001]
+    ]
+};
+defExports.triangle = {
+    PARENT: [defExports.food],
+    LABEL: 'Triangle',
+    VALUE: 120,
+    SHAPE: 3,
+    SIZE: 9,
+    COLOR: 2,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 2.5,
+        HEALTH: food.HEALTH * 2,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    EVOLUTIONS: [
+        ["pentagon", 84.977],
+        ["greenTriangle", 5],
+        ["boomtriangle", 2],
+        ["splitterTriangle", 8],
+        ["carbonFiberTriangle", 0.0079],
+        ["rightTriangle", 0.0099999],
+        ["triangleColony", 0.003],
+        ["ascendedTriangle", .003]
+    ]
+};
+defExports.square = {
+    PARENT: [defExports.food],
+    LABEL: 'Square',
+    VALUE: 30,
+    SHAPE: 4,
+    SIZE: 10,
+    COLOR: 13,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    INTANGIBLE: false,
+    EVOLUTIONS: [
+        ["triangle", 82.985],
+        ["boomsquare", 3],
+        ["greenSquare", 7],
+        ["splitterSquare", 4],
+        ["scutiSquare", 0.01],
+        ["ascendedSquare", 0.0028999],
+        ["squareColony", 0.003],
+        ["lavenderSquare", 3]
+    ]
+};
+defExports.egg = {
+    PARENT: [defExports.food],
+    LABEL: 'Egg',
+    VALUE: 10,
+    SHAPE: 0, // 292
+    SIZE: 5,
+    COLOR: 6, // 243
+    INTANGIBLE: true,
+    BODY: {
+        PUSHABILITY: 0,
+        DAMAGE: food.DAMAGE * 0,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH * 0.01,
+        ACCELERATION: food.ACCELERATION * 0.5,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: false,
+    EVOLUTIONS: [
+        ["fakeegg", 0.019795],
+        ["gem", 0.05],
+        ["square", 98.067],
+        ["hardshellegg", 0.5],
+        ["friedEgg", 1],
+        ["eggColony", 0.003],
+        ["obsidianEgg", 0.01]
+    ]
+};
+//New_food
+defExports.newDecagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Decagon',
+    VALUE: 25000,
+    SHAPE: 10,
+    SIZE: 36,
+    COLOR: 6,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 5000,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true
+};
+defExports.newNonagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Nonagon',
+    VALUE: 2e4,
+    SHAPE: 9,
+    SIZE: 32,
+    COLOR: 195,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 2500,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true
+};
+defExports.newOctagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Octagon',
+    VALUE: 15000,
+    SHAPE: 8,
+    SIZE: 28,
+    COLOR: 242,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 1000,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true
+};
+defExports.newHeptagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Heptagon',
+    VALUE: 12500,
+    SHAPE: 7,
+    SIZE: 30,
+    COLOR: 26,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 40,
+        HEALTH: food.HEALTH * 500,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true
+};
+defExports.newHexagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Hexagon',
+    VALUE: 1e4,
+    SHAPE: 6,
+    SIZE: 20,
+    COLOR: 241,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 30,
+        HEALTH: food.HEALTH * 200,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true
+};
+//green_food
+defExports.greenSquare = {
+    PARENT: [defExports.food],
+    LABEL: 'Green Square',
+    VALUE: 2000,
+    SHAPE: 4,
+    SIZE: 7.5,
+    COLOR: 31,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(31)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        poison(me, them, 1.5, 1);
+    },
+    EVOLUTIONS: [
+        ["orangeSquare", 15],
+        ["greensplitterSquare", 5],
+        ["greenTriangle", 80]
+    ]
+};
+defExports.greenTriangle = {
+    PARENT: [defExports.food],
+    LABEL: 'Green Triangle',
+    VALUE: 4000,
+    SHAPE: 3,
+    SIZE: 6.5,
+    COLOR: 31,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 2.5,
+        HEALTH: food.HEALTH * 2,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(31)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        poison(me, them, 1.5, 1);
+    },
+    EVOLUTIONS: [
+        ["orangeTriangle", 15],
+        ["greenPentagon", 85]
+    ]
+};
+defExports.greenPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Green Pentagon',
+    VALUE: 6000,
+    SHAPE: 5,
+    SIZE: 12,
+    COLOR: 31,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 5,
+        HEALTH: food.HEALTH * 5,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(31)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        poison(me, them, 1.5, 1);
+    },
+    EVOLUTIONS: [
+        ["orangePentagon", 15],
+        ["greenPentagon", 50],
+        ["greenBetaPentagon", 35]
+    ]
+};
+defExports.greenBetaPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Green Beta Pentagon',
+    VALUE: 1e4,
+    SHAPE: 5,
+    SIZE: 26,
+    COLOR: 31,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 50,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    PROPS: [makeAura(31)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        poison(me, them, 1.5, 1);
+    },
+    EVOLUTIONS: [
+        ["greenBetaPentagon", 85],
+        ["orangeBetaPentagon", 15]
+    ]
+};
+//orange_food
+defExports.orangeBetaPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Orange Beta Pentagon',
+    VALUE: 1e5,
+    SHAPE: 5,
+    SIZE: 26,
+    COLOR: 207,
+    BODY: {
+        DAMAGE: food.DAMAGE * 1.5,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 75,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DOES_TORCH: true,
+    DRAW_HEALTH: true,
+    GIVE_KILL_MESSAGE: true,
+    PROPS: [makeAura(207)],
+    ON_DAMAGED: (me, them) => {
+        torch(me, them, 1.5, 1);
+    },
+    EVOLUTIONS: [
+        ["orangeBetaPentagon", 85],
+        ["mysticBetaPentagon", 15]
+    ],
 };
 defExports.orangePentagon = {
     PARENT: [defExports.food],
@@ -8500,11 +3463,11 @@ defExports.orangePentagon = {
     VALUE: 50000,
     COLOR: 207,
     BODY: {
-        DAMAGE: 3,
-        DENSITY: 8,
-        HEALTH: 125,//200
-        RESIST: 1.25,
-        PENETRATION: 1.1
+        DAMAGE: food.DAMAGE * 1.5,
+        DENSITY: food.DENSITY * 5,
+        HEALTH: food.HEALTH * 7.5,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DOES_TORCH: true,
     DRAW_HEALTH: true,
@@ -8525,11 +3488,11 @@ defExports.orangeTriangle = {
     VALUE: 40000,
     COLOR: 207,
     BODY: {
-        DAMAGE: 1,
-        DENSITY: 6,
-        HEALTH: 60,
-        RESIST: 1.15,
-        PENETRATION: 1.5
+        DAMAGE: food.DAMAGE * 1.5,
+        DENSITY: food.DENSITY * 2.5,
+        HEALTH: food.HEALTH * 3,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DOES_TORCH: true,
     DRAW_HEALTH: true,
@@ -8550,10 +3513,11 @@ defExports.orangeSquare = {
     VALUE: 30000,
     COLOR: 207,
     BODY: {
-        DAMAGE: 1,
-        DENSITY: 4,
-        HEALTH: 20,
-        PENETRATION: 2
+        DAMAGE: food.DAMAGE * 1.5,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH * 1.5,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DOES_TORCH: true,
     DRAW_HEALTH: true,
@@ -8566,59 +3530,120 @@ defExports.orangeSquare = {
         ["orangeTriangle", 85]
     ]
 };
-defExports.greenBetaPentagon = {
+//Lavender_foods
+defExports.cranberryPentagon = {
     PARENT: [defExports.food],
-    LABEL: 'Green Beta Pentagon',
-    VALUE: 1e4,
+    LABEL: 'Cranberry Pentagon',
+    VALUE: 8000,
+    SHAPE: 5,
+    SIZE: 12,
+    COLOR: 340,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 250,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(340)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        shrivel(them, 1.01, 2);
+    }
+};
+defExports.lavenderBetaPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Lavender Beta Pentagon',
+    VALUE: 14000,
     SHAPE: 5,
     SIZE: 26,
-    COLOR: 31,
+    COLOR: 337,
     BODY: {
-        DAMAGE: 2.5,
-        DENSITY: 30,
-        HEALTH: 250,
-        RESIST: 1.2,//Math.pow(1.3, 2),
-        SHIELD: 40,
-        REGEN: .3
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 500,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
-    PROPS: [makeAura(31)],
+    PROPS: [makeAura(337)],
     ON_DEALT_DAMAGE: (me, them) => {
-        poison(me, them, 1.5, 1);
+        swell(them, 1.01, 2);
+    }
+};
+defExports.lavenderPentagon = {
+    PARENT: [defExports.food],
+    LABEL: 'Lavender Pentagon',
+    VALUE: 8000,
+    SHAPE: 5,
+    SIZE: 12,
+    COLOR: 337,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 5,
+        HEALTH: food.HEALTH * 50,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(337)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        swell(them, 1.003, 2);
     },
     EVOLUTIONS: [
-        ["greenBetaPentagon", 85],
-        ["orangeBetaPentagon", 15]
+        ["lavenderPentagon", 75],
+        ["cranberryPentagon", 15],
+        ["lavenderBetaPentagon", 10]
     ]
 };
-defExports.orangeBetaPentagon = {
+defExports.lavenderTriangle = {
     PARENT: [defExports.food],
-    LABEL: 'Orange Beta Pentagon',
-    VALUE: 1e5,
-    SHAPE: 5,
-    SIZE: 26,
-    COLOR: 207,
+    LABEL: 'Lavender Triangle',
+    VALUE: 5000,
+    SHAPE: 3,
+    SIZE: 6.5,
+    COLOR: 337,
     BODY: {
-        DAMAGE: 2.5,
-        DENSITY: 30,
-        HEALTH: 300,
-        RESIST: 1.2,//Math.pow(1.3, 2),
-        SHIELD: 40,
-        REGEN: .3
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 2.5,
+        HEALTH: food.HEALTH * 20,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
-    DOES_TORCH: true,
     DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    PROPS: [makeAura(207)],
-    ON_DAMAGED: (me, them) => {
-        torch(me, them, 1.5, 1);
+    PROPS: [makeAura(337)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        swell(them, 1.001, 2);
     },
     EVOLUTIONS: [
-        ["orangeBetaPentagon", 85],
-        ["mysticBetaPentagon", 15]
-    ],
+        ["lavenderPentagon", 100]
+    ]
 };
+defExports.lavenderSquare = {
+    PARENT: [defExports.food],
+    LABEL: 'Lavender Square',
+    VALUE: 3000,
+    SHAPE: 4,
+    SIZE: 7.5,
+    COLOR: 337,
+    BODY: {
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH * 10,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
+    },
+    DRAW_HEALTH: true,
+    PROPS: [makeAura(337)],
+    ON_DEALT_DAMAGE: (me, them) => {
+        swell(them, 1, 2);
+    },
+    EVOLUTIONS: [
+        ["lavenderTriangle", 100]
+    ]
+};
+//mystic_foods
 defExports.mysticBetaPentagon = {
     PARENT: [defExports.food],
     LABEL: 'Mystic Beta Pentagon',
@@ -8627,12 +3652,12 @@ defExports.mysticBetaPentagon = {
     SIZE: 28,
     COLOR: 261,
     BODY: {
-        DAMAGE: 2,
-        DENSITY: 80,
-        HEALTH: 600,
-        RESIST: 1.3,//Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
+        DAMAGE: food.DAMAGE * 2,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 50,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION,
+        REGEN: food.REGEN
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
@@ -8644,40 +3669,101 @@ defExports.mysticBetaPentagon = {
     },
     EVOLUTIONS: []
 };
-defExports.lavenderBetaPentagon = {
+defExports.mysticPentagon = {
     PARENT: [defExports.food],
-    LABEL: 'Lavender Beta Pentagon',
-    VALUE: 14000,
+    LABEL: 'Mystic Pentagon',
+    VALUE: 32000,
     SHAPE: 5,
-    SIZE: 26,
-    COLOR: 337,
+    SIZE: 12,
+    COLOR: 261,
     BODY: {
-        DAMAGE: 2.5,
-        DENSITY: 30,
-        HEALTH: 250,
-        RESIST: 1.2,
-        SHIELD: 40,
-        REGEN: .3
+        DAMAGE: food.DAMAGE * 2,
+        DENSITY: food.DENSITY * 5,
+        HEALTH: food.HEALTH * 5,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION,
+        REGEN: food.REGEN
     },
     DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    PROPS: [makeAura(337)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        swell(them, 1.01, 2);
-    }
+    ON_DAMAGED: function (me, them) {
+        if (Math.random() < 0.03) {
+            me.x += 30 * Math.floor(Math.random() * 21 - 10);
+            me.y += 30 * Math.floor(Math.random() * 21 - 10);
+        }
+    },
+    EVOLUTIONS: [
+        ["mysticPentagon", 85],
+        ["mysticBetaPentagon", 15]
+    ]
 };
+defExports.mysticTriangle = {
+    PARENT: [defExports.food],
+    LABEL: 'Mystic Triangle',
+    VALUE: 28000,
+    SHAPE: 3,
+    SIZE: 6.5,
+    COLOR: 261,
+    BODY: {
+        DAMAGE: food.DAMAGE * 2,
+        DENSITY: food.DENSITY * 2.5,
+        HEALTH: food.HEALTH * 2,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION,
+        REGEN: food.REGEN
+    },
+    DRAW_HEALTH: true,
+    ON_DAMAGED: function (me, them) {
+        if (Math.random() < 0.03) {
+            me.x += 30 * Math.floor(Math.random() * 21 - 10);
+            me.y += 30 * Math.floor(Math.random() * 21 - 10);
+        }
+    },
+    EVOLUTIONS: [
+        ["mysticTriangle", 50],
+        ["mysticPentagon", 50],
+    ]
+};
+defExports.mysticSquare = {
+    PARENT: [defExports.food],
+    LABEL: 'Mystic Square',
+    VALUE: 15000,
+    SHAPE: 4,
+    SIZE: 7.5,
+    COLOR: 261,
+    BODY: {
+        DAMAGE: food.DAMAGE * 2,
+        DENSITY: food.DENSITY,
+        HEALTH: food.HEALTH,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION,
+        REGEN: food.REGEN
+    },
+    DRAW_HEALTH: true,
+    ON_DAMAGED: function (me, them) {
+        if (Math.random() < 0.03) {
+            me.x += 30 * Math.floor(Math.random() * 21 - 10);
+            me.y += 30 * Math.floor(Math.random() * 21 - 10);
+        }
+    },
+    EVOLUTIONS: [
+        ["mysticSquare", 50],
+        ["mysticTriangle", 50],
+    ]
+};
+//extra_foods
 defExports.hendecagon = {
     PARENT: [defExports.food],
     LABEL: 'Hendecagon',
     VALUE: 50000,
     SHAPE: 11,
-    SIZE: 24,
+    SIZE: 20,
     COLOR: 190,
     BODY: {
-        DAMAGE: 5,
-        DENSITY: 30,
-        HEALTH: 150,
-        RESIST: Math.pow(1.3, 2),
+        DAMAGE: food.DAMAGE * 1.5,
+        DENSITY: food.DENSITY * 50,
+        HEALTH: food.HEALTH * 500,
+        ACCELERATION: food.ACCELERATION * 5,
+        PENETRATION: food.PENETRATION
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
@@ -8701,250 +3787,7 @@ defExports.hendecagon = {
 		}
 	}
 };
-defExports.mysticPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Mystic Pentagon',
-    VALUE: 32000,
-    SHAPE: 5,
-    SIZE: 12,
-    COLOR: 261,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 80,
-        HEALTH: 400,
-        RESIST: Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
-    },
-    DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
-        if (Math.random() < 0.03) {
-            me.x += 30 * Math.floor(Math.random() * 21 - 10);
-            me.y += 30 * Math.floor(Math.random() * 21 - 10);
-        }
-    },
-    EVOLUTIONS: [
-        ["mysticPentagon", 85],
-        ["mysticBetaPentagon", 15]
-    ]
-};
-defExports.greenPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Green Pentagon',
-    VALUE: 6000,
-    SHAPE: 5,
-    SIZE: 12,
-    COLOR: 31,
-    BODY: {
-        DAMAGE: 3,
-        DENSITY: 8,
-        HEALTH: 125,//200
-        RESIST: 1.25,
-        PENETRATION: 1.1
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(31)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        poison(me, them, 1.5, 1);
-    },
-    EVOLUTIONS: [
-        ["orangePentagon", 15],
-        ["greenPentagon", 50],
-        ["greenBetaPentagon", 35]
-    ]
-};
-defExports.lavenderPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Lavender Pentagon',
-    VALUE: 8000,
-    SHAPE: 5,
-    SIZE: 12,
-    COLOR: 337,
-    BODY: {
-        DAMAGE: 3,
-        DENSITY: 8,
-        HEALTH: 125,//200
-        RESIST: 1.25,
-        PENETRATION: 1.1
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(337)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        swell(them, 1.003, 2);
-    },
-    EVOLUTIONS: [
-        ["lavenderPentagon", 75],
-        ["cranberryPentagon", 15],
-        ["lavenderBetaPentagon", 10]
-    ]
-};
-defExports.cranberryPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Cranberry Pentagon',
-    VALUE: 8000,
-    SHAPE: 5,
-    SIZE: 12,
-    COLOR: 340,
-    BODY: {
-        DAMAGE: 3,
-        DENSITY: 8,
-        HEALTH: 200,
-        RESIST: 1.25,
-        PENETRATION: 1.1
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(340)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        shrivel(them, 1.01, 2);
-    }
-};
-defExports.mysticTriangle = {
-    PARENT: [defExports.food],
-    LABEL: 'Mystic Triangle',
-    VALUE: 28000,
-    SHAPE: 3,
-    SIZE: 6.5,
-    COLOR: 261,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 80,
-        HEALTH: 400,
-        RESIST: Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
-    },
-    DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
-        if (Math.random() < 0.03) {
-            me.x += 30 * Math.floor(Math.random() * 21 - 10);
-            me.y += 30 * Math.floor(Math.random() * 21 - 10);
-        }
-    },
-    EVOLUTIONS: [
-        ["mysticTriangle", 50],
-        ["mysticPentagon", 50],
-    ]
-};
-defExports.greenTriangle = {
-    PARENT: [defExports.food],
-    LABEL: 'Green Triangle',
-    VALUE: 4000,
-    SHAPE: 3,
-    SIZE: 6.5,
-    COLOR: 31,
-    BODY: {
-        DAMAGE: 1,
-        DENSITY: 6,
-        HEALTH: 60,
-        RESIST: 1.15,
-        PENETRATION: 1.5
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(31)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        poison(me, them, 1.5, 1);
-    },
-    EVOLUTIONS: [
-        ["orangeTriangle", 15],
-        ["greenPentagon", 85]
-    ]
-};
-defExports.lavenderTriangle = {
-    PARENT: [defExports.food],
-    LABEL: 'Lavender Triangle',
-    VALUE: 5000,
-    SHAPE: 3,
-    SIZE: 6.5,
-    COLOR: 337,
-    BODY: {
-        DAMAGE: 1,
-        DENSITY: 6,
-        HEALTH: 60,
-        RESIST: 1.15,
-        PENETRATION: 1.5
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(337)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        swell(them, 1.001, 2);
-    },
-    EVOLUTIONS: [
-        ["lavenderPentagon", 100]
-    ]
-};
-defExports.mysticSquare = {
-    PARENT: [defExports.food],
-    LABEL: 'Mystic Square',
-    VALUE: 15000,
-    SHAPE: 4,
-    SIZE: 7.5,
-    COLOR: 261,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 80,
-        HEALTH: 400,
-        RESIST: Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
-    },
-    DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
-        if (Math.random() < 0.03) {
-            me.x += 30 * Math.floor(Math.random() * 21 - 10);
-            me.y += 30 * Math.floor(Math.random() * 21 - 10);
-        }
-    },
-    EVOLUTIONS: [
-        ["mysticSquare", 50],
-        ["mysticTriangle", 50],
-    ]
-};
-defExports.greenSquare = {
-    PARENT: [defExports.food],
-    LABEL: 'Green Square',
-    VALUE: 2000,
-    SHAPE: 4,
-    SIZE: 7.5,
-    COLOR: 31,
-    BODY: {
-        DAMAGE: 1,
-        DENSITY: 4,
-        HEALTH: 20,
-        PENETRATION: 2
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(31)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        poison(me, them, 1.5, 1);
-    },
-    EVOLUTIONS: [
-        ["orangeSquare", 15],
-        ["greensplitterSquare", 5],
-        ["greenTriangle", 80]
-    ]
-};
-defExports.lavenderSquare = {
-    PARENT: [defExports.food],
-    LABEL: 'Lavender Square',
-    VALUE: 3000,
-    SHAPE: 4,
-    SIZE: 7.5,
-    COLOR: 337,
-    BODY: {
-        DAMAGE: .1,
-        DENSITY: 4,
-        HEALTH: 100,
-        PENETRATION: 2
-    },
-    DRAW_HEALTH: true,
-    PROPS: [makeAura(337)],
-    ON_DEALT_DAMAGE: (me, them) => {
-        swell(them, 1, 2);
-    },
-    EVOLUTIONS: [
-        ["lavenderTriangle", 100]
-    ]
-};
+//whattheactualfuckisthis_foods
 defExports.flair = {
     PARENT: [defExports.food],
     LABEL: 'Flair',
@@ -8953,324 +3796,13 @@ defExports.flair = {
     SIZE: 9,
     COLOR: 2,
     BODY: {
-        DAMAGE: 1,
-        DENSITY: 6,
-        HEALTH: 6,
-        RESIST: 1.15,
-        PENETRATION: 1.5
+        DAMAGE: food.DAMAGE,
+        DENSITY: food.DENSITY * 10,
+        HEALTH: food.HEALTH * 2,
+        ACCELERATION: food.ACCELERATION,
+        PENETRATION: food.PENETRATION
     },
     DRAW_HEALTH: true
-};
-defExports.newDecagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Decagon',
-    VALUE: 25000,
-    SHAPE: 10,
-    SIZE: 36,
-    COLOR: 6,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 85,
-        HEALTH: 50,
-        RESIST: 2,
-        SHIELD: 8.5
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true
-};
-defExports.newNonagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Nonagon',
-    VALUE: 2e4,
-    SHAPE: 9,
-    SIZE: 32,
-    COLOR: 195,
-    BODY: {
-        DAMAGE: 1.8,
-        DENSITY: 80,
-        HEALTH: 45,
-        RESIST: 1.75,
-        SHIELD: 8
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true
-};
-defExports.newOctagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Octagon',
-    VALUE: 15000,
-    SHAPE: 8,
-    SIZE: 28,
-    COLOR: 242,
-    BODY: {
-        DAMAGE: 1.75,
-        DENSITY: 80,
-        HEALTH: 40,
-        RESIST: 1.35,
-        SHIELD: 8
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true
-};
-defExports.newHeptagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Heptagon',
-    VALUE: 12500,
-    SHAPE: 7,
-    SIZE: 30,
-    COLOR: 26,
-    BODY: {
-        DAMAGE: 1.75,
-        DENSITY: 80,
-        HEALTH: 35,
-        RESIST: 1.35,
-        SHIELD: 8
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true
-};
-defExports.newHexagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Hexagon',
-    VALUE: 1e4,
-    SHAPE: 6,
-    SIZE: 20,
-    COLOR: 241,
-    BODY: {
-        DAMAGE: 1.5,
-        DENSITY: 80,
-        HEALTH: 30,
-        RESIST: 1.35,
-        SHIELD: 8
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true
-};
-defExports.decagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Decagon',
-    VALUE: 100000,
-    SHAPE: -10,
-    SIZE: 59,
-    COLOR: 6, // 207,
-    BODY: {
-        DAMAGE: 3.75,
-        DENSITY: 95,
-        HEALTH: 600,
-        RESIST: 1.7,//Math.pow(1.375, 3),
-        SHIELD: 101,
-        REGEN: .01
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: []
-};
-defExports.nonagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Nonagon',
-    VALUE: 90000,
-    SHAPE: -9,
-    SIZE: 58,
-    COLOR: 195, // 28,
-    BODY: {
-        DAMAGE: 3.5,
-        DENSITY: 90,
-        HEALTH: 600,
-        RESIST: 1.65,//Math.pow(1.35, 3),
-        SHIELD: 100,
-        REGEN: .01
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ["decagon", 100]
-    ]
-};
-defExports.octagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Octagon',
-    VALUE: 65000,
-    SHAPE: -8,
-    SIZE: 57,
-    COLOR: 242, //0,
-    BODY: {
-        DAMAGE: 3.25,
-        DENSITY: 85,
-        HEALTH: 600,
-        RESIST: 1.6,//Math.pow(1.325, 3),
-        SHIELD: 95,
-        REGEN: .01
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ["nonagon", 99],
-        ["burntNonagon", 1]
-    ]
-};
-defExports.heptagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Heptagon',
-    VALUE: 50000,
-    SHAPE: -7,
-    SIZE: 56,
-    COLOR: 26, // 24,
-    BODY: {
-        DAMAGE: 3,
-        DENSITY: 80,
-        HEALTH: 600,
-        RESIST: 1.45,//Math.pow(1.3, 3),
-        SHIELD: 90,
-        REGEN: .02
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ["octagon", 100]
-    ]
-};
-defExports.hexagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Hexagon',
-    VALUE: 35000,
-    SHAPE: -6,
-    SIZE: 54,
-    COLOR: 241, // 22,
-    BODY: {
-        DAMAGE: 2.5,
-        DENSITY: 80,
-        HEALTH: 600,
-        RESIST: 1.2,//Math.pow(1.275, 3),
-        SHIELD: 85,
-        REGEN: .05
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ["heptagon", 100]
-    ]
-};
-defExports.alphaPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Alpha Pentagon',
-    VALUE: 25000,
-    SHAPE: -5,
-    SIZE: 52,
-    COLOR: 14,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 50,
-        HEALTH: 600,
-        RESIST: 1.2,//Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ["hexagon", 99.99],
-        ["seniorPentagon", 0.01]
-    ]
-};
-defExports.seniorPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Senior Pentagon',
-    VALUE: 25000,
-    SHAPE: 10021,
-    SIZE: 52,
-    COLOR: 14,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 50,
-        HEALTH: 600,
-        RESIST: 1.5,//Math.pow(1.25, 3),
-        SHIELD: 80,
-        REGEN: .1
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: []
-};
-defExports.pentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Pentagon',
-    VALUE: 400,
-    SHAPE: 5,
-    SIZE: 16,
-    COLOR: 14,
-    BODY: {
-        DAMAGE: 1.5,
-        DENSITY: 8,
-        HEALTH: 20,
-        RESIST: 1.25,
-        ACCELERATION: 0.01,
-        PENETRATION: 1.1
-    },
-    DRAW_HEALTH: true,
-    EVOLUTIONS: [
-        ["pentagon", 80],
-        ["greenPentagon", 5],
-        ["splitterPentagon", 8],
-        ["boompentagon", 1],
-        ["protpentagon", 1],
-        ["betaPentagon", 4.9979999],
-        ["pentagonColony", 0.003],
-        ["ascendedPentagonAI", .001]
-    ]
-};
-defExports.triangle = {
-    PARENT: [defExports.food],
-    LABEL: 'Triangle',
-    VALUE: 120,
-    SHAPE: 3,
-    SIZE: 9,
-    COLOR: 2,
-    BODY: {
-        DAMAGE: 1,
-        DENSITY: 6,
-        HEALTH: 6,
-        RESIST: 1.15,
-        ACCELERATION: 0.01,
-        PENETRATION: 1.5
-    },
-    DRAW_HEALTH: true,
-    EVOLUTIONS: [
-        ["pentagon", 84.977],
-        ["greenTriangle", 5],
-        ["boomtriangle", 2],
-        ["splitterTriangle", 8],
-        ["carbonFiberTriangle", 0.0079],
-        ["rightTriangle", 0.0099999],
-        ["triangleColony", 0.003],
-        ["ascendedTriangle", .003]
-    ]
-};
-defExports.square = {
-    PARENT: [defExports.food],
-    LABEL: 'Square',
-    VALUE: 30,
-    SHAPE: 4,
-    SIZE: 10,
-    COLOR: 13,
-    BODY: {
-        DAMAGE: 1,
-        DENSITY: 4,
-        HEALTH: 2,
-        ACCELERATION: 0.01,
-        PENETRATION: 2
-    },
-    DRAW_HEALTH: true,
-    INTANGIBLE: false,
-    EVOLUTIONS: [
-        ["triangle", 82.985],
-        ["boomsquare", 3],
-        ["greenSquare", 7],
-        ["splitterSquare", 4],
-        ["scutiSquare", 0.01],
-        ["ascendedSquare", 0.0028999],
-        ["squareColony", 0.003],
-        ["lavenderSquare", 3]
-    ]
 };
 defExports.pentagonColonySpawner = {
     PARENT: [defExports.food],
@@ -10063,32 +4595,6 @@ defExports.hardshellegg = {
     },],
     EVOLUTIONS: []
 };
-defExports.egg = {
-    PARENT: [defExports.food],
-    LABEL: 'Egg',
-    VALUE: 10,
-    SHAPE: 0, // 292
-    SIZE: 5,
-    COLOR: 6, // 243
-    INTANGIBLE: true,
-    BODY: {
-        DAMAGE: 0,
-        DENSITY: 2,
-        HEALTH: .0011,
-        ACCELERATION: 0.01,
-        PUSHABILITY: 0
-    },
-    DRAW_HEALTH: false,
-    EVOLUTIONS: [
-        ["fakeegg", 0.019795],
-        ["gem", 0.05],
-        ["square", 98.067],
-        ["hardshellegg", 0.5],
-        ["friedEgg", 1],
-        ["eggColony", 0.003],
-        ["obsidianEgg", 0.01]
-    ]
-};
 defExports.gem = {
     PARENT: [defExports.food],
     LABEL: 'Gem',
@@ -10171,30 +4677,6 @@ defExports.lmfaoloser = {
 			triangle.define(Class.fuckinpentagon);
 		}
 	}
-};
-defExports.betaPentagon = {
-    PARENT: [defExports.food],
-    LABEL: 'Beta Pentagon',
-    VALUE: 2500,
-    SHAPE: 5,
-    SIZE: 30,
-    COLOR: 14,
-    BODY: {
-        DAMAGE: 2,
-        DENSITY: 30,
-        HEALTH: 100,
-        RESIST: Math.pow(1.25, 2),
-        SHIELD: 40,
-        REGEN: .25
-    },
-    DRAW_HEALTH: true,
-    GIVE_KILL_MESSAGE: true,
-    EVOLUTIONS: [
-        ['betaPentagon', 83.9999999],
-        ['greenBetaPentagon', 6],
-        ['hendecagon', 4],
-        ['splitterBetaPentagon', 6]
-    ],
 };
 defExports.fakeegg = {
     PARENT: [defExports.food],
@@ -11321,13 +5803,13 @@ defExports.bullet = {
     TYPE: 'bullet',
     ACCEPTS_SCORE: false,
     BODY: {
-        PENETRATION: 1,
-        SPEED: 3.75,
-        RANGE: 90,
-        DENSITY: 1.25,
-        HEALTH: .165,
-        DAMAGE: 6,
-        PUSHABILITY: .3
+        PENETRATION: bullet.PENETRATION,
+        SPEED: bullet.SPEED,
+        RANGE: bullet.RANGE,
+        DENSITY: bullet.DENSITY,
+        HEALTH: bullet.HEALTH,
+        DAMAGE: bullet.DAMAGE,
+        PUSHABILITY: bullet.PUSHABILITY
     },
     FACING_TYPE: 'smoothWithMotion',
     CAN_GO_OUTSIDE_ROOM: true,
@@ -11357,21 +5839,21 @@ defExports.swarm = {
     CONTROLLERS: ['nearestDifferentMaster', 'mapTargetToGoal'],
     CRAVES_ATTENTION: true,
     BODY: {
-        ACCELERATION: 3, // 3
-        PENETRATION: 1.5,
-        HEALTH: .175,
-        DAMAGE: 2.25,
-        SPEED: 4.5,
-        RESIST: 1.6,
-        RANGE: 225,
-        DENSITY: 12,
-        PUSHABILITY: .6,
-        FOV: 1.5
+        ACCELERATION: swarm.ACCELERATION,
+        PENETRATION: swarm.PENETRATION,
+        HEALTH: swarm.HEALTH,
+        DAMAGE: swarm.DAMAGE,
+        SPEED: swarm.SPEED,
+        RANGE: swarm.RANGE,
+        DENSITY: swarm.DENSITY,
+        PUSHABILITY: swarm.PUSHABILITY,
+        FOV: swarm.FOV
     },
     DIE_AT_RANGE: true,
     BUFF_VS_FOOD: true,
     AI: {
-        BLIND: true
+        BLIND: true,
+        SKYNET: true
     }
 };
 defExports.swarmLayer6 = {
@@ -11407,7 +5889,10 @@ defExports.bee = {
     LABEL: 'Bee',
     PERSISTS_AFTER_DEATH: true,
     SHAPE: 4,
-    HITS_OWN_TYPE: 'hardWithBuffer'
+    HITS_OWN_TYPE: 'hardWithBuffer',
+    AI: {
+        SKYNET: true
+    }
 };
 defExports.eggbutitsanasshole = {
     PARENT: [defExports.swarm],
@@ -11417,6 +5902,7 @@ defExports.eggbutitsanasshole = {
 defExports.beeAI = {
     PARENT: [defExports.bee],
     AI: {
+        SKYNET: true
     },
     INDEPENDENT: true
 };
@@ -11424,6 +5910,7 @@ defExports.autoSwarm = {
     PARENT: [defExports.swarm],
     LABEL: 'AI Swarm Drone',
     AI: {
+        SKYNET: true
      },
     INDEPENDENT: true
 };
@@ -11446,14 +5933,14 @@ defExports.trap = {
     HITS_OWN_TYPE: 'push',
     DIE_AT_RANGE: true,
     BODY: {
-        HEALTH: base.HEALTH * 0.5,
-        DAMAGE: base.DAMAGE * 1,
-        RANGE: 450,
-        PENETRATION: base.PENETRATION * 0.5,
-        DENSITY: base.DENSITY * 0.5,
-        RESIST: base.RESIST * 0.25,
-        PUSHABILITY: base.PUSHABILITY * 0.225,
-        SPEED: 0
+        HEALTH: trap.HEALTH,
+        DAMAGE: trap.DAMAGE,
+        RANGE: trap.RANGE,
+        PENETRATION: trap.PENETRATION,
+        DENSITY: trap.DENSITY,
+        RESIST: trap.RESIST,
+        PUSHABILITY: trap.PUSHABILITY,
+        SPEED: trap.SPEED
     }
 };
 defExports.block = {
@@ -11463,8 +5950,8 @@ defExports.block = {
     MOTION_TYPE: 'motor',
     CONTROLLERS: ['block'],
     BODY: {
-        SPEED: 1,
-        DENSITY: 5
+        SPEED: block.SPEED,
+        DENSITY: block.DENSITY
     }
 };
 defExports.blockTrap = {
@@ -11494,16 +5981,15 @@ defExports.drone = {
     FACING_TYPE: 'smoothToTarget',
     CONTROLLERS: ['nearestDifferentMaster', 'canRepel', 'mapTargetToGoal', 'hangOutNearMaster'],
     BODY: {
-        PENETRATION: 1.2,
-        PUSHABILITY: .6,
-        ACCELERATION: .05,
-        HEALTH: .3,
-        DAMAGE: 3.375,
-        SPEED: 3.8,
-        RANGE: 200,
-        DENSITY: .03,
-        RESIST: 1.5,
-        FOV: .5
+        PENETRATION: drone.PENETRATION,
+        PUSHABILITY: drone.PUSHABILITY,
+        ACCELERATION: drone.ACCELERATION,
+        HEALTH: drone.HEALTH,
+        DAMAGE: drone.DAMAGE,
+        SPEED: drone.SPEED,
+        RANGE: drone.RANGE,
+        DENSITY: drone.DENSITY,
+        FOV: drone.FOV
     },
     HITS_OWN_TYPE: 'hardOnlyDrones',
     DRAW_HEALTH: false,
@@ -14321,7 +8807,7 @@ defExports.smash = {
     LABEL: 'Smasher',
     DANGER: 6,
     BODY: {
-        FOV: 1.05,
+        FOV: base.FOV * 1.05,
         SPEED: base.SPEED * 1.15,
         DENSITY: base.DENSITY * 2,
         HEALTH: base.HEALTH * 1.4,
@@ -14345,7 +8831,7 @@ defExports.mysticSmasher = {
     LABEL: 'Mystic Smasher',
     DANGER: 7,
     BODY: {
-        FOV: 1.2,
+        FOV: base.FOV * 1.2,
         HEALTH: base.HEALTH * 1.395,
         SHIELD: base.SHIELD * 1.4
     },
@@ -14383,7 +8869,7 @@ defExports.megaSmash = {
     LABEL: 'Mega Smasher',
     DANGER: 7,
     BODY: {
-        FOV: 1.1,
+        FOV: base.FOV * 1.1,
         SPEED: base.SPEED * 1.2,
         DENSITY: base.DENSITY * 4,
         HEALTH: base.HEALTH * 1.4,
@@ -14404,7 +8890,7 @@ defExports.spike = {
     LABEL: 'Spike',
     DANGER: 7,
     BODY: {
-        FOV: 1.05,
+        FOV: base.FOV * 1.05,
         DAMAGE: base.DAMAGE * 1.15,
         SPEED: base.SPEED * 1.05,
         DENSITY: base.DENSITY * 2,
@@ -14530,7 +9016,7 @@ defExports.nailgun = {
     LABEL: 'Nailgun',
     DANGER: 7,
     BODY: {
-        FOV: 1.1,
+        FOV: base.FOV * 1.1,
         SPEED: base.SPEED * .9
     },
     GUNS: [{
@@ -14786,7 +9272,7 @@ defExports.triplet = {
     LABEL: 'Triplet',
     DANGER: 7,
     BODY: {
-        FOV: 1.05
+        FOV: base.FOV * 1.05
     },
     GUNS: [{
         POSITION: [17.5, 8, 1, 0, 5.5, 0, .5],
@@ -14811,9 +9297,9 @@ defExports.triplet = {
 defExports.quintuplet = {
     PARENT: [defExports.genericTank],
     LABEL: 'Quintuplet',
-    DANGER: 7, //7.5
+    DANGER: 7,
     BODY: {
-        FOV: 1.05,
+        FOV: base.FOV * 1.05,
         ACCELERATION: base.ACCEL * .9
     },
     GUNS: [{
@@ -14855,7 +9341,7 @@ defExports.dual = {
     DANGER: 7,
     BODY: {
         ACCELARATION: base.ACCEL * .7,
-        FOV: 1.25
+        FOV: base.FOV * 1.25
     },
     GUNS: [{
         POSITION: [18, 7, 1, 0, 5.5, 0, 0],
@@ -14889,7 +9375,7 @@ defExports.sniper = {
     DANGER: 5,
     BODY: {
         ACCELERATION: base.ACCEL * .7,
-        FOV: 1.2
+        FOV: base.FOV * 1.2
     },
     GUNS: [{
         POSITION: [24, 8.5, 1, 0, 0, 0, 0],
@@ -14906,7 +9392,7 @@ defExports.assassin = {
     BODY: {
         ACCELERATION: base.ACCEL * .6,
         SPEED: base.SPEED * .85,
-        FOV: 1.35
+        FOV: base.FOV * 1.35
     },
     GUNS: [{
         POSITION: [27, 8.5, 1, 0, 0, 0, 0],
@@ -14926,7 +9412,7 @@ defExports.bountyHunter = {
     BODY: {
         ACCELERATION: base.ACCEL * .6,
         HEALTH: base.HEALTH * 0.9,
-        FOV: 1.4
+        FOV: base.FOV * 1.4
     },
     GUNS: [{
         POSITION: [30, 10, 1, 0, 0, 0, 0],
@@ -14969,7 +9455,7 @@ defExports.ranger = {
     BODY: {
         ACCELERATION: base.ACCEL * .5,
         SPEED: base.SPEED * .8,
-        FOV: 1.4
+        FOV: base.FOV * 1.4
     },
     GUNS: [{
         POSITION: [32, 8.5, 1, 0, 0, 0, 0],
@@ -15064,7 +9550,7 @@ defExports.hunter = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .9,
-        FOV: 1.25
+        FOV: base.FOV * 1.25
     },
     GUNS: [{
         POSITION: [23, 7, 1, 0, 0, 0, 0],
@@ -15087,7 +9573,7 @@ defExports.predator = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .85,
-        FOV: 1.3
+        FOV: base.FOV * 1.3
     },
     GUNS: [{
         POSITION: [23, 7, 1, 0, 0, 0, 0],
@@ -15117,7 +9603,7 @@ defExports.rocketeer = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .8,
-        FOV: 1.25
+        FOV: base.FOV * 1.25
     },
     GUNS: [{
         POSITION: [10, 12.5, -0.5, 9.5, 0, 0, 0],
@@ -15158,7 +9644,7 @@ defExports.blackHoleThrower = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .8,
-        FOV: 1.25
+        FOV: base.FOV * 1.25
     },
     TURRETS: [blackholeTurret(15)],
     GUNS: [{
@@ -15178,14 +9664,14 @@ defExports.director = {
     DANGER: 5,
     BODY: {
         ACCELERATION: base.ACCEL * .75,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.drone,
     MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+            SHOOT_SETTINGS: combineStats([g.drone]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -15201,7 +9687,7 @@ defExports.overseer = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .9,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.drone,
     MAX_CHILDREN: 8,
@@ -15235,7 +9721,7 @@ defExports.overlord = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .8,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     MAX_CHILDREN: 8,
     GUNS: [{
@@ -15289,7 +9775,7 @@ defExports.guidedOverlord = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .8,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     MAX_CHILDREN: 8,
     GUNS: [{
@@ -15348,7 +9834,7 @@ defExports.overlordMoneko = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .8,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     ABILITY_IMMUNE: true,
     PROPS: [
@@ -15430,7 +9916,7 @@ defExports.master = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .75,
-        FOV: 1.125
+        FOV: base.FOV * 1.125
     },
     STAT_NAMES: statNames.drone,
     GUNS: [{
@@ -15478,7 +9964,7 @@ defExports.commanderArras = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .75,
-        FOV: 1.125
+        FOV: base.FOV * 1.125
     },
     STAT_NAMES: statNames.drone,
     GUNS: [{
@@ -15544,7 +10030,7 @@ defExports.overtrap = {
     BODY: {
         ACCELERATION: base.ACCEL * .6,
         SPEED: base.SPEED * .8,
-        FOV: 1.15
+        FOV: base.FOV * 1.15
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
@@ -15587,7 +10073,7 @@ defExports.banshee = {
     BODY: {
         ACCELERATION: base.ACCEL * .5,
         SPEED: base.SPEED * .8,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     FACING_TYPE: 'autospin',
     TURRETS: [{
@@ -15644,7 +10130,7 @@ defExports.overgunner = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .9,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     GUNS: [{
         POSITION: [6, 11, 1.2, 8, 0, 125, 0],
@@ -19005,15 +13491,22 @@ defExports.crasher = {
         NO_LEAD: true
     },
     BODY: {
-        SPEED: 5,
+        SPEED: crasher.SPEED,
+        ACCELERATION: crasher.ACCELERATION,
+        HEALTH: crasher.HEALTH,
+        DAMAGE: crasher.DAMAGE,
+        PENETRATION: crasher.PENETRATION,
+        PUSHABILITY: crasher.PUSHABILITY,
+        DENSITY: crasher.DENSITY,
+    },
+    /*  SPEED: 5,
         ACCELERATION: 1.4,
         HEALTH: 2,
         DAMAGE: 1.5,
         PENETRATION: 2,
         PUSHABILITY: .5,
         DENSITY: 10,
-        RESIST: 2
-    },
+        RESIST: 2*/
     MOTION_TYPE: 'motor',
     FACING_TYPE: 'smoothWithMotion',
     HITS_OWN_TYPE: 'hard',
@@ -19036,9 +13529,9 @@ defExports.eggCrasher = {
     PARENT: [defExports.crasher],
     LABEL: 'Boil',
     BODY: {
-        HEALTH: 1,
-        DAMAGE: 3,
-        SPEED: 6,
+        HEALTH: crasher.HEALTH * 0.1,
+        DAMAGE: crasher.DAMAGE * 2,
+        SPEED: crasher.SPEED * 1.2,
     },
     COLOR: 319,
     VALUE: 5,
@@ -19053,9 +13546,9 @@ defExports.triangleCrasher = {
     PARENT: [defExports.crasher],
     LABEL: 'Piercer',
     BODY: {
-        HEALTH: 6,
-        DAMAGE: 3,
-        SPEED: 3,
+        HEALTH: crasher.HEALTH,
+        DAMAGE: crasher.DAMAGE * 1.5,
+        SPEED: crasher.HEALTH * 0.5,
     },
     COLOR: 320,
     VALUE: 100,
@@ -19071,9 +13564,8 @@ defExports.pentagonCrasher = {
     PARENT: [defExports.crasher],
     LABEL: 'Slapper',
     BODY: {
-        HEALTH: 10,
-        DAMAGE: 3,
-        SPEED: 2,
+        HEALTH: crasher.HEALTH * 5,
+        SPEED: crasher.SPEED * 0.4,
     },
     COLOR: 321,
     VALUE: 500,
@@ -19086,9 +13578,8 @@ defExports.seerCrasher = {
     LABEL: 'Seer',
     BODY: {
         FOV: 50,
-        HEALTH: 25,
-        DAMAGE: 2,
-        SPEED: 1,
+        HEALTH: crasher.HEALTH * 7,
+        SPEED: crasher.SPEED * 0.3,
     },
     COLOR: 16,
     VALUE: 100,
@@ -19174,8 +13665,8 @@ defExports.sentryAI = {
         NO_LEAD: true
     },
     BODY: {
-        FOV: .5,
-        ACCELERATION: .75,
+        FOV: base.FOV * .5,
+        ACCELERATION: base.ACCEL * .75,
         DAMAGE: base.DAMAGE * 1,
         HEALTH: base.HEALTH * 0.225,
         SPEED: base.SPEED * .5
@@ -19924,6 +14415,148 @@ defExports.pellet = {
         POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
     }]
 };
+defExports.pelletbullet = {
+    LABEL: 'Pellet',
+    TYPE: 'bullet',
+    ACCEPTS_SCORE: false,
+    SHAPE: 8,
+    BODY: {
+        PENETRATION: pellet.PENETRATION,
+        SPEED: pellet.SPEED,
+        RANGE: pellet.RANGE,
+        DENSITY: pellet.DENSITY,
+        HEALTH: pellet.HEALTH,
+        DAMAGE: pellet.DAMAGE,
+        PUSHABILITY: pellet.PUSHABILITY
+    },
+    FACING_TYPE: 'smoothWithMotion',
+    CAN_GO_OUTSIDE_ROOM: true,
+    HITS_OWN_TYPE: 'push',
+    DIE_AT_RANGE: true,
+};
+defExports.pelletrework = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Absols Pelleter rework',
+    DANGER: 5,
+    GUNS: [{
+        POSITION: [17, 2, 1, 0, 3, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [17, 2, 1, 0, -3, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
+    }]
+};
+defExports.hewnPelletrework = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Hewn Pelleter',
+    DANGER: 6,
+    GUNS: [{
+        POSITION: [17, 2, 1, 0, 3, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [17, 1.95, 1, 0, -3, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [17, 1.95, 1, -2.7, 2, 22.5, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [17, 2, 1, -2.7, -2, -22.5, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
+    }]
+};
+defExports.borerrework = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Borer',
+    DANGER: 6,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [{
+        POSITION: [22, 2, 1, 0, 3, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework, g.bore]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [22, 2, 1, 0, -3, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework, g.bore]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
+    }]
+};
+defExports.sailrework = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Sailor',
+    DANGER: 6,
+    GUNS: [{
+        POSITION: [17, 2, 1, 0, 3, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [17, 2, 1, 0, -3, 0, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [6, 5, .6, 6, 5.5, 15.2, .5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.less_reload, g.bigger, g.bit_less_damage]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [6, 5, .6, 6, -5.5, -15.2, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.swarm, g.less_reload, g.bigger, g.bit_less_damage]),
+            TYPE: defExports.swarm,
+            STAT_CALCULATOR: gunCalcNames.swarm
+        }
+    }, {
+        POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
+    }]
+};
+defExports.naturalistrework = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Naturalist',
+    DANGER: 6,
+    GUNS: [{
+        POSITION: [5, 2, -1.6, 12, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pelletrework, g.mach, g.double_reload, g.less_damage, g.more_health]),
+            TYPE: defExports.pelletbullet
+        }
+    }, {
+        POSITION: [4.5, 8.5, -1.6, 7.5, 0, 0, 0]
+    }]
+};
 defExports.hewnPellet = {
     PARENT: [defExports.genericTank],
     LABEL: 'Hewn Pelleter',
@@ -19995,7 +14628,7 @@ defExports.borer = {
     LABEL: 'Borer',
     DANGER: 6,
     BODY: {
-        FOV: 1.2
+        FOV: base.FOV * 1.2
     },
     GUNS: [{
         POSITION: [22, 2, 1, 0, 3, 0, 0],
@@ -37394,14 +32027,14 @@ defExports.droneTrapper = {
     LABEL: 'Magician',
     DANGER: 7,
     BODY: {
-        FOV: 1.1,
+        FOV: base.FOV * 1.1,
         ACCELERATION: base.ACCEL * .9
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_power]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_power]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -37427,7 +32060,7 @@ defExports.gunCruiser = {
     BODY: {
         ACCELERATION: base.ACCEL * .8,
         SPEED: base.SPEED * .8,
-        FOV: 1.2
+        FOV: base.FOV * 1.2
     },
     GUNS: [{
         POSITION: [12, 6.5, .6, 0, 6.75, 0, .5],
@@ -40417,7 +35050,7 @@ defExports.autoTurret2 = {
     GUNS: [{
         POSITION: [21.5, 10, 1, 0, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.auto_turret, g.less_damage, g.bn3a]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.auto_turret, g.less_damage, g.bn4a]),
             TYPE: [defExports.bulletLayer6, {
                 PERSISTS_AFTER_DEATH: true
             }]
@@ -66506,14 +61139,14 @@ defExports.heavyDirector = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .8,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.drone,
     MAX_CHILDREN: 5,
     GUNS: [{
         POSITION: [7, 14.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.pound]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -66540,7 +61173,14 @@ defExports.heatBullet = {
     INDEPENDENT: true,
     AI: {
         BLIND: true
-    }
+    },
+    PROPS: [
+        {
+            POSITION: [0.5, 0, 0, 0, 1],
+            SHAPE: 0,
+            COLOR: 100
+        }
+    ]
 };
 defExports.heatseeker = {
     PARENT: [defExports.genericTank],
@@ -66548,7 +61188,7 @@ defExports.heatseeker = {
     DANGER: 7,
     BODY: {
         ACCELERATION: base.ACCEL * .75,
-        FOV: 1.15
+        FOV: base.FOV * 1.15
     },
     GUNS: [{
         POSITION: [20, 8.5, 1, 0, 0, 0, 0],
@@ -69000,13 +63640,13 @@ defExports.apprenticeTrapper = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .775,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
         POSITION: [7, 14.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound, g.less_power]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.pound]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69027,10 +63667,15 @@ defExports.apprenticeTrapper = {
 defExports.fastDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Speed Drone',
+    BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * 0.5,
+        DENSITY: drone.DENSITY * 0.5,
+    },
     GUNS: [{
         POSITION: [15, 15, 1.6, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.no_damage, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69046,14 +63691,14 @@ defExports.navyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .9,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 5,
+    MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69067,10 +63712,15 @@ defExports.navyist = {
 defExports.flankDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Flank Drone',
+    BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * 0.5,
+        DENSITY: drone.DENSITY * 0.5,
+    },
     GUNS: [{
         POSITION: [15, 15, 1.6, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.flank, g.minion, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.flank]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69080,7 +63730,7 @@ defExports.flankDrone = {
     }, {
         POSITION: [15, 15, 1.6, 8, 0, 60, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.flank, g.minion, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.flank]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69090,7 +63740,7 @@ defExports.flankDrone = {
     }, {
         POSITION: [15, 15, 1.6, 8, 0, -60, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.flank, g.minion, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.flank]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69113,7 +63763,7 @@ defExports.flankNavyist = {
     GUNS: [{
         POSITION: [6, 12, 1.2, 12, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.flankDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69135,14 +63785,14 @@ defExports.paratrooper = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .875,
-        FOV: 1.1
+        FOV: base. FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     MAX_CHILDREN: 7,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 90, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69154,7 +63804,7 @@ defExports.paratrooper = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 270, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69172,14 +63822,14 @@ defExports.guerrilla = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .85,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 7,
+    MAX_CHILDREN: 8,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 90, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.half_damage, g.bit_more_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69191,7 +63841,7 @@ defExports.guerrilla = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 270, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.half_damage, g.bit_more_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69203,7 +63853,7 @@ defExports.guerrilla = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.half_damage, g.bit_more_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69215,7 +63865,7 @@ defExports.guerrilla = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.half_damage, g.bit_more_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69278,19 +63928,19 @@ defExports.flankParatrooper = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .85,
-        FOV: 1.1
+        FOV: base. FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
         POSITION: [18, 8, 1, 0, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
             TYPE: defExports.bullet
         }
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 120, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.meta, g.half_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69302,7 +63952,7 @@ defExports.flankParatrooper = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 240, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.meta, g.half_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69641,10 +64291,15 @@ defExports.piston = {
 defExports.fasterDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Speed Drone',
+        BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * 0.5,
+        DENSITY: drone.DENSITY * 0.5,
+    },
     GUNS: [{
-        POSITION: [15, 15, 1.6, 8, 0, 180, 0],
+        POSITION: [15, 15, 1.7, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.half_power, g.much_more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.mercenarydrone]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69660,14 +64315,14 @@ defExports.fastNavyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .875,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 5,
+    MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [9, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_power]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fasterDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -69680,10 +64335,15 @@ defExports.fastNavyist = {
 defExports.fastererDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Speed Drone',
+    BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * 0.5,
+        DENSITY: drone.DENSITY * 0.5,
+    },
     GUNS: [{
-        POSITION: [15, 15, 1.6, 8, 0, 180, 0],
+        POSITION: [15, 15, 1.8, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.half_power, g.lots_more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.mercenarydrone, g.combatantdrone]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -69699,14 +64359,14 @@ defExports.fasterNavyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * .85,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 5,
+    MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [12, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_power, g.less_power]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastererDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -70677,6 +65337,213 @@ defExports.littleHunter = {
         }
     }]
 };
+defExports.reddiamondthing = {
+    SHAPE: 111,
+    COLOR: 12
+}
+defExports.exponennuke = {
+    PARENT: [defExports.bullet],
+    LABEL: 'Nuke',
+    SHAPE: 231,
+    MOTION_TYPE: 'accelerate',
+    INDEPENDENT: true,
+    GUNS: [{
+        POSITION: [2, 5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.shrapnelExplosion,g.double_range,g.double_health]),
+            ALT_FIRE: true,
+            TYPE: [defExports.bullet, {
+                MOTION_TYPE: 'exponennuke',
+                LABEL: 'Explosion',
+                PERSISTS_AFTER_DEATH: true,
+                GO_THRU_OBSTACLES: true
+            }],
+            STAT_CALCULATOR: gunCalcNames.sustained,
+            SHOOT_ON_DEATH: true
+        }
+    }],
+    TURRETS: [{
+        POSITION: [10, 0, 0, 0, 0, 1],
+        TYPE: defExports.reddiamondthing
+    }]
+};
+defExports.exponenshrap = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Electron',
+    DANGER: 7,
+    BODY: {
+        ACCELERATION: base.ACCEL * .8,
+        SPEED: base.SPEED * .825
+    },
+    GUNS: [{
+        POSITION: [8, .1, -54, 18, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.shrapnel, g.fake]),
+            TYPE: defExports.bullet,
+            COLOR: 12
+        }
+    },{
+        POSITION: [19.5, 7, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.shrapnel, g.fake]),
+            TYPE: defExports.bullet,
+            COLOR: 188
+        }
+    }, {
+        POSITION: [18, 9.5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.shrapnel,g.slow]),
+            TYPE: defExports.exponennuke,
+            COLOR: 187
+        }
+    }, {
+        POSITION: [8, 9.5, -1.4, 5, 0, 0, 0],
+        PROPERTIES: {
+            COLOR: 186
+        }
+    }]
+};
+defExports.stopGrower = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Regulator',
+    TOOLTIP: "Right Click to stop your bullets from moving!",
+    DANGER: 7,
+    BODY: {
+        ACCELERATION: base.ACCEL * .8,
+        SPEED: base.SPEED * .9,
+        FOV: 1.05
+    },
+    GUNS: [{
+        POSITION: [22, 9, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mega_grower, g.pound]),
+            TYPE: [defExports.bullet, {
+                MOTION_TYPE: 'megaGrower'
+            }],
+            STAT_CALCULATOR: gunCalcNames.sustained
+        }
+    }, {
+        POSITION: [1.5, 11.5, 1, 14, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 11.5, 1, 18, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 13.5, 1, 16, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 20, 1.3, 14, 0, 0, 0]
+    }],
+
+    ON_ALT: (me) => {
+        me.childrenMap.forEach((child) => {
+            child.velocity.x = 0
+            child.velocity.y = 0
+        })
+    }
+};
+
+defExports.stickyBullet = {
+    PARENT: [defExports.bullet],
+    PROPS: [
+        {
+            POSITION: [0.5, 0, 0, 0, 1],
+            SHAPE: 0,
+            COLOR: "#F527D6"
+        }
+    ]
+}
+
+defExports.stickGrower = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Extender',
+    TOOLTIP: "Your Bullets Are Sticky!",
+    BODY: {
+        ACCELERATION: base.ACCEL * .8,
+        SPEED: base.SPEED * .9,
+        FOV: 1.05
+    },
+    GUNS: [{
+        POSITION: [31, 7, 1.5, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mega_grower, g.pound, g.destroy, [1, 1, 1, 1, 1, 0.5, 10, 1.2, 1.2, 1.75, 1, 1, 1]]),
+            TYPE: [defExports.stickyBullet, {
+                MOTION_TYPE: 'megaGrower',
+                ON_DEALT_DAMAGE: (me, them) => {
+                    them.velocity.x = me.velocity.x * 0.9
+                    them.velocity.y = me.velocity.y * 0.9
+                }
+            }],
+            STAT_CALCULATOR: gunCalcNames.sustained
+        }
+    }, {
+        POSITION: [1.5, 11.5, 1, 24, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 11.5, 1, 28, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 13.5, 1, 26, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 13.5, 1, 22, 0, 0, 0]
+    }],
+};
+
+defExports.implodeGrower = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Imploder',
+    BODY: {
+        ACCELERATION: base.ACCEL * .8,
+        SPEED: base.SPEED * .9,
+        FOV: 1.05,
+    },
+    GUNS: [{
+        POSITION: [16, 9, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mega_grower, g.double_range, [2, 1, 1, 1, 3, 1, 1, 1, 1, 1.25, 1, 1, 1]]),
+            TYPE: [defExports.bullet, {
+                MOTION_TYPE: "imploder"
+            }]
+        }
+    }, {
+        POSITION: [1.5, 11.5, 1, 9, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 11.5, 1, 13, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 13.5, 1, 11, 0, 0, 0]
+    }]
+};
+
+defExports.antiGrower = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Anti-Grower',
+    BODY: {
+        ACCELERATION: base.ACCEL * .8,
+        SPEED: base.SPEED * .9,
+        FOV: 1.05,
+    },
+    GUNS: [{
+        POSITION: [22, 9, 1, 0, 0, 0, 0],
+    }, {
+        POSITION: [1.5, 11.5, 1, 14, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 11.5, 1, 18, 0, 0, 0]
+    }, {
+        POSITION: [1.5, 13.5, 1, 16, 0, 0, 0]
+    }, {
+        POSITION: [5, 9, 1.75, 22.5, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mega_grower, [1,1,1,4,1,1,1,1,1,1,1,1,1]]),
+            TYPE: [defExports.bullet, {MOTION_TYPE: "antiGrow"}]
+        }
+    }],
+    PROPS: [{
+        POSITION: [0.5, 0, 0, 0, 1],
+        SHAPE: 0,
+        COLOR: 16
+    }]
+};
+
+
+
+branch("growerIdeas", "Grower Branch Ideas", [
+    defExports.exponenshrap, defExports.stopGrower, defExports.stickGrower, defExports.implodeGrower, defExports.antiGrower
+])
 defExports.miniGrower = {
     PARENT: [defExports.genericTank],
     LABEL: 'Mini Grower',
@@ -75141,14 +70008,14 @@ defExports.heavyNavyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .65,
         SPEED: base.SPEED * .75,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 4,
+    MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [6, 14.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist, g.decanter]),
             TYPE: defExports.fastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -77368,10 +72235,15 @@ defExports.gland = makeTreatment(defExports.glandBase, 'Gland');
 defExports.swarmFastDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Speed Drone',
+        BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * 0.5,
+        DENSITY: drone.DENSITY * 0.5,
+    },
     GUNS: [{
         POSITION: [7, 7.5, .6, 7, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.swarm, g.lots_more_recoil, g.half_range, g.bit_more_reload]),
+            SHOOT_SETTINGS: combineStats([g.swarm, g.navyistdrone, g.captainswarm]),
             TYPE: defExports.autoSwarm
         },
         HITS_OWN_TYPE: 'hard',
@@ -77387,7 +72259,7 @@ defExports.swarmNavyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .875,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     MAX_CHILDREN: 6,
@@ -77396,7 +72268,7 @@ defExports.swarmNavyist = {
     }, {
         POSITION: [6, 12, -1.3, 5, 0, 90, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage, g.bit_smaller]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist, g.bit_smaller]),
             TYPE: defExports.swarmFastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -77407,7 +72279,7 @@ defExports.swarmNavyist = {
     }, {
         POSITION: [6, 12, -1.3, 5, 0, 270, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage, g.bit_smaller]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist, g.bit_smaller]),
             TYPE: defExports.swarmFastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -78342,7 +73214,7 @@ defExports.psychosisProbe = {
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.half_damage, g.less_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.half_damage, g.less_reload]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -78363,7 +73235,7 @@ defExports.droneHivemind = {
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.bit_less_damage]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -81754,10 +76626,15 @@ defExports.spawnerOverdrive = {
 defExports.poundDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Speed Drone',
+    BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * .025,
+        DENSITY: drone.DENSITY * 2,
+    },
     GUNS: [{
         POSITION: [20, 17.5, 1, 0, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.half_power, g.lots_more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone, g.enfilade]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -81773,14 +76650,14 @@ defExports.poundNavyist = {
     BODY: {
         ACCELERATION: base.ACCEL * .65,
         SPEED: base.SPEED * .725,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
-    MAX_CHILDREN: 4,
+    MAX_CHILDREN: 6,
     GUNS: [{
         POSITION: [9, 14.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist, g.decanter]),
             TYPE: defExports.poundDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -84411,14 +79288,14 @@ defExports.directdrive = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .9,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     MAX_CHILDREN: 5,
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_slow]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.bit_slow]),
             TYPE: defExports.autoDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -91085,10 +85962,12 @@ defExports.autoMachTwin = makeAuto(defExports.twinMachine, 'Magnum');
 defExports.hybridStalk = makeHybrid(defExports.stalk, 'Berserker');
 defExports.autoStalk = makeAuto(defExports.stalk, 'Dissolutionist');
 function ballerAttach(me, them, damageAmnt){
-	if(them.type !== "tank" && them.type !== "minion" && them.type !== "miniboss" && them.type !== "food") return;
+	console.log(them.type)
+	if(me.variables.alreadyHooked || (them.type !== "tank" && them.type !== "minion")) return;
 	if(them && them.isAlive()){
 		me.variables.alreadyHooked = true;
 		me.leash.leasher = them;
+		me.onAlt = undefined;
 		for(let gun of me.source.guns){
 			gun.childrenMap.delete(me.id);
 		}
@@ -91128,12 +86007,6 @@ defExports.ballerMinion = {
         DENSITY: 5
     },
 	GUNS: [],
-	PROPS: [{
-        POSITION: [0.4, 0, 0, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: true,
-    }],
     DRAW_HEALTH: true,
     CLEAR_ON_MASTER_UPGRADE: true,
     GIVE_KILL_MESSAGE: false,
@@ -91187,32 +86060,6 @@ defExports.baller = {
 		STROKE: false,
     }]
 }
-
-defExports.freeballerMinion = deepCopy(defExports.ballerMinion);
-defExports.freeballerMinion.LEASHED = 130;
-defExports.freeballerMinion.VARIABLES = {CLINGY: true};
-defExports.freeballerMinion.PROPS = [{
-        POSITION: [0.4, 0, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: true,
-    }]
-defExports.freeballer = deepCopy(defExports.baller);
-defExports.freeballer.LABEL = "Freeballer";
-defExports.freeballer.BODY.SPEED = base.SPEED * 1.25;
-defExports.freeballer.GUNS[0].PROPERTIES.TYPE = defExports.freeballerMinion;
-defExports.freeballer.PROPS = [{
-        POSITION: [.4, .8, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [.45, 1, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: false,
-    }]
-
 function makeBallAndChainSnake(exportName, amount){
 	for(let i = 0; i < amount; i++){
 		const name = `${exportName}-${i}`
@@ -91261,12 +86108,6 @@ for(let i = 0+1; i < 3+1; i++){
 		}
 	})
 }
-defExports.thisleMinion.PROPS = [{
-        POSITION: [0.4, 0, 0, 45, 1],
-        SHAPE: 4,
-        COLOR: 16,
-		STROKE: true,
-    }]
 defExports.thisle = deepCopy(defExports.baller);
 defExports.thisle.LABEL = "Thisle";
 defExports.thisle.BODY.SPEED = base.SPEED * 1.2;
@@ -91284,12 +86125,14 @@ defExports.thisle.PROPS = [{
     }]
 
 defExports.trailwreckerMinion = deepCopy(defExports.ballerMinion)
-defExports.trailwreckerMinion.PROPS = [{
+defExports.trailwreckerMinion.PROPS = [
+	{
         POSITION: [0.2, 0, 0, 0, 1],
         SHAPE: 6,
         COLOR: 16,
 		STROKE: true,
-    }]
+	}
+]
 defExports.trailwrecker = deepCopy(defExports.baller)
 defExports.trailwrecker.LABEL = "Trailwrecker"
 defExports.trailwrecker.BODY.SPEED =  base.SPEED * 1.3;
@@ -91337,12 +86180,6 @@ defExports.rocketBallMinion.GUNS.push({
         }
 	}
 )
-defExports.rocketBallMinion.PROPS = [{
-        POSITION: [0.55, 0, 0, 0, 1],
-        SHAPE: 3,
-        COLOR: 16,
-		STROKE: true,
-    }]
 defExports.rocketBall = deepCopy(defExports.baller);
 defExports.rocketBall.LABEL = "Rocket Ball";
 defExports.rocketBall.GUNS[0].PROPERTIES.TYPE = defExports.rocketBallMinion;
@@ -91522,6 +86359,30 @@ defExports.ballsack.PROPS = [{
         COLOR: 16,
     }
 ]
+
+defExports.freeballerMinion = deepCopy(defExports.ballerMinion);
+defExports.freeballerMinion.LEASHED = 130;
+defExports.freeballerMinion.ON_ALT = function(me){
+	me.controllers = [];
+	me.leash = undefined;
+	me.source.childrenMap.delete(me.id)
+}
+defExports.freeballer = deepCopy(defExports.baller);
+defExports.freeballer.LABEL = "Freeballer";
+defExports.freeballer.BODY.SPEED = base.SPEED * 1.25;
+defExports.freeballer.GUNS[0].PROPERTIES.TYPE = defExports.freeballerMinion;
+defExports.freeballer.TOOLTIP = "Alt fire to free ball"
+defExports.freeballer.PROPS = [{
+        POSITION: [0.35, 18, 0, 0, 1],
+        SHAPE: 0,
+        COLOR: 16,
+		STROKE: true,
+    },{
+        POSITION: [0.4, 23, 0, 0, 1],
+        SHAPE: 0,
+        COLOR: 16,
+		STROKE: false,
+    }]
 
 defExports.polygunMinion = {
     PARENT: [defExports.minion],
@@ -95478,10 +90339,15 @@ defExports.dustdevil = {
 defExports.tombDrone = {
     PARENT: [defExports.drone],
     LABEL: 'Dust Drone',
+    BODY: {
+        PENETRATION: drone.PENETRATION * 2,
+        PUSHABILITY: drone.PUSHABILITY * .025,
+        DENSITY: drone.DENSITY * 2,
+    },
     GUNS: [{
         POSITION: [11, 10, 1.6, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone]),
             TYPE: defExports.dust
         },
         HITS_OWN_TYPE: 'hard',
@@ -95491,7 +90357,7 @@ defExports.tombDrone = {
     }, {
         POSITION: [11, 10, 1.6, 8, 0, 60, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone]),
             TYPE: defExports.dust
         },
         HITS_OWN_TYPE: 'hard',
@@ -95501,7 +90367,7 @@ defExports.tombDrone = {
     }, {
         POSITION: [11, 10, 1.6, 8, 0, -60, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone]),
             TYPE: defExports.dust
         },
         HITS_OWN_TYPE: 'hard',
@@ -95516,14 +90382,14 @@ defExports.tombRaider = {
     DANGER: 7,
     BODY: {
         ACCELERATION: base.ACCEL * .75,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.drone,
     MAX_CHILDREN: 2,
     GUNS: [{
         POSITION: [3, 6.9, .005, 17, 0, 0, 0.01],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.fake, g.less_reload, g.less_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.fake, g.navyist]),
             TYPE: defExports.bullet,
             AUTOFIRE: true,
             STAT_CALCULATOR: gunCalcNames.sustained,
@@ -95532,7 +90398,7 @@ defExports.tombRaider = {
     }, {
         POSITION: [3, 14.4, .5, 14, 0, 0, 0.01],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.fake, g.less_reload, g.less_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.fake, g.navyist]),
             TYPE: defExports.bullet,
             AUTOFIRE: true,
             STAT_CALCULATOR: gunCalcNames.sustained,
@@ -95541,7 +90407,7 @@ defExports.tombRaider = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_reload, g.less_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.tombDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -97969,7 +92835,7 @@ defExports.miniLightning = {
     GUNS: [{
         POSITION: [6, 10, 1.2, 12, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.faster]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -97979,7 +92845,7 @@ defExports.miniLightning = {
     }, {
         POSITION: [6, 10, 1.2, 8, 0, 0, .5],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.faster]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -99788,7 +94654,7 @@ defExports.thunder = {
     GUNS: [{
         POSITION: [6, 10, 1.2, 12, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.faster]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -99798,7 +94664,7 @@ defExports.thunder = {
     }, {
         POSITION: [6, 10, 1.2, 8, 0, 0, .5],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.faster]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -108536,7 +103402,7 @@ defExports.xDirectorContagion = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .95,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
@@ -108554,7 +103420,7 @@ defExports.xDirectorContagion = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.bit_less_reload]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -112741,7 +107607,7 @@ defExports.probationerContagion = {
     }, {
         POSITION: [7, 14.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.pound]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -112954,7 +107820,7 @@ defExports.tweakedThunder = {
     DANGER: 7,
     BODY: {
         ACCELERATION: base.ACCEL * .75,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     INVISIBLE: [.08, .03, .02],
     STAT_NAMES: statNames.drone,
@@ -112962,7 +107828,7 @@ defExports.tweakedThunder = {
     GUNS: [{
         POSITION: [6, 10, 1.2, 16, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.fast, g.more_speed, g.bit_slow, g.one_third_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -112972,7 +107838,7 @@ defExports.tweakedThunder = {
     }, {
         POSITION: [6, 10, 1.2, 12, 0, 0, 1 / 3],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.fast, g.more_speed, g.bit_slow, g.one_third_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -112982,7 +107848,7 @@ defExports.tweakedThunder = {
     }, {
         POSITION: [6, 10, 1.2, 8, 0, 0, 2 / 3],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage, g.fast, g.more_speed, g.bit_slow, g.one_third_reload]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.less_damage, g.faster]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -125681,7 +120547,7 @@ defExports.lancerDirector = {
     BODY: {
         ACCELERATION: base.ACCEL * .7,
         SPEED: base.SPEED * 1.215,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     GUNS: [{
@@ -125709,7 +120575,7 @@ defExports.lancerDirector = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+            SHOOT_SETTINGS: combineStats([g.drone]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -133034,7 +127900,7 @@ defExports.invariantNovi = {
     }, {
         POSITION: [10, 17.5, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.pound]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.pound]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -144236,7 +139102,7 @@ defExports.builderSwitchblade = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+            SHOOT_SETTINGS: combineStats([g.drone]),
             TYPE: defExports.drone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -147244,12 +142110,15 @@ defExports.accelAscend = {
     PARENT: [defExports.genericTank],
     LABEL: 'Sonic',
     DANGER: 7,
+    BODY: {
+        ACCELERATION: base.ACCEL * .85
+    },
     GUNS: [{
         POSITION: [10.25, 19.5, 1, 0, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.sonic]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.less_reload, g.half_damage]),
             TYPE: [defExports.descenderBullet, {
-                MOTION_TYPE: 'sonicAccel'
+                MOTION_TYPE: 'accelerate'
             }]
         }
     }],
@@ -151865,7 +146734,7 @@ defExports.fastDroneYang = makeAuto({
     GUNS: [{
         POSITION: [15, 15, 1.6, 8, 0, 180, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.no_damage, g.lots_more_recoil, g.half_range]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.navyistdrone]),
             TYPE: defExports.bullet
         },
         HITS_OWN_TYPE: 'hard',
@@ -152196,17 +147065,22 @@ defExports.notation = {
     LABEL: 'Sigma Notation',
     DANGER: 7,
     STAT_NAMES: statNames.generic,
+    BODY: {
+        ACCELERATION: base.ACCEL * .75,
+        SPEED: base.SPEED * .875,
+        FOV: base.FOV * 1.1
+    },
     GUNS: [{
         POSITION: [6, 12, 1.2, 8, 0, 90, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDroneYang,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
             STAT_CALCULATOR: gunCalcNames.drone,
             WAIT_TO_CYCLE: true,
             COLOR: 18,
-            MAX_CHILDREN: 3,
+            MAX_CHILDREN: 4,
         }
     }, {
         POSITION: [7, 15, -1.2, 5, 0, 90, 0],
@@ -152216,14 +147090,14 @@ defExports.notation = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 270, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.fastDroneYin,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
             STAT_CALCULATOR: gunCalcNames.drone,
             WAIT_TO_CYCLE: true,
             COLOR: 19,
-            MAX_CHILDREN: 3,
+            MAX_CHILDREN: 4,
         }
     }, {
         POSITION: [7, 15, -1.2, 5, 0, 270, 0],
@@ -155480,7 +150354,7 @@ neoMakeAnimTank("aerobat", "Aerobat", [{
         }, {
             POSITION: [6, 12, 1.2, 8, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone]),
                 TYPE: defExports.drone,
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -166461,11 +161335,6 @@ defExports.shredderBullet = {
     PARENT: [defExports.heatBullet],
     LABEL: 'Skilsaw',
     SHAPE: 277,
-	AI: {
-		FOV: 0.14,
-		IGNORE_SHAPES: true,
-		SKYNET: true,
-	},
     PROPS: [{
         POSITION: [1, 0, 0, 0, 0],
         SHAPE: ((saw = []) => {
@@ -166517,12 +161386,12 @@ defExports.shredderDrone = {
     LABEL: 'Shredder Drone',
     DANGER: 7,
     BODY: {
-        ACCELERATION: base.ACCEL * .9
+        ACCELERATION: base.ACCEL * .85
     },
     GUNS: [{
         POSITION: [12, 19.5, 1, 0, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.shredder]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.faster, g.half_reload, g.more_range, g.more_range, g.more_damage, g.smaller]),
             TYPE: defExports.shredderBullet
         }
     }],
@@ -173126,12 +167995,36 @@ defExports.dimegun = {
         POSITION: [12, 12.5, -1.5, 0, 0, 0, 0]
     }]
 };
+
+defExports.badDirector = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Auto-Director',
+    DANGER: 5,
+    BODY: {
+        ACCELERATION: base.ACCEL * .75,
+        FOV: 1.1
+    },
+    STAT_NAMES: statNames.drone,
+    MAX_CHILDREN: 6,
+    GUNS: [{
+        POSITION: [6, 12, 1.2, 8, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.less_damage]),
+            TYPE: defExports.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            WAIT_TO_CYCLE: true
+        }
+    }]
+};
+
 defExports.dibloidbrid = makeHybrid(defExports.twinNaturalist, 'Diploidbrid');
-defExports.director2 = makeAutoN(defExports.director, 2);
+defExports.director2 = makeAutoN(defExports.badDirector, 2);
 defExports.director2.MAX_CHILDREN = 6;
-defExports.director3 = makeAutoN(defExports.director, 3);
+defExports.director3 = makeAutoN(defExports.badDirector, 3);
 defExports.director3.MAX_CHILDREN = 7;
-defExports.director5 = makeAutoN(defExports.director, 5);
+defExports.director5 = makeAutoN(defExports.badDirector, 5);
 defExports.director5.MAX_CHILDREN = 8;
 defExports.disposer = makeFlank(defExports.bulldozer, 3, 'Disposer');
 defExports.divebomber = {
@@ -177863,7 +172756,7 @@ defExports.navalist = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .875,
-        FOV: 1.1
+        FOV: base.FOV * 1.1,
     },
     STAT_NAMES: statNames.generic,
     MAX_CHILDREN: 4,
@@ -177872,7 +172765,7 @@ defExports.navalist = {
     }, {
         POSITION: [6, 12, -1.3, 5, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage, g.bit_smaller]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist, g.bit_smaller ]),
             TYPE: defExports.swarmFastDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -178690,7 +173583,7 @@ defExports.firestarter = {
     BODY: {
         ACCELERATION: base.ACCEL * .75,
         SPEED: base.SPEED * .9,
-        FOV: 1.1
+        FOV: base.FOV * 1.1
     },
     STAT_NAMES: statNames.generic,
     MAX_CHILDREN: 5,
@@ -178704,7 +173597,7 @@ defExports.firestarter = {
     }, {
         POSITION: [6, 12, 1.2, 8, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bit_less_damage]),
+            SHOOT_SETTINGS: combineStats([g.drone, g.navyist]),
             TYPE: defExports.firestarterDrone,
             AUTOFIRE: true,
             SYNCS_SKILLS: true,
@@ -178712,7 +173605,7 @@ defExports.firestarter = {
             WAIT_TO_CYCLE: true
         }
     }, {
-        POSITION: [7, 15, -1.2, 5, 0, 0, 0]
+        POSITION: [7, 15, -1.2, 5, 0, 0, 0],
     }]
 };
 defExports.flamemaker = {
@@ -180911,7 +175804,7 @@ defExports.orbitalstrikeinsignia = {
     GUNS: [{
         POSITION: [0, 20, 1, 10, 0, 0, Infinity],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.no_speed, g.orbitalstrike]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.no_speed, g.orbitalstrike, g.orbitalstrikebullet]),
             TYPE: defExports.orbitalstrikebullet,
             SHOOT_ON_DEATH: true,
             SKIN: 15,
@@ -181006,6 +175899,128 @@ defExports.orbitalstrike = {
             COLOR: 8,
         },
     },],
+};
+defExports.precisestrikep3 = {
+    CONTROLLRES: ['reverseSpin'],
+    SHAPE: 308,
+    COLOR: 100,
+    TURRETS: [{
+        POSITION: [17.5, 0, 0, 45, 361, 0],
+        TYPE: [defExports.orbitalstrikep1,{COLOR: 100}],
+    }, {
+        POSITION: [17.5, 0, 0, 45, 361, 0],
+        TYPE: [defExports.orbitalstrikep2,{COLOR: 100}],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep1,{COLOR: 100}],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep2,{COLOR: 100}],
+    }, ],
+};
+defExports.precisestrikep4 = {
+    CONTROLLRES: ['reverseSpin'],
+    SHAPE: 308,
+    COLOR: 100,
+    TURRETS: [{
+        POSITION: [10, 0, 0, 0, 361, 0],
+        TYPE: defExports.precisestrikep3,
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep1,{COLOR: 100}],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep2,{COLOR: 100}],
+    }, ],
+};
+defExports.precisionstrikeinsignia = {
+    PARENT: [defExports.bullet],
+    PROPS: [makeAura(100)],
+    LAYER: 21,
+    SHAPE: 308,
+    BODY: {
+        RANGE: 10*2.25,
+    },
+    COLOR: 8,
+    HITS_OWN_TYPE: "forcedNever",
+    CONTROLLERS: ['portal2', 'targetSelf'],
+    TURRETS: [{
+        POSITION: [15, 0, 0, 45, 361, 0],
+        TYPE: [defExports.orbitalstrikep1,{COLOR: 100}],
+    }, {
+        POSITION: [15, 0, 0, 45, 361, 0],
+        TYPE: [defExports.orbitalstrikep2,{COLOR: 100}],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep1,{COLOR: 100}],
+    }, {
+        POSITION: [12.5, 0, 0, 0, 361, 0],
+        TYPE: [defExports.orbitalstrikep2,{COLOR: 100}],
+    }, {
+        POSITION: [10, 0, 0, 0, 361, 0],
+        TYPE: defExports.precisestrikep4,
+    }, ],
+    GUNS: [{
+        POSITION: [0, 20, 1, 10, 0, 0, Infinity],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.no_speed, g.orbitalstrike]),
+            TYPE: defExports.orbitalstrikebullet,
+            SHOOT_ON_DEATH: true,
+            SKIN: 15,
+        },
+    }, ],
+};
+defExports.precisestrike = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Precision Strike',
+    DANGER: 7,
+    SKILL_CAP: [9, 9, 9, 9, 0, 9, 9, 9, 9, 9],
+    BODY: {
+        SPEED: base.SPEED * 0.9,
+        FOV: 1.8,
+    },
+    GUNS: [{
+        POSITION: [18, 12, 1, 0, 0, 0, 0],
+    }, {
+        POSITION: [4, 12, -1.2, 8, 0, 0, 0],
+    }, {
+        POSITION: [18, 5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            COLOR: 100
+        },
+    }, {
+        POSITION: [3, 12, 1.2, 18, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.double_size, g.bigger, g.half_reload, g.less_reload, g.more_range, g.bit_less_reload, g.orbitalstrikeInsignia,g.less_reload,g.one_third_reload]),
+            TYPE: defExports.precisionstrikeinsignia,
+            COLOR_OVERRIDE: 100,
+        },
+    }, {
+        POSITION: [11, 9, 0.01, 7, 0, 200, 0],
+        PROPERTIES: {
+            COLOR: 13,
+        },
+    }, {
+        POSITION: [11, 9, 0.01, 7, 0, 160, 0],
+        PROPERTIES: {
+            COLOR: 13,
+        },
+    }, {
+        POSITION: [9, 11, 0.01, 7, 0, 220, 0],
+        PROPERTIES: {
+            COLOR: 100,
+        },
+    }, {
+        POSITION: [9, 11, 0.01, 7, 0, 140, 0],
+        PROPERTIES: {
+            COLOR: 100,
+        },
+    }, {
+        POSITION: [12, 9, 0.01, 8, 0, 180, 0],
+        PROPERTIES: {
+            COLOR: 100,
+        },
+    }, ],
 };
 defExports.cloneStrikeMinion = {
     PARENT: [defExports.genericTank],
@@ -195806,6 +190821,8 @@ branch("testbed_beta", "Beta Tanks", [
 	defExports.laserTest3,
 	defExports.laserTest4,
 	defExports.laserTest5,
+    defExports.pelletrework,
+    defExports.precisestrike
 ], "testbed_parent");
 defExports.mallet.UPGRADES_TIER_3 = [defExports.hammer, defExports.blacksmith, defExports.powerMallet];
 defExports.mallet.UPGRADES_TIER_4 = [defExports.twiniMallet];
@@ -196558,6 +191575,7 @@ defExports.homingAutoPounder.UPGRADES_TIER_4 = [defExports.homingPounderCeption,
 defExports.obliterator2.UPGRADES_TIER_4 = [defExports.obliterator3, defExports.bulldozer2, defExports.steam2, defExports.devastator2];
 // PELLETER
 defExports.pellet.UPGRADES_TIER_2 = [defExports.triPellet, defExports.sail, defExports.borer, defExports.punt, defExports.hewnPellet, defExports.autoPellet, defExports.hybridPellet, defExports.gunner, defExports.miniVulc, defExports.singlePellet, defExports.ballista, defExports.naturalist, defExports.pellet2, defExports.cruiser, defExports.miniHurricane, defExports.dropship];
+defExports.pelletrework.UPGRADES_TIER_2 = [defExports.hewnPelletrework, defExports.sailrework, defExports.borerrework, defExports.naturalistrework];
 defExports.pellet.UPGRADES_TIER_3 = [defExports.guntrap, defExports.trapeze0];
 defExports.triPellet.UPGRADES_TIER_3 = [defExports.pentaPellet, defExports.triBorer, defExports.triHewnPellet, defExports.triPunt, defExports.triSubMach, defExports.pellet3, defExports.gunAngle, defExports.flankNaturalist];
 defExports.triPellet.UPGRADES_TIER_4 = [defExports.triCruiser]
@@ -196816,7 +191834,7 @@ defExports.fieldGun.UPGRADES_TIER_4 = [defExports.precisionPounder, defExports.f
 defExports.megaHewnTwin.UPGRADES_TIER_4 = [defExports.chain, defExports.doubleHewnDouble, defExports.hybridMegaHewnTwin, defExports.hepta, defExports.twinTwin];
 // LANCER
 defExports.lancer.UPGRADES_TIER_2 = [defExports.navigator, defExports.trailblazer, defExports.serrator, defExports.stiletto, defExports.chasseur, defExports.baller, defExports.triLancer, defExports.waraxe, defExports.jouster, defExports.pusher, defExports.hybridLancer, defExports.autoLancer, defExports.telepoint, defExports.zoomLancer, defExports.smash];
-defExports.baller.UPGRADES_TIER_3 = [defExports.ballsack, defExports.thisle, defExports.trailwrecker, defExports.rocketBall, defExports.pinata, defExports.freeballer]
+defExports.baller.UPGRADES_TIER_3 = [defExports.ballsack, defExports.thisle, defExports.trailwrecker, defExports.rocketBall, defExports.pinata]
 defExports.telepoint.UPGRADES_TIER_3 = [defExports.jumpSmash];
 defExports.navigator.UPGRADES_TIER_3 = [defExports.assessor, defExports.caravan];
 defExports.trailblazer.UPGRADES_TIER_3 = [defExports.vanguard, defExports.rockwell, defExports.trendsetter, defExports.trailwrecker];
@@ -197281,5 +192299,6 @@ for (const key in defExports) {
 function initExportCode(code) {
     eval(code)
 }
+
 
 export { defExports, initExportCode }
