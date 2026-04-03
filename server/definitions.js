@@ -85998,12 +85998,12 @@ defExports.ballerMinion = {
         FOV: .6,
         SPEED: 1.5,
         ACCELERATION: .135,
-        HEALTH: 20,
+        HEALTH: 30,
         SHIELD: 10,
         DAMAGE: 3,
         RESIST: 2,
 		REGEN: .5,
-        PENETRATION: 1,
+        PENETRATION: 5,
         DENSITY: 5
     },
 	GUNS: [],
@@ -175804,7 +175804,7 @@ defExports.orbitalstrikeinsignia = {
     GUNS: [{
         POSITION: [0, 20, 1, 10, 0, 0, Infinity],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.no_speed, g.orbitalstrike, g.orbitalstrikebullet]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.no_speed, g.orbitalstrike]),
             TYPE: defExports.orbitalstrikebullet,
             SHOOT_ON_DEATH: true,
             SKIN: 15,

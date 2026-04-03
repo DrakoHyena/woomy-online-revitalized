@@ -12,12 +12,14 @@
 
     * {
         font-family: Ubuntu;
-      margin: 0
+        margin: 0
     }
 
-  html, body{
-    height: 100%;
-  }
+    html,
+    body {
+        height: auto;
+    }
+
     body {
         background-color: var(--backgroundColor);
         font-size: 20px;
@@ -27,17 +29,29 @@
         text-align: center;
         color: var(--titleTextColor);
     }
-  .CodeMirror{
-    font-size: 14px;
-    height: 90% !important;
-  }
+
+    .CodeMirror {
+        font-size: 14px;
+        height: auto !important;
+        z-index: 0;
+    }
+
+    .toolbar {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        z-index: 10;
+    }
 </style>
+
 <head>
     <meta charset="UTF-8">
     <title>Woomy Online</title>
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
+    <meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
     <meta name="robots" content="index, follow">
     <meta property="og:image" content="./resources/favicon-66x66-k.png" />
     <meta property="og:image:width" content="52" />
@@ -48,14 +62,20 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/resources/favicon-66x66-k.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-66x66-k.png">
     <meta name="theme-color" content="#8ABC3F">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/cobalt.min.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/cobalt.min.css">
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
 </head>
 
 <body>
-    <button id="apply">Apply Changes</button>
+    <div class="toolbar">
+        <button id="apply">Apply Changes</button>
+    </div>
     <div class="editor"></div>
     <script defer>
         // Create our text editor
@@ -67,12 +87,13 @@
             indentWithTabs: true
         });
         javascriptEditor.setOption("theme", "cobalt");
-      
+
         // Apply defaults
         javascriptEditor.setValue("defExports.basic = {\n    PARENT: [defExports.genericTank],\n    LABEL: 'Basic',\n    DANGER: 4,\n    LEVEL: -1,\n    RESET_UPGRADES: true,\n    SKILL: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n    SKILL_CAP: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],\n    GUNS: [{\n        POSITION: [18, 8, 1, 0, 0, 0, 0],\n        PROPERTIES: {\n            SHOOT_SETTINGS: combineStats([g.basic, g.less_pen]),\n            TYPE: defExports.bullet,\n            LABEL: '',\n            STAT_CALCULATOR: 0,\n            WAIT_TO_CYCLE: false,\n            AUTOFIRE: false,\n            SYNCS_SKILLS: false,\n            MAX_CHILDREN: 0,\n            ALT_FIRE: false,\n            NEGATIVE_RECOIL: false,\n            COLOR: 16,\n            SKIN: 0\n        }\n    }],\n    DAMAGE_CLASS: 2,\n    CAN_BE_ON_LEADERBOARD: true,\n    DIES_TO_TEAM_BASE: true,\n    MOTION_TYPE: 'motor',\n    IS_SMASHER: false,\n    ON_DEFINED: (me) => {\n        if (c.serverName.includes(\"Sandbox\")){\n            me.upgrades.push({\n                class: \"testbed_beta\",\n                level: 60,\n                index: Class.testbed_beta.index,\n                tier: 4\n            });\n            me.upgrades.push({\n                class: \"observer\",\n                level: 60,\n                index: Class.observer.index,\n                tier: 4\n            });\n        } \n    }\n};")
-        document.getElementById("apply").onclick = function(){
-          window.opener.sendMockupEdit(javascriptEditor.getValue())
+        document.getElementById("apply").onclick = function () {
+            window.opener.sendMockupEdit(javascriptEditor.getValue())
         }
     </script>
 </body>
+
 </html>
