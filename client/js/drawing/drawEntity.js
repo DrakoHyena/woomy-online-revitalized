@@ -1664,6 +1664,7 @@ let drawEntity = function () {
 	    return function (ctx, p, pColor, rot, xx, yy, drawSize, m, source) {
 	        ctx.save();
 	        ctx.beginPath();
+			let isimage = p.shape instanceof ImageBitmap ? p.shape : undefined;
 	        let path = p.shape instanceof Path2D ? p.shape : undefined;
 	        let rpmAngle = (Date.now() * (p.rpm || 0) / 1000) % (2 * Math.PI);
 	        let propRot = p.rpm === false ? p.angle : p.angle + rpmAngle;
@@ -1758,7 +1759,15 @@ let drawEntity = function () {
 	            ctx.scale(radius, radius);
 	            ctx.lineWidth /= radius;
 	            ctx.rotate(finalRot);
-	        }
+	        } else if (isimage) {
+				let radius = p.scaleSize === true ? drawSize / m.size * m.realSize * p.size : p.size
+				let positionScale = drawSize / m.size * m.realSize;
+				ctx.save()
+				ctx.translate(p.x * positionScale + xx, p.y * positionScale + yy);
+				ctx.rotate(finalRot);
+				ctx.drawImage(p.shape, -radius * p.shape.p1, -radius * p.shape.p2, radius * p.shape.p3, radius * p.shape.p4);
+				ctx.restore();
+			}
 
 
 			if (path) {

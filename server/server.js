@@ -5865,7 +5865,7 @@ const Chain = Chainf;
                     const cellContent = grid.getCell(cx * cellSize, cy * cellSize);
                     if (cellContent) {
                         for (const entity of cellContent){
-							if (entity.team === this.team || this.hitEntities.has(entity)) continue;
+							if (entity.team === this.team || this.hitEntities.has(entity) || entity.passive || this.master.passive) continue;
              				this.hitEntities.add(entity);
 		            		const collisionDetails = this.getCollisionDetails(entity);
 		            		if (collisionDetails){
