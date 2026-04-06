@@ -1,0 +1,5 @@
+- Redo chat
+- Replace map icon with no lines ver
+- Fix up minimap
+- Flesh out gameplay rendering
+- Clean up settings menu
