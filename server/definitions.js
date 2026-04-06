@@ -49705,7 +49705,7 @@ defExports.awp_33 = {
         DAMAGE: 8,
         REGEN: base.REGEN * .25,
         FOV: 1.925
-    },
+   },
     FACING_TYPE: 'smoothWithMotion',
     TURRETS: [{
         POSITION: [22.6, -10.5, 0, 0, 0, 1],

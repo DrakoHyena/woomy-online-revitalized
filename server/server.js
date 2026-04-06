@@ -1509,7 +1509,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
             "OUTSIDE_ROOM_DAMAGE": 0,
             "MAX_SKILL": 9,
             "SOFT_MAX_SKILL": 0.59,
-            "REGEN_MULTIPLIER": 0.45,
+            "REGEN_MULTIPLIER": 0.65,
             "TIER_1": 15,
             "TIER_2": 30,
             "TIER_3": 45,

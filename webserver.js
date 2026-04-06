@@ -104,6 +104,13 @@ function serveStaticFile(req, res) {
 
     const tryPath = (filePath) => {
         fs.stat(filePath, (statErr, stats) => {
+            // If directory
+            if (!statErr && !stats.isFile()) {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('Not Found');
+                return;
+            }
+
             // Handle file not found or other errors
             if (statErr) {
                 // If the primary path failed and there's a different fallback path, try it.

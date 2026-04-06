@@ -6,9 +6,131 @@
             <li>Reverted April Fools Changes</li>
         </ul>
         <li>Rividlia fixed an issue with prop bitmaps</li>
-        <li>Absol, with help from Musicalement, rebalanced almost the entire game with a few additions</li>
-        <li>Musicalement, Rividlia, and Drako Hyena (I), improved the built in entity editor. Things that didnt work
-            before, should work now</li>
+        <li>Increased base regen mult by 25%</li>
+
+        <h3><b>Entity Editor</b></h3>
+        <li>Entity Editor now can ADD entities in-game instead of just modifying existing ones</li>
+        <li>Fixed some editor bugs with non-alphanumeric entity names</li>
+        <li>The "Apply Changes" button now sticks at the top of the window</li>
+        <li>NOTE: The editor was added quickly to have functionality. It may continue to receive these patches that
+            "make it work", however it is due to be redone entirely. However that is about the last priority right
+            now.
+        </li>
+
+        <h2><b>Absol and Musicalement's Balance Update</b></h2>
+        <h3><b>Reworked Physics</b></h3>
+        <li>You can now use penetration skill points to increase the recoil dealt to other players, increase your
+            bullets going through entities and players and make it less likely bullets bounce heavily off other
+            entities. Other stats have also been adjusted to balance the penetration change out.</li>
+        <li>Penetration no longer increases damage directly</li>
+        <li>Adjusted penetration curve to actually affect its penetration, density and resist</li>
+        <li>Fixed start penetration being way too high</li>
+        <li>Fixed penetration now being affected by almost all entities</li>
+        <li>Damage is increased for all entities giving tanks higher dps</li>
+        <li>Health overall is a lot lower since entities no longer go though other entities as often</li>
+        <li>Density got buffed, you should now take more knockback from entities</li>
+        <li>Pushability is increased overall</li>
+        <li>Resistance should feel less important, so entities with a high resistance such as dominators should be able
+            to be killed with any tank</li>
+
+        <h3><b>Reworked base tanks</b></h3>
+        <li>Your base will now be more likely to get pushed away by high density entities meaning ramming will be
+            less instant and hitting people will have to be more precise.</li>
+        <li>Increased base density</li>
+        <li>Decreased base penetration</li>
+        <li>Increased base damage</li>
+        <li>Decreased base health</li>
+
+        <h3><b>Reworked bullets</b></h3>
+        <li>Bullets will now be greatly affected by density. Higher density bullets will push entities further
+            (including other bullets) making them more ghostly and adjustable in the skill tree.</li>
+        <li>Increased bullet density</li>
+        <li>Decreased bullet penetration</li>
+        <li>Increased bullet damage</li>
+        <li>Decreased bullet health</li>
+
+        <h3><b>Reworked drone</b></h3>
+        <li>Due to the penetration change, drones will no longer go through players. This makes them harder to use
+            but easier to spread your drones out. Upgrading your penetration will make them get knocked back less
+            making them deal damage more easily.</li>
+        <li>Decreased drone density</li>
+        <li>Decreased drone penetration</li>
+        <li>Heavily increased drone damage</li>
+        <li>Decreased drone health</li>
+        <li>Slightly decreased drone speed</li>
+
+        <h3><b>Reworked traps & blocks</b></h3>
+        <li>The stat rework makes traps a lot more durable. Giving them a longer time staying the field. Their
+            buffed duration helps with this as well. Pushing your own traps will now be easier making them spread
+            out more. They will also receive knockback from other entities.</li>
+        <li>Decreased trap density</li>
+        <li>Decreased trap penetration</li>
+        <li>Buffed trap damage</li>
+        <li>Increased pushability</li>
+        <li>Increased duration</li>
+
+        <h3><b>Reworked swarm</b></h3>
+        <li>Swarm will now swarm the enemy even more with swarm that die less frequently and have a higher reload.
+            At the cost of a slight nerf in damage and speed.</li>
+        <li>Decreased swarm density</li>
+        <li>Increased swarm push-ability</li>
+        <li>Increased swarm duration</li>
+        <li>Increased swarm reload</li>
+        <li>decreased swarm speed slightly</li>
+
+        <h3><b>Reworked other entities</b></h3>
+        <li>A lot of other entities have also changed stats. There are a lot but some might be unchanged making them
+            underpowered. This will especially count for bosses and crashers</li>
+        <li>Gave most crashers, bosses and food their own base stats</li>
+        <li>Changed food balance</li>
+        <li>Changed some crasher balance</li>
+        <li>Changed a few Bosses stats</li>
+        <li>Swarms and Bees now have SKYNET enabled, meaning that they will check targets within their own FOV,
+            fixing the annoying issue where your bees start flying everywhere but where you want them to land...
+            swarmer branch is now really swarming!</li>
+
+        <h3><b>Notable balance changes</b></h3>
+        <li>A few branches have been changed to fit the penetration better. Some have been fixed, others have been
+            nerfed etc. There were a lot of small changes to fix density and penetration since they were sometimes
+            extremely high.</li>
+        <li>Miniguns will now have increased reload, decreased b.speed, increased b.duration and Increased
+            b.pushability</li>
+        <li>Lasers (old) will now have increased reload, increased speed, decreased b.duration, increased
+            penetration and next to 0 push-ability</li>
+        <li>Navyist will be unaffected by the penetration change to differ them from mini lightning; increasing
+            their penetration</li>
+        <li>Hivemind minions now have slower reload but got strongly buffed in return, they now should feel like an
+            actual clone of you with minion-like stats instead of the OG hivemind which spawned clones that could
+            die in one hit and not even kill basic shapes</li>
+        <li>Hybrid Branch now has 3 drones instead of 1.</li>
+
+        <h3><b>Notes about more "minor" balance changes</b></h3>
+        <li>An actual LOT of stats and tanks got tweaked for balancing purposes, the list is so huge it would be
+            ridiculous to put all the changes here, if you want to know in detail what has been changed and how (the
+            exact values) you can always check the pull request in the github repository.</li>
+
+        <h3><b>Behind the scenes</b></h3>
+        <li>A lot of changes happened behind the scenes to give more oversight and make the penetration changes
+            work. Some things might be difficult to get used to for modders but it overall makes it easier to adjust
+            tanks. (Note: The stat system is on track to get completely redone at some point, which includes making it
+            easier to interact with)</li>
+        <li>Gave all important entities their own base stats to adjust in the future, for example, food in general
+            now have stats that are factors of a constant "food = {...}" meaning that changing this constant changes
+            the base stats of all foods</li>
+        <li>Gave base a more easily accessible stats like FOV and DENSITY</li>
+        <li>Made all g.stats below each other like it used to work in Hellcat's woomy</li>
+        <li>Stats now are listed differently: they now are formatted with a string and an array of 13 numbers
+            representing reload, recoil, shudder, size, health, damage, pen, speed, maxSpeed, range, density, spray
+            and resist in this order, making the definitions more compact</li>
+        <li>Added a reworked pelleter to beta tanks to try making its gameplay more interesting</li>
+        <li>Some tanks used like 10 gstats in a single gun, they still exist but now are less common since they got
+            their own stats or got an array of stats to make it more readable</li>
+
+        <h3><b>Note</b></h3>
+        <li>Given the scale of the game it is extremely difficult to balance the game with the granularity that is
+            desired. While this is on track to change, the current architecture limits this ability.</li>
+        <li>That said, if you notice any discrepancies, or even just things that you would think would work better a
+            different way, or fill a different niche, please let us know in the discord!</li>
     </ul>
 </div>
 <div class="patchnoteSection">
