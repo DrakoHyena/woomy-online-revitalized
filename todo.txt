@@ -3,3 +3,4 @@
 - Fix up minimap
 - Flesh out gameplay rendering
 - Clean up settings menu
+- URGENT: Redo input elements to be used generally

@@ -145,7 +145,7 @@ function drawMinimap({ canvas, ctx, delta }) {
     ctx.fillStyle = "#666666";
     // Use a small fixed border thickness so we only have margin + border
     const border = 2;
-    ctx.fillRect(posX - border, posY - border, minimapPixelWidth + border * 2, minimapPixelHeight + border * 2);
+    ctx.fillRect(posX + border, posY + border, minimapPixelWidth - border * 2, minimapPixelHeight - border * 2);
     // Content will fill the inner rectangle directly (no extra padding)
     posX += border;
     posY += border;

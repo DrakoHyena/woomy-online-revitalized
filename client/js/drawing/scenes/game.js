@@ -225,7 +225,6 @@ async function startGame(gamemodeCode, joinRoomId, maxPlayers, maxBots) {
         window.serverWorker.onerror = undefined;
         await multiplayer.wrmHost()
         joinRoomId = await multiplayer.getHostRoomId();
-        settingsState.showEntityEditor = true;
     }
 
     openLoadingScreen("Joining Server...", "")
