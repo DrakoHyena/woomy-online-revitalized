@@ -1,7 +1,9 @@
-- Fix dumb gaps in /scenes/settings
 - Redo chat
 - Fix up/redo minimap
 - Flesh out gameplay rendering (more detail needed)
+- Clean up client file structure
 
 - Replace map icon with no lines ver
 - Fleshout/clean up/implement all settings
+
+
