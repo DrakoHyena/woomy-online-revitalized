@@ -11,7 +11,7 @@ import { ctx } from "./drawLoop.js";
 
 const BORDER_WIDTH = 4;
 const DEBOUNCE_DELAY = 200;
-const KEY_REPEAT_DELAY = 30;
+const KEY_REPEAT_DELAY = 100;
 const DROPDOWN_FADE_DURATION = 25; // ms per option
 const DROPDOWN_FADE_STAGGER = 8; // ms delay between each option
 const CHECKBOX_TRANSITION_DURATION = 10; // ms for color transition
@@ -23,14 +23,14 @@ const COLORS = {
 	optionHover: "#b8b8b8",
 	optionDefault: "#d0d0d0",
 	// RGB values for checkbox lerping
-	checkboxOff: { r: 211, g: 211, b: 211 }, // lightgrey
-	checkboxOn: { r: 169, g: 169, b: 169 }   // darkgrey
+	checkboxOff: { r: 255, g: 150, b: 150 },
+	checkboxOn: { r: 150, g: 255, b: 150 }
 };
 
 const SCALE = {
 	clicked: 0.8,
 	hovered: 1.05,
-	default: 1.0,
+	default: 1.0
 };
 
 // ============================================================================
@@ -39,14 +39,14 @@ const SCALE = {
 
 const elements = new Map();
 
-function createElementState() {
+function createElement() {
 	return {
 		focused: false,
 		lastRender: performance.now(),
 		debounce: 0,
 		inputBuffer: "",
 		lastKeyPress: 0,
-		originalValue: null,
+		oldValue: null,
 		dropdownOpen: false,
 		dropdownOpenTime: 0,
 		dropdownClosing: false,
@@ -63,7 +63,7 @@ function getOrCreateElement(uniqueId) {
 	let element = elements.get(uniqueId);
 
 	if (!element) {
-		element = createElementState();
+		element = createElement();
 		elements.set(uniqueId, element);
 		startCleanupTimer(uniqueId, element);
 	}
@@ -87,31 +87,31 @@ function startCleanupTimer(uniqueId, element) {
 // Input Handling
 // ============================================================================
 
-function handleKeyboardInput(element, allowedChars = "all", lengthLimit = Infinity) {
+function handleKeyboardInput(
+	element,
+	allowedChars = "all",
+	lengthLimit = Infinity
+) {
 	const now = performance.now();
 	if (now - element.lastKeyPress < KEY_REPEAT_DELAY) return;
 
 	// Handle special keys
 	if (keyboard.keys["Enter"]) {
-		element._submitRequested = true;
+		element.shouldSubmit = true;
 		element.lastKeyPress = now;
 		return;
 	}
 	if (keyboard.keys["Escape"]) {
-		element._cancelRequested = true;
+		element.cancelSubmit = true;
 		element.lastKeyPress = now;
 		return;
 	}
 
-	// Track which keys have already been processed to prevent repeats (except for Backspace)
-	if (!element._pressedKeys) element._pressedKeys = new Set();
 	for (const key of Object.keys(keyboard.keys)) {
 		if (!keyboard.keys[key]) {
 			// Key is not pressed, remove from pressed set
-			element._pressedKeys.delete(key);
 			continue;
 		}
-		if (element._pressedKeys && element._pressedKeys.has(key)) continue;
 		if (key === "Backspace") {
 			element.inputBuffer = element.inputBuffer.slice(0, -1);
 			element.lastKeyPress = now;
@@ -121,7 +121,6 @@ function handleKeyboardInput(element, allowedChars = "all", lengthLimit = Infini
 			continue;
 		}
 
-		element._pressedKeys.add(key)
 		if (isValidChar(key, allowedChars)) {
 			// Check length limit before adding character
 			if (element.inputBuffer.length < lengthLimit) {
@@ -156,7 +155,12 @@ function resetDebounce(element) {
 function drawBorder(ctx, x, y, width, height) {
 	const offset = BORDER_WIDTH / 2;
 	ctx.fillStyle = COLORS.border;
-	ctx.fillRect(x - offset, y - offset, width + BORDER_WIDTH, height + BORDER_WIDTH);
+	ctx.fillRect(
+		x - offset,
+		y - offset,
+		width + BORDER_WIDTH,
+		height + BORDER_WIDTH
+	);
 }
 
 function drawBackground(ctx, x, y, width, height, isActive = false) {
@@ -165,7 +169,11 @@ function drawBackground(ctx, x, y, width, height, isActive = false) {
 }
 
 function drawCenteredText(ctx, text, x, y, width, height) {
-	ctx.drawImage(text, x + width / 2 - text.width / 2, y + height / 2 - text.height / 2);
+	ctx.drawImage(
+		text,
+		x + width / 2 - text.width / 2,
+		y + height / 2 - text.height / 2
+	);
 }
 
 function lerpColor(from, to, t) {
@@ -178,8 +186,8 @@ function lerpColor(from, to, t) {
 
 function applyHoverScale(x, y, width, height, scale) {
 	return {
-		x: x - width * (scale - 1) / 2,
-		y: y - height * (scale - 1) / 2,
+		x: x - (width * (scale - 1)) / 2,
+		y: y - (height * (scale - 1)) / 2,
 		width: width * scale,
 		height: height * scale
 	};
@@ -189,9 +197,7 @@ function applyHoverScale(x, y, width, height, scale) {
 // Dropdown Helpers
 // ============================================================================
 
-function isHoveringDropdownOptions(element, x, y, width, height, uniqueId) {
-	if (!element.dropdownOpen) return false;
-
+function isHoveringDropdownOptions(x, y, width, height, uniqueId) {
 	const options = currentSettings[uniqueId]?.value?.options;
 	if (!options) return false;
 
@@ -199,21 +205,39 @@ function isHoveringDropdownOptions(element, x, y, width, height, uniqueId) {
 	const optionX = x + width;
 	for (let i = 0; i < options.length; i++) {
 		const optionY = y + i * height;
-		const optionCheck = clickableActive(optionX, optionY, optionX + width, optionY + height);
+		const optionCheck = clickableActive(
+			optionX,
+			optionY,
+			optionX + width,
+			optionY + height
+		);
 		if (optionCheck !== false) return true;
 	}
 
 	return false;
 }
 
-function handleDropdownOptionInteraction(element, options, originalX, originalY, originalWidth, originalHeight, inputCallback) {
+function handleDropdownOptionInteraction(
+	element,
+	options,
+	originalX,
+	originalY,
+	originalWidth,
+	originalHeight,
+	inputCallback
+) {
 	let hoveringOverOptions = false;
 	// First option is to the right, rest stack below it
 	const optionX = originalX + originalWidth;
 
 	for (let i = 0; i < options.length; i++) {
 		const optionY = originalY + i * originalHeight;
-		const optionInteraction = clickableActive(optionX, optionY, optionX + originalWidth, optionY + originalHeight);
+		const optionInteraction = clickableActive(
+			optionX,
+			optionY,
+			optionX + originalWidth,
+			optionY + originalHeight
+		);
 
 		if (optionInteraction !== false) {
 			hoveringOverOptions = true;
@@ -231,36 +255,52 @@ function handleDropdownOptionInteraction(element, options, originalX, originalY,
 	return hoveringOverOptions;
 }
 
-function drawDropdownOptions(ctx, scene, element, options, selectedValue, originalX, originalY, originalWidth, originalHeight, menuAnimSpeed) {
+function drawDropdownOptions(
+	ctx,
+	element,
+	options,
+	selectedValue,
+	originalX,
+	originalY,
+	originalWidth,
+	originalHeight
+) {
+	const menuAnimSpeed = currentSettings.menuAnimSpeed.value.number;
+
 	// First option is to the right, rest stack below it
 	const optionX = originalX + originalWidth;
 	const baseAlpha = ctx.globalAlpha;
 	const fadeDuration = DROPDOWN_FADE_DURATION / menuAnimSpeed;
 	const fadeStagger = DROPDOWN_FADE_STAGGER / menuAnimSpeed;
-	
+
 	// Calculate time based on whether opening or closing
 	const isClosing = element.dropdownClosing;
-	const animationTime = isClosing 
+	const animationTime = isClosing
 		? performance.now() - element.dropdownCloseTime
 		: performance.now() - element.dropdownOpenTime;
 
 	for (let i = 0; i < options.length; i++) {
 		const option = options[i];
 		const optionY = originalY + i * originalHeight;
-		const optionHover = clickableActive(optionX, optionY, optionX + originalWidth, optionY + originalHeight);
+		const optionHover = clickableActive(
+			optionX,
+			optionY,
+			optionX + originalWidth,
+			optionY + originalHeight
+		);
 
 		// Calculate staggered fade alpha for this option
 		// For closing, reverse the stagger order (last options fade first)
-		const staggerIndex = isClosing ? (options.length - 1 - i) : i;
+		const staggerIndex = isClosing ? options.length - 1 - i : i;
 		const optionDelay = staggerIndex * fadeStagger;
 		const optionTime = animationTime - optionDelay;
 		let optionAlpha = Math.min(1, Math.max(0, optionTime / fadeDuration));
-		
+
 		// Invert alpha for closing animation
 		if (isClosing) {
 			optionAlpha = 1 - optionAlpha;
 		}
-		
+
 		ctx.globalAlpha = baseAlpha * optionAlpha;
 
 		// Draw option border and background
@@ -277,7 +317,14 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 
 		// Draw option text
 		const text = renderText(option, originalHeight * 0.65);
-		drawCenteredText(ctx, text, optionX, optionY, originalWidth, originalHeight);
+		drawCenteredText(
+			ctx,
+			text,
+			optionX,
+			optionY,
+			originalWidth,
+			originalHeight
+		);
 	}
 
 	ctx.globalAlpha = baseAlpha;
@@ -287,7 +334,16 @@ function drawDropdownOptions(ctx, scene, element, options, selectedValue, origin
 // Input Type Renderers
 // ============================================================================
 
-function renderButton(ctx, element, x, y, width, height, text, click, clickCallback) {
+function renderButton(
+	element,
+	x,
+	y,
+	width,
+	height,
+	text,
+	click,
+	clickCallback
+) {
 	if (click.left === true && canDebounce(element)) {
 		resetDebounce(element);
 		clickCallback();
@@ -300,7 +356,18 @@ function renderButton(ctx, element, x, y, width, height, text, click, clickCallb
 	drawCenteredText(ctx, textImage, x, y, width, height);
 }
 
-function renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback, menuAnimSpeed) {
+function renderCheckbox(
+	element,
+	x,
+	y,
+	width,
+	height,
+	value,
+	click,
+	inputCallback
+) {
+	const menuAnimSpeed = currentSettings.menuAnimSpeed.value.number;
+
 	if (click.left === true && canDebounce(element)) {
 		resetDebounce(element);
 		inputCallback();
@@ -317,19 +384,32 @@ function renderCheckbox(ctx, element, x, y, width, height, value, click, inputCa
 	const transitionTime = performance.now() - element.checkboxTransitionStart;
 	const transitionDuration = CHECKBOX_TRANSITION_DURATION / menuAnimSpeed;
 	const transitionProgress = Math.min(1, transitionTime / transitionDuration);
-	
-	// Lerp from previous state to current state
+
 	const targetBlend = value ? 1 : 0;
-	const currentBlend = element.checkboxTransitionFrom + (targetBlend - element.checkboxTransitionFrom) * transitionProgress;
+	const currentBlend =
+		element.checkboxTransitionFrom +
+		(targetBlend - element.checkboxTransitionFrom) * transitionProgress;
 
 	drawBorder(ctx, x, y, width, height);
-	
-	// Use lerped color instead of binary
-	ctx.fillStyle = lerpColor(COLORS.checkboxOff, COLORS.checkboxOn, currentBlend);
+
+	ctx.fillStyle = lerpColor(
+		COLORS.checkboxOff,
+		COLORS.checkboxOn,
+		currentBlend
+	);
 	ctx.fillRect(x, y, width, height);
 }
 
-function renderNumber(ctx, element, uniqueId, x, y, width, height, value, inputCallback) {
+function renderNumber(
+	element,
+	uniqueId,
+	x,
+	y,
+	width,
+	height,
+	value,
+	inputCallback
+) {
 	const alpha = ctx.globalAlpha;
 	const setting = currentSettings[uniqueId];
 
@@ -342,7 +422,10 @@ function renderNumber(ctx, element, uniqueId, x, y, width, height, value, inputC
 		if (element.inputBuffer !== "") {
 			const parsed = parseFloat(element.inputBuffer);
 			if (!isNaN(parsed) && setting?.value) {
-				const clamped = Math.min(setting.value.max, Math.max(setting.value.min, parsed));
+				const clamped = Math.min(
+					setting.value.max,
+					Math.max(setting.value.min, parsed)
+				);
 				inputCallback(clamped);
 			}
 		}
@@ -354,16 +437,27 @@ function renderNumber(ctx, element, uniqueId, x, y, width, height, value, inputC
 	ctx.globalAlpha = alpha;
 	drawBackground(ctx, x, y, width, height);
 
-	const displayValue = (element.focused && element.inputBuffer !== "") ? element.inputBuffer : value.toString();
+	const displayValue =
+		element.focused && element.inputBuffer !== ""
+			? element.inputBuffer
+			: value.toString();
 	const text = renderText(displayValue, height);
 	ctx.drawImage(text, x + width / 2 - text.width / 2, y);
 }
 
-function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, inputCallback) {
+function renderTextInput(
+	element,
+	uniqueId,
+	x,
+	y,
+	width,
+	height,
+	value,
+	inputCallback
+) {
 	const alpha = ctx.globalAlpha;
 	const setting = currentSettings[uniqueId];
 	const lengthLimit = setting?.value?.lengthLimit || Infinity;
-
 
 	if (element.focused) {
 		ctx.fillStyle = "black";
@@ -372,32 +466,22 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 		handleKeyboardInput(element, "all", lengthLimit);
 
 		// Only submit value on Enter or blur
-		if (element._submitRequested) {
-			// callback may return `false` to explicitly blur, `true` to explicitly keep focus
+		if (element.shouldSubmit) {
 			const keepFocus = inputCallback(element.inputBuffer);
-			if (keepFocus === false) {
+			if (!keepFocus) {
 				element.focused = false;
-				// clear programmatic focus immediately so the next frame triggers lostFocusCallback
-				element._programmaticFocus = false;
 			} else if (keepFocus === true) {
 				element.inputBuffer = "";
-			} else {
-				// default behavior: keep focus only if programmatically focused
-				if (element._programmaticFocus) {
-					element.inputBuffer = "";
-				} else {
-					element.focused = false;
-				}
 			}
-			element._submitRequested = false;
-		} else if (element._cancelRequested) {
+			element.shouldSubmit = false;
+		} else if (element.cancelSubmit) {
 			// Revert to original value on Escape
-			if (element.originalValue !== null) {
-				inputCallback(element.originalValue);
+			if (element.oldValue !== null) {
+				inputCallback(element.oldValue);
 				element.inputBuffer = "";
 			}
 			element.focused = false;
-			element._cancelRequested = false;
+			element.cancelSubmit = false;
 		}
 		// Do not submit on every frame
 	} else {
@@ -408,16 +492,33 @@ function renderText_Input(ctx, element, uniqueId, x, y, width, height, value, in
 	ctx.globalAlpha = alpha;
 	drawBackground(ctx, x, y, width, height);
 
-	const displayValue = (element.focused && element.inputBuffer !== "") ? element.inputBuffer : value;
+	const displayValue =
+		element.focused && element.inputBuffer !== ""
+			? element.inputBuffer
+			: value;
 	const text = renderText(displayValue || " ", height);
 	ctx.drawImage(text, x + width / 2 - text.width / 2, y);
 }
 
-function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, click, inputCallback, menuAnimSpeed) {
+// For convience dropdowns inheriently work off settings
+// Perhaps this can be changed but theres no need right now
+function renderDropdown(
+	element,
+	uniqueId,
+	x,
+	y,
+	width,
+	height,
+	click,
+	inputCallback
+) {
+	const menuAnimSpeed = currentSettings.menuAnimSpeed.value.number;
 	const setting = currentSettings[uniqueId];
 
 	if (!setting?.value?.options) {
-		console.warn(`Dropdown setting "${uniqueId}" not found or improperly configured`);
+		console.warn(
+			`Dropdown setting "${uniqueId}" not found or improperly configured`
+		);
 		return;
 	}
 
@@ -457,7 +558,13 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 	let hoveringOverOptions = false;
 	if (element.dropdownOpen && !element.dropdownClosing) {
 		hoveringOverOptions = handleDropdownOptionInteraction(
-			element, options, x, y, width, height, inputCallback
+			element,
+			options,
+			x,
+			y,
+			width,
+			height,
+			inputCallback
 		);
 
 		// Start close animation if not hovering over main button or options
@@ -469,14 +576,30 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 
 	// Draw main dropdown button
 	drawBorder(ctx, x, y, width, height);
-	drawBackground(ctx, x, y, width, height, element.dropdownOpen && !element.dropdownClosing);
+	drawBackground(
+		ctx,
+		x,
+		y,
+		width,
+		height,
+		element.dropdownOpen && !element.dropdownClosing
+	);
 
 	const text = renderText(selectedValue, height * 0.65);
 	drawCenteredText(ctx, text, x, y, width, height);
 
 	// Draw dropdown options if open (including during close animation)
 	if (element.dropdownOpen) {
-		drawDropdownOptions(ctx, scene, element, options, selectedValue, x, y, width, height, menuAnimSpeed);
+		drawDropdownOptions(
+			ctx,
+			element,
+			options,
+			selectedValue,
+			x,
+			y,
+			width,
+			height
+		);
 	}
 }
 
@@ -484,14 +607,22 @@ function renderDropdown(ctx, scene, element, uniqueId, x, y, width, height, clic
 // Main Render Function
 // ============================================================================
 
-function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCallback, hoverCallback, lostFocusCallback) {
+function renderInput(
+	uniqueId,
+	type,
+	x,
+	y,
+	width,
+	height,
+	value,
+	inputCallback,
+	hoverCallback,
+	lostFocusCallback
+) {
 	ctx.save();
 	const menuAnimSpeed = currentSettings.menuAnimSpeed.value.number;
-
 	const element = getOrCreateElement(uniqueId);
-
-	// remember the input type for this element so we can compute global focus state
-	element._type = type;
+	element.type = type;
 
 	// Apply current scale FIRST so all hit-testing matches drawn positions
 	const scaled = applyHoverScale(x, y, width, height, element.currentScale);
@@ -500,112 +631,145 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 	width = scaled.width;
 	height = scaled.height;
 
-	// Check if hovering over dropdown options (using already-scaled coords)
-	const hoveringOverDropdownOptions = isHoveringDropdownOptions(
-		element, x, y, width, height, uniqueId
-	);
+	let hoveringOverDropdownOptions = false;
+	if (element.type === "dropdown") {
+		hoveringOverDropdownOptions = isHoveringDropdownOptions(
+			element,
+			x,
+			y,
+			width,
+			height,
+			uniqueId
+		);
+	}
 
-	// Handle click detection on the scaled button area
+	// click detection
 	const click = clickableActive(x, y, x + width, y + height);
-	// Respect programmatic focus so keyboard can be captured without mouse interaction
-	const isInteracting = click !== false || hoveringOverDropdownOptions || element._programmaticFocus === true;
-	const isHoveringForBlur = click !== false || hoveringOverDropdownOptions || element._programmaticFocus === true;
-
-	// Determine target scale based on interaction state
+	const isInteracting = click !== false || hoveringOverDropdownOptions;
 	let targetScale = SCALE.default;
+
+	// Focus
 	if (isInteracting) {
 		if (hoverCallback) hoverCallback();
-
-		// If the user *clicked* this element, clear focus/programmatic-focus from
-		// other text/number inputs so only one text input receives keyboard events.
 		if (click && click.left) {
+			if (element.type === "number" || element.type === "text") {
+				keyboard.locked = true;
+			}
 			for (const [otherId, otherElem] of elements.entries()) {
-				if (otherId !== uniqueId && (otherElem._type === "number" || otherElem._type === "text") && otherElem.focused) {
+				if (otherId !== uniqueId) {
 					otherElem.focused = false;
-					otherElem._programmaticFocus = false;
-					otherElem._submitRequested = false;
-					otherElem._cancelRequested = false;
+					otherElem.shouldSubmit = false;
+					otherElem.cancelSubmit = false;
 					otherElem.inputBuffer = "";
 					otherElem.wasHovering = false;
 				}
 			}
-			// Mark this element focused from the click
 			element.focused = true;
-		} else {
-			// preserve programmatic focus if present
-			element.focused = element.focused || false;
 		}
 
 		targetScale = click.left ? SCALE.clicked : SCALE.hovered;
 	} else {
 		element.focused = false;
-		element.originalValue = null;
+		element.oldValue = null;
 	}
-
-	if (element.wasHovering && !isHoveringForBlur) {
-		if(lostFocusCallback) lostFocusCallback();
-		// Clear programmatic focus when element actually loses focus
-		element._programmaticFocus = false;
+	if (element.wasHovering && !isInteracting) {
+		if (lostFocusCallback) lostFocusCallback();
+		if (element.type === "number" || element.type === "text") {
+			keyboard.locked = false;
+		}
 	}
-	element.wasHovering = isHoveringForBlur;
+	element.wasHovering = isInteracting;
 
 	// Update scale target for next frame
-	element.currentScale = lerp(element.currentScale, targetScale, menuAnimSpeed);
-
-	// If any text/number input is focused, lock the keyboard; otherwise unlock.
-	{
-		let anyTextNumberFocused = false;
-		for (const e of elements.values()) {
-			if (e.focused && (e._type === "number" || e._type === "text")) {
-				anyTextNumberFocused = true;
-				break;
-			}
-		}
-		keyboard.locked = anyTextNumberFocused;
-	}
+	element.currentScale = lerp(
+		element.currentScale,
+		targetScale,
+		menuAnimSpeed
+	);
 
 	// Handle input buffer for text-based inputs
 	if (type === "number" || type === "text") {
-		if (element.focused && element.originalValue !== null) {
+		if (element.focused && element.oldValue !== null) {
 			if (type === "number") {
 				const parsed = parseFloat(element.inputBuffer);
 				if (element.inputBuffer === "" || isNaN(parsed)) {
-					inputCallback(element.originalValue);
+					inputCallback(element.oldValue);
 				}
 			} else if (type === "text" && element.inputBuffer === "") {
-				inputCallback(element.originalValue);
+				inputCallback(element.oldValue);
 			}
 		} else {
-			element.originalValue = value;
+			element.oldValue = value;
 			element.inputBuffer = "";
-			element._submitRequested = false;
-			element._cancelRequested = false;
+			element.shouldSubmit = false;
+			element.cancelSubmit = false;
 		}
 	}
 
 	// Render based on input type
 	switch (type) {
 		case "button":
-			renderButton(ctx, element, x, y, width, height, value, click, inputCallback);
+			renderButton(
+				element,
+				x,
+				y,
+				width,
+				height,
+				value,
+				click,
+				inputCallback
+			);
 			break;
 
 		case "checkbox":
-			renderCheckbox(ctx, element, x, y, width, height, value, click, inputCallback, menuAnimSpeed);
+			renderCheckbox(
+				element,
+				x,
+				y,
+				width,
+				height,
+				value,
+				click,
+				inputCallback
+			);
 			break;
 
 		case "number":
-			renderNumber(ctx, element, uniqueId, x, y, width, height, value, inputCallback);
+			renderNumber(
+				element,
+				uniqueId,
+				x,
+				y,
+				width,
+				height,
+				value,
+				inputCallback
+			);
 			break;
 
 		case "text":
-			renderText_Input(ctx, element, uniqueId, x, y, width, height, value, inputCallback);
+			renderTextInput(
+				element,
+				uniqueId,
+				x,
+				y,
+				width,
+				height,
+				value,
+				inputCallback
+			);
 			break;
 
 		case "dropdown":
 			renderDropdown(
-				ctx, scene, element, uniqueId,
-				x, y, width, height,
-				click, inputCallback, menuAnimSpeed
+				element,
+				uniqueId,
+				x,
+				y,
+				width,
+				height,
+				click,
+				inputCallback
 			);
 			break;
 	}
@@ -617,47 +781,51 @@ function renderInput(uniqueId, type, scene, x, y, width, height, value, inputCal
 // Exports
 // ============================================================================
 
-function focusInput(uniqueId, { initialValue = null } = {}) {
+function focusInput(uniqueId, { initialValue = null }) {
 	const element = getOrCreateElement(uniqueId);
 	element.focused = true;
-	element._programmaticFocus = true;
-	// Prevent immediate lost-focus handling
-	element.wasHovering = true;
+	element.wasHovering = true; // Prevent immediate lost-focus handling
 	if (initialValue !== null) {
-		element.originalValue = initialValue;
+		element.oldValue = initialValue;
 	}
 	element.inputBuffer = "";
-	element._submitRequested = false;
-	element._cancelRequested = false;
+	element.shouldSubmit = false;
+	element.cancelSubmit = false;
 	element.lastRender = performance.now();
 	keyboard.locked = true;
 	return element;
 }
 
-function isTextOrNumberFocused(){
-    for(const e of elements.values()){
-        if(e.focused && (e._type === "number" || e._type === "text")) return true;
-    }
-    return false;
+function isTextOrNumberFocused() {
+	for (const e of elements.values()) {
+		if (e.focused && (e.type === "number" || e.type === "text"))
+			return true;
+	}
+	return false;
 }
 
-function blurAllTextNumberInputs(){
-    for(const e of elements.values()){
-        if(e.focused && (e._type === "number" || e._type === "text")){
-            e.focused = false;
-            e._programmaticFocus = false;
-            e._submitRequested = false;
-            e._cancelRequested = false;
-            e.inputBuffer = "";
-            e.wasHovering = false;
-        }
-    }
-    // keyboard.locked will be recomputed by the next renderInput call
+function blurAllTextNumberInputs() {
+	for (const e of elements.values()) {
+		if (e.focused && (e.type === "number" || e.type === "text")) {
+			e.focused = false;
+			e.shouldSubmit = false;
+			e.cancelSubmit = false;
+			e.inputBuffer = "";
+			e.wasHovering = false;
+		}
+	}
+	// keyboard.locked will be recomputed by the next renderInput call
 }
 
-function isElementFocused(uniqueId){
-    const e = elements.get(uniqueId);
-    return !!(e && e.focused);
+function isElementFocused(uniqueId) {
+	const e = elements.get(uniqueId);
+	return !!(e && e.focused);
 }
 
-export { renderInput, focusInput, isTextOrNumberFocused, blurAllTextNumberInputs, isElementFocused };
+export {
+	renderInput,
+	focusInput,
+	isTextOrNumberFocused,
+	blurAllTextNumberInputs,
+	isElementFocused
+};

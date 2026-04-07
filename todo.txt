@@ -1,8 +1,7 @@
-- Redo input elements to be used generally
 - Setting Profiles
 - Redo chat
 - Fix up/redo minimap
 - Flesh out gameplay rendering (more detail needed)
 
 - Replace map icon with no lines ver
-- Clean up settings menu
+- Fleshout/clean up/implement all settings
