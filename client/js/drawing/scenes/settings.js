@@ -1,5 +1,11 @@
 import { lerp } from "../../lerp.js";
-import { currentSettings } from "../../settings.js";
+import {
+	currentSettings,
+	deleteSettingsProfile,
+	getSavedSettings,
+	loadSettingsProfile,
+	saveSettingsProfile
+} from "../../settings.js";
 import { drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
 import { renderText } from "../text.js";
@@ -44,6 +50,9 @@ settings.utilityFuncts.set("fade", ({ canvas, ctx, delta }) => {
 	}
 });
 
+let cachedProfiles = [];
+let profilesUpdateTime = 1000;
+let lastProfilesUpdate = 0;
 let yOffset = 0;
 let lastMouseY = 0;
 let lowestY = 0;
@@ -1638,6 +1647,80 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderLine(x + width / 2 + text.width / 2, y, x + width, y);
 	y += text.height * 0.5;
 
+	text = renderText("Save To Profile", SETTING_TEXT_SIZE);
+	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+	renderInput(
+		"newProfile",
+		"text",
+		x + width - SETTINGS_CONFIG.PADDING - text.height * 10,
+		y,
+		text.height * 10,
+		text.height,
+		"Profile Name",
+		(name) => {
+			if (name === "Profile Name" || name === "Default") return;
+			saveSettingsProfile(name);
+		},
+		() => {
+			showCursorTextBox(
+				"Save To Profile",
+				"The name for the new settings profile. Changes to 'Default' are ignored."
+			);
+		},
+		hideCursorTextBox
+	);
+	y += text.height + SETTINGS_CONFIG.PADDING;
+
+	if (performance.now() - lastProfilesUpdate > profilesUpdateTime) {
+		cachedProfiles = Object.keys(getSavedSettings().profiles);
+		lastProfilesUpdate = performance.now();
+	}
+	for (let profile of cachedProfiles) {
+		text = renderText(profile, SETTING_TEXT_SIZE);
+		ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+		let buttonWidth = text.height * 4;
+		renderInput(
+			`${profile}Load`,
+			"button",
+			x + width - SETTINGS_CONFIG.PADDING - buttonWidth,
+			y,
+			buttonWidth,
+			text.height,
+			"Load",
+			() => {
+				loadSettingsProfile(profile);
+			}
+		);
+		if (profile !== "Default") {
+			renderInput(
+				`${profile}Save`,
+				"button",
+				x + width - SETTINGS_CONFIG.PADDING * 2 - buttonWidth * 2,
+				y,
+				buttonWidth,
+				text.height,
+				"Save",
+				() => {
+					saveSettingsProfile(profile);
+				}
+			);
+			renderInput(
+				`${profile}Delete`,
+				"button",
+				x + width - SETTINGS_CONFIG.PADDING * 3 - buttonWidth * 3,
+				y,
+				buttonWidth,
+				text.height,
+				"Delete",
+				() => {
+					deleteSettingsProfile(profile);
+				}
+			);
+		}
+
+		y += text.height + SETTINGS_CONFIG.PADDING;
+	}
+	console.log(getSavedSettings().activeProfile);
 	lowestY = y;
 	ctx.restore();
 });

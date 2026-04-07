@@ -1,4 +1,5 @@
 - Setting Profiles
+- Fix dumb gaps in /scenes/settings
 - Redo chat
 - Fix up/redo minimap
 - Flesh out gameplay rendering (more detail needed)

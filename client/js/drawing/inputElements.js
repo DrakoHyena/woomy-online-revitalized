@@ -483,7 +483,6 @@ function renderTextInput(
 			element.focused = false;
 			element.cancelSubmit = false;
 		}
-		// Do not submit on every frame
 	} else {
 		ctx.fillStyle = COLORS.border;
 	}
@@ -688,6 +687,8 @@ function renderInput(
 	);
 
 	// Handle input buffer for text-based inputs
+	// Doesnt matter that it happens every frame..
+	// ..ensures oldValue replacing
 	if (type === "number" || type === "text") {
 		if (element.focused && element.oldValue !== null) {
 			if (type === "number") {
@@ -701,8 +702,6 @@ function renderInput(
 		} else {
 			element.oldValue = value;
 			element.inputBuffer = "";
-			element.shouldSubmit = false;
-			element.cancelSubmit = false;
 		}
 	}
 
@@ -805,16 +804,7 @@ function isTextOrNumberFocused() {
 }
 
 function blurAllTextNumberInputs() {
-	for (const e of elements.values()) {
-		if (e.focused && (e.type === "number" || e.type === "text")) {
-			e.focused = false;
-			e.shouldSubmit = false;
-			e.cancelSubmit = false;
-			e.inputBuffer = "";
-			e.wasHovering = false;
-		}
-	}
-	// keyboard.locked will be recomputed by the next renderInput call
+	// TODO: redo chat
 }
 
 function isElementFocused(uniqueId) {

@@ -320,9 +320,9 @@ function getSavedSettings() {
 	let settingsInfo = localStorage.getItem("settingsInfo");
 	if (!settingsInfo) {
 		settingsInfo = {
-			activeProfile: "Default Profile",
+			activeProfile: "Default",
 			profiles: {
-				"Default Profile": defaultSettings
+				Default: defaultSettings
 			}
 		};
 	} else {
@@ -333,7 +333,7 @@ function getSavedSettings() {
 		console.warn(
 			`Profile "${settingsInfo.activeProfile}" not found. Falling back to default profile.`
 		);
-		settingsInfo.activeProfile = "Default Profile";
+		settingsInfo.activeProfile = "Default";
 		if (!settingsInfo.profiles[settingsInfo.activeProfile]) {
 			settingsInfo.profiles[settingsInfo.activeProfile] = defaultSettings;
 		}
@@ -363,18 +363,44 @@ function convertSettings(obj) {
 				`Setting "${key}" is not defined in the defaults, are your provided settings correct?`
 			);
 		}
+		console.log(key, value);
 		newObj[key] = new Setting(key, settingTypes[key], value);
 	}
 	return newObj;
 }
 
-// TODO test after inputs redone
 function saveSettingsProfile(profileName) {
 	if (profileName === "Default")
 		return console.error("Cannot override default settings profile");
 	let settingsInfo = getSavedSettings();
-	settingsInfo.profiles[profileName] = JSON.parse(currentSettings);
+	let newSettingsObj = {};
+	for (let key in currentSettings) {
+		let nv = undefined;
+		let v = currentSettings[key].value;
+		if (v.selected !== undefined) {
+			nv = v.selected;
+		} else if (v.number !== undefined) {
+			nv = v.number;
+		} else if (v.enabled !== undefined) {
+			nv = v.enabled;
+		} else if (v.text !== undefined) {
+			nv = v.text;
+		}
+		newSettingsObj[key] = nv;
+	}
+	settingsInfo.profiles[profileName] = newSettingsObj;
 	localStorage.setItem("settingsInfo", JSON.stringify(settingsInfo));
+	console.log(`Saving settings for profile ${profileName}`, settingsInfo);
+	loadSettingsProfile(profileName);
+}
+
+function loadSettingsProfile(profileName) {
+	let settingsInfo = getSavedSettings();
+	if (!settingsInfo.profiles[profileName])
+		return console.error(`Settings profile ${profile} does not exist`);
+	settingsInfo.activeProfile = profileName;
+	localStorage.setItem("settingsInfo", JSON.stringify(settingsInfo));
+	console.log(`Loading settings for profile ${profileName}`, settingsInfo);
 	updateSettings();
 }
 
@@ -479,4 +505,11 @@ class Setting {
 }
 updateSettings();
 
-export { currentSettings };
+export {
+	currentSettings,
+	getSavedSettings,
+	updateSettings,
+	saveSettingsProfile,
+	loadSettingsProfile,
+	deleteSettingsProfile
+};
