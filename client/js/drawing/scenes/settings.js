@@ -333,7 +333,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"menuAnimSpeed",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -358,7 +357,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"darkModeMenu",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -383,7 +381,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"screenshotMode",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -408,7 +405,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	y += text.height * 0.5;
 	renderLine(x + text.width + lineMargin, y, x + width, y);
 	y += text.height * 0.5 + SETTINGS_CONFIG.PADDING;
-
 	text = renderText("Disable Game Messages", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
@@ -439,7 +435,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"inGameChatMessageDuration",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -463,7 +458,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"inGameChatMessageLimit",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -487,7 +481,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"closedMessageShowDuration",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -511,7 +504,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"messageHistoryLimit",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -530,13 +522,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// chat menu scaling
 	text = renderText("Chat Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"chatSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -555,13 +545,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// chat border multiplier
 	text = renderText("Chat Border Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"chatBorderSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -580,13 +568,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// existing chat opacity setting
 	text = renderText("Chat Opacity", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"chatAlpha",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -605,19 +591,16 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// Leaderboard settings
 	text = renderText("Leaderboard", HEADER_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	y += text.height * 0.5;
 	renderLine(x + text.width + lineMargin, y, x + width, y);
 	y += text.height * 0.5 + SETTINGS_CONFIG.PADDING;
-
 	text = renderText("Leaderboard Opacity", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"leaderboardAlpha",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -641,7 +624,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"leaderboardBackgroundAlpha",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -660,13 +642,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new border size setting
 	text = renderText("Leaderboard Border Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"leaderboardBorderSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -685,13 +665,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new overall size scale setting
 	text = renderText("Leaderboard Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"leaderboardSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -715,7 +693,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"squareLeaderboardBars",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -746,7 +723,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"upgradeMenuScale",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -765,20 +741,17 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// minimap GUI settings subsection
 	text = renderText("Minimap", HEADER_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	y += text.height * 0.5;
 	renderLine(x + text.width + lineMargin, y, x + width, y);
 	y += text.height * 0.5 + SETTINGS_CONFIG.PADDING;
 
-	// minimap size
 	text = renderText("Minimap Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"minimapSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -803,7 +776,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"minimapOpacity",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -822,13 +794,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// true size toggle
 	text = renderText("True Size on Minimap", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"minimapScaleEntities",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -853,7 +823,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"minimapScaleFactor",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -872,13 +841,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// render type dropdown
 	text = renderText("Render Type", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"minimapRenderType",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 5,
 		y,
 		text.height * 5,
@@ -897,7 +864,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// Stats settings
 	text = renderText("Stats", HEADER_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	y += text.height * 0.5;
@@ -909,7 +875,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"statsAlpha",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -933,7 +898,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"statsBackgroundAlpha",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -952,13 +916,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new border size control
 	text = renderText("Stats Border Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"statsBorderSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -977,13 +939,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new overall size control
 	text = renderText("Stats Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"statsSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1007,7 +967,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"squareStatsBars",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1038,7 +997,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"linkNameplateToStats",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1063,7 +1021,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"squareNameplateBars",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1083,13 +1040,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new border size control
 	text = renderText("Nameplate Border Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"nameplateBorderSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1108,13 +1063,11 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	// new overall size control
 	text = renderText("Nameplate Size", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"nameplateSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1138,7 +1091,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"nameplateOpacity",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1170,7 +1122,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"imageSmoothing",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1201,7 +1152,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"roundUpgrades",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1219,7 +1169,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"pointy",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1237,7 +1186,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"uiScale",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1254,7 +1202,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"fontStrokeRatio",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1271,7 +1218,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"fontSizeBoost",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1288,7 +1234,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"vignetteStrength",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1305,7 +1250,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"barWidth",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1322,7 +1266,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"barStyle",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1339,7 +1282,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"fontFamily",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 5,
 		y,
 		text.height * 5,
@@ -1362,7 +1304,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"theme",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 5,
 		y,
 		text.height * 5,
@@ -1379,7 +1320,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"shaders",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 5,
 		y,
 		text.height * 5,
@@ -1396,7 +1336,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"filter",
 		"dropdown",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 4,
 		y,
 		text.height * 4,
@@ -1413,7 +1352,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"neonMode",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1435,7 +1373,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"glassMode",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1453,7 +1390,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"tintedDamage",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1471,7 +1407,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"tintedHealth",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1489,7 +1424,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"coloredHealthBars",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1513,7 +1447,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"noBorders",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1531,7 +1464,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"darkBorders",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1549,7 +1481,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"rgbBorders",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1567,7 +1498,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"inverseBorderColor",
 		"checkbox",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height,
 		y,
 		text.height,
@@ -1585,7 +1515,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"borderWidth",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1610,7 +1539,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"inputElementsCacheInterval",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,
@@ -1627,7 +1555,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	renderInput(
 		"textRenderCacheSize",
 		"number",
-
 		x + width - SETTINGS_CONFIG.PADDING - text.height * 3,
 		y,
 		text.height * 3,

@@ -1,4 +1,3 @@
-- Setting Profiles
 - Fix dumb gaps in /scenes/settings
 - Redo chat
 - Fix up/redo minimap
