@@ -78,6 +78,8 @@ const defaultSettings = {
 	shaders: "Disabled",
 	filter: "Disabled",
 
+    chatOverlayPos: "Over Map",
+
 	// Input Elements
 	inputElementsCacheInterval: 1000,
 	textRenderCacheSize: 7500
@@ -157,6 +159,7 @@ const settingTypes = {
 	theme: "dropdown",
 	shaders: "dropdown",
 	filter: "dropdown",
+    chatOverlayPos: "dropdown",
 
 	// Input Elements
 	inputElementsCacheInterval: "number",
@@ -305,6 +308,11 @@ const settingLimits = {
 		"Inverted",
 		"Sepia"
 	],
+    chatOverlayPosOptions: [
+        "Over Map",
+        "Above Map",
+        "Next to Map"
+    ],
 
 	// Input Elements
 	inputElementsCacheIntervalMin: 1,

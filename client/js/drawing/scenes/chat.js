@@ -18,7 +18,7 @@ import { keyboard } from "../../controls/keyboard.js";
 import { lerp } from "../../lerp.js";
 import { hideCursorTextBox, showCursorTextBox } from "./cursorUi.js";
 import { getColor } from "../../colors.js";
-
+// currentSettings.chatOverlayPos.value.selected 
 const state = {
 	messagePadding: 5,
 	padding: 5,
@@ -59,11 +59,14 @@ class ChatMessage {
 	constructor(sender, content, textColor, backgroundColor, entityId = false) {
 		this.sender = sender;
 		this.content = content;
-		this.textColor = textColor;
+		this.textColor = typeof textColor === "number"
+				? getColor(textColor)
+				: textColor || "transparent";
 		this.backgroundColor =
 			typeof backgroundColor === "number"
 				? getColor(backgroundColor)
 				: backgroundColor || "transparent";
+        console.log(this.backgroundColor, backgroundColor)
 		this.entityId = entityId;
 		this.creationStamp = performance.now();
 		// start visible (alphaFade used for hover boost/fade) — new messages already use creationStamp-based fade
@@ -226,13 +229,20 @@ function draw({ canvas, ctx, delta }) {
 				);
 			}
 			lastEnterPress = Date.now();
-			console.log(state);
 			if (state.openedByEnter) {
 				closeChatMenu();
-				console.log(unforceFocusInput("chatInput"));
+				unforceFocusInput("chatInput");
 				state.openedByEnter = false;
 			}
-		}
+		},
+        undefined, // nothing on hover
+        () => {
+			if (state.openedByEnter) {
+				closeChatMenu();
+				unforceFocusInput("chatInput");
+				state.openedByEnter = false;
+			}
+        }
 	);
 	padding /= 1.5;
 

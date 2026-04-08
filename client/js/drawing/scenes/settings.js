@@ -476,7 +476,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 	);
 	y += text.height + SETTINGS_CONFIG.PADDING;
 
-	text = renderText("New Chat Duration", SETTING_TEXT_SIZE);
+	text = renderText("Chat Overlay Duration", SETTING_TEXT_SIZE);
 	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
 	renderInput(
 		"closedMessageShowDuration",
@@ -491,8 +491,31 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		},
 		() => {
 			showCursorTextBox(
-				"New Chat Duration",
+				"Chat Overlay Duration",
 				"How long in milliseconds new chats will linger on the side with the chat menu closed."
+			);
+		},
+		hideCursorTextBox
+	);
+	y += text.height + SETTINGS_CONFIG.PADDING;
+
+	text = renderText("Chat Overlay Position", SETTING_TEXT_SIZE);
+	ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+	renderInput(
+		"chatOverlayPos",
+		"dropdown",
+		x + width - SETTINGS_CONFIG.PADDING - text.height * 5,
+		y,
+		text.height * 5,
+		text.height,
+		currentSettings.chatOverlayPos.value.selected,
+		(newValue) => {
+			currentSettings.chatOverlayPos.value.selected = newValue;
+		},
+		() => {
+			showCursorTextBox(
+				"Chat Overlay Position",
+                "Controls where chat messages will appear when the chat menu is closed"
 			);
 		},
 		hideCursorTextBox

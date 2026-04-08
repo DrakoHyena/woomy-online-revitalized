@@ -442,7 +442,7 @@ function renderNumber(
 				inputCallback(element.oldValue);
 				element.inputBuffer = "";
 			}
-			element.focused = false || element.forcedFocus;
+			element.focused = element.forcedFocus = false;
 			element.cancelSubmit = false;
 		}
 	} else {
@@ -495,7 +495,7 @@ function renderTextInput(
 				inputCallback(element.oldValue);
 				element.inputBuffer = "";
 			}
-			element.focused = false || element.forcedFocus;
+			element.focused = element.forcedFocus = false;
 			element.cancelSubmit = false;
 		}
 	} else {

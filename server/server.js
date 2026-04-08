@@ -9643,19 +9643,10 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 								return
 							}
 
-							// Parse the message and see if theyre saying some bad words
-							let text = m[0];
-							text = util.cleanString(text, 50);
-							for (let Text of bannedPhrases) {
-								if (text.toLowerCase().includes(Text)) {
-									this.error("msg", "Inappropriate message (" + trimName(text) + ")");
-									return 1;
-								}
-							}
-							if (!text.length) return 1;
-							
+							let text = util.cleanString(m[0], 50);
+							if (text.length === 0) return;
 							for (const socket of clients) {
-								socket.talk(serverPackets.chatMessage, this.player.body.id, `${this.player.body.name} (TEAM ${this.player.team})`, text, "#FFFFFF", 0)
+								socket.talk(serverPackets.chatMessage, this.player.body.id, `${this.player.body.name}`, text, "#FFFFFF", this.player.body.color)
 							}
 							break;
 						case clientPackets.requestEntityMockups:
