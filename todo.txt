@@ -1,5 +1,4 @@
 - Improve chat design
-  - Display over minimap, to the left, or above
   - currentSettings.chatOverlayPos.value.selected
 - Improve leaderboard design
   - compact mode
