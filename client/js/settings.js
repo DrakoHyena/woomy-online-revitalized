@@ -363,7 +363,6 @@ function convertSettings(obj) {
 				`Setting "${key}" is not defined in the defaults, are your provided settings correct?`
 			);
 		}
-		console.log(key, value);
 		newObj[key] = new Setting(key, settingTypes[key], value);
 	}
 	return newObj;

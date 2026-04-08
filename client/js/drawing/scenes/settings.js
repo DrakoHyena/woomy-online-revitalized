@@ -1134,7 +1134,7 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 		() => {
 			showCursorTextBox(
 				"Image Smoothing",
-				"Toggles image smoothing. Note: This might affect performance on some devices and could lead to blurriness or other visual artifacts. Takes effect when restarting/resizing."
+				"Toggles image smoothing. Requires restart to take full effect. Note: This might affect performance and lead to visual artifacts on some devices."
 			);
 		},
 		hideCursorTextBox
@@ -1647,7 +1647,6 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
 
 		y += text.height + SETTINGS_CONFIG.PADDING;
 	}
-	console.log(getSavedSettings().activeProfile);
 	lowestY = y;
 	ctx.restore();
 });

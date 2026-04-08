@@ -42,6 +42,7 @@ const elements = new Map();
 function createElement() {
 	return {
 		focused: false,
+		forcedFocus: false,
 		lastRender: performance.now(),
 		debounce: 0,
 		inputBuffer: "",
@@ -54,7 +55,7 @@ function createElement() {
 		checkboxValue: false,
 		checkboxTransitionStart: 0,
 		checkboxTransitionFrom: 0,
-		wasHovering: false,
+		wasFocused: false,
 		currentScale: 1.0
 	};
 }
@@ -419,15 +420,30 @@ function renderNumber(
 
 		handleKeyboardInput(element, "number");
 
-		if (element.inputBuffer !== "") {
-			const parsed = parseFloat(element.inputBuffer);
-			if (!isNaN(parsed) && setting?.value) {
-				const clamped = Math.min(
-					setting.value.max,
-					Math.max(setting.value.min, parsed)
-				);
-				inputCallback(clamped);
+		let parsed = parseFloat(element.inputBuffer);
+		if (!isNaN(parsed) && setting?.value) {
+			parsed = Math.min(
+				setting.value.max,
+				Math.max(setting.value.min, parsed)
+			);
+		}
+
+		// Only submit value on Enter or blur
+		if (element.shouldSubmit) {
+			inputCallback(parsed);
+			element.focused = false || element.forcedFocus;
+			if (element.focused) {
+				element.inputBuffer = "";
 			}
+			element.shouldSubmit = false;
+		} else if (element.cancelSubmit) {
+			// Revert to original value on Escape
+			if (element.oldValue !== null) {
+				inputCallback(element.oldValue);
+				element.inputBuffer = "";
+			}
+			element.focused = false || element.forcedFocus;
+			element.cancelSubmit = false;
 		}
 	} else {
 		ctx.fillStyle = COLORS.border;
@@ -467,10 +483,9 @@ function renderTextInput(
 
 		// Only submit value on Enter or blur
 		if (element.shouldSubmit) {
-			const keepFocus = inputCallback(element.inputBuffer);
-			if (!keepFocus) {
-				element.focused = false;
-			} else if (keepFocus === true) {
+			inputCallback(element.inputBuffer);
+			element.focused = false || element.forcedFocus;
+			if (element.focused) {
 				element.inputBuffer = "";
 			}
 			element.shouldSubmit = false;
@@ -480,7 +495,7 @@ function renderTextInput(
 				inputCallback(element.oldValue);
 				element.inputBuffer = "";
 			}
-			element.focused = false;
+			element.focused = false || element.forcedFocus;
 			element.cancelSubmit = false;
 		}
 	} else {
@@ -651,16 +666,9 @@ function renderInput(
 	if (isInteracting) {
 		if (hoverCallback) hoverCallback();
 		if (click && click.left) {
-			if (element.type === "number" || element.type === "text") {
-				keyboard.locked = true;
-			}
 			for (const [otherId, otherElem] of elements.entries()) {
 				if (otherId !== uniqueId) {
 					otherElem.focused = false;
-					otherElem.shouldSubmit = false;
-					otherElem.cancelSubmit = false;
-					otherElem.inputBuffer = "";
-					otherElem.wasHovering = false;
 				}
 			}
 			element.focused = true;
@@ -668,16 +676,18 @@ function renderInput(
 
 		targetScale = click.left ? SCALE.clicked : SCALE.hovered;
 	} else {
-		element.focused = false;
+		element.focused = false || element.forcedFocus;
 		element.oldValue = null;
 	}
-	if (element.wasHovering && !isInteracting) {
+	if (element.wasFocused && !(isInteracting || element.focused)) {
 		if (lostFocusCallback) lostFocusCallback();
+		element.wasFocused = false;
 		if (element.type === "number" || element.type === "text") {
+			element.inputBuffer = "";
 			keyboard.locked = false;
 		}
 	}
-	element.wasHovering = isInteracting;
+	element.wasFocused = isInteracting || element.focused;
 
 	// Update scale target for next frame
 	element.currentScale = lerp(
@@ -690,14 +700,17 @@ function renderInput(
 	// Doesnt matter that it happens every frame..
 	// ..ensures oldValue replacing
 	if (type === "number" || type === "text") {
-		if (element.focused && element.oldValue !== null) {
-			if (type === "number") {
-				const parsed = parseFloat(element.inputBuffer);
-				if (element.inputBuffer === "" || isNaN(parsed)) {
+		if (element.focused) {
+			keyboard.locked = true;
+			if (element.oldValue !== null) {
+				if (type === "number") {
+					const parsed = parseFloat(element.inputBuffer);
+					if (element.inputBuffer === "" || isNaN(parsed)) {
+						inputCallback(element.oldValue);
+					}
+				} else if (type === "text" && element.inputBuffer === "") {
 					inputCallback(element.oldValue);
 				}
-			} else if (type === "text" && element.inputBuffer === "") {
-				inputCallback(element.oldValue);
 			}
 		} else {
 			element.oldValue = value;
@@ -780,42 +793,34 @@ function renderInput(
 // Exports
 // ============================================================================
 
-function focusInput(uniqueId, { initialValue = null }) {
+function forceFocusInput(uniqueId) {
 	const element = getOrCreateElement(uniqueId);
-	element.focused = true;
-	element.wasHovering = true; // Prevent immediate lost-focus handling
-	if (initialValue !== null) {
-		element.oldValue = initialValue;
-	}
-	element.inputBuffer = "";
-	element.shouldSubmit = false;
-	element.cancelSubmit = false;
-	element.lastRender = performance.now();
-	keyboard.locked = true;
+	element.focused = element.forcedFocus = true;
 	return element;
 }
 
-function isTextOrNumberFocused() {
-	for (const e of elements.values()) {
-		if (e.focused && (e.type === "number" || e.type === "text"))
-			return true;
-	}
-	return false;
+function unforceFocusInput(uniqueId) {
+	const element = getOrCreateElement(uniqueId);
+	element.forcedFocus = false;
+	return element;
 }
 
-function blurAllTextNumberInputs() {
-	// TODO: redo chat
-}
-
-function isElementFocused(uniqueId) {
+function isInputFocused(uniqueId) {
 	const e = elements.get(uniqueId);
 	return !!(e && e.focused);
 }
 
+function isAnyInputFocused() {
+	for (const e of elements.values()) {
+		if (e.focused) return true;
+	}
+	return false;
+}
+
 export {
 	renderInput,
-	focusInput,
-	isTextOrNumberFocused,
-	blurAllTextNumberInputs,
-	isElementFocused
+	forceFocusInput,
+	unforceFocusInput,
+	isInputFocused,
+	isAnyInputFocused
 };
