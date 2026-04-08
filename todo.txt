@@ -1,13 +1,15 @@
-- Redo chat
+- Improve chat design
+  - Body color for chat messages
+  - Display over minimap, to the left, or above
+- Improve leaderboard design
+  - compact mode
 - Making text/number inputs not so jank
   - Random repeating
   - Incorrect typed char as last
 - Fix up/redo minimap
 - Flesh out gameplay rendering (more detail needed)
-- Clean up client file structure
-
-- Replace map icon with no lines ver
 - Fleshout/clean up/implement all settings
-- clean up index.html and others
+- Clean up client file structure
+- Clean up index.html and others
 
 
