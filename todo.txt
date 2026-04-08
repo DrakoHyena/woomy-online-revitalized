@@ -1,5 +1,4 @@
 - Improve chat design
-  - Body color for chat messages
   - Display over minimap, to the left, or above
   - currentSettings.chatOverlayPos.value.selected
 - Improve leaderboard design
