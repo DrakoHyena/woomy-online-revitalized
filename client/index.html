@@ -3,261 +3,264 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
-	href="https://fonts.googleapis.com/css2?family=Nabla&family=Rubik+80s+Fade&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee&family=Cutive+Mono&family=Dancing+Script:wght@500&family=Fredoka+One&family=Indie+Flower&family=Merienda&family=Nanum+Brush+Script&family=Neonderthaw&family=Pacifico&family=Passion+One&family=Permanent+Marker&family=Rampart+One&family=Roboto+Mono:wght@500&family=Share+Tech+Mono&family=Syne+Mono&family=Ubuntu:wght@400;700&family=Zen+Dots&display=swap"
-	rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Nabla&family=Rubik+80s+Fade&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee&family=Cutive+Mono&family=Dancing+Script:wght@500&family=Fredoka+One&family=Indie+Flower&family=Merienda&family=Nanum+Brush+Script&family=Neonderthaw&family=Pacifico&family=Passion+One&family=Permanent+Marker&family=Rampart+One&family=Roboto+Mono:wght@500&family=Share+Tech+Mono&family=Syne+Mono&family=Ubuntu:wght@400;700&family=Zen+Dots&display=swap"
+    rel="stylesheet">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Woomy Online</title>
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
-	<meta name="robots" content="index, follow">
-	<meta property="og:image" content="./resources/favicon-66x66-k.png" />
-	<meta property="og:image:width" content="52" />
-	<meta property="og:image:height" content="52" />
-	<!-- Favicons -->
-	<link rel="icon" type="image/png" sizes="192x192" href="./resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="./resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="./resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="./resources/favicon-66x66-k.png">
-	<meta name="theme-color" content="#8ABC3F">
+    <meta charset="UTF-8">
+    <title>Woomy Online</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:image" content="./resources/favicon-66x66-k.png" />
+    <meta property="og:image:width" content="52" />
+    <meta property="og:image:height" content="52" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="./resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./resources/favicon-66x66-k.png">
+    <meta name="theme-color" content="#8ABC3F">
 
-	<script src="/js/extLib/peerjs.min.js"></script>
-	<link rel="stylesheet" href="./menu.css">
+    <script src="/js/extLib/peerjs.min.js"></script>
+    <link rel="stylesheet" href="./menu.css">
 </head>
 
 <body oncontextmenu="return false;" id="mainBody">
 
-	<div id="loadingScreen"
-		style="display:flex;position: absolute;z-index: 100000;background: black;color: white;width: 100%;height: 100%;justify-content: center;flex-direction: column;">
-		<h1 id="loadingText" style="color:white;font-size:xxx-large;">
-			Loading Files...
-		</h1>
-		<h5 style="color:white;font-size:xx-small;">
-			Made with love by Drako Hyena
-		</h5>
-	</div>
-	<script>
-		let loadingMenu = document.getElementById("loadingScreen")
-		let loadingText = document.getElementById("loadingText")
-		let dotCounter = 0
-		let loadingMenuInterval = setInterval(() => {
-			dotCounter++
-			let str = ""
-			let text = "Loading Files...";
-			if (dotCounter === text.length) dotCounter = 0
-			for (let i = 0; i < text.length; i++) {
-				if (dotCounter === i) {
-					str += `<i style="color:white;font-size:xxx-large;">${text[i]}</i>`
-					continue;
-				}
-				str += text[i]
-			}
-			loadingText.innerHTML = str
-		}, 100);
+    <div id="loadingScreen"
+        style="display:flex;position: absolute;z-index: 100000;background: black;color: white;width: 100%;height: 100%;justify-content: center;flex-direction: column;">
+        <h1 id="loadingText" style="color:white;font-size:xxx-large;">
+            Loading Files...
+        </h1>
+        <h5 style="color:white;font-size:xx-small;">
+            Made with love by Drako Hyena
+        </h5>
+    </div>
+    <script>
+        let loadingMenu = document.getElementById("loadingScreen")
+        let loadingText = document.getElementById("loadingText")
+        let dotCounter = 0
+        let loadingMenuInterval = setInterval(() => {
+            dotCounter++
+            let str = ""
+            let text = "Loading Files...";
+            if (dotCounter === text.length) dotCounter = 0
+            for (let i = 0; i < text.length; i++) {
+                if (dotCounter === i) {
+                    str += `<i style="color:white;font-size:xxx-large;">${text[i]}</i>`
+                    continue;
+                }
+                str += text[i]
+            }
+            loadingText.innerHTML = str
+        }, 100);
 
-		(async () => {
-			const loadModule = async (url, retries = 6) => {
-				for (let i = 0; i < retries; i++) {
-					try {
-						return await new Promise((resolve, reject) => {
-							const script = document.createElement('script');
-							script.type = 'module';
-							script.src = url;
-							script.onload = () => {
-								script.remove(); // Keep the DOM clean
-								resolve();
-							};
-							script.onerror = () => {
-								script.remove();
-								reject();
-							};
-							document.head.appendChild(script);
-						});
-					} catch (error) {
-						if (i === retries - 1) throw new Error(`Failed to load ${url}`);
-						await new Promise(res => setTimeout(res, 500)); // Wait before retry
-					}
-				}
-			};
+        (async () => {
+            const loadModule = async (url, retries = 6) => {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        return await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.type = 'module';
+                            script.src = url;
+                            script.onload = () => {
+                                script.remove(); // Keep the DOM clean
+                                resolve();
+                            };
+                            script.onerror = () => {
+                                script.remove();
+                                reject();
+                            };
+                            document.head.appendChild(script);
+                        });
+                    } catch (error) {
+                        if (i === retries - 1) throw new Error(`Failed to load ${url}`);
+                        await new Promise(res => setTimeout(res, 500)); // Wait before retry
+                    }
+                }
+            };
 
-			try {
-				const filePaths = await (await fetch("/api/getJsFileList")).json();
+            try {
+                const filePaths = await (await fetch("/api/getJsFileList")).json();
 
-				await Promise.all(
-					filePaths.map(path => loadModule(`/js/${path.replaceAll("\\", "/")}`))
-				);
-				console.log("All modules pre-loaded successfully.");
-				loadingMenu.remove();
-				clearInterval(loadingMenuInterval);
-				import("/js/app.js");
+                await Promise.all(
+                    filePaths.map(path => loadModule(`/js/${path.replaceAll("\\", "/")}`))
+                );
+                console.log("All modules pre-loaded successfully.");
+                loadingMenu.remove();
+                clearInterval(loadingMenuInterval);
+                import("/js/app.js");
 
-			} catch (error) {
-				console.error("Module pre-loading failed:", error);
-			}
-		})();
-	</script>
+            } catch (error) {
+                console.error("Module pre-loading failed:", error);
+            }
+        })();
+    </script>
 
-	<div id="gameAreaWrapper">
-		<canvas id="gameCanvas" tabindex="1"></canvas>
-		<canvas id="vignetteCanvas" class="passThroughClick"></canvas>
-	</div>
+    <div id="gameAreaWrapper">
+        <canvas id="gameCanvas" tabindex="1"></canvas>
+        <canvas id="vignetteCanvas" class="passThroughClick"></canvas>
+    </div>
 
-	<div class="popup" style="display: none;">
-		<h1>Title</h1>
-		<span>Message</span><br />
-		<div>
-			<button onclick="document.querySelector('.popup').style.display = 'none';">Close</button>
-		</div>
-	</div>
+    <div class="popup" style="display: none;">
+        <h1>Title</h1>
+        <span>Message</span><br />
+        <div>
+            <button onclick="document.querySelector('.popup').style.display = 'none';">Close</button>
+        </div>
+    </div>
 
-	<div class="achievementsHolder" id="achievementsHolder">
-		<div id="achievementsClose"
-			onclick="document.getElementsByClassName('achievementsHolder')[0].style.display = 'none'"></div>
-		<h1 id="achievementsHeader">Achievements</h1>
-		<hr>
-		<div id="achievementsDisplay" class="shadowScroll"></div>
-		<h1>Player Stats</h1>
-		<hr>
-		<table id="achievementsStatsTable"></table>
-	</div>
+    <div class="achievementsHolder" id="achievementsHolder">
+        <div id="achievementsClose"
+            onclick="document.getElementsByClassName('achievementsHolder')[0].style.display = 'none'"></div>
+        <h1 id="achievementsHeader">Achievements</h1>
+        <hr>
+        <div id="achievementsDisplay" class="shadowScroll"></div>
+        <h1>Player Stats</h1>
+        <hr>
+        <table id="achievementsStatsTable"></table>
+    </div>
 
-	<div id="modBrowser" style="top: -100%;">
-		<div class="modTab">
-			<div class="modTabMenuButtonHolder">
-				<button class="modTabMenuButton modTabButtonSelected">Featured</button>
-				<button class="modTabMenuButton modTabButtonUnselected">All</button>
-				<button class="modTabMenuButton modTabButtonUnselected">Library</button>
-				<button class="modTabMenuButton modTabButtonUnselected" style="width: auto;">+</button>
-			</div>
-			<button class="modTabExitButton" id="modBrowserClose">Close</button>
-		</div>
-		<div class="modMenu">
-			<div class="modInfo">
-				<h1>Mod Name</h1>
-				<img class="modImage" id="modImage">
-				<h2>By: Author</h2>
-				<p>Long Description</p>
-				<button>Add to mods</button>
-			</div>
-			<div class="modList">
-				<input id="modSearch" placeholder="Search for mods...">
-				<div class="modEntry">
-					<div class="modEntryText">
-						<h1>Mod Name</h1>
-						<p>Brief Description</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div id="modBrowser" style="top: -100%;">
+        <div class="modTab">
+            <div class="modTabMenuButtonHolder">
+                <button class="modTabMenuButton modTabButtonSelected">Featured</button>
+                <button class="modTabMenuButton modTabButtonUnselected">All</button>
+                <button class="modTabMenuButton modTabButtonUnselected">Library</button>
+                <button class="modTabMenuButton modTabButtonUnselected" style="width: auto;">+</button>
+            </div>
+            <button class="modTabExitButton" id="modBrowserClose">Close</button>
+        </div>
+        <div class="modMenu">
+            <div class="modInfo">
+                <h1>Mod Name</h1>
+                <img class="modImage" id="modImage">
+                <h2>By: Author</h2>
+                <p>Long Description</p>
+                <button>Add to mods</button>
+            </div>
+            <div class="modList">
+                <input id="modSearch" placeholder="Search for mods...">
+                <div class="modEntry">
+                    <div class="modEntryText">
+                        <h1>Mod Name</h1>
+                        <p>Brief Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div id="gameJoinScreen" style="z-index: -101">
-		<div class="gameJoinCloseHolder">
-			<button class="gameJoinClose" id="gameJoinClose">Close</button>
-		</div>
-		<div class="gameJoinBox">
-			<div class="joinSidebar">
-				<div class="joinInfo">
-					<h1>This is the tale of...</h1>
-					<input id="nameInput" class="joinNameInput" placeholder="Enter Name Here">
-					<input id="tokenInput" class="joinTokenInput" placeholder="Token (Optional)" type="password">
-				</div>
-				<div class="joinRoomInfo">
-					<h2>Players: <span id="roomInfoPlayerAmount">0</span></h2>
-					<h2 id="roomInfoGamemode">Gamemode</h2>
-					<img id="roomInfoGamemodeImage" alt="Gamemode Image">
-					<p id="roomInfoGamemodeDescription">Gamemode Description</p>
-					<h2>Settings:</h2>
-					<p class="joinRoomSetting">Max Players: <input autocomplete="false" type="number" value="99" min="1" class="joinRoomSettingInput" id="roomInfoSettingsMaxPlayerInput"></p>
-					<p class="joinRoomSetting">Bot Amount: <input autocomplete="false" type="number" value="20" min="0" class="joinRoomSettingInput" id="roomInfoSettingsMaxBotsInput"></p>
-					<h2 style="display: none;">Mods:</h2>
-					<div class="joinRoomModList" style="display: none;">
-						<div id="modListTemplate" class="modListEntry" style="display: none;">
-							<div class="modListHeader">
-								<img alt="Mod Image">
-								<h2>Mod Name</h2>
-								<button id="modListAddRemove" class="modListHeaderAdd">+</button>
-							</div>
-							<p>Mod Description...</p>
-						</div>
-						<h5>Available in future updates</h5>
-					</div>
-				</div>
-				<button id="joinActionButton" class="joinActionButton">Join Room</button>
-			</div>
-			<div class="joinBrowser">
-				<input id="joinSearch" class="joinSearch" placeholder="Search...">
-				<div class="joinSearchButtons">
-					<div class="joinSearchButtonGroup">
-						<button id="joinFilter" class="joinSearchButtonSelected">Join</button>
-						<button id="hostFilter" class="joinSearchButtonUnselected">Host</button>
-					</div>
-					<div class="joinSearchButtonGroup">
-						<button id="galleryFilter" class="joinSearchButtonSelected">Gallery</button>
-						<button id="listFilter" class="joinSearchButtonUnselected">List</button>
-					</div>
-				</div>
-				<div class="joinEntryHolder shadowScroll">
-					<div id="joinEntryGalleryTemplate" class="gameEntryGallery" style="display: none;">
-						<div class="gameEntryGalleryText">
-							<h2>Gamemode</h2>
-							<p>0 Players</p>
-							<p>######</p>
-						</div>
-					</div>
+    <div id="gameJoinScreen" style="z-index: -101">
+        <div class="gameJoinCloseHolder">
+            <button class="gameJoinClose" id="gameJoinClose">Close</button>
+        </div>
+        <div class="gameJoinBox">
+            <div class="joinSidebar">
+                <div class="joinInfo">
+                    <h1>This is the tale of...</h1>
+                    <input id="nameInput" class="joinNameInput" placeholder="Enter Name Here">
+                    <input id="tokenInput" class="joinTokenInput" placeholder="Token (Optional)" type="password">
+                </div>
+                <div class="joinRoomInfo">
+                    <h2>Players: <span id="roomInfoPlayerAmount">0</span></h2>
+                    <h2 id="roomInfoGamemode">Gamemode</h2>
+                    <img id="roomInfoGamemodeImage" alt="Gamemode Image">
+                    <p id="roomInfoGamemodeDescription">Gamemode Description</p>
+                    <h2>Settings:</h2>
+                    <p class="joinRoomSetting">Max Players: <input autocomplete="false" type="number" value="99" min="1"
+                            class="joinRoomSettingInput" id="roomInfoSettingsMaxPlayerInput"></p>
+                    <p class="joinRoomSetting">Bot Amount: <input autocomplete="false" type="number" value="10" min="0"
+                            class="joinRoomSettingInput" id="roomInfoSettingsMaxBotsInput"></p>
+                    <h2 style="display: none;">Mods:</h2>
+                    <div class="joinRoomModList" style="display: none;">
+                        <div id="modListTemplate" class="modListEntry" style="display: none;">
+                            <div class="modListHeader">
+                                <img alt="Mod Image">
+                                <h2>Mod Name</h2>
+                                <button id="modListAddRemove" class="modListHeaderAdd">+</button>
+                            </div>
+                            <p>Mod Description...</p>
+                        </div>
+                        <h5>Available in future updates</h5>
+                    </div>
+                </div>
+                <button id="joinActionButton" class="joinActionButton">Join Room</button>
+            </div>
+            <div class="joinBrowser">
+                <input id="joinSearch" class="joinSearch" placeholder="Search...">
+                <div class="joinSearchButtons">
+                    <div class="joinSearchButtonGroup">
+                        <button id="joinFilter" class="joinSearchButtonSelected">Join</button>
+                        <button id="hostFilter" class="joinSearchButtonUnselected">Host</button>
+                    </div>
+                    <div class="joinSearchButtonGroup">
+                        <button id="galleryFilter" class="joinSearchButtonSelected">Gallery</button>
+                        <button id="listFilter" class="joinSearchButtonUnselected">List</button>
+                    </div>
+                </div>
+                <div class="joinEntryHolder shadowScroll">
+                    <div id="joinEntryGalleryTemplate" class="gameEntryGallery" style="display: none;">
+                        <div class="gameEntryGalleryText">
+                            <h2>Gamemode</h2>
+                            <p>0 Players</p>
+                            <p>######</p>
+                        </div>
+                    </div>
 
-					<div id="joinEntryListTemplate" class="gameEntryList" style="display: none;">
-						<div class="gameEntryListText">
-							<h2>Gamemode</h2>
-							<p>0 Players</p>
-							<p>######</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div id="joinEntryListTemplate" class="gameEntryList" style="display: none;">
+                        <div class="gameEntryListText">
+                            <h2>Gamemode</h2>
+                            <p>0 Players</p>
+                            <p>######</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div id="mainWrapper">
-		<div id="startMenuWrapper">
-			<div id="startMenu">
-				<div class="startMenuHolder" style="padding-right: 18px;">
-					<iframe onclick="window.open('https://discord.gg/rqBfa6tYMm');"
-						src="https://discord.com/widget?id=1107334936094064750&theme=dark"
-						style="width: 100%; height: 100%;" allowtransparency="true" frameborder="0"></iframe>
-				</div>
-				<div class="startMenuHolder">
-					<center>
-						<a href="//woomy-site.glitch.me/" tabindex="-1"><img class="icon"
-								src="./resources/woomy-arras.io.png" alt="woomy" /></a>
-					</center>
-					<h1>Woomy Online</h1>
-					<button id="startButton" tabindex="2">Play</button>
-					<div class="miniButtonList">
-						<button id="controlsButton">Controls</button>
-						<button id="achievementsButton">Achievements</button>
-						<!-- Hidden untill implementation -->
-						<button id="modBrowserButton" style="display: none;">Mod Browser</button>
-						<!---->
-						<button id="historyAndCreditsButton">History & Credits</button>
-						<button id="wikiButton">Fan-made Wiki</button>
-					</div>
-				</div>
-				<div class="startMenuHolder shadowScroll" id="patchHolder" style="padding-left: 18px;">
-					<h3><b>Sit tight!</b></h3>
-					<li>Loading changelogs...</li>
-					<script>
-						void async function () {
-							document.getElementById("patchHolder").innerHTML = await (await fetch("./changelog.html")).text();
-						}()
-					</script>
-				</div>
-			</div>
-		</div>
-	</div>
-	<p id="legalDisclaimer" class="legalDisclaimer">Woomy Online is an independent, open-source project. | Legal: drakohyena@gmail.com</p>
+    <div id="mainWrapper">
+        <div id="startMenuWrapper">
+            <div id="startMenu">
+                <div class="startMenuHolder" style="padding-right: 18px;">
+                    <iframe onclick="window.open('https://discord.gg/rqBfa6tYMm');"
+                        src="https://discord.com/widget?id=1107334936094064750&theme=dark"
+                        style="width: 100%; height: 100%;" allowtransparency="true" frameborder="0"></iframe>
+                </div>
+                <div class="startMenuHolder">
+                    <center>
+                        <a href="//woomy-site.glitch.me/" tabindex="-1"><img class="icon"
+                                src="./resources/woomy-arras.io.png" alt="woomy" /></a>
+                    </center>
+                    <h1>Woomy Online</h1>
+                    <button id="startButton" tabindex="2">Play</button>
+                    <div class="miniButtonList">
+                        <button id="controlsButton">Controls</button>
+                        <button id="achievementsButton">Achievements</button>
+                        <!-- Hidden untill implementation -->
+                        <button id="modBrowserButton" style="display: none;">Mod Browser</button>
+                        <!---->
+                        <button id="historyAndCreditsButton">History & Credits</button>
+                        <button id="wikiButton">Fan-made Wiki</button>
+                    </div>
+                </div>
+                <div class="startMenuHolder shadowScroll" id="patchHolder" style="padding-left: 18px;">
+                    <h3><b>Sit tight!</b></h3>
+                    <li>Loading changelogs...</li>
+                    <script>
+                        void async function () {
+                            document.getElementById("patchHolder").innerHTML = await (await fetch("./changelog.html")).text();
+                        }()
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="legalDisclaimer" class="legalDisclaimer">Woomy Online is an independent, open-source project. | Legal:
+        drakohyena@gmail.com</p>
 </body>
 
 </html>
