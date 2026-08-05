@@ -19,8 +19,6 @@ warfront.runNpcs = function() {
 
 }
 
-let bluePercent = 0;
-let redPercent = 0;
 warfront.runTick = function(args) {
     let farthestBlue = 0;
     let farthestRed = args.room.width;
@@ -40,16 +38,11 @@ warfront.runTick = function(args) {
                 }
             }
 
-            if (entity.isPlayer) {
-                entity.displayText = `${bluePercent.toFixed(2)}% BLUE | ${bluePercent < redPercent ? "LOSING" : "WINNING"} | ${redPercent.toFixed(2)}% RED`
-                entity.displayTextColor = bluePercent > redPercent ? "#e0cf2f" : "#E02F6A"
-            }
-
         } else if (entity.team === RED) {
             if (entity.x < farthestRed) farthestRed = entity.x;
 
-            const diff = ent.x - entity.x
-            if (entity.x < ent.x) entity.accel.x += diff * .00175
+            const diff = entity.x - ent.x
+            if (entity.x < ent.x) entity.accel.x -= diff * .00175
 
             if (Math.abs(diff) > 300) {
                 if (entity.shield.amount > 1 && entity.shield.amount !== entity.shield.max) {
@@ -59,16 +52,9 @@ warfront.runTick = function(args) {
                 }
             }
 
-            if (entity.isPlayer) {
-                entity.displayText = `${bluePercent.toFixed(2)}% BLUE | ${bluePercent > redPercent ? "LOSING" : "WINNING"} | ${redPercent.toFixed(2)}% RED`
-                entity.displayTextColor = bluePercent < redPercent ? "#e0cf2f" : "#E02F6A"
-            }
-
         }
     })
 
-    bluePercent = (farthestBlue / args.room.width) * 100;
-    redPercent = ((args.room.width - farthestRed) / args.room.width) * 100;
     ent.x = (farthestBlue + farthestRed) / 2;
 }
 

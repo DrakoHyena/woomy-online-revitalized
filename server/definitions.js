@@ -744,6 +744,7 @@ const poison = (me, them, multiplier, duration) => {
         timer(() => {
             if (them.variables.poisoned && them.health.amount > 10) {
                 them.health.amount -= multiplier * 0.5;
+                them.collisionArray.push(me);
                 if (them.onDamaged) them.onDamaged(them, me, multiplier * 0.5)
                 if (me.onDealtDamage) me.onDealtDamage(me, them.multiplier * 0.5)
                 if (me.onDealtDamageUniv) me.onDealtDamageUniv(me, them.multiplier * 0.5)
@@ -822,6 +823,7 @@ const firePoison = (me, them, multiplier, duration) => {
         timer(() => {
             if (them.variables.onfire) {
                 them.health.amount -= multiplier * 0.5;
+                them.collisionArray.push(me);
                 if (them.onDamaged) them.onDamaged(them, me, multiplier * 0.5)
                 if (me.onDealtDamage) me.onDealtDamage(me, them.multiplier * 0.5)
                 if (me.onDealtDamageUniv) me.onDealtDamageUniv(me, them.multiplier * 0.5)
@@ -113384,14 +113386,16 @@ defExports.descenderBullet = { // Had poison
     TYPE: 'bullet',
     ACCEPTS_SCORE: false,
     BODY: {
-        PENETRATION: .9,
-        SPEED: 3.75,
-        RANGE: 90,
+        PENETRATION: 2.25,
+        SPEED: 4.25,
+        RANGE: 120,
         DENSITY: base.DENSITY * 64,
-        HEALTH: .25,
-        DAMAGE: 6,
+        HEALTH: .5,
+        DAMAGE: 6.75,
         PUSHABILITY: .3
     },
+    DIES_BY_OBSTACLES: false,
+    BOUNCE_ON_OBSTACLES: true,
     FACING_TYPE: 'smoothWithMotion',
     CAN_GO_OUTSIDE_ROOM: true,
     HITS_OWN_TYPE: 'never',
@@ -148615,10 +148619,19 @@ defExports.butaneGas = {
     MOTION_TYPE: 'glide',
     BODY: {
         HEALTH: 1000,
-        SPEED: .1,
-        RANGE: 500,
-        DAMAGE: 0
+        SPEED: 1,
+        ACCEL: .02,
+        RANGE: 250,
+        DAMAGE: 0.0175,
+        RESIST: 10,
+        PENETRATION: 100,
+        SHIELD: 1000,
+        REGEN: 10,
+        DENSITY: .01,
+        PUSHABILITY: 0
     },
+    DIES_BY_OBSTACLES: false,
+    BOUNCE_ON_OBSTACLES: true,
     INVISIBLE: [0, 1, 0.2],
     ON_COLLIDE: (me, them) => {
         if (!them.doesTorch || me.variables.doneCollide) return;
@@ -148632,8 +148645,8 @@ defExports.butaneGas = {
         for (const c of gun.childrenMap.values()) {
             child = c;
         }
-        child.velocity.x = me.velocity.x * .75;
-        child.velocity.y = me.velocity.y * .75;
+        child.velocity.x = me.velocity.x * 1.1;
+        child.velocity.y = me.velocity.y * 1.1;
         child.x = them.x
         child.y = them.y
         gun.canShoot = ogCanShoot;
@@ -148641,10 +148654,19 @@ defExports.butaneGas = {
 };
 defExports.butaneExplosion = {
     PARENT: [defExports.bullet],
-    MOTION_TYPE: 'crockett',
+    MOTION_TYPE: 'bigcrockett',
     LABEL: 'Explosion',
     BODY: {
-        RANGE: 50,
+        HEALTH: 5,
+        SPEED: 0,
+        ACCEL: 0,
+        DAMAGE: 1.1,
+        PENETRATION: 1.875,
+        SHIELD: 0,
+        REGEN: 0,
+        DENSITY: .35,
+        PUSHABILITY: 0,
+        RANGE: 30,
     },
     HITS_OWN_TYPE: "never",
     PERSISTS_AFTER_DEATH: true,
@@ -148686,7 +148708,7 @@ defExports.butane = {
     }, {
         POSITION: [25, 12, 1.6, 0, 0, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.less_recoil, g.less_recoil, g.more_reload, g.more_reload, g.more_reload, g.more_reload, g.bigger, g.bigger, g.bigger, g.bigger]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.less_recoil, g.less_recoil, g.double_reload, g.big_spread, g.more_reload, g.bigger, g.bigger, g.bigger, g.bigger]),
             TYPE: defExports.butaneGas,
         }
     }],
@@ -161346,6 +161368,17 @@ defExports.shredderBullet = {
     PARENT: [defExports.heatBullet],
     LABEL: 'Skilsaw',
     SHAPE: 277,
+    BODY: {
+        PENETRATION: 3,
+        SPEED: 5,
+        RANGE: 110,
+        DENSITY: 11.2, // about half ascender bullet
+        HEALTH: .85,
+        DAMAGE: 3,
+        PUSHABILITY: .2
+    },
+    DIES_BY_OBSTACLES: false,
+    BOUNCE_ON_OBSTACLES: true,
     PROPS: [{
         POSITION: [1, 0, 0, 0, 0],
         SHAPE: ((saw = []) => {
@@ -190498,6 +190531,7 @@ defExports.warfrontLine = {
     },
     FACING_TYPE: "vertical",
     TYPE: 'food',
+    MISC_IDENTIFIER: "appearOnMinimap",
     PASSIVE: true,
     SIZE: 800,
     DIES_TO_TEAM_BASE: false,
@@ -191055,7 +191089,7 @@ branch("dreadnoughts", "Dreadnoughts", [
 
 // Featured Tanks
 branch("featured_tanks", "Featured Tanks", [
-    defExports.surge, defExports.bloodbath, defExports.treatment, defExports.baller, defExports.basic
+    defExports.flakGun, defExports.descender, defExports.butane, defExports.orbitalstrike, defExports.obliterator, defExports.baller, defExports.shove31, defExports.shieldweaver, defExports.multishot, defExports.miniNukeShooter, defExports.clicker, defExports.packer, defExports.hexaTrap, defExports.cruiser, defExports.bent, defExports.basic
 ], "testbed_parent");
 
 branch("testbed_admin", "Admin Testbed", [

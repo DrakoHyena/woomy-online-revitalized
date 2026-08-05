@@ -7159,9 +7159,15 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     case "fastcrockett":
                         this.SIZE += 2;//+6
                         this.DAMAGE += 2;//+6
+                        break;
                     case "crockett":
                         this.SIZE += 2;
                         this.DAMAGE += 2;
+                        break;
+                    case "bigcrockett":
+                        this.SIZE += 4.2;
+                        this.DAMAGE += 2.75;
+                        break;
                     case "snowball":
                         this.SIZE += .15;
                         this.DAMAGE += 2;
@@ -10437,7 +10443,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             if (output.minimapSandboxes[my.sandboxId] != null) {
                                 output.minimapSandboxes[my.sandboxId].push(
                                     my.id,
-                                    (my.type === 'wall' || my.type === 'mazeWall') ? my.shape === 4 ? 2 : 1 : 0,
+                                    (my.type === 'wall' || my.type === 'mazeWall') ? my.shape === 4 ? 2 : 1 : my.shape === 192 ? 192 : 0, // walls, warfront, default,
                                     util.clamp(Math.floor(256 * my.x / room.width), 0, 255),
                                     util.clamp(Math.floor(256 * my.y / room.height), 0, 255),
                                     my.color ?? 0,
@@ -10449,7 +10455,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             } else {
                                 output.minimapAll.push(
                                     my.id,
-                                    (my.type === 'wall' || my.type === 'mazeWall') ? my.shape === 4 ? 2 : 1 : 0,
+                                    (my.type === 'wall' || my.type === 'mazeWall') ? my.shape === 4 ? 2 : 1 : my.shape === 192 ? 192 : 0, // walls, warfront, default,
                                     util.clamp(Math.floor(256 * my.x / room.width), 0, 255),
                                     util.clamp(Math.floor(256 * my.y / room.height), 0, 255),
                                     my.color ?? 0,

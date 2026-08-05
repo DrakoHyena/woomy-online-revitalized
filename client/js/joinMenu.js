@@ -201,7 +201,7 @@ const defaultGamemodes = [
     {
         name: "FFA",
         image: "/resources/gamemodes/ffa.webp",
-        description: "Everyone for themselves!",
+        description: "The genre classic. Everyone for themselves!",
         players: 0,
         code: "ffa.json",
     },
@@ -215,35 +215,28 @@ const defaultGamemodes = [
     {
         name: "2 TDM",
         image: "/resources/gamemodes/2tdm.webp",
-        description: "Fight in an all out war against another team!",
+        description: "Hold the nest in the middle of map and keep the other team back.",
         players: 0,
         code: "2tdm.json",
     },
     {
         name: "4 TDM",
         image: "/resources/gamemodes/4tdm.webp",
-        description: "Fight in an all out war against three other teams!",
+        description: "Try your best to keep the other teams away from your base and the nest in the middle.",
         players: 0,
         code: "4tdm.json",
     },
     {
-        name: "2 TDM",
-        image: "/resources/gamemodes/2tdm.webp",
-        description: "Fight in an all out war against another team!",
-        players: 0,
-        code: "2tdm.json",
-    },
-    {
         name: "Warfront",
         image: "/resources/gamemodes/warfront.webp",
-        description: "Hold the line of battle against the other team and push them back to their base. Additional players recommended.",
+        description: "Fight to push back the line of battle to the other team's base. Additional players recommended.",
         players: 0,
         code: "warfront.js",
     },
     {
         name: "Maze",
         image: "/resources/gamemodes/maze.webp",
-        description: "Free for all inside a maze!",
+        description: "Classic FFA inside a randomly generated maze.",
         players: 0,
         code: "maze.js",
     },
@@ -257,14 +250,14 @@ const defaultGamemodes = [
     {
         name: "Maze TDM",
         image: "/resources/gamemodes/maze_tdm.webp",
-        description: "Fight against other teams inside of a maze!",
+        description: "Fight against other teams inside of a randomly generated maze. Random team configurations upon starting. ",
         players: 0,
         code: "mazetdm.js",
     },
     {
         name: "Cave TDM",
         image: "/resources/gamemodes/cavetdm.webp",
-        description: "Fight against other teams inside of a cave system!",
+        description: "Fight against other teams inside of a cave system! Random team configurations upon starting. ",
         players: 0,
         code: "cavetdm.js",
     },
@@ -273,7 +266,7 @@ const defaultGamemodes = [
         name: "Maze TDM Blackout",
         image: "/resources/gamemodes/mazetdm_blackout.webp",
         description:
-            "Fight against other teams inside of a maze while in the dark...",
+            "Fight against other teams inside of a maze while in the dark... Random team configurations upon starting.",
         players: 0,
         code: "blackoutmazetdm.js",
     },
@@ -281,7 +274,7 @@ const defaultGamemodes = [
         name: "Cave TDM Blackout",
         image: "/resources/gamemodes/cavetdm_blackout.webp",
         description:
-            "Fight against other teams inside of a cave system while in the dark...",
+            "Fight against other teams inside of a cave system while in the dark... Random team configurations upon starting.",
         players: 0,
         code: "blackoutcavetdm.js",
     },
@@ -366,8 +359,7 @@ const defaultGamemodes = [
     {
         name: "Survival",
         image: "/resources/gamemodes/survival.webp",
-        description:
-            "Everyone for themselves but, you can't automatically level up. You gotta grind.",
+        description: "Classic FFA but even more classic. Get grinding.",
         players: 0,
         code: "srvivl.json",
     },
@@ -561,7 +553,7 @@ joinSearch.oninput = async function() {
         hostFilter.click();
         clearRooms();
         showGamemodes();
-        gamemodeEles[7].click(); // Host default gamemode: 4tdm
+        gamemodeEles[23 * Math.random() | 0].click(); // Host random default gamemode
     }
 })();
 

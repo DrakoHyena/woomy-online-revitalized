@@ -60,8 +60,8 @@ canvas {
     image-rendering: pixelated;
 }
 
-.passThroughClick{
-	pointer-events: none; 
+.passThroughClick {
+    pointer-events: none;
 }
 
 h1 {
@@ -147,7 +147,8 @@ input.checkbox {
     overflow: hidden;
 }
 
-input:focus, input.focus {
+input:focus,
+input.focus {
     border: solid 1px #cccccc;
     box-shadow: 0 0 3px 1px #dddddd;
 }
@@ -195,7 +196,7 @@ a:visited:hover {
     color: #c0c0ee;
 }
 
-.legalDisclaimer{
+.legalDisclaimer {
     z-index: 1000;
     position: absolute;
     left: 0;
@@ -225,7 +226,7 @@ a:visited:hover {
 }
 
 /* Mod Menu */
-#modBrowser{
+#modBrowser {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -239,15 +240,18 @@ a:visited:hover {
     z-index: 101;
     transition: .2s;
 }
-.modTab{
+
+.modTab {
     height: 5%;
     width: 80%;
     display: flex;
     justify-content: space-between;
 }
-.modTabMenuButtonHolder{
+
+.modTabMenuButtonHolder {
     width: 100%;
 }
+
 .modTabMenuButton {
     width: 12.25%;
     height: 90%;
@@ -262,25 +266,31 @@ a:visited:hover {
     font: 1.25vw Ubuntu;
     transition: .2s;
 }
-.modTabButtonSelected{
+
+.modTabButtonSelected {
     filter: saturate(1);
 }
-.modTabButtonSelected:hover{
+
+.modTabButtonSelected:hover {
     scale: .98;
     filter: brightness(.98);
 }
-.modTabButtonUnselected{
-    filter: saturate(0); 
+
+.modTabButtonUnselected {
+    filter: saturate(0);
 }
-.modTabButtonUnselected:hover{
+
+.modTabButtonUnselected:hover {
     scale: .98;
     filter: saturate(0) brightness(.98);
 }
-.modTabMenuButton:active{
+
+.modTabMenuButton:active {
     background: #749f34;
     scale: .9;
 }
-.modTabExitButton{
+
+.modTabExitButton {
     width: 12.25%;
     height: 90%;
     color: white;
@@ -295,14 +305,17 @@ a:visited:hover {
     transition: .2s;
     cursor: pointer;
 }
-.modTabExitButton:hover{
+
+.modTabExitButton:hover {
     scale: .98;
     filter: brightness(.98);
 }
-.modTabExitButton:active{
+
+.modTabExitButton:active {
     background: #ff0000;
     scale: .9;
 }
+
 .modMenu {
     display: flex;
     background: white;
@@ -322,15 +335,19 @@ a:visited:hover {
     background: #a6d469;
     border-right: 2px solid #749f34;
 }
-.modInfo > h1 {
+
+.modInfo>h1 {
     font-size: 2vw;
 }
-.modInfo > h2 {
+
+.modInfo>h2 {
     font-size: 1.75vw;
 }
-.modInfo > p {
+
+.modInfo>p {
     font-size: 1.5vw;
 }
+
 .modList {
     display: flex;
     flex-direction: row;
@@ -357,10 +374,12 @@ a:visited:hover {
     background-size: cover;
     transition: .35s;
 }
+
 .modEntry:hover {
     scale: 1.01;
 }
-.modEntryText{
+
+.modEntryText {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -370,29 +389,34 @@ a:visited:hover {
     border-radius: 5px 5px 5px 5px;
     transition: .75s;
 }
-.modEntryText:hover{
+
+.modEntryText:hover {
     backdrop-filter: blur(1px) brightness(.85);
 }
-.modEntryText > * {
+
+.modEntryText>* {
     color: white;
     margin: 0;
 }
-.modEntryText > h1 {
+
+.modEntryText>h1 {
     font-size: 2vw;
 }
-.modEntryText > h2 {
+
+.modEntryText>h2 {
     font-size: 1.75vw;
 }
-.modEntryText > p {
+
+.modEntryText>p {
     font-size: 1.5vw;
 }
 
-#modSearch{
+#modSearch {
     position: sticky;
 }
 
 /* Play Screen */
-#gameJoinScreen{
+#gameJoinScreen {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -404,10 +428,11 @@ a:visited:hover {
     background: var(--backgroundLink) repeat center center;
     background-size: cover;
     z-index: 101;
-	opacity: 0;
+    opacity: 0;
     transition: opacity .2s;
 }
-.gameJoinCloseHolder{
+
+.gameJoinCloseHolder {
     height: 2.5vw;
     width: 80%;
     margin-bottom: 5px;
@@ -415,7 +440,8 @@ a:visited:hover {
     justify-content: space-between;
     justify-content: flex-end;
 }
-.gameJoinClose{
+
+.gameJoinClose {
     width: 12.25%;
     height: 100%;
     color: white;
@@ -430,14 +456,17 @@ a:visited:hover {
     transition: .2s;
     cursor: pointer;
 }
-.gameJoinClose:hover{
+
+.gameJoinClose:hover {
     scale: .98;
     filter: brightness(.98);
 }
-.gameJoinClose:active{
+
+.gameJoinClose:active {
     background: #ff0000;
     scale: .9;
 }
+
 .gameJoinBox {
     display: flex;
     background: white;
@@ -447,6 +476,7 @@ a:visited:hover {
     border-radius: 5px 5px 5px 5px;
     border: 5px solid #749f34;
 }
+
 .joinSidebar {
     display: flex;
     flex-direction: column;
@@ -457,7 +487,8 @@ a:visited:hover {
     background: #a6d469;
     border-right: 3px solid #749f34;
 }
-.joinInfo{
+
+.joinInfo {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -465,26 +496,32 @@ a:visited:hover {
     height: 18vw;
     width: 100%;
 }
-.joinInfo > * {
+
+.joinInfo>* {
     margin: 2px;
 }
-.joinInfo > h1{
+
+.joinInfo>h1 {
     font-size: 1.75vw;
     margin: 5px;
 }
-#nameInput{
+
+#nameInput {
     width: 70%;
     height: 2vw;
     padding: 0px;
     font-size: 1.2vw;
 }
-#tokenInput{
+
+#tokenInput {
     width: 60%;
-    height: 1vw;;
+    height: 1vw;
+    ;
     padding: 5px;
     font-size: .5vw;
 }
-.joinRoomInfo{
+
+.joinRoomInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -496,57 +533,67 @@ a:visited:hover {
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
 .joinRoomInfo::-webkit-scrollbar {
     width: 4px;
 }
-.joinRoomInfo::-webkit-scrollbar-track{
-	background: transparent;
+
+.joinRoomInfo::-webkit-scrollbar-track {
+    background: transparent;
 }
-.joinRoomInfo > * {
+
+.joinRoomInfo>* {
     padding: 0;
     margin: 5px;
     text-align: center;
 }
-.joinRoomSettingInput[type="number"]{
-	width: 50%;
-	max-height: 1vw;
-	margin: 0;
+
+.joinRoomSettingInput[type="number"] {
+    width: 50%;
+    max-height: 1vw;
+    margin: 0;
 }
-.joinRoomSetting{
-	margin: 1;
+
+.joinRoomSetting {
+    margin: 1;
 }
-#roomInfoGamemodeImage{
-	width: 10vw;
-    height: auto;
+
+#roomInfoGamemodeImage {
+    max-width: 15vw;
+    max-height: 25vh;
     border: 3px solid #749f34;
-	border-radius: 5px;
+    border-radius: 5px;
 }
-.joinRoomModList{
+
+.joinRoomModList {
     background: var(--backgroundColor);
     border-radius: 5px;
     width: 90%;
     min-height: 10vw !important;
-	max-height: 10vw !important;
+    max-height: 10vw !important;
     margin-bottom: 5px;
     padding: 5px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.modListEntry{
+
+.modListEntry {
     width: 100%;
     border-radius: 5px;
     border-style: solid;
     border-width: 3px;
     border-color: rgba(0, 0, 0, .5);
 }
-.modListHeader{
+
+.modListHeader {
     height: 2vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 5px;
 }
-.modListHeader > img{
+
+.modListHeader>img {
     height: 1.5vw;
     width: 1.5vw;
     padding: 0;
@@ -554,11 +601,13 @@ a:visited:hover {
     border-width: 3px;
     border-color: rgba(0, 0, 0, .5);
 }
-.modListHeader > h2{
+
+.modListHeader>h2 {
     height: 1vw;
     font-size: 1vw;
 }
-.modListHeader > button{
+
+.modListHeader>button {
     font-size: .6vw;
     height: 1.5vw;
     width: 1.5vw;
@@ -569,21 +618,26 @@ a:visited:hover {
     color: white;
     transition: .1s;
 }
-.modListHeader > button:hover{
+
+.modListHeader>button:hover {
     scale: .95;
 }
-.modListHeader > button:active{
+
+.modListHeader>button:active {
     scale: .7;
 }
-.modListHeaderAdd{
+
+.modListHeaderAdd {
     background: green;
     cursor: pointer;
 }
-.modListHeaderRemove{
+
+.modListHeaderRemove {
     background: red;
     cursor: pointer;
 }
-.modListEntry > p{
+
+.modListEntry>p {
     width: auto;
     font-size: .75vw;
     padding: 5px;
@@ -591,7 +645,8 @@ a:visited:hover {
     border-width: 3px;
     border-color: rgba(0, 0, 0, .5);
 }
-.joinActionButton{
+
+.joinActionButton {
     height: 10vw;
     width: 100%;
     color: white;
@@ -603,13 +658,16 @@ a:visited:hover {
     font: 1.5vw Ubuntu;
     transition: .2s;
 }
-.joinActionButton:hover{
+
+.joinActionButton:hover {
     filter: brightness(.95);
 }
-.joinActionButton:active{
+
+.joinActionButton:active {
     background: #749f34;
     font-size: 1.45vw;
 }
+
 .joinBrowser {
     display: flex;
     flex-direction: row;
@@ -622,14 +680,16 @@ a:visited:hover {
     padding-top: 0px;
     padding-bottom: 10px;
 }
-.joinSearch{
+
+.joinSearch {
     position: sticky;
     top: 5px;
     left: 0;
     height: 3vw;
     font-size: 1.5vw;
 }
-.joinSearchButtons{
+
+.joinSearchButtons {
     position: sticky;
     top: calc(3vw + 10px);
     left: 0;
@@ -638,15 +698,18 @@ a:visited:hover {
     width: 100%;
     height: 2.5vw;
 }
-.joinSearchButtonGroup{
+
+.joinSearchButtonGroup {
     width: 100%;
 }
-.joinSearchButtonGroup:first-of-type > button{
+
+.joinSearchButtonGroup:first-of-type>button {
     float: left;
     margin-right: 0px;
     margin-left: 5px;
 }
-.joinSearchButtonGroup > button{
+
+.joinSearchButtonGroup>button {
     float: right;
     width: 40%;
     height: 100%;
@@ -662,25 +725,31 @@ a:visited:hover {
     transition: .2s;
     margin-right: 5px;
 }
-.joinSearchButtonGroup > button:active{
+
+.joinSearchButtonGroup>button:active {
     background: #749f34;
     scale: .9;
 }
-.joinSearchButtonSelected{
-    filter: saturate(1); 
+
+.joinSearchButtonSelected {
+    filter: saturate(1);
 }
-.joinSearchButtonSelected:hover{
+
+.joinSearchButtonSelected:hover {
     scale: .98;
     filter: brightness(.98);
 }
-.joinSearchButtonUnselected{
-    filter: saturate(0); 
+
+.joinSearchButtonUnselected {
+    filter: saturate(0);
 }
-.joinSearchButtonUnselected:hover{
+
+.joinSearchButtonUnselected:hover {
     scale: .98;
     filter: saturate(0) brightness(.98);
 }
-.joinEntryHolder{
+
+.joinEntryHolder {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -691,9 +760,10 @@ a:visited:hover {
     margin-top: 5px;
     padding: 5px;
     background-color: rgba(0, 0, 0, 0.075) !important;
-	border-radius: 5px;
+    border-radius: 5px;
 }
-.gameEntryGallery{
+
+.gameEntryGallery {
     background: var(--backgroundLink);
     background-size: cover !important;
     background-position: center !important;
@@ -703,13 +773,16 @@ a:visited:hover {
     transition: all .35s, filter 1s;
     margin: 5px;
 }
+
 .gameEntryGallery:hover {
     scale: 1.01;
 }
+
 .gameEntryGallery:active {
     filter: brightness(1.2);
     transition: filter .1s;
 }
+
 .gameEntryGalleryText {
     display: flex;
     flex-direction: column;
@@ -721,24 +794,28 @@ a:visited:hover {
     border-radius: 5px;
     transition: .75s;
 }
-.gameEntryGalleryText > h2{
+
+.gameEntryGalleryText>h2 {
     color: white;
     font-size: 2vw;
     margin: 0;
 }
-.gameEntryGalleryText > p {
+
+.gameEntryGalleryText>p {
     color: white;
     font-size: 1vw;
     margin: 0;
 }
-.gameEntryGalleryText > p > span{
+
+.gameEntryGalleryText>p>span {
     font-size: .75vw;
 }
-.gameEntryGalleryText:hover{
+
+.gameEntryGalleryText:hover {
     backdrop-filter: blur(1.5px) brightness(.85);
 }
 
-.gameEntryList{
+.gameEntryList {
     background: var(--backgroundLink);
     background-size: cover !important;
     background-position: center !important;
@@ -748,13 +825,16 @@ a:visited:hover {
     transition: all .35s, filter 1s;
     margin: 5px;
 }
+
 .gameEntryList:hover {
     scale: 1.005;
 }
+
 .gameEntryList:active {
     filter: brightness(1.2);
     transition: filter .1s;
 }
+
 .gameEntryListText {
     display: flex;
     flex-direction: row;
@@ -766,20 +846,24 @@ a:visited:hover {
     border-radius: 5px;
     transition: .75s;
 }
-.gameEntryListText > h2{
+
+.gameEntryListText>h2 {
     color: white;
     font-size: 2vw;
     margin: 0;
 }
-.gameEntryListText > p {
+
+.gameEntryListText>p {
     color: white;
     font-size: 1vw;
     margin: 0;
 }
-.gameEntryListText > p > span{
+
+.gameEntryListText>p>span {
     font-size: .75vw;
 }
-.gameEntryListText:hover{
+
+.gameEntryListText:hover {
     backdrop-filter: blur(1.5px) brightness(.85);
 }
 
@@ -796,10 +880,12 @@ a:visited:hover {
     background-size: cover;
     transition: .35s;
 }
+
 .modEntry:hover {
     scale: 1.01;
 }
-.modEntryText{
+
+.modEntryText {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -809,20 +895,25 @@ a:visited:hover {
     border-radius: 5px 5px 5px 5px;
     transition: .75s;
 }
-.modEntryText:hover{
+
+.modEntryText:hover {
     backdrop-filter: blur(1px) brightness(.85);
 }
-.modEntryText > * {
+
+.modEntryText>* {
     color: white;
     margin: 0;
 }
-.modEntryText > h1 {
+
+.modEntryText>h1 {
     font-size: 2vw;
 }
-.modEntryText > h2 {
+
+.modEntryText>h2 {
     font-size: 1.75vw;
 }
-.modEntryText > p {
+
+.modEntryText>p {
     font-size: 1.5vw;
 }
 
@@ -905,12 +996,13 @@ a:visited:hover {
     box-shadow: none;
 }
 
-.miniButtonList{
+.miniButtonList {
     display: flex;
     width: 95%;
     margin: auto;
 }
-.miniButtonList > button {
+
+.miniButtonList>button {
     height: 30px;
     width: 50%;
     margin: 1%;
@@ -927,7 +1019,8 @@ a:visited:hover {
     font: 10px Ubuntu;
     transition: .5s;
 }
-.miniButtonList > button:hover {
+
+.miniButtonList>button:hover {
     margin-top: 1px;
     height: 35px;
     border-bottom: 1px solid #749f34;
@@ -999,7 +1092,7 @@ input [type="image"]:focus {
     width: auto;
     max-width: 42%;
     height: 80%;
-	overflow-y: scroll;
+    overflow-y: scroll;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
