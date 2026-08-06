@@ -32,7 +32,7 @@ worker.onmessage = function(msg) {
                 worker.postMessage({ type: "serverStartText", text: "Loading game..." })
                 global.initExportCode = res.initExportCode
                 console.log("SERVER START DATA:", data.server)
-                startServer(data.server.suffix, res.defExports, data.server.displayName, data.server.displayDesc, data.server.maxPlayers, data.server.maxBots)
+                startServer(data.server.suffix, res.defExports, data.server.displayName, data.server.displayDesc, data.server.maxPlayers, data.server.maxBots, data.server.roomHostToken)
             }).catch((err) => {
                 console.error(err)
                 worker.postMessage({ type: "serverStartText", text: "Failed to load definitons", tip: "Please reload the page and try again" })
@@ -929,7 +929,7 @@ global.require = function(thing) {
 
 // THE SERVER //
 
-async function startServer(configSuffix, defExports, displyNameOverride, displayDescOverride, maxPlayersOverride, botAmountOverride) {
+async function startServer(configSuffix, defExports, displyNameOverride, displayDescOverride, maxPlayersOverride, botAmountOverride, roomHostToken) {
     configSuffix = configSuffix || "4tdm.json"
     //configSuffix = "blackout4tdm.json" 
     /*jslint node: true */
@@ -9042,12 +9042,25 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                 this.error("token verification", "Overly-long token offered");
                                 return 1;
                             }
+                            this.token = key;
+
                             if (this.status.verified) {
                                 this.error("spawn", "Duplicate spawn attempt", true);
                                 return 1;
                             }
 
-                            if (fs === undefined && players.length === 0) {
+
+                            if (fs === undefined) { // browser context
+                                if (players.length === 0) {
+                                    this.betaData = {
+                                        permissions: 3,
+                                        nameColor: "#ffa600",
+                                        username: "Much love <3 - Drako hyena",
+                                        globalName: "Room Host",
+                                        discordID: "1"
+                                    }
+                                }
+                            } else if (this.token === roomHostToken) { // nodejs context
                                 this.betaData = {
                                     permissions: 3,
                                     nameColor: "#ffa600",
@@ -9055,8 +9068,8 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                     globalName: "Room Host",
                                     discordID: "1"
                                 }
+
                             }
-                            this.token = key;
 
                             if (room.testingMode) {
                                 this.closeWithReason("This server is currently closed to the public; no players may join.");
