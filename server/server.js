@@ -713,7 +713,6 @@ global.require = function(thing) {
                     } else {
                         console.error("Unencodable data type!", block);
                         console.log(JSON.stringify(message), message.indexOf(block))
-                        throw new Error("Unencodable data type!");
                     }
                     headers.push(typeCode);
                     if (typeCode === lastTypeCode) repeatTypeCount++;
@@ -7919,11 +7918,21 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                     notJustFood = true;
                                 }
                                 master.skill.score += jackpot;
+                                if (this.type === "food") {
+                                    master.health.amount += jackpot * .03
+                                } else {
+                                    master.health.amount += jackpot * .005
+                                }
                                 if (!killers.includes(master)) {
                                     killers.push(master);
                                 }
                             } else if (o.settings.acceptsScore) {
                                 o.skill.score += jackpot;
+                                if (this.type === "food") {
+                                    master.health.amount += jackpot * .03
+                                } else {
+                                    master.health.amount += jackpot * .005
+                                }
                             }
                         }
                         // Now process that information
@@ -9079,7 +9088,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                 this.closeWithReason("Please only use one tab at once!");
                                 return 1;
                             }*/
-                            this.usingAdBlocker = m[4]
                             //                      if (c.serverName.includes("Sandbox") && this.betaData.permissions === 0) this.betaData.permissions = 1; 
                             if (key) {
                                 util.info("A socket was verified with the token: " + key);
@@ -9319,7 +9327,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             }
                             if (body?.isDead?.()) break;
 
-                            let cooldown = this.betaData.permissions > 1 ? 0 : 450 * (this.usingAdBlocker ? 1 : 1)
+                            let cooldown = this.betaData.permissions > 1 ? 0 : 450
                             if (c.serverName.includes("Corrupted Tanks")) {
                                 cooldown *= 5
                             }
@@ -9335,10 +9343,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             if (body != null) {
                                 body.lastUpgradeTime = Date.now();
                                 body.sendMessage("Upgrading...");
-                                if (this.usingAdBlocker && !this.didAdBlockMessage) {
-                                    this.didAdBlockMessage = true
-                                    //body.sendMessage("Please disable your adblocker. Woomy is hard to maintain and it helps a lot :(".split("").join("​"), "#FF0000")
-                                }
                                 setTimeout(() => {
                                     if (body != null) {
                                         body.upgrade(num);
@@ -10354,8 +10358,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             player.body.killCount.solo,
                             player.body.killCount.assists,
                             player.body.killCount.bosses,
-                            player.body.killCount.killers.length, ...player.body.killCount.killers.map(e => e.index),
-                            this.usingAdBlocker
+                            player.body.killCount.killers.length, ...player.body.killCount.killers.map(e => e.index)
                         ];
                     })();
                     player.gui = this.makeGUI(player);
