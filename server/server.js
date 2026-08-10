@@ -7403,13 +7403,6 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     case "withMotion":
                         if (this.velocity.length > 0) this.facing = this.velocity.direction;
                         break;
-                    case "smoothTargetOrSmoothhMotion":
-                        if (this.source.control.target.length === 0) {
-                            this.facing += util.loopSmooth(this.facing, Math.atan2(this.velocity.y, this.velocity.x), 4 / room.speed);
-                        } else {
-                            this.facing += util.loopSmooth(this.facing, Math.atan2(t.y, t.x), 4 / room.speed);
-                        }
-                        break;
                     case "looseWithMotion":
                         if (!this.velocity.length) break;
                     case "smoothWithMotion":
@@ -7921,7 +7914,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                 if (this.type === "food") {
                                     master.health.amount += jackpot * .03
                                 } else {
-                                    master.health.amount += jackpot * .005
+                                    master.health.amount += jackpot * .0025
                                 }
                                 if (!killers.includes(master)) {
                                     killers.push(master);
@@ -7931,7 +7924,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                 if (this.type === "food") {
                                     master.health.amount += jackpot * .03
                                 } else {
-                                    master.health.amount += jackpot * .005
+                                    master.health.amount += jackpot * .0025
                                 }
                             }
                         }
@@ -8249,7 +8242,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 player.body.kill();
             }
             runAnimations(gun) {
-                switch (onShoot) {
+                switch (gun.onShoot) {
                     case "log":
                         console.log("LOG");
                         break;
@@ -8323,7 +8316,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                                 }
                             }, (500 / amount) * i);
                         };
-                        const hitScanLevel = +onShoot.split("hitScan").pop();
+                        const hitScanLevel = +gun.onShoot.split("hitScan").pop();
                         for (let i = 0; i < amount; i++) {
                             setTimeout(() => {
                                 if (this.master.health.amount < 0) return;
@@ -8374,7 +8367,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     case "hand2":
                     case "hand3":
                     case "hand4": {
-                        let increment = onShoot === "hand2" ? 20 : onShoot === "hand3" ? 40 : onShoot === "hand4" ? 60 : 0,
+                        let increment = gun.onShoot === "hand2" ? 20 : gun.onShoot === "hand3" ? 40 : gun.onShoot === "hand4" ? 60 : 0,
                             tank = this.label === "Auto-Glove" ? "autoHandBasic" : "handBasic";
                         for (let i = 1; i < 21; i++) setTimeout(() => {
                             if (this.isAlive()) this.define(Class[`${tank}${i + increment}`]);
@@ -8397,7 +8390,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             if (o.master.id === this.id && o.type === "drone") o.kill();
                         });
                         for (let i = 1; i < 32; i++) setTimeout(() => {
-                            if (this.isAlive()) this.define(Class[`hybranger${onShoot === "hybranger" ? i : (i === 31 ? 0 : i + 31)}`]);
+                            if (this.isAlive()) this.define(Class[`hybranger${gun.onShoot === "hybranger" ? i : (i === 31 ? 0 : i + 31)}`]);
                         }, 14 * i);
                         break;
                     case "shape":
@@ -8406,13 +8399,13 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             if (o.master.id === this.id && o.type === "drone") o.kill();
                         });
                         for (let i = 1; i < 32; i++) setTimeout(() => {
-                            if (this.isAlive()) this.define(Class[`shapeChange${onShoot === "shape" ? i : 31 - i}`]);
+                            if (this.isAlive()) this.define(Class[`shapeChange${gun.onShoot === "shape" ? i : 31 - i}`]);
                         }, 14 * i);
                         break;
                     case "surge":
                     case "surge2":
                         for (let i = 1; i < 21; i++) setTimeout(() => {
-                            if (this.isAlive()) this.define(Class[`sniperEMP${onShoot === "surge" ? i : 20 + i}`]);
+                            if (this.isAlive()) this.define(Class[`sniperEMP${gun.onShoot === "surge" ? i : 20 + i}`]);
                         }, this.skill.rld * (onShoot === "surge" ? 180 : 60) * i);
                         break;
                     case "surge3":
@@ -8420,7 +8413,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                         break;
                     default:
                         util.warn("Unknown ON_SHOOT value: " + onShoot + "!");
-                        onShoot = null;
+                        gun.onShoot = null;
                 };
             }
         }
@@ -11498,7 +11491,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             if (isSameTeam || instance.master.id === other.master.id) return;
                             let shield = instance.settings.hitsOwnType === "shield" ? instance : other,
                                 entity = instance.settings.hitsOwnType === "shield" ? other : instance;
-                            if (entity.settings.goThruObstacle || entity.type === "wall" || entity.type === "food" || entity.type === "mazeWall" || entity.type === "miniboss" || entity.isDominator || entity.master.isDominator || shield.master.id === entity.id) return;
+                            if (entity.settings.goThruObstacle || entity.type === "wall" || entity.type === "mazeWall" || entity.type === "miniboss" || entity.isDominator || entity.master.isDominator || shield.master.id === entity.id) return;
                             shieldCollide(shield, entity);
                             //advancedCollide(shield, entity, false, false, -1 - 10 / (Math.max(entity.velocity.length, shield.master.velocity.length) - 10));
                         } break;

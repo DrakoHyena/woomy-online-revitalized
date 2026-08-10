@@ -19,32 +19,39 @@ warfront.runNpcs = function() {
 
 }
 
+const FRONT_SIZE = 300;
 warfront.runTick = function(args) {
     let farthestBlue = 0;
     let farthestRed = args.room.width;
     args.entities.forEach(entity => {
         if (entity.type !== "tank") return;
+
+        const diff = entity.x - ent.x
         if (entity.team === BLUE) {
             if (entity.x > farthestBlue) farthestBlue = entity.x
 
-            const diff = entity.x - ent.x
-            if (entity.x > ent.x) entity.accel.x -= diff * .00175
+            if (diff > 0) {
+                entity.velocity.x -= diff * .0025
+                if (diff > FRONT_SIZE) entity.velocity.x -= Math.abs(entity.velocity.x * .5);
+            }
 
-            if (Math.abs(diff) > 300) {
+            if (Math.abs(diff) > FRONT_SIZE) {
                 if (entity.shield.amount > 1 && entity.shield.amount !== entity.shield.max) {
-                    entity.shield.amount += -1 * diff * .0001
+                    entity.shield.amount -= diff * .0001
                 } else if (entity.health.amount !== entity.health.max) {
-                    entity.health.amount += -1 * diff * .0005
+                    entity.health.amount -= diff * .0005
                 }
             }
 
         } else if (entity.team === RED) {
             if (entity.x < farthestRed) farthestRed = entity.x;
 
-            const diff = entity.x - ent.x
-            if (entity.x < ent.x) entity.accel.x -= diff * .00175
+            if (diff < 0) {
+                entity.velocity.x -= diff * .0025
+                if (diff < -FRONT_SIZE) entity.velocity.x += Math.abs(entity.velocity.x * .5);
+            }
 
-            if (Math.abs(diff) > 300) {
+            if (Math.abs(diff) > FRONT_SIZE) {
                 if (entity.shield.amount > 1 && entity.shield.amount !== entity.shield.max) {
                     entity.shield.amount += diff * .0001
                 } else if (entity.health.amount !== entity.health.max) {
