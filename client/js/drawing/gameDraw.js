@@ -241,6 +241,8 @@ let gameDraw = function(ratio) {
             const laserColor = getColor(laser.color);
             const ran = Math.random();
             darknessCtx.save();
+            darknessCtx.lineCap = "round";
+            darknessCtx.lineJoin = "round";
             darknessCtx.lineWidth = (laser.width * (1.25 + .1 * ran)) * ratio * laser.fade;
             darknessCtx.strokeStyle = laserColor;
             darknessCtx.globalAlpha = .08 + .01 * ran

@@ -5775,18 +5775,37 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
         let laserId = 0;
 
         class Laser {
+            // Static memory pools to eliminate GC allocations entirely
+            static hitPool = [];
+            static hitPoolIndex = 0;
+            static hitsScratch = [];
+
+            static acquireHit() {
+                if (this.hitPoolIndex < this.hitPool.length) {
+                    return this.hitPool[this.hitPoolIndex++];
+                }
+                const hit = { entity: null, distanceSq: 0, closestX: 0, closestY: 0 };
+                this.hitPool.push(hit);
+                this.hitPoolIndex++;
+                return hit;
+            }
+
             constructor(gun, startPos, angle, settings = {}) {
                 this.id = laserId++;
                 this.settings = settings;
+
                 this.setGun(gun);
+
                 this.skills = {
                     dmg: this.master?.skill?.dam ?? 0,
                     len: this.master?.skill?.spd ?? 0,
                     dur: this.master?.skill?.str ?? 0,
                     prc: this.master?.skill?.pen ?? 0,
-                }
+                };
+
                 this.scaleWidth = settings.SCALE_WIDTH ?? true;
-                this.refreshStats()
+                this.refreshStats();
+
                 this.label = settings.LABEL ?? "Laser";
                 this.persistsAfterDeath = settings.PERSISTS_AFTER_DEATH ?? false;
                 this.clearOnMasterUpgrade = settings.CLEAR_ON_MASTER_UPGRADE ?? true;
@@ -5795,17 +5814,20 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 this.team = this.master?.master?.team ?? this.master?.team ?? -101;
                 this.hitEntities = new Set();
 
-                this.followGun = this.settings.FOLLOW_GUN ?? true;
-                this.layer = this.settings.LAYER ?? this.master?.LAYER ?? 0;
+                this.followGun = settings.FOLLOW_GUN ?? true;
+                this.layer = settings.LAYER ?? this.master?.LAYER ?? 0;
 
                 // Angle passed in should be in the same trig convention as getEnd (cos -> x, sin -> y).
                 // Use the exact angle supplied — do not add a hard-coded 90° offset here.
-                this.angle = (angle ?? 0);
-                if (this.followGun === false && this.gun.master) this.angle += this.gun.master.facing + this.gun.angle;
-                this.startPoint = this.gun ? this.gun.getEnd() : { x: startPos.x, y: startPos.y };
+                this.angle = angle ?? 0;
+                if (!this.followGun && this.gun?.master) {
+                    this.angle += this.gun.master.facing + this.gun.angle;
+                }
 
-                this.onDealtDamage = this.settings.ON_DEALT_DAMAGE;
-                this.onDealtDamageUniv = this.settings.ON_DEALT_DAMAGE_UNIVERSAL;
+                this.startPoint = this.gun ? this.gun.getEnd() : { x: startPos?.x ?? 0, y: startPos?.y ?? 0 };
+
+                this.onDealtDamage = settings.ON_DEALT_DAMAGE;
+                this.onDealtDamageUniv = settings.ON_DEALT_DAMAGE_UNIVERSAL;
 
                 this.endPoint = { x: 0, y: 0 };
                 this.calcEndPoint();
@@ -5815,37 +5837,39 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
             }
 
             refreshStats() {
-                this.width = (this.scaleWidth ? (this.settings.WIDTH ?? 0) + (this.master?.size * this.gun?.width) : this.settings.WIDTH) ?? 5;
+                const baseWidth = this.settings.WIDTH ?? 5;
+                const scaledWidth = (this.master?.size ?? 0) * (this.gun?.width ?? 0);
+
+                this.width = this.scaleWidth ? baseWidth + scaledWidth : baseWidth;
                 this.range = (this.settings.RANGE ?? 300) * (this.skills.len * 5);
                 this.duration = (this.settings.DURATION ?? 300) * (this.skills.dur * 20);
                 this.maxDuration = this.duration;
-                this.pierce = Math.round((this.settings.PIERCE ?? 1) * this.skills.prc);
-                this.damage = (this.settings.DAMAGE ?? .1) * (this.skills.dmg / 2);
+                this.pierce = Math.round((this.settings.PIERCE ?? 1) + (this.skills.prc > 0 ? (this.skills.prc - 1) * 11 : 0));
+                this.damage = (this.settings.DAMAGE ?? 0.1) * (this.skills.dmg / 2);
+                console.log(this.skills.prc, this.pierce)
             }
 
             calcEndPoint() {
                 let angle = this.angle;
-                if (this.followGun === true && this.gun) {
+                if (this.followGun && this.gun) {
                     this.startPoint = this.gun.getEnd({ x: 0, y: 0 }, 0, this.gun.length * 1.5);
-                    if (this.gun.master) angle += this.gun.master.facing + this.gun.angle;
-                    else angle += this.gun.angle;
+                    angle += (this.gun.master?.facing ?? 0) + this.gun.angle;
                 }
+
                 // use same trig convention as getEnd (cos -> x, sin -> y)
                 this.endPoint.x = this.startPoint.x + this.range * Math.cos(angle);
                 this.endPoint.y = this.startPoint.y + this.range * Math.sin(angle);
             }
 
             setGun(gun) {
-                if (this.gun?.laserMap) {
-                    this.gun.laserMap.delete(this.id);
-                }
-                if (this.master?.laserMap) {
-                    this.master.laserMap.delete(this.id);
-                }
+                this.gun?.laserMap?.delete(this.id);
+                this.master?.laserMap?.delete(this.id);
+
                 this.gun = gun;
                 this.master = gun?.master;
-                if (this.gun?.laserMap) this.gun.laserMap.set(this.id, this)
-                if (this.master?.laserMap) this.master.laserMap.set(this.id, this)
+
+                this.gun?.laserMap?.set(this.id, this);
+                this.master?.laserMap?.set(this.id, this);
             }
 
             destroy() {
@@ -5858,50 +5882,73 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     this.maxDuration = this.duration;
                 }
                 if (this.duration-- <= 0) {
-                    this.destroy()
+                    this.destroy();
                     return;
                 }
-                this.calcEndPoint(); // Recalculate in case range/angle changed
+
+                this.calcEndPoint();
                 this.hitEntities.clear();
-                this.visualEndPoint = { x: this.endPoint.x, y: this.endPoint.y };
 
-                const collectedHits = [];
+                // In-place mutation (zero object allocations)
+                this.visualEndPoint.x = this.endPoint.x;
+                this.visualEndPoint.y = this.endPoint.y;
 
-                // 1. Traverse grid to gather all potential targets along the laser's path
                 if (this.endPoint.x === this.startPoint.x) this.endPoint.x += 1;
                 if (this.endPoint.y === this.startPoint.y) this.endPoint.y += 1;
+
+                // Calculate ray constants once per tick
                 const dx = this.endPoint.x - this.startPoint.x;
                 const dy = this.endPoint.y - this.startPoint.y;
-                let cellX = Math.floor(this.startPoint.x / (1 << grid.cellShift));
-                let cellY = Math.floor(this.startPoint.y / (1 << grid.cellShift));
-                const endCellX = Math.floor(this.endPoint.x / (1 << grid.cellShift));
-                const endCellY = Math.floor(this.endPoint.y / (1 << grid.cellShift));
-                const stepX = (dx > 0 ? 1 : -1);
-                const stepY = (dy > 0 ? 1 : -1);
+                const lenSq = dx * dx + dy * dy;
+                if (lenSq === 0) return;
+                const invLenSq = 1 / lenSq;
+
+                // Reset class scratch state
+                Laser.hitPoolIndex = 0;
+                Laser.hitsScratch.length = 0;
+
                 const cellSize = 1 << grid.cellShift;
+                let cellX = Math.floor(this.startPoint.x / cellSize);
+                let cellY = Math.floor(this.startPoint.y / cellSize);
+                const endCellX = Math.floor(this.endPoint.x / cellSize);
+                const endCellY = Math.floor(this.endPoint.y / cellSize);
+
+                const stepX = dx > 0 ? 1 : -1;
+                const stepY = dy > 0 ? 1 : -1;
+
                 const tDeltaX = Math.abs(cellSize / dx);
                 const tDeltaY = Math.abs(cellSize / dy);
+
                 const nextBoundaryX = (cellX + (stepX > 0 ? 1 : 0)) * cellSize;
                 const nextBoundaryY = (cellY + (stepY > 0 ? 1 : 0)) * cellSize;
+
                 let tMaxX = Math.abs((nextBoundaryX - this.startPoint.x) / dx);
                 let tMaxY = Math.abs((nextBoundaryY - this.startPoint.y) / dy);
 
                 const processCell = (cx, cy) => {
                     const cellContent = grid.getCell(cx * cellSize, cy * cellSize);
-                    if (cellContent) {
-                        for (const entity of cellContent) {
-                            if (entity.team === this.team || this.hitEntities.has(entity) || entity.passive || this.master.passive) continue;
-                            this.hitEntities.add(entity);
-                            const collisionDetails = this.getCollisionDetails(entity);
-                            if (collisionDetails) {
-                                collectedHits.push(collisionDetails);
-                            }
+                    if (!cellContent) return;
+
+                    for (const entity of cellContent) {
+                        if (
+                            entity.team === this.team ||
+                            entity.passive ||
+                            this.master?.passive ||
+                            this.hitEntities.has(entity)
+                        ) {
+                            continue;
+                        }
+
+                        this.hitEntities.add(entity);
+                        const hit = this.getCollisionDetails(entity, dx, dy, lenSq, invLenSq);
+                        if (hit) {
+                            Laser.hitsScratch.push(hit);
                         }
                     }
                 };
 
                 processCell(cellX, cellY);
-                while (collectedHits.length < this.pierce && (cellX !== endCellX || cellY !== endCellY)) {
+                while (Laser.hitsScratch.length < this.pierce && (cellX !== endCellX || cellY !== endCellY)) {
                     if (tMaxX < tMaxY) {
                         tMaxX += tDeltaX;
                         cellX += stepX;
@@ -5912,74 +5959,90 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     processCell(cellX, cellY);
                 }
 
-                // 3. Sort hits by distance to handle piercing correctly
-                //collectedHits.sort((a, b) => a.distanceSq - b.distanceSq);
-                // Might not be needed by nature of how arrays works
+                // Sort hits by distance
+                if (Laser.hitsScratch.length > 1) {
+                    Laser.hitsScratch.sort((a, b) => a.distanceSq - b.distanceSq);
+                }
 
-                // 4. Apply damage to pierced targets and update visual end point
-                const piercedCount = Math.min(collectedHits.length, this.pierce);
+                // Apply damage to pierced targets
+                const piercedCount = Math.min(Laser.hitsScratch.length, this.pierce);
                 if (this.pierce > 0) {
                     for (let i = 0; i < piercedCount; i++) {
-                        this.collide(collectedHits[i].entity);
+                        this.collide(Laser.hitsScratch[i].entity);
                     }
                 }
-                if (piercedCount === this.pierce) {
-                    this.visualEndPoint = collectedHits[this.pierce - 1].closestPoint;
+
+                // Set visual endpoint to the last hit target
+                if (this.pierce > 0 && piercedCount === this.pierce) {
+                    const lastHit = Laser.hitsScratch[this.pierce - 1];
+                    this.visualEndPoint.x = lastHit.closestX;
+                    this.visualEndPoint.y = lastHit.closestY;
                 }
             }
 
-            getCollisionDetails(entity) {
-                const laserDX = this.endPoint.x - this.startPoint.x;
-                const laserDY = this.endPoint.y - this.startPoint.y;
-                const lenSq = laserDX * laserDX + laserDY * laserDY;
-                if (lenSq === 0) return null;
+            // Direct, flat collision check using precomputed tick constants
+            getCollisionDetails(entity, dx, dy, lenSq, invLenSq) {
+                const startX = this.startPoint.x;
+                const startY = this.startPoint.y;
 
-                const dot = ((entity.x - this.startPoint.x) * laserDX + (entity.y - this.startPoint.y) * laserDY);
-                const t = Math.max(0, Math.min(1, dot / lenSq));
+                const dot = (entity.x - startX) * dx + (entity.y - startY) * dy;
+                const rawT = dot * invLenSq;
+                const t = rawT < 0 ? 0 : (rawT > 1 ? 1 : rawT);
 
-                const closestX = this.startPoint.x + t * laserDX;
-                const closestY = this.startPoint.y + t * laserDY;
-                const distanceX = entity.x - closestX;
-                const distanceY = entity.y - closestY;
-                const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+                const closestX = startX + t * dx;
+                const closestY = startY + t * dy;
 
-                const totalRadius = entity.size + this.width;
-                if (distanceSquared < (totalRadius * totalRadius)) {
-                    const distFromStartSq = (closestX - this.startPoint.x) ** 2 + (closestY - this.startPoint.y) ** 2;
-                    return {
-                        entity: entity,
-                        closestPoint: { x: closestX, y: closestY },
-                        distanceSq: distFromStartSq
-                    };
+                const distX = entity.x - closestX;
+                const distY = entity.y - closestY;
+                const distSq = distX * distX + distY * distY;
+
+                const radius = entity.size + this.width;
+                if (distSq < radius * radius) {
+                    const hit = Laser.acquireHit();
+                    hit.entity = entity;
+                    hit.distanceSq = t * t * lenSq;
+                    hit.closestX = closestX;
+                    hit.closestY = closestY;
+                    return hit;
                 }
                 return null;
             }
 
             collide(entity) {
                 entity.damageReceived += this.damage;
-                entity.collisionArray.push(this)
+                entity.collisionArray.push(this);
+
                 if (this.master) {
-                    if (this.onDealtDamage) {
-                        this.onDealtDamage(this, entity, this.damage);
-                    }
-                    if (this.onDealtDamageUniv) {
-                        this.onDealtDamageUniv(this, entity, this.damage);
-                    }
-                    if (this.master && this.master.onDealtDamageUniv) {
-                        this.master.onDealtDamageUniv(this.master, entity, this.damage);
-                    }
+                    this.onDealtDamage?.(this, entity, this.damage);
+                    this.onDealtDamageUniv?.(this, entity, this.damage);
+                    this.master.onDealtDamageUniv?.(this.master, entity, this.damage);
                 }
-                if (entity.onDamaged) entity.onDamaged(entity, null, this.damage)
+
+                entity.onDamaged?.(entity, null, this.damage);
             }
 
             addToPacket(packetArr, playerContext) {
+                const isPlayerOwner = this.master && (
+                    this.master.id === playerContext.body?.id ||
+                    this.master.master?.id === playerContext.body?.id
+                );
+
+                const isSelfFFA = (
+                    playerContext.gameMode === "ffa" &&
+                    this.color === "FFA_RED" &&
+                    playerContext.body?.color === "FFA_RED" &&
+                    isPlayerOwner
+                );
+
+                const color = isSelfFFA ? (playerContext.teamColor ?? 0) : this.color;
+
                 packetArr.push(
                     this.id,
                     this.startPoint.x,
                     this.startPoint.y,
                     this.visualEndPoint.x,
                     this.visualEndPoint.y,
-                    (this.master && playerContext.gameMode === "ffa" && this.color === "FFA_RED" && playerContext.body.color === "FFA_RED" && (this.master.id === playerContext.body.id) || (this.master.master.id === playerContext.body.id)) === true ? playerContext.teamColor ?? 0 : this.color,
+                    color,
                     this.width,
                     this.maxDuration,
                     this.duration
@@ -13099,8 +13162,29 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 }
 
                 const laserPacket = [];
-                lasers.forEach((l) => l.addToPacket(laserPacket, playerContext))
+                let visibleLaserCount = 0;
 
+                // Localize view bounds once to avoid property lookups inside the loop
+                const { x1, y1, x2, y2 } = searchArea._AABB;
+
+                for (const l of lasers) {
+                    const sx = l.startPoint.x;
+                    const ex = l.visualEndPoint.x;
+                    const w = l.width;
+
+                    if ((sx > ex ? sx : ex) + w < searchArea._AABB.x1) continue;
+                    if ((sx < ex ? sx : ex) - w > searchArea._AABB.x2) continue;
+
+
+                    const sy = l.startPoint.y;
+                    const ey = l.visualEndPoint.y;
+
+                    if ((sy > ey ? sy : ey) + w < searchArea._AABB.y1) continue;
+                    if ((sy < ey ? sy : ey) - w > searchArea._AABB.y2) continue;
+
+                    l.addToPacket(laserPacket, playerContext);
+                    visibleLaserCount++;
+                }
 
                 // Send the update packet to the client
                 socket.talk(
@@ -13112,7 +13196,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     fov + .5 | 0, // FOV (rounded)
                     // camera.vx, camera.vy, // Omitted velocity as per original packet format change
                     (player.gui ? player.gui() : []), // Player GUI data (assuming player.gui() is defined elsewhere and returns an array)
-                    lasers.size,
+                    visibleLaserCount, // <-- Pass visible count
                     laserPacket,
                     numberInView, // Count of visible entities
                     visible.flat() // Flattened data for visible entities

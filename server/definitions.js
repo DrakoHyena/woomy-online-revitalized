@@ -190554,108 +190554,7 @@ defExports.warfrontLine = {
     CAN_BE_ON_LEADERBOARD: false,
     DANGER: 0,
 };
-defExports.laserTest1 = {
-    PARENT: [defExports.genericTank],
-    LABEL: 'Laser Test 1',
-    DANGER: 10,
-    STAT_NAMES: statNames.laser,
-    GUNS: [{
-        POSITION: [30, 20, 1, 0, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
-            TYPE: [defExports.laser, {
-                RANGE: 50,
-                DURATION: 2,
-                PIERCE: 10000,
-                DAMAGE: .8,
-            }],
-            SKIN: 19
-        }
-    }]
-};
-defExports.laserTest2Gun1 = {
-    LABEL: "Laser Test 2 Gun 1",
-    BODY: {
-        FOV: 1
-    },
-    COLOR: 16,
-    GUNS: [{
-        POSITION: [23, 10, 1, 10, 0, 0, 1],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
-            TYPE: [defExports.laser, {
-                RANGE: 20,
-                DURATION: 1,
-                PIERCE: 1,
-                DAMAGE: .09,
-            }],
-            SKIN: 19
-        }
-    }, {
-        POSITION: [13, 10, 1, 5, 0, 0, 0]
-    }]
-}
-defExports.laserTest2Gun2 = {
-    LABEL: "Laser Test 2 Gun 2",
-    BODY: {
-        FOV: 1
-    },
-    COLOR: 16,
-    GUNS: [{
-        POSITION: [8, 4, 1, 18, 2, 0, 2 / 3],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
-            TYPE: defExports.line
-        }
-    }, {
-        POSITION: [10, 1, 1, 18, 2, 0, 0],
-        PROPERTIES: {
-            COLOR: 12
-        }
-    }, {
-        POSITION: [8, 4, 1, 18, -2, 0, 1 / 3],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
-            TYPE: defExports.line
-        }
-    }, {
-        POSITION: [10, 1, 1, 18, -2, 0, 0],
-        PROPERTIES: {
-            COLOR: 12
-        }
-    }, {
-        POSITION: [9.5, 4, 1, 18, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
-            TYPE: defExports.line
-        }
-    }, {
-        POSITION: [11.5, 1, 1, 18, 0, 0, 0],
-        PROPERTIES: {
-            COLOR: 12
-        }
-    }, {
-        POSITION: [13, 10, 1, 5, 0, 0, 0]
-    }]
-}
-defExports.laserTest2 = {
-    PARENT: [defExports.genericTank],
-    LABEL: 'Laser Test 2',
-    DANGER: 7,
-    STAT_NAMES: statNames.laser,
-    HAS_NO_RECOIL: true,
-    BODY: {
-        ACCELARATION: base.ACCEL * .75,
-        FOV: 1.1
-    },
-    TURRETS: [{
-        POSITION: [15, 0, 12, 0, 90, 0],
-        TYPE: defExports.laserTest2Gun1
-    }, {
-        POSITION: [15, 0, -12, 0, 90, 0],
-        TYPE: defExports.laserTest2Gun2
-    }]
-};
+
 defExports.laserTest3Gun = {
     LABEL: "Laser Test 3 Gun",
     BODY: {
@@ -190699,85 +190598,7 @@ for (let i = 6, unit = 360 / i; i > 0; i--) {
         TYPE: defExports.laserTest3Gun
     })
 }
-defExports.laserTest4MinionGun = {
-    LABEL: "Laser Test 4 Minion Gun",
-    BODY: {
-        FOV: 3
-    },
-    AI: {
-        IGNORE_SHAPES: false,
-        SKYNET: true
-    },
-    ACCEPTS_SCORE: false,
-    CONTROLLERS: ['nearestDifferentMaster'],
-    INDEPENDENT: true,
-    COLOR: 16,
-    GUNS: [{
-        POSITION: [25, 10, 1, 10, 0, 0, 3],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.more_reload, g.no_spread]),
-            TYPE: [defExports.laser, {
-                RANGE: 18,
-                DURATION: .5,
-                PIERCE: 1,
-                DAMAGE: .085,
-            }],
-            SKIN: 19
-        }
-    }, {
-        POSITION: [13, 10, 1, 5, 0, 0, 0]
-    }]
-}
-defExports.laserTest4Minion = {
-    PARENT: [defExports.minion],
-    LABEL: 'Laser Test 4 Minion',
-    SHAPE: 4,
-    DANGER: 9,
-    AI: {
-    },
-    INDEPENDENT: true,
-    GUNS: [],
-    ACCEPTS_SCORE: false,
-    TURRETS: [{
-        POSITION: [9, 8, 0, -45, 145, 0],
-        TYPE: defExports.laserTest4MinionGun
-    }, {
-        POSITION: [9, 8, 0, 45, 145, 0],
-        TYPE: defExports.laserTest4MinionGun
-    }]
-};
-defExports.laserTest4 = { // Crypto Miner
-    PARENT: [defExports.genericTank],
-    LABEL: 'Laser Test 4',
-    SHAPE: 8,
-    DANGER: 7,
-    STAT_NAMES: statNames.minion,
-    BODY: {
-        SPEED: base.SPEED * .8,
-        FOV: 1.1
-    },
-    GUNS: [{
-        POSITION: [18, 8, 1, 0, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
-            TYPE: defExports.bullet
-        }
-    }, {
-        POSITION: [5, 16.5, 1, 10.5, 0, 180, 0]
-    }, {
-        POSITION: [2, 19.5, 1.01, 15.5, 0, 180, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.factory, g.less_health]),
-            TYPE: defExports.laserTest4Minion,
-            STAT_CALCULATOR: gunCalcNames.drone,
-            AUTOFIRE: true,
-            SYNCS_SKILLS: true,
-            MAX_CHILDREN: 1
-        }
-    }, {
-        POSITION: [12, 19.5, 1, 0, 0, 180, 0]
-    }]
-};
+;
 defExports.laserTest5Minion1Gun = {
     LABEL: "Laser Test 5 Minion 1 Gun",
     BODY: {
@@ -190868,6 +190689,271 @@ defExports.laserTest5 = {
     }]
 }
 
+// APPROVED LASER TANKS
+// TODO:
+// - Build branch structure
+// - Unify tanks under balancing system
+
+defExports.laserbeam = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Laserbeam',
+    DANGER: 10,
+    STAT_NAMES: statNames.laser,
+    GUNS: [{
+        POSITION: [30, 20, 1, 0, 0, 0, 0.25],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.half_reload, g.half_reload]),
+            TYPE: [defExports.laser, {
+                RANGE: 30,
+                DURATION: .35,
+                PIERCE: 2,
+                DAMAGE: .38,
+            }],
+            SKIN: 19
+        }
+    }]
+};
+
+
+defExports.plasmacutter = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Plasma Cutter',
+    DANGER: 10,
+    STAT_NAMES: statNames.laser,
+    GUNS: []
+};
+for (let i = 0, m = 6; i < m; i++) {
+    defExports.plasmacutter.GUNS.push({
+        POSITION: [30, 10, 1, 0, 0, 0, i / m],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.half_reload]),
+            TYPE: [defExports.laser, {
+                RANGE: 20 * (i / m),
+                DURATION: .5 / m,
+                PIERCE: 1,
+                DAMAGE: 6 / m,
+            }],
+            SKIN: 19
+        }
+    })
+}
+
+defExports.telemeter = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Telemeter',
+    BODY: {
+        FOV: 1.6,
+    },
+    DANGER: 10,
+    STAT_NAMES: statNames.laser,
+    GUNS: [{
+        POSITION: [45, 15, 1, 0, 0, 0, 0.5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.half_reload, g.half_reload]),
+            TYPE: [defExports.laser, {
+                RANGE: 70,
+                DURATION: 0.65,
+                PIERCE: 3,
+                DAMAGE: 0.25,
+            }],
+            SKIN: 19
+        }
+    }],
+}
+
+
+defExports.atomizer = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Atomizer',
+    BODY: {
+        FOV: 1.4,
+    },
+    DANGER: 10,
+    STAT_NAMES: statNames.laser,
+    GUNS: [{
+        POSITION: [35, 30, 1, 0, 0, 0, 0.5],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.half_reload, g.half_reload, g.half_reload, g.half_reload, g.half_reload]),
+            TYPE: [defExports.laser, {
+                RANGE: 50,
+                DURATION: 2,
+                PIERCE: 10,
+                DAMAGE: 1.5,
+            }],
+            SKIN: 19
+        }
+    }],
+}
+
+defExports.cryptoMinerMinionGun = {
+    LABEL: "Crypto Miner Minion Gun",
+    BODY: {
+        FOV: 3
+    },
+    AI: {
+        IGNORE_SHAPES: false,
+        SKYNET: true
+    },
+    ACCEPTS_SCORE: false,
+    CONTROLLERS: ['nearestDifferentMaster'],
+    INDEPENDENT: true,
+    COLOR: 16,
+    GUNS: [{
+        POSITION: [25, 10, 1, 10, 0, 0, 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.more_reload, g.no_spread]),
+            TYPE: [defExports.laser, {
+                RANGE: 18,
+                DURATION: .5,
+                PIERCE: 1,
+                DAMAGE: .1,
+            }],
+            SKIN: 19
+        }
+    }, {
+        POSITION: [13, 10, 1, 5, 0, 0, 0]
+    }]
+}
+defExports.cryptoMinerMinion = {
+    PARENT: [defExports.minion],
+    LABEL: 'Crypto Miner Minion',
+    SHAPE: 4,
+    DANGER: 9,
+    BODY: {
+        SPEED: 4,
+        ACCELERATION: .532,
+        HEALTH: 5,
+        SHIELD: 20,
+        REGEN: 1.5,
+    },
+    INDEPENDENT: true,
+    GUNS: [],
+    ACCEPTS_SCORE: false,
+    TURRETS: [{
+        POSITION: [9, 8, 0, -35, 145, 0],
+        TYPE: defExports.cryptoMinerMinionGun
+    }, {
+        POSITION: [9, 8, 0, 35, 145, 0],
+        TYPE: defExports.cryptoMinerMinionGun
+    }]
+};
+defExports.cryptoMiner = { // Crypto Miner
+    PARENT: [defExports.genericTank],
+    LABEL: 'Crypto Miner',
+    SHAPE: 8,
+    DANGER: 7,
+    STAT_NAMES: statNames.minion,
+    BODY: {
+        SPEED: base.SPEED * .8,
+        FOV: 1.1
+    },
+    GUNS: [{
+        POSITION: [18, 8, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
+            TYPE: defExports.bullet
+        }
+    }, {
+        POSITION: [5, 16.5, 1, 10.5, 0, 180, 0]
+    }, {
+        POSITION: [2, 19.5, 1.01, 15.5, 0, 180, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.factory, g.less_health]),
+            TYPE: defExports.cryptoMinerMinion,
+            STAT_CALCULATOR: gunCalcNames.drone,
+            AUTOFIRE: true,
+            SYNCS_SKILLS: true,
+            MAX_CHILDREN: 1
+        }
+    }, {
+        POSITION: [12, 19.5, 1, 0, 0, 180, 0]
+    }]
+}
+
+defExports.laserMechaGun1 = {
+    LABEL: "Mecha 2077 Gun 1",
+    BODY: {
+        FOV: 1
+    },
+    COLOR: 16,
+    GUNS: [{
+        POSITION: [23, 10, 1, 10, 0, 0, 1],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
+            TYPE: [defExports.laser, {
+                RANGE: 20,
+                DURATION: 1,
+                PIERCE: 1,
+                DAMAGE: .5,
+            }],
+            SKIN: 19
+        }
+    }, {
+        POSITION: [13, 10, 1, 5, 0, 0, 0]
+    }]
+}
+defExports.laserMechaGun2 = {
+    LABEL: "Mecha 2077 Gun 2",
+    BODY: {
+        FOV: 1
+    },
+    COLOR: 16,
+    GUNS: [{
+        POSITION: [8, 4, 1, 18, 2, 0, 2 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.more_damage, g.bigger]),
+            TYPE: defExports.line
+        }
+    }, {
+        POSITION: [10, 1, 1, 18, 2, 0, 0],
+        PROPERTIES: {
+            COLOR: 12
+        }
+    }, {
+        POSITION: [8, 4, 1, 18, -2, 0, 1 / 3],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.more_damage, g.bigger]),
+            TYPE: defExports.line
+        }
+    }, {
+        POSITION: [10, 1, 1, 18, -2, 0, 0],
+        PROPERTIES: {
+            COLOR: 12
+        }
+    }, {
+        POSITION: [9.5, 4, 1, 18, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.more_damage, g.bigger]),
+            TYPE: defExports.line
+        }
+    }, {
+        POSITION: [11.5, 1, 1, 18, 0, 0, 0],
+        PROPERTIES: {
+            COLOR: 12
+        }
+    }, {
+        POSITION: [13, 10, 1, 5, 0, 0, 0]
+    }]
+}
+defExports.laserMecha = {
+    PARENT: [defExports.genericTank],
+    LABEL: 'Mecha 2077',
+    DANGER: 7,
+    STAT_NAMES: statNames.laser,
+    HAS_NO_RECOIL: true,
+    BODY: {
+        ACCELARATION: base.ACCEL * .75,
+        FOV: 1.1
+    },
+    TURRETS: [{
+        POSITION: [15, 0, 12, 0, 90, 0],
+        TYPE: defExports.laserMechaGun1
+    }, {
+        POSITION: [15, 0, -12, 0, 90, 0],
+        TYPE: defExports.laserMechaGun2
+    }]
+};
+
 
 /* TO DO:
 Make Snipe Guard level 30 and adjust its branches accordingly
@@ -190894,11 +190980,14 @@ branch("testbed_old_beta", "Old Beta Tanks", [
     defExports.afterimage
 ])
 branch("testbed_beta", "Beta Tanks", [
-    defExports.laserTest1,
-    defExports.laserTest2,
+    defExports.laserbeam,
+    defExports.laserMecha,
     defExports.laserTest3,
-    defExports.laserTest4,
+    defExports.cryptoMiner,
     defExports.laserTest5,
+    defExports.atomizer,
+    defExports.telemeter,
+    defExports.plasmacutter,
     defExports.pelletrework,
     defExports.precisestrike
 ], "testbed_parent");
