@@ -4,7 +4,7 @@ let map = {
     serverName: `Warfront`,
     TEAM_AMOUNT: 2,
     MAZE: {
-        ENABLED: false,
+        ENABLED: true,
         cellSize: 100,
         stepOneSpacing: 4,
         fillChance: 0.35,
