@@ -29,11 +29,11 @@ const g = {
     //base
     // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
     "blank": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "basic": [20, 1.4, 0.1, 1, 1.775, 0.197, 1, 5, 1.5, 1, 1, 15, 1],
-    "trap": [31.5, 1, 0.25, 0.9, 8, 0.08, .8, 3, 2, 2.35, 2.15, 12.5, 1.15],
-    "swarm": [27, 0.25, 0.05, 0.4, 0.9, 0.235, 0.85, 3.5, 1, 1, 0.8, 5, 1.25],
-    "swarmlet": [36, 0.25, 0.05, 0.4, 1.2, 0.2, 1, 3.5, 1, 1, 1.25, 5, 1.25],
-    "drone": [60, 0.25, 0.1, 0.6, 4.334, 0.5, 1.5, 2.334, 1, 1, 1, 0.1, 1.1],
+    "basic": [20, 1.4, 0.1, 1, 1.775, 0.197, 1.2, 5, 1.5, 1, 1, 15, 1],
+    "trap": [31.5, 1, 0.25, 0.9, 8, 0.08, .8, 3, 2, 2.35, 2.15, 12.5, 1.3],
+    "swarm": [37, 0.25, 0.05, 0.6, 6.8, 0.2, 1.8, 4.5, 1, 1, 0.8, 5, 1.25],
+    "swarmlet": [46, 0.25, 0.06, 0.5, 9, 0.2, 2, 4.5, 1, 1, 1.25, 5, 1.25],
+    "drone": [80, 0.25, 0.1, 0.7, 14.8, .3, 2.5, 2.45, 1, 1, 3.5, 0.1, 1.5],
     "factory": [72, 1, 0.1, 0.7, 1.6, 0.425, 1, 3, 1, 1, 1, 0.1, 1],
     "pushFactory": [72, 1, 0.1, 0.7, 5, 0.1, 1, 1.5, 1, 1, 1, 0.1, 1],
     "dropship": [53, 1, 0.0001, 1, 2.25, 0.875, 1.25, 4.15, 0, 1, 1, 0.0001, 1],
@@ -61,7 +61,7 @@ const g = {
     "lance": [6, 0, 0.1, 1, 0.5, 0.65, 1.6, 0.67, 1, 0.08, 1, 180, 1],
     //tier 2
     // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
-    "minion": [1, 1, 2, 1, 0.4, 0.8, 1.5, 1, 1, 0.75, 1, 2, 1],
+    "minion": [1, 1, 2, 1, 0.4, 0.8, 1.5, 1, 1, 0.75, 2, 2, 1],
     "spam": [1.1, 1, 1, 1, 1, 1.12, 1, 0.9, 0.785, 1, 1, 1, 1],
     "assassin": [1.5, 1, 0.25, 1, 1.2, 1.325, 1.1, 1.1, 1.1, 1, 1.05, 0.5, 1.025],
     "rifle": [0.85, 0.8, 1.5, 0.95, 0.975, 1, 0.9, 1.05, 1.05, 1, 1, 2, 1],
@@ -174318,14 +174318,14 @@ defExports.gunnerClinker = {
     GUNS: [{
         POSITION: [21, 4, 1, 0, 6, 0, 0],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.less_damage]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.pellet, g.bore, g.half_damage]),
             TYPE: defExports.bullet,
             TIMES_TO_FIRE: 5
         }
     }, {
         POSITION: [21, 4, 1, 0, -6, 0, .5],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.less_damage]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.pellet, g.bore, g.half_damage]),
             TYPE: defExports.bullet,
             TIMES_TO_FIRE: 5
         }
@@ -174336,14 +174336,14 @@ defExports.gunnerClinker = {
     }, {
         POSITION: [24, 4, 1, 0, 4, 0, 0.25],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.less_damage]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.pellet, g.bore, g.half_damage]),
             TYPE: defExports.bullet,
             TIMES_TO_FIRE: 5
         }
     }, {
         POSITION: [24, 4, 1, 0, -4, 0, .75],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.faster, g.pellet, g.bore, g.less_damage]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.click, g.twin, g.pure_gunner, g.pellet, g.bore, g.half_damage]),
             TYPE: defExports.bullet,
             TIMES_TO_FIRE: 5
         }
@@ -190561,7 +190561,9 @@ defExports.chinook = {
     SKILL_CAP: [0, 0, 0, 0, 0, 9, 9, 9, 9, 9],
     BODY: {
         FOV: 1.45,
-        SPEED: base.SPEED * .8
+        HEALTH: base.HEALTH * .8,
+        SHIELD: base.SHIELD * 2,
+        SPEED: base.SPEED * .75
     },
     TURRETS: [{
         POSITION: [8, -44, 0, 0, 360, 1],
@@ -190570,7 +190572,7 @@ defExports.chinook = {
         POSITION: [10, -17, 17, 45, 360, 1],
         TYPE: defExports.heliPropA,
     }, {
-        POSITION: [15, -25, 0, 0, 360, 1],
+        POSITION: [15, -25, 0, 0, 360, 2],
         TYPE: defExports.attachmentPoint
     }, {
         POSITION: [10, 0, 0, 0, 360, 1],
@@ -190593,7 +190595,21 @@ defExports.chinook = {
         ogHitsOwnType: undefined,
         pickupMode: false,
         lastPickup: Date.now(),
-        altDebounce: Date.now()
+        altDebounce: Date.now(),
+        moves: {}
+    },
+    ON_VARIABLES_CLEARED: (me) => {
+        if (me.variables.attachedTank) {
+            me.variables.attachedTank.bond = undefined;
+            me.variables.attachedTank.bound = undefined;
+            me.variables.attachedTank.motionType = me.variables.ogMotionType;
+            me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
+            me.variables.attachedTank.settings.goThruObstacle = false;
+            me.variables.attachedTank.move();
+            me.variables.attachedTank = false;
+            me.variables.lastPickup = Date.now();
+            me.sendMessage("Teammate ejected!");
+        }
     },
     ON_DEAD: ({ me }) => {
         if (me.variables.attachedTank) {
@@ -190601,7 +190617,7 @@ defExports.chinook = {
             me.variables.attachedTank.bound = undefined;
             me.variables.attachedTank.motionType = me.variables.ogMotionType;
             me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
-            me.settings.goThruObstacle = false;
+            me.variables.attachedTank.settings.goThruObstacle = false;
             me.variables.attachedTank.move();
             me.variables.attachedTank = false;
             me.variables.lastPickup = Date.now();
@@ -190610,6 +190626,25 @@ defExports.chinook = {
     },
     ON_TICK: (me) => {
         if (me.variables.attachedTank) {
+            if (me.variables.attachedTank.socket) {
+                const cmd = me.variables.attachedTank.socket.player.command
+                let val = cmd.up + cmd.down + cmd.left + cmd.right
+                const cur = (me.variables.moves[me.variables.attachedTank.id] || 0);
+                me.variables.moves[me.variables.attachedTank.id] = cur + (val || -1)
+                if (cur > 50) {
+                    me.variables.attachedTank.bond = undefined;
+                    me.variables.attachedTank.bound = undefined;
+                    me.variables.attachedTank.motionType = me.variables.ogMotionType;
+                    me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
+                    me.variables.attachedTank.settings.goThruObstacle = false;
+                    me.variables.attachedTank.move();
+                    me.variables.attachedTank = false;
+                    me.variables.lastPickup = Date.now();
+                    me.sendMessage("Teammate ejected!");
+                    return;
+                }
+            }
+
             if (me.variables.attachedTank.isDead()) {
                 me.variables.attachedTank = false;
                 me.sendMessage("Teammate dead...");
@@ -190655,7 +190690,10 @@ defExports.chinook = {
         }
     },
     ON_COLLIDE: (me, them) => {
-        if (me.variables.pickupMode !== true || them.type !== "tank" || them.team !== me.team) return;
+        if (them.variables.attachedTank || them.bond !== undefined || them.variables.pickupMode === true || me.variables.pickupMode !== true || them.type !== "tank" || them.team !== me.team) return;
+
+        me.variables.moves = {}
+
         me.variables.lastPickup = Date.now();
         me.sendMessage("Teammate picked up!");
         me.variables.pickupMode = false;
@@ -190668,6 +190706,7 @@ defExports.chinook = {
         me.variables.attachedTank.settings.hitsOwnType = "teamNever";
         me.variables.attachedTank.settings.goThruObstacle = true;
         me.variables.attachedTank.move();
+        them.sendMessage("Hold your movement to eject from the Chinook!")
     },
 }
 defExports.laserTest3Gun = {
