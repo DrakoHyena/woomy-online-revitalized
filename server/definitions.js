@@ -30,7 +30,7 @@ const g = {
     // Reload, recoil, shudder, size, health, damage, penetration, speed, max speed, range, density, spray, resist
     "blank": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     "basic": [20, 1.4, 0.1, 1, 1.775, 0.197, 1, 5, 1.5, 1, 1, 15, 1],
-    "trap": [33, 1, 0.25, 0.9, 8, 0.08, .8, 3, 2, 2.35, 2, 12.5, 1.15],
+    "trap": [31.5, 1, 0.25, 0.9, 8, 0.08, .8, 3, 2, 2.35, 2.15, 12.5, 1.15],
     "swarm": [27, 0.25, 0.05, 0.4, 0.9, 0.235, 0.85, 3.5, 1, 1, 0.8, 5, 1.25],
     "swarmlet": [36, 0.25, 0.05, 0.4, 1.2, 0.2, 1, 3.5, 1, 1, 1.25, 5, 1.25],
     "drone": [60, 0.25, 0.1, 0.6, 4.334, 0.5, 1.5, 2.334, 1, 1, 1, 0.1, 1.1],
@@ -519,7 +519,8 @@ const statNames = {
     lancer: 12,
     flail: 13,
     inject: 14,
-    laser: 15
+    laser: 15,
+    bulletless: 16
 };
 const gunCalcNames = {
     default: 0,
@@ -76387,7 +76388,7 @@ defExports.growingRoadblock = {
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.trap, g.mach, g.chain, g.volley]),
             TYPE: [defExports.trap, {
-                MOTION_TYPE: 'miniGrower',
+                MOTION_TYPE: 'microGrower',
                 HITS_OWN_TYPE: 'hard'
             }],
             STAT_CALCULATOR: gunCalcNames.trap
@@ -113032,6 +113033,7 @@ defExports.rummy = {
 defExports.bentBoomer4 = makeAutoN(defExports.bentBoomer, 4);
 defExports.heliPropA = {
     CONTROLLERS: ['reverseHeliSpin'],
+    INDEPENDENT: true,
     GUNS: [{
         POSITION: [66, 9, 1, 0, 0, 0, 0]
     }, {
@@ -116211,7 +116213,7 @@ defExports.text = {
     NAME: "If youre seeing this someone forgot to replace the name of a text entity.. let a dev know",
     SHAPE: 10020,
     SIZE: 15,
-    HITS_OWN_TEAM: "never",
+    HITS_OWN_TEAM: false,
     HITS_OWN_TYPE: "never",
     DIES_TO_TEAM_BASE: false,
     GO_THRU_OBSTACLES: true,
@@ -149068,39 +149070,7 @@ neoMakeAnimTank("sgtPepper", "Sgt. Pepper", [{
 }, {
     tank: defExports.mini2
 }]);
-defExports.apache = makeAuto({
-    PARENT: [defExports.genericTank],
-    DANGER: 7,
-    BODY: {
-        ACCELERATION: base.ACCEL * .5,
-        SPEED: base.SPEED * .65,
-        FOV: 1.4
-    },
-    LAYER: 13,
-    MOTION_TYPE: 'glideBall',
-    IS_HELICOPTER: true,
-    HAS_NO_RECOIL: true,
-    GUNS: [{
-        POSITION: [32, 8.5, 1, 0, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.assassin, g.ranger]),
-            TYPE: defExports.bullet
-        }
-    }, {
-        POSITION: [5, 8.5, -1.6, 8, 0, 0, 0]
-    }, {
-        POSITION: [18, 4.8, 1, 0, -6.923, 195, 0]
-    }, {
-        POSITION: [18, 4.8, 1, 0, 6.923, 165, 0]
-    }],
-    TURRETS: [{
-        POSITION: [8, -19, 0, 0, 361, 1],
-        TYPE: defExports.heliPropB
-    }]
-}, 'Rescue Helicopter', {
-    type: defExports.heliPropA,
-    independent: true
-});
+
 defExports.sixShot = {
     PARENT: [defExports.genericTank],
     LABEL: 'Six-Shot',
@@ -190555,6 +190525,151 @@ defExports.warfrontLine = {
     DANGER: 0,
 };
 
+defExports.attachmentPoint = {
+    PARENT: [defExports.genericEntity],
+    LABEL: "Attachment Point",
+    GODMODE: true,
+    PASSIVE: true,
+    SHAPE: 10020,
+    SIZE: 15,
+    HITS_OWN_TEAM: true,
+    GO_THRU_OBSTACLES: true,
+    CAN_GO_OUTSIDE_ROOM: true,
+    CAN_BE_ON_LEADERBOARD: false,
+    GIVE_KILL_MESSAGE: false,
+    DRAW_HEALTH: false,
+    DANGER: 0,
+    LAYER: 0,
+    BODY: {
+        DAMAGE: 0,
+        PENETRATION: 100,
+        PUSHABILITY: 0,
+        DENSITY: 1e5
+    },
+}
+defExports.chinook = {
+    PARENT: [defExports.genericTank],
+    LABEL: "Chinook",
+    TOOLTIP: "Alt fire and bump into a teammate to pick them up! Doing so again will drop them!",
+    DANGER: 7,
+    LAYER: 13,
+    MOTION_TYPE: 'glideBall',
+    HITS_OWN_TYPE: "teamNever",
+    HAS_NO_RECOIL: true,
+    IS_HELICOPTER: true,
+    STAT_NAMES: statNames.bulletless,
+    SKILL_CAP: [0, 0, 0, 0, 0, 9, 9, 9, 9, 9],
+    BODY: {
+        FOV: 1.45,
+        SPEED: base.SPEED * .8
+    },
+    TURRETS: [{
+        POSITION: [8, -44, 0, 0, 360, 1],
+        TYPE: defExports.heliPropB
+    }, {
+        POSITION: [10, -17, 17, 45, 360, 1],
+        TYPE: defExports.heliPropA,
+    }, {
+        POSITION: [15, -25, 0, 0, 360, 1],
+        TYPE: defExports.attachmentPoint
+    }, {
+        POSITION: [10, 0, 0, 0, 360, 1],
+        TYPE: defExports.heliPropA
+    }],
+    GUNS: [{
+        POSITION: [25, 3, 1, -25, -8.9, 0, 0]
+    }, {
+        POSITION: [25, 3, 1, -25, 8.9, 0, 0]
+    }, {
+        POSITION: [19, 4, 1, 19, -16.5, 200, 0]
+    }, {
+        POSITION: [19, 4, 1, 19, 16.5, -200, 0]
+    }, {
+        POSITION: [3, 22, 1, -25, 0, 0, 0]
+    }],
+    VARIABLES: {
+        attachedTank: false,
+        ogMotionType: undefined,
+        ogHitsOwnType: undefined,
+        pickupMode: false,
+        lastPickup: Date.now(),
+        altDebounce: Date.now()
+    },
+    ON_DEAD: ({ me }) => {
+        if (me.variables.attachedTank) {
+            me.variables.attachedTank.bond = undefined;
+            me.variables.attachedTank.bound = undefined;
+            me.variables.attachedTank.motionType = me.variables.ogMotionType;
+            me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
+            me.settings.goThruObstacle = false;
+            me.variables.attachedTank.move();
+            me.variables.attachedTank = false;
+            me.variables.lastPickup = Date.now();
+            me.sendMessage("Teammate ejected!");
+        }
+    },
+    ON_TICK: (me) => {
+        if (me.variables.attachedTank) {
+            if (me.variables.attachedTank.isDead()) {
+                me.variables.attachedTank = false;
+                me.sendMessage("Teammate dead...");
+
+            } else if (me.variables.attachedTank.motionType !== "bound") {
+                me.variables.attachedTank.bond = undefined;
+                me.variables.attachedTank.bound = undefined;
+                me.variables.attachedTank.motionType = me.variables.ogMotionType;
+                me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
+                me.variables.attachedTank.settings.goThruObstacle = false;
+                me.variables.attachedTank.move();
+                me.variables.attachedTank = false;
+                me.variables.lastPickup = Date.now();
+                me.sendMessage("Teammate ejected!");
+            }
+        }
+    },
+    ON_ALT: (me) => {
+        if (Date.now() - me.variables.altDebounce < 250) return;
+        me.variables.altDebounce = Date.now();
+
+        if (me.variables.attachedTank !== false) {
+            me.variables.attachedTank.master = me.variables.attachedTank;
+            me.variables.attachedTank.bond = undefined;
+            me.variables.attachedTank.bound = undefined;
+            me.variables.attachedTank.motionType = me.variables.ogMotionType;
+            me.variables.attachedTank.settings.hitsOwnType = me.variables.ogHitsOwnType;
+            me.variables.attachedTank.settings.goThruObstacle = false;
+            me.variables.attachedTank.move();
+            me.variables.attachedTank = false;
+            me.variables.lastPickup = Date.now();
+            me.sendMessage("Teammate dropped!");
+
+        } else if (me.variables.pickupMode === false && Date.now() - me.variables.lastPickup > 3000) {
+            me.variables.pickupMode = true;
+            me.sendMessage("Bump into a teammate to pick them up!");
+            me.variables.lastPickup = Date.now()
+
+        } else {
+            me.variables.pickupMode = false;
+            me.sendMessage(`You can pick up a new tank in ${((3000 - (Date.now() - me.variables.lastPickup)) / 1000).toFixed(2)}s`)
+
+        }
+    },
+    ON_COLLIDE: (me, them) => {
+        if (me.variables.pickupMode !== true || them.type !== "tank" || them.team !== me.team) return;
+        me.variables.lastPickup = Date.now();
+        me.sendMessage("Teammate picked up!");
+        me.variables.pickupMode = false;
+        me.variables.attachedTank = them;
+        me.variables.attachedTank.bond = me;
+        me.variables.attachedTank.bound = me.turrets[2].bound;
+        me.variables.ogMotionType = me.variables.attachedTank.motionType;
+        me.variables.attachedTank.motionType = "bound";
+        me.variables.ogHitsOwnType = me.variables.attachedTank.settings.hitsOwnType;
+        me.variables.attachedTank.settings.hitsOwnType = "teamNever";
+        me.variables.attachedTank.settings.goThruObstacle = true;
+        me.variables.attachedTank.move();
+    },
+}
 defExports.laserTest3Gun = {
     LABEL: "Laser Test 3 Gun",
     BODY: {
@@ -191192,7 +191307,7 @@ branch("dreadnoughts", "Dreadnoughts", [
 
 // Featured Tanks
 branch("featured_tanks", "Featured Tanks", [
-    defExports.flakGun, defExports.descender, defExports.butane, defExports.orbitalstrike, defExports.obliterator, defExports.baller, defExports.shove31, defExports.shieldweaver, defExports.multishot, defExports.miniNukeShooter, defExports.clicker, defExports.packer, defExports.hexaTrap, defExports.cruiser, defExports.bent, defExports.basic
+    defExports.chinook, defExports.flakGun, defExports.descender, defExports.butane, defExports.orbitalstrike, defExports.obliterator, defExports.baller, defExports.shove31, defExports.shieldweaver, defExports.multishot, defExports.miniNukeShooter, defExports.clicker, defExports.packer, defExports.hexaTrap, defExports.cruiser, defExports.bent, defExports.basic
 ], "testbed_parent");
 
 branch("testbed_admin", "Admin Testbed", [
@@ -192068,7 +192183,7 @@ defExports.basicception.UPGRADES_TIER_3 = [defExports.twinAutoTwin, defExports.s
 defExports.accelerauto.UPGRADES_TIER_4 = [defExports.accelery, defExports.autoBooster]
 defExports.autoLittleArtillery.UPGRADES_TIER_4 = [defExports.autopilot];
 defExports.basicception.UPGRADES_TIER_4 = [defExports.recursion];
-defExports.helicoptor.UPGRADES_TIER_4 = [defExports.smashcoptor, defExports.whirlyRanger, defExports.auto22Heli, defExports.zoomDirigible, defExports.airway, defExports.potensic, defExports.stratofortress, defExports.mosquito, defExports.rocketCopter, defExports.rtx];
+defExports.helicoptor.UPGRADES_TIER_4 = [defExports.smashcoptor, defExports.whirlyRanger, defExports.auto22Heli, defExports.zoomDirigible, defExports.airway, defExports.potensic, defExports.stratofortress, defExports.mosquito, defExports.rocketCopter, defExports.rtx, defExports.chinook];
 //defExports.recursion.UPGRADES_TIER_4 = [defExports.recursion];
 defExports.autoMultishot.UPGRADES_TIER_4 = [defExports.multishotception];
 defExports.minishotception.UPGRADES_TIER_4 = [defExports.artilleryception, defExports.bentception, defExports.harasserception, defExports.miniSpreadception, defExports.littleCannonception, defExports.basicInsectception, defExports.hewnPelletception, defExports.dropception, defExports.miniAsteroid];
@@ -192451,12 +192566,12 @@ defExports.autoWoodpecker = makeAuto(defExports.woodpeck2);
 
 for (const key in defExports) {
     for (let i = 0; i < 5; i++) {
-        if (defExports[`UPGRADES_TIER_${i}`]) {
-            let array = defExports[`UPGRADES_TIER_${i}`];
+        if (defExports[`UPGRADES_TIER_${i} `]) {
+            let array = defExports[`UPGRADES_TIER_${i} `];
             for (let i = 0; i < array.length; i++) {
                 let tank = array[i];
                 if (tank == null) {
-                    throw new TypeError(`${key} was found to have an undefined upgrade on ${`TIER_${i}`} index ${i}`);
+                    throw new TypeError(`${key} was found to have an undefined upgrade on ${`TIER_${i}`} index ${i} `);
                 }
             }
         }
