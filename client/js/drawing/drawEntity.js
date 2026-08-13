@@ -2944,7 +2944,7 @@ let drawEntity = (function() {
                     source.turrets[i].lerpedFacing = lerpAngle(
                         source.turrets[i].lerpedFacing || source.turrets[i].facing,
                         source.turrets[i].facing,
-                        0.15,
+                        config.movementSmoothing,
                     );
                     drawEntity(
                         tankDrawX + len * Math.cos(ang),
