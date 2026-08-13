@@ -1,3 +1,5 @@
+const lerp = (start, end, amt) => start * (1 - amt) + end * amt;
+
 const warfront = {}
 
 const BLUE = -1;
@@ -62,7 +64,7 @@ warfront.runTick = function(args) {
         }
     })
 
-    ent.x = (farthestBlue + farthestRed) / 2;
+    ent.x = lerp(ent.x, (farthestBlue + farthestRed) / 2, .025);
 }
 
 // Must be false or return # added to view

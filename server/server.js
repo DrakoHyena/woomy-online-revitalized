@@ -7,7 +7,17 @@ const modeFuncs = { oneVsOne, warfront }
 // COMPAT //
 const worker = typeof parentPort === "undefined" ? self : parentPort
 const global = globalThis
-if (typeof global.fs === "undefined") global.fs = undefined;
+if (typeof global.fs === "undefined") {
+    global.fs = undefined;
+} else { // node
+    // Keeps the process alive instead of exiting
+    process.on('uncaughtException', (err) => {
+        console.error('Caught unhandled error:', err.message);
+    });
+    process.on('unhandledRejection', (reason, promise) => {
+        console.error('Caught unhandled rejection:', reason);
+    });
+}
 
 global.utility = {
     log: (e) => { console.log("[LOG]", e) }
@@ -7188,10 +7198,17 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                         if (this.topSpeed) this.damp = a / this.topSpeed;
                         if (gactive) {
                             let len = Math.sqrt(g.x * g.x + g.y * g.y);
-                            engine = {
-                                x: a * g.x / len,
-                                y: a * g.y / len
-                            };
+                            if (len !== 0 && len !== NaN) {
+                                engine = {
+                                    x: a * g.x / len,
+                                    y: a * g.y / len
+                                };
+                            } else {
+                                engine = {
+                                    x: 0.001,
+                                    y: 0.001,
+                                }
+                            }
                         } else this.damp = .005;
                         break;
                     case "grow":

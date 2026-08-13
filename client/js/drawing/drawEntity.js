@@ -2347,6 +2347,7 @@ let drawEntity = (function() {
             for (let animation of animations) {
                 let prop = props[animation.index];
                 if (!prop) return props;
+                console.log(prop)
                 prop.shape = animation.shape;
                 prop.size = animation.size;
                 prop.x = animation.x;
@@ -3171,7 +3172,7 @@ let drawEntity = (function() {
                         source.turrets[i].lerpedFacing = lerpAngle(
                             source.turrets[i].lerpedFacing || source.turrets[i].facing,
                             source.turrets[i].facing,
-                            0.15,
+                            config.movementSmoothing,
                         );
                     drawEntity(
                         tankDrawX + len * Math.cos(ang),

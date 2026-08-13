@@ -1,248 +1,269 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>Woomy Online</title>
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
-	<meta name="robots" content="index, follow">
-	<meta property="og:image" content="./resources/favicon-66x66-k.png" />
-	<meta property="og:image:width" content="52" />
-	<meta property="og:image:height" content="52" />
-	<!-- Favicons -->
-	<link rel="icon" type="image/png" sizes="192x192" href="/resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/resources/favicon-66x66-k.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-66x66-k.png">
-	<meta name="theme-color" content="#8ABC3F">
+    <meta charset="UTF-8">
+    <title>Woomy Online</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="description" content="A multiplayer modding platform for simplistic top-down 2d tank games.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:image" content="./resources/favicon-66x66-k.png" />
+    <meta property="og:image:width" content="52" />
+    <meta property="og:image:height" content="52" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/resources/favicon-66x66-k.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-66x66-k.png">
+    <meta name="theme-color" content="#8ABC3F">
 
-	<link rel="stylesheet" href="/menu.css">
-	<style>
-		*{
-			user-select: auto !important;
-		}
-		.scrollDiv {
-			width: 80%;
-			background: white;
-			border-style: solid;
-			border-radius: 5px;
-			border-color: #c1cfd8;
-			overflow-y: scroll;
-			overflow-x: hidden;
-			background: var(--backgroundColor);
-			color: var(--menuTextColor);
-			padding: 10px;
-		}
+    <link rel="stylesheet" href="/menu.css">
+    <style>
+        * {
+            user-select: auto !important;
+        }
 
-		.scrollDiv button {
-			display: block;
-			margin: auto;
-			padding: 10px 50px 10px 50px;
-			width: auto;
-			box-sizing: border-box;
-			color: white;
-			text-align: center;
-			text-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
-			background: #A9D86D;
-			border: 0;
-			border-bottom: 2px solid #8ABC3F;
-			cursor: pointer;
-			box-shadow: inset 0 -2px #8ABC3F;
-			border-radius: 5px;
-			font: 18px Ubuntu;
-		}
+        .scrollDiv {
+            width: 80%;
+            background: white;
+            border-style: solid;
+            border-radius: 5px;
+            border-color: #c1cfd8;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            background: var(--backgroundColor);
+            color: var(--menuTextColor);
+            padding: 10px;
+        }
 
-		.scrollDiv button:hover {
-			border-bottom: 1px solid #8ABC3F;
-		}
+        .scrollDiv button {
+            display: block;
+            margin: auto;
+            padding: 10px 50px 10px 50px;
+            width: auto;
+            box-sizing: border-box;
+            color: white;
+            text-align: center;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: #A9D86D;
+            border: 0;
+            border-bottom: 2px solid #8ABC3F;
+            cursor: pointer;
+            box-shadow: inset 0 -2px #8ABC3F;
+            border-radius: 5px;
+            font: 18px Ubuntu;
+        }
 
-		.scrollDiv button:active {
-			background: #8ABC3F;
-			border-bottom: 0;
-			outline: none;
-			box-shadow: none;
-		}
-	</style>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Nabla&family=Rubik+80s+Fade&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee&family=Cutive+Mono&family=Dancing+Script:wght@500&family=Fredoka+One&family=Indie+Flower&family=Merienda&family=Nanum+Brush+Script&family=Neonderthaw&family=Pacifico&family=Passion+One&family=Permanent+Marker&family=Rampart+One&family=Roboto+Mono:wght@500&family=Share+Tech+Mono&family=Syne+Mono&family=Ubuntu:wght@400;700&family=Zen+Dots&display=swap"
-		rel="stylesheet">
+        .scrollDiv button:hover {
+            border-bottom: 1px solid #8ABC3F;
+        }
+
+        .scrollDiv button:active {
+            background: #8ABC3F;
+            border-bottom: 0;
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nabla&family=Rubik+80s+Fade&family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee&family=Cutive+Mono&family=Dancing+Script:wght@500&family=Fredoka+One&family=Indie+Flower&family=Merienda&family=Nanum+Brush+Script&family=Neonderthaw&family=Pacifico&family=Passion+One&family=Permanent+Marker&family=Rampart+One&family=Roboto+Mono:wght@500&family=Share+Tech+Mono&family=Syne+Mono&family=Ubuntu:wght@400;700&family=Zen+Dots&display=swap"
+        rel="stylesheet">
 
 </head>
 
 <body>
-	<div id="mainWrapper">
-		<div class="scrollDiv">
-			<h1>Woomy Online</h1>
-			<hr>
-			<p>
-				Woomy Online is a project that started back in 2017-18 and has been worked on by many hands.
-				Throughout most of it's time, it has remained a passion project, being a place where developers
-				can learn to program and put their artistic ideas into the game for others to experience. Given
-				the structure of the team over the years (that being a team where everyone has relatively the same
-				amount of authority), the history is anything but smooth. The game has undergone multiple
-				deletions/abandonments (each with it's own reasons) that have permanently impacted both the
-				game and the community. One of the most notable things is the codebase. Over the years, things
-				have piled ontop of dubious code to "just make things work". This can be largely attributed to three
-				things:
-				this is a passion project, this is where people learned to program, and for most of it's time, it wasnt
-				very
-				organized. This has the end result of the codebase being one of the largest most complex projects that I
-				have
-				ever seen which makes it very difficult to work on and clean up. In recent times, I've (Ayden
-				Greenan/Drkao Hyena) dedicated myself to
-				improving the game and preserving it for any who still enjoy it, and those who wish to mod it. In that
-				time, I've completely redesigned the game to rely off the player's device rather than a centeral server.
-				This was an extremely labor intensive process of rewritting and optimizing absolutely massive parts of the codebase
-				while trying to organize it. Occasionally, Ill release content updates which aim to increase modders' capabilities
-				and keep the game interesting.
-			</p>
-			<p>
-				The role that the previous developers have played is invaluable and should never be forgotten. Their
-				time and passion, which they have poured into this game, has slowly shaped it into what it is today.
-				Think of it as carving a statue from a block of marble. Which is to say, it has been an extremely
-				long and laborious process filled with ingenuity and creativity. I have the utmost respect for all
-				of those who have contributed to this game and take no credit for their contributions. Personally,
-				I thank all of the previous developers for their work.
-			</p>
-			<h1>Oxyrex</h1>
-			<p>
-				Oxyrex was an independant project from Woomy - developed from the ground up - which started after one of it's deletions.
-				It was owned and directed by Oblivion  
-			</p>
-			<h1>Current Team</h1>
-			<hr>
-			<p>
-				The current team just consists of me, although, I welcome
-				any helping hands. Given that this project is still based in passion, free to play, and costs money to
-				host,
-				I ask that if you have the capabilities, reach out to me via discord (@drakohyena) or email
-				(drakohyena@gmail.com)
-				for ways that you can donate or help the project continue. It would help tremendously.
-			</p>
-			<h1>Credits</h1>
-			<hr>
-			<p>
-				Due to the sheer number of people who have touched this game, this list is, and likely always will be, incomplete. If you know anyone who
-				has contributed and is not listed here or you would like your entry editted, please send @drakohyena a message on discord.
-			</p>
-			<ul>
-				<li>The creators of the .io tank genre, who pioneered the simple and accessible gameplay that inspired many creative projects, including this one.</li>
-				<li>Hellcat</li>
-				<ul>
-					<li>Founded the project and was the original lead developer</li>
-				</ul>
-				<li>Fillygroove, Clare</li>
-				<ul>
-					<li>Developed the game for years, from the Hellcat era all the way up until this iteration</li>
-					<li>Made a number of signifigant contributions that are remarkable for their quality and ingenuity, most of which have shaped the game since their addition</li>
-					<li>Most notable for her impressive and detailed tank designs</li>
-				</ul>
-				<li>Kot, KoleOBlack</li>
-				<ul>
-					<li>Developer during the Hellcat era</li>
-					<li>A number of his contributions went on to become iconic and form the feel of Woomy itself</li>
-				</ul>
-				<li>Oblivion, z46, Evan</li>
-				<ul>
-					<li>Directed the game across multiple iterations</li>
-					<li>Inital developer during the Hellcat era</li>
-					<li>Continously contributed many optimizations and systems which pushed the limits of the game and opened new doors in development. Most of the optimizations up until woomy.online (now) was Oblivion (alongside Xskt at times). Without them the game would be crippled.</li>
-				</ul>
-				<li>Netheferous</li>
-				<ul>
-					<li>Developed the game for years</li>
-					<li>Made a lot of contributions which perfectly captured the "feel" of Woomy. Almost everything they added felt right at home in the game without sacrificing ingenuity</li>
-				</ul>
-				<li>Doga, Dogatorix</li>
-				<ul>
-					<li>Developed the game across multiple eras</li>
-					<li>Developed Oxyrex</li>
-					<li>She made a number of signifigant contributions from entities to fundemental systems, like chat</li>
-				</ul>
-				<li>xskt, Jekyll, xskutsu, SkuTsu</li>
-				<ul>
-					<li>Developed the game alongside Drako Hyena during the final Oblivion iteration</li>
-					<li>Developed the game during the Drako era</li>
-					<li>Their most notable contributions are their optimizations to the game which signifigantly sped up both development time and gameplay</li>
-					<li>Made many signifigant contributions to the client, most notably, a majority of the settings menu</li>
-				</ul>
-				<li>Drako Hyena, Ayden</li>
-				<ul>
-					<li>Directed and developed the game across 2 iterations</li>
-					<li>Developed the game during the last Oblivion era</li>
-					<li>His most notable work is the introduction of events (ON_HIT, ON_KILL) which expanded the limit of whats possible in development</li>
-					<li>Single handedly converted Woomy from a server based model to a peer to peer model, signifigantly optimizing it in the process</li>
-				</ul>
-				<li>Violin</li>
-				<ul>
-					<li>Developed the game during the Drako era</li>
-					<li>Contributed a great number of things directly expanding most of the core game features (tanks, projectiles, food, bosses, entities in general)</li>
-					<li>Her contributions are notable for their cool, novel, and immense designs as well as their unique mechanics</li>
-					<li>Her most notable work are her incredible bosses</li>
-				</ul>
-				<li>Drifter</li>
-				<ul>
-					<li>A prolific community member and moderator</li>
-					<li>Was an amazing person and always a joy to talk to</li>
-					<li>Had many advanced ideas some of which were thought to be extremely hard or technically impossible to add to the game</li>
-				</ul>
-				<li><i>Note!</i></li>
-				<ul>
-					From this point on, conceptualizing is referring to the process of coming up with and making a tank in any art program
-				</ul>
-				<li>Dingbat1991</li>
-				<ul>
-					<li>Conceptualized <b>hundreds</b> of tanks and signifigantly impacted the game in the early days</li>
-				</ul>
-				<li>Graviatar</li>
-				<ul>
-					<li>Conceptualized many bosses, most of which are now iconic</li>
-					<li>Had a signifigant impact on the game in the early days.</li>
-				</ul>
-				<li>Rodrigo of Rodrigonia</li>
-				<ul>
-					<li>Conceptualized a signifigant number of things</li>
-					<li>Notable for the quality of their designs as well as how iconic some had become</li>
-				</ul>
-				<li>KC</li>
-				<ul>
-					<li>Conceptualized a number of bosses, some of which have become iconic</li>
-				</ul>
-				<li>Zathsu</li>
-				<ul>
-					<li>Helped conceptualize Lancer</li>
-					<li>Conceptualized a number of other things. <i>(please contact us if you know specifics)</i></li>
-				</ul>
-				<li>Diepmon</li>
-				<ul>
-					<li>Helped conceptualize Lancer</li>
-				</ul>
-				<li>Otter Hater, Nontakenusername1234</li>
-				<ul>
-					<li>Conceptualized the following tanks:</li>
-					<li>Koa</li>
-					<li>Rubidium</li>
-					<li>Virass</li>
-					<li>Autominer</li>
-					<li>Fungalmancer</li>
-					<li>Launcher Ceptionist</li>
-					<li>Cherry Bomb</li>
-					<li>(contact us if you know more)</li>
-				</ul>
-			</ul>
-			<script>
-				function goback(){
-					window.location.href = window.location.origin
-				}
-			</script>
-			<button onclick="goback()">
-				Back
-			</button>
-		</div>
-	</div>
+    <div id="mainWrapper">
+        <div class="scrollDiv">
+            <h1>Woomy Online</h1>
+            <hr>
+            <p>
+                Woomy Online is a project that started back in 2017-18 and has been worked on by many hands.
+                Throughout most of it's time, it has remained a passion project, being a place where developers
+                can learn to program and put their artistic ideas into the game for others to experience. Given
+                the structure of the team over the years (that being a team where everyone has relatively the same
+                amount of authority), the history is anything but smooth. The game has undergone multiple
+                deletions/abandonments (each with it's own reasons) that have permanently impacted both the
+                game and the community. One of the most notable things is the codebase. Over the years, things
+                have piled ontop of dubious code to "just make things work". This can be largely attributed to three
+                things:
+                this is a passion project, this is where people learned to program, and for most of it's time, it wasnt
+                very
+                organized. This has the end result of the codebase being one of the largest most complex projects that I
+                have
+                ever seen which makes it very difficult to work on and clean up. In recent times, I've (Ayden
+                Greenan/Drkao Hyena) dedicated myself to
+                improving the game and preserving it for any who still enjoy it, and those who wish to mod it. In that
+                time, I've completely redesigned the game to rely off the player's device rather than a centeral server.
+                This was an extremely labor intensive process of rewritting and optimizing absolutely massive parts of
+                the codebase
+                while trying to organize it. Occasionally, Ill release content updates which aim to increase modders'
+                capabilities
+                and keep the game interesting.
+            </p>
+            <p>
+                The role that the previous developers have played is invaluable and should never be forgotten. Their
+                time and passion, which they have poured into this game, has slowly shaped it into what it is today.
+                Think of it as carving a statue from a block of marble. Which is to say, it has been an extremely
+                long and laborious process filled with ingenuity and creativity. I have the utmost respect for all
+                of those who have contributed to this game and take no credit for their contributions. Personally,
+                I thank all of the previous developers for their work.
+            </p>
+            <h1>Oxyrex</h1>
+            <p>
+                Oxyrex was an independant project from Woomy - developed from the ground up - which started after one of
+                it's deletions.
+                It was owned and directed by Oblivion
+            </p>
+            <h1>Current Team</h1>
+            <hr>
+            <p>
+                The current team just consists of me, although, I welcome
+                any helping hands. Given that this project is still based in passion, free to play, and costs money to
+                host,
+                I ask that if you have the capabilities, reach out to me via discord (@drakohyena) or email
+                (drakohyena@gmail.com)
+                for ways that you can donate or help the project continue. It would help tremendously.
+            </p>
+            <h1>Credits</h1>
+            <hr>
+            <p>
+                Due to the sheer number of people who have touched this game, this list is, and likely always will be,
+                incomplete. If you know anyone who
+                has contributed and is not listed here or you would like your entry editted, please send @drakohyena a
+                message on discord.
+            </p>
+            <ul>
+                <li>The creators of the .io tank genre, who pioneered the simple and accessible gameplay that inspired
+                    many creative projects, including this one.</li>
+                <li>Hellcat</li>
+                <ul>
+                    <li>Founded the project and was the original lead developer</li>
+                </ul>
+                <li>Fillygroove, Clare</li>
+                <ul>
+                    <li>Developed the game for years, from the Hellcat era all the way up until this iteration</li>
+                    <li>Made a number of signifigant contributions that are remarkable for their quality and ingenuity,
+                        most of which have shaped the game since their addition</li>
+                    <li>Most notable for her impressive and detailed tank designs</li>
+                </ul>
+                <li>Kot, KoleOBlack</li>
+                <ul>
+                    <li>Developer during the Hellcat era</li>
+                    <li>A number of his contributions went on to become iconic and form the feel of Woomy itself</li>
+                </ul>
+                <li>Oblivion, z46</li>
+                <ul>
+                    <li>Directed the game across multiple iterations</li>
+                    <li>Inital developer during the Hellcat era</li>
+                    <li>Continously contributed many optimizations and systems which pushed the limits of the game and
+                        opened new doors in development. Most of the optimizations up until woomy.online (now) was
+                        Oblivion (alongside Xskt at times). Without them the game would be crippled.</li>
+                </ul>
+                <li>Netheferous</li>
+                <ul>
+                    <li>Developed the game for years</li>
+                    <li>Made a lot of contributions which perfectly captured the "feel" of Woomy. Almost everything they
+                        added felt right at home in the game without sacrificing ingenuity</li>
+                </ul>
+                <li>Doga, Dogatorix</li>
+                <ul>
+                    <li>Developed the game across multiple eras</li>
+                    <li>Developed Oxyrex</li>
+                    <li>She made a number of signifigant contributions from entities to fundemental systems, like chat
+                    </li>
+                </ul>
+                <li>xskt, Jekyll, xskutsu, SkuTsu</li>
+                <ul>
+                    <li>Developed the game alongside Drako Hyena during the final Oblivion iteration</li>
+                    <li>Developed the game during the Drako era</li>
+                    <li>Their most notable contributions are their optimizations to the game which signifigantly sped up
+                        both development time and gameplay</li>
+                    <li>Made many signifigant contributions to the client, most notably, a majority of the settings menu
+                    </li>
+                </ul>
+                <li>Drako Hyena, Ayden</li>
+                <ul>
+                    <li>Directed and developed the game across 2 iterations</li>
+                    <li>Developed the game during the last Oblivion era</li>
+                    <li>His most notable work is the introduction of events (ON_HIT, ON_KILL) which expanded the limit
+                        of whats possible in development</li>
+                    <li>Single handedly converted Woomy from a server based model to a peer to peer model, signifigantly
+                        optimizing it in the process</li>
+                </ul>
+                <li>Violin</li>
+                <ul>
+                    <li>Developed the game during the Drako era</li>
+                    <li>Contributed a great number of things directly expanding most of the core game features (tanks,
+                        projectiles, food, bosses, entities in general)</li>
+                    <li>Her contributions are notable for their cool, novel, and immense designs as well as their unique
+                        mechanics</li>
+                    <li>Her most notable work are her incredible bosses</li>
+                </ul>
+                <li>Drifter</li>
+                <ul>
+                    <li>A prolific community member and moderator</li>
+                    <li>Was an amazing person and always a joy to talk to</li>
+                    <li>Had many advanced ideas some of which were thought to be extremely hard or technically
+                        impossible to add to the game</li>
+                </ul>
+                <li><i>Note!</i></li>
+                <ul>
+                    From this point on, conceptualizing is referring to the process of coming up with and making a tank
+                    in any art program
+                </ul>
+                <li>Dingbat1991</li>
+                <ul>
+                    <li>Conceptualized <b>hundreds</b> of tanks and signifigantly impacted the game in the early days
+                    </li>
+                </ul>
+                <li>Graviatar</li>
+                <ul>
+                    <li>Conceptualized many bosses, most of which are now iconic</li>
+                    <li>Had a signifigant impact on the game in the early days.</li>
+                </ul>
+                <li>Rodrigo of Rodrigonia</li>
+                <ul>
+                    <li>Conceptualized a signifigant number of things</li>
+                    <li>Notable for the quality of their designs as well as how iconic some had become</li>
+                </ul>
+                <li>KC</li>
+                <ul>
+                    <li>Conceptualized a number of bosses, some of which have become iconic</li>
+                </ul>
+                <li>Zathsu</li>
+                <ul>
+                    <li>Helped conceptualize Lancer</li>
+                    <li>Conceptualized a number of other things. <i>(please contact us if you know specifics)</i></li>
+                </ul>
+                <li>Diepmon</li>
+                <ul>
+                    <li>Helped conceptualize Lancer</li>
+                </ul>
+                <li>Otter Hater, Nontakenusername1234</li>
+                <ul>
+                    <li>Conceptualized the following tanks:</li>
+                    <li>Koa</li>
+                    <li>Rubidium</li>
+                    <li>Virass</li>
+                    <li>Autominer</li>
+                    <li>Fungalmancer</li>
+                    <li>Launcher Ceptionist</li>
+                    <li>Cherry Bomb</li>
+                    <li>(contact us if you know more)</li>
+                </ul>
+            </ul>
+            <script>
+                function goback() {
+                    window.location.href = window.location.origin
+                }
+            </script>
+            <button onclick="goback()">
+                Back
+            </button>
+        </div>
+    </div>
 </body>
 
 </html>

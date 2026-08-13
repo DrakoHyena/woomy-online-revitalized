@@ -190560,17 +190560,17 @@ defExports.attachmentPoint = {
         PUSHABILITY: 0,
         DENSITY: 1e5
     },
-    ON_DEFINED: (me) => { initalizePoint(me) },
+    ON_DEFINED: ({ me }) => { initalizePoint(me) },
     ON_VARIABLES_CLEARED: (me) => {
         if (me.variables.attachedEntity) {
             unattachPoint(me);
-            me.master ? me.master.sendMessage("Entity dropped!") : me.sendMessage("Entity dropped!");
+            me.master ? me.master.sendMessage("Teammate ejected!") : me.sendMessage("Teammate ejected!");
         }
     },
     ON_DEAD: ({ me }) => {
         if (me.variables.attachedEntity) {
             unattachPoint(me);
-            me.master ? me.master.sendMessage("Entity dropped!") : me.sendMessage("Entity dropped!");
+            me.master ? me.master.sendMessage("Teammate ejected!") : me.sendMessage("Teammate ejected!");
         }
     },
     ON_TICK: (me) => {
@@ -190578,12 +190578,11 @@ defExports.attachmentPoint = {
             if (me.variables.attachedEntity.socket) {
                 const cmd = me.variables.attachedEntity.socket.player.command
                 let val = cmd.up + cmd.down + cmd.left + cmd.right
-                console.log(val)
-                const cur = (me.variables.moves[me.variables.attachedEntity.id] || 0);
+                const cur = (me.variables.moves[me.variables.attachedTank.id] || 0);
                 me.variables.moves[me.variables.attachedEntity.id] = cur + (val || -1)
                 if (cur > me.variables.breakFreeVal) {
                     unattachPoint(me);
-                    me.master ? me.master.sendMessage("Entity ejected!") : me.sendMessage("Entity ejected!");
+                    me.master ? me.master.sendMessage("Teammate ejected!") : me.sendMessage("Teammate ejected!");
                     return;
                 }
             }
@@ -190593,11 +190592,11 @@ defExports.attachmentPoint = {
 
             if (me.variables.attachedEntity.isDead()) {
                 unattachPoint(me);
-                me.master ? me.master.sendMessage("Entity dead...") : me.sendMessage("Entity dead...");
+                me.master ? me.master.sendMessage("Teammate dead...") : me.sendMessage("Teammate dead...");
 
             } else if (me.variables.attachedEntity.motionType !== "bound") {
                 unattachPoint(me);
-                me.master ? me.master.sendMessage("Entity lost!") : me.sendMessage("Entity lost!");
+                me.master ? me.master.sendMessage("Teammate ejected!") : me.sendMessage("Teammate ejected!");
 
             }
         }
@@ -190606,38 +190605,32 @@ defExports.attachmentPoint = {
 
 function attachEntityToPoint(point, entity) {
     if (!point.variables.init) initalizePoint(point);
-    if (Date.now() - point.variables.lastPickup < point.variables.pickupCooldown || point.variables.attachedEntity || point.variables.pickupMode === false || entity.bond) return;
-    for (let turret of entity.turrets) {
-        if (turret.variables.pickupMode) return;
-    }
+    if (Date.now() - point.variables.lastPickup < point.variables.pointCooldown || point.variables.attachedTank || point.variables.pickupMode === false || entity.bond) return;
 
     point.variables.ogSettings = JSON.parse(JSON.stringify(entity.settings));
     point.variables.attachedEntity = entity;
     point.variables.lastPickup = Date.now();
-    point.variables.ogMotionType = entity.motionType;
-    point.master.sendMessage("Entity picked up!")
-    point.variables.lastPickup = Date.now();
+    point.variables.ogMotionType = me.variables.attachedTank.motionType;
 
     entity.bond = point;
-    const bound = structuredClone(point.bound);
-    bound.offset = 0;
-    entity.bound = bound;
+    entity.bound = point.bound;
     entity.motionType = "bound";
     entity.settings.hitsOwnType = "teamNever";
     entity.settings.goThruObstacle = true;
     entity.move();
-    entity.master ? entity.master.sendMessage("Hold your movement to eject!") : entity.sendMessage("Hold your movement to eject!");
 }
 function unattachPoint(point) {
     if (!point.variables.init) initalizePoint(point);
     if (!point.variables.attachedEntity) return;
 
-    const entity = point.variables.attachedEntity;
+    const entity = point.attachedEntity;
     if (!entity.isDead()) {
         entity.bond = undefined;
         entity.bound = undefined;
         entity.motionType = point.variables.ogMotionType;
         entity.settings = point.variables.ogSettings;
+        entity.velocity.null();
+        entity.accel.null();
         entity.move();
     }
 
@@ -190699,9 +190692,9 @@ defExports.chinook = {
         me.variables.altDebounce = Date.now();
 
         const point = me.turrets[2];
-        if (point.variables.attachedEntity) {
+        if (point.variables.attachedTank !== false) {
             unattachPoint(point);
-            me.sendMessage("Entity dropped!");
+            me.sendMessage("Teammate dropped!");
 
         } else if (point.variables.pickupMode === false && Date.now() - point.variables.lastPickup > point.variables.pickupCooldown) {
             point.variables.pickupMode = true;
@@ -190709,15 +190702,19 @@ defExports.chinook = {
 
         } else {
             point.variables.pickupMode = false;
-            me.sendMessage(`You can pick up a new tank in ${Math.max(0, ((point.variables.pickupCooldown - (Date.now() - point.variables.lastPickup)) / 1000)).toFixed(2)}s`)
+            me.sendMessage(`You can pick up a new tank in ${((point.variables.pickupCooldown - (Date.now() - point.variables.lastPickup)) / 1000).toFixed(2)}s`)
 
         }
     },
     ON_COLLIDE: (me, them) => {
+        if (them.type !== "tank" || them.team !== me.team) return;
         const point = me.turrets[2];
-        if (point.pickupMode === false || them.type !== "tank" || them.team !== me.team) return;
+
         attachEntityToPoint(point, them);
+        me.sendMessage("Teammate picked up!");
         point.variables.pickupMode = false;
+
+        them.sendMessage("Hold your movement to eject from the Chinook!")
     },
 }
 defExports.laserTest3Gun = {
