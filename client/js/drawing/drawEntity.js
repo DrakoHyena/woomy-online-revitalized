@@ -2347,7 +2347,6 @@ let drawEntity = (function() {
             for (let animation of animations) {
                 let prop = props[animation.index];
                 if (!prop) return props;
-                console.log(prop)
                 prop.shape = animation.shape;
                 prop.size = animation.size;
                 prop.x = animation.x;
