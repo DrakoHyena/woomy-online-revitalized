@@ -6891,9 +6891,38 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 this.isTurret = true;
             }
             get size() {
-                //if (this.bond == null) return (this.coreSize || this.SIZE) * (1 + this.skill.level / 60);
-                if (this.bond == null || this.bond.bond === this) return this.SIZE * (1 + (this.skill.level > c.SKILL_CAP ? c.SKILL_CAP : this.skill.level) / 60);
-                return this.bond.size * this.bound.size;
+                // 1. Calculate this entity's own standalone base size
+                const levelFactor = 1 + (this.skill.level > c.SKILL_CAP ? c.SKILL_CAP : this.skill.level) / 60;
+                const ownBaseSize = (this.SIZE) * levelFactor;
+
+                // 2. Fast path: If not a sub-turret, return own base size immediately (O(1), zero recursion)
+                if (!this.bond || !this.bound) {
+                    return ownBaseSize;
+                }
+
+                // 3. Iteratively climb the bond tree without calling `.size` on other entities
+                let multiplier = this.bound.size || 1;
+                let curr = this.bond;
+                let depth = 0;
+
+                // Climb up as long as the parent is also a sub-turret (hard limit of 1048 levels to prevent infinite loops)
+                while (curr && curr.isTurret && curr.bound && depth < 1048) {
+                    if (curr === this) break; // Cycle detected: abort compounding
+                    multiplier *= (curr.bound.size || 1);
+                    curr = curr.bond;
+                    depth++;
+                }
+
+                // If root is invalid or cyclic, fall back safely to own size
+                if (!curr || curr === this) {
+                    return ownBaseSize;
+                }
+
+                // 4. Calculate root tank's base size directly
+                const rootLevelFactor = 1 + (curr.skill.level > c.SKILL_CAP ? c.SKILL_CAP : curr.skill.level) / 60;
+                const rootBaseSize = (curr.SIZE) * rootLevelFactor;
+
+                return rootBaseSize * multiplier;
             }
             get mass() {
                 return this.density * (this.size * this.size + 1);

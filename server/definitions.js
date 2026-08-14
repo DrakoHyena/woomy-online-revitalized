@@ -85977,7 +85977,6 @@ defExports.autoMachTwin = makeAuto(defExports.twinMachine, 'Magnum');
 defExports.hybridStalk = makeHybrid(defExports.stalk, 'Berserker');
 defExports.autoStalk = makeAuto(defExports.stalk, 'Dissolutionist');
 function ballerAttach(me, them, damageAmnt) {
-    console.log(them.type)
     if (me.variables.alreadyHooked || (them.type !== "tank" && them.type !== "minion")) return;
     if (them && them.isAlive()) {
         me.variables.alreadyHooked = true;
@@ -190578,7 +190577,6 @@ defExports.attachmentPoint = {
             if (me.variables.attachedEntity.socket) {
                 const cmd = me.variables.attachedEntity.socket.player.command
                 let val = cmd.up + cmd.down + cmd.left + cmd.right
-                console.log(val)
                 const cur = (me.variables.moves[me.variables.attachedEntity.id] || 0);
                 me.variables.moves[me.variables.attachedEntity.id] = cur + (val || -1)
                 if (cur > me.variables.breakFreeVal) {
@@ -190616,7 +190614,6 @@ function attachEntityToPoint(point, entity) {
     point.variables.lastPickup = Date.now();
     point.variables.ogMotionType = entity.motionType;
     point.master.sendMessage("Entity picked up!")
-    point.variables.lastPickup = Date.now();
 
     entity.bond = point;
     const bound = structuredClone(point.bound);
@@ -190715,7 +190712,7 @@ defExports.chinook = {
     },
     ON_COLLIDE: (me, them) => {
         const point = me.turrets[2];
-        if (point.pickupMode === false || them.type !== "tank" || them.team !== me.team) return;
+        if (point.variables.pickupMode === false || them.type !== "tank" || them.team !== me.team) return;
         attachEntityToPoint(point, them);
         point.variables.pickupMode = false;
     },
