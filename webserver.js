@@ -46,6 +46,7 @@ class Room {
         this.gamemodeCode = "4tdm.json";
         this.players = 1;
         this.maxPlayers = 99;
+        this.serverSpeed = 0;
         rooms.set(this.id, this);
     }
     removeFromRooms() {
@@ -224,6 +225,7 @@ const handleRequest = (req, res) => {
                     desc: room.desc || "",
                     players: room.players,
                     maxPlayers: room.maxPlayers,
+                    serverSpeed: room.serverSpeed
                 });
             }
             res.end(JSON.stringify(list));
@@ -362,7 +364,7 @@ wss.on("connection", function connection(ws, req) {
             ws.on("close", room.removeFromRooms.bind(room));
             ws.on("message", (msg) => {
                 try {
-                    const { players, maxPlayers, name, desc, ping } = JSON.parse(
+                    const { players, maxPlayers, serverSpeed, name, desc, ping } = JSON.parse(
                         msg.toString(),
                     );
                     if (ping === true) return;
@@ -370,8 +372,9 @@ wss.on("connection", function connection(ws, req) {
                     if (maxPlayers !== undefined)
                         room.maxPlayers = Math.min(
                             99,
-                            Math.max(1, Number(maxPlayers | 0) || 99),
+                            Math.max(1, Number(maxPlayers | 0)),
                         );
+                    if (serverSpeed !== undefined) room.serverSpeed = serverSpeed
                     if (name) room.gamemodeCode = `${name}`.substring(0, 25);
                     if (desc) room.desc = `${desc}`.substring(0, 350);
                 } catch (err) {

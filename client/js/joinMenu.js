@@ -36,6 +36,7 @@ modListTemplate.style.display = "none";
 
 const roomInfoPlayerCount = document.getElementById("roomInfoPlayerAmount");
 const roomInfoGamemode = document.getElementById("roomInfoGamemode");
+const roomInfoServerSpeed = document.getElementById("roomInfoServerSpeed");
 const roomInfoGamemodeImage = document.getElementById("roomInfoGamemodeImage");
 const roomInfoGamemodeDescription = document.getElementById(
     "roomInfoGamemodeDescription",
@@ -56,6 +57,7 @@ let selectedGamemode = "";
 let selectedRoomId = "";
 let maxPlayers = 99;
 let maxBots = 10;
+let serverSpeed = 0;
 resetRoomInfo();
 function resetRoomInfo() {
     gamemodeName = "Welcome!";
@@ -66,6 +68,7 @@ function resetRoomInfo() {
 function updateRoomInfo() {
     roomInfoPlayerCount.innerText = `${playerCount}${maxPlayerCount !== 99 ? `/${maxPlayerCount}` : ""}`;
     roomInfoGamemode.innerText = gamemodeName;
+    roomInfoServerSpeed.innerText = serverSpeed;
     if (gamemodeImage === "") {
         roomInfoGamemodeImage.style.display = "none";
     } else {
@@ -417,8 +420,11 @@ function showGamemodes() {
         // Player count
         ele.children[0].children[1].style.display = "none";
 
-        // Room Code
+        // Server Speed
         ele.children[0].children[2].style.display = "none";
+
+        // Room Code
+        ele.children[0].children[3].style.display = "none";
 
         ele.onclick = function() {
             playerCount = gamemode.players;
@@ -426,6 +432,7 @@ function showGamemodes() {
             gamemodeImage = gamemode.image;
             gamemodeDescription = gamemode.description;
             selectedGamemode = gamemode.code;
+            serverSpeed = 0;
             updateRoomInfo();
         };
 
@@ -469,8 +476,11 @@ async function showRooms() {
         // Player count
         ele.children[0].children[1].innerText = `Players: ${room.players}${room.maxPlayers < 99 ? `/${room.maxPlayers}` : ""}`;
 
+        // Server Speed
+        ele.children[0].children[2].innerText = `Server Speed: ${room.serverSpeed}mspt`
+
         // Room Code
-        ele.children[0].children[2].innerText = room.id;
+        ele.children[0].children[3].innerText = room.id;
 
         ele.onclick = function() {
             playerCount = room.players;
@@ -479,6 +489,7 @@ async function showRooms() {
             gamemodeImage = gamemodeInfo.image || "";
             gamemodeDescription =
                 room.desc || gamemodeInfo.description || gamemodeInfo;
+            serverSpeed = room.serverSpeed;
             selectedRoomId = room.id;
             updateRoomInfo();
         };
