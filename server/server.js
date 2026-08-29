@@ -2068,10 +2068,10 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 return this.x * this.x + this.y * this.y <= d * d;
             }
         
-            /*update() {//this is an unused class (I removed it and everything works fine) I keep it incase, though DON'T use it because len and dir are calculated from the 2 getters, this method implements duplicate states (TTLDR: don't use it)
+            update() {//this is an unused class
                 this.len = this.length;
                 this.dir = this.direction;
-            }*/
+            }
 
 
             unit() {
