@@ -2029,55 +2029,62 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
         }
         const room = new Room(c);
 
-        // This class is horrible
-        // Theres been a long standing NaN bug
-        // It naturally spreads
-        // Gameplay would be much worse without these safeguards
-        // The problem runs deeper than the time I have available
         class Vector {
-            constructor(x, y) {
+            constructor(x = 0, y = 0) {
                 this.x = x;
                 this.y = y;
             }
+        
             get x() {
                 return this.X;
             }
-            get y() {
-                return this.Y
-            }
+        
             set x(value) {
-                if (isNaN(value) || value === Infinity || value === -Infinity) {
-                    return;
-                }
-                this.X = value || c.MIN_SPEED;;
+                this.X = Number.isFinite(value) ? value : c.MIN_SPEED;
             }
+        
+            get y() {
+                return this.Y;
+            }
+        
             set y(value) {
-                if (isNaN(value) || value === Infinity || value === -Infinity) {
-                    return;
-                }
-                this.Y = value || c.MIN_SPEED;;
+                this.Y = Number.isFinite(value) ? value : c.MIN_SPEED;
             }
-            null() {
+        
+            null() {//dis resets the vector, confusing name btw, it could be set to (0,0) now instead
                 this.X = c.MIN_SPEED;
                 this.Y = c.MIN_SPEED;
             }
-            update() {
-                this.len = this.length;
-                this.dir = this.direction;
-            }
-            isShorterThan(d) {
-                return this.x * this.x + this.y * this.y <= d * d;
-            }
-            unit() {
-                return new Vector(this.x / this.length, this.y / this.length);
-            }
+        
             get length() {
-                return Math.sqrt(this.x * this.x + this.y * this.y);
+                return Math.hypot(this.x, this.y);
             }
+        
             get direction() {
                 return Math.atan2(this.y, this.x);
             }
+        
+            isShorterThan(d) {
+                return this.x * this.x + this.y * this.y <= d * d;
+            }
+        
+            /*update() {//this is an unused class (I removed it and everything works fine) I keep it incase, though DON'T use it because len and dir are calculated from the 2 getters, this method implements duplicate states (TTLDR: don't use it)
+                this.len = this.length;
+                this.dir = this.direction;
+            }*/
+
+
+            unit() {
+                const len = this.length;
+                //we avoid 0/0 here because it creates NaNs
+                if (len === 0) {
+                    return new Vector(0, 0);
+                }
+        
+                return new Vector(this.x / len, this.y / len);
+            }
         }
+        
 
         function newMockups() {
             // Pre-calculate constants
