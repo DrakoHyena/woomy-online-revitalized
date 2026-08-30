@@ -2040,7 +2040,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
             }
         
             set x(value) {
-                this.X = Number.isFinite(value) ? value : c.MIN_SPEED;
+                this.X = Number.isFinite(value) ? value : 0;
             }
         
             get y() {
@@ -2048,12 +2048,12 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
             }
         
             set y(value) {
-                this.Y = Number.isFinite(value) ? value : c.MIN_SPEED;
+                this.Y = Number.isFinite(value) ? value : 0;
             }
         
-            null() {//dis resets the vector, confusing name btw, it could be set to (0,0) now instead
-                this.X = c.MIN_SPEED;
-                this.Y = c.MIN_SPEED;
+            null() {//dis resets the vector
+                this.X = 0;
+                this.Y = 0;
             }
         
             get length() {
