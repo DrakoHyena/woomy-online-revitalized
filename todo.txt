@@ -2,13 +2,18 @@
   - currentSettings.chatOverlayPos.value.selected
 - Improve leaderboard design
   - compact mode
+- nameplate
+  - fix link to stats menu causing it to disappear
 - Making text/number inputs not so jank
   - Random repeating
   - Incorrect typed char as last
 - Fix up/redo minimap
 - Flesh out gameplay rendering (more detail needed)
+  - health
+- Make sure image caches and such dont grow too large
 - Fleshout/clean up/implement all settings
 - Clean up client file structure
 - Clean up index.html and others
+- Replace peerjs
 
 

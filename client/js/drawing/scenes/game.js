@@ -156,7 +156,7 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
             playerState.gameName = entity.name == null ? mockups.get(entity.index).name : entity.name;
         }
 
-        const render = getEntityImage(entity, false, 1.25); // Add padding to accomadate border width and other misc things
+        const render = getEntityImage(entity, true, 1); // Add padding to accomadate border width and other misc things
         if (!render) continue; // ImageBitmap not ready yet, skip this frame
 
         const screenX = state.screenScale * entity.x + offsetX;
