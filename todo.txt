@@ -1,5 +1,4 @@
 - Improve chat design
-  - currentSettings.chatOverlayPos.value.selected
 - Improve leaderboard design
   - compact mode
 - nameplate

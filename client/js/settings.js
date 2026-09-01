@@ -80,7 +80,7 @@ const defaultSettings = {
     shaders: "Disabled",
     filter: "Disabled",
 
-    chatOverlayPos: "Over Map",
+    chatOverlayPos: "Above Map",
 
     // Input Elements
     inputElementsCacheInterval: 1000,

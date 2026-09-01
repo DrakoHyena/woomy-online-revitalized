@@ -14,6 +14,8 @@ import { lerp } from "../../lerp.js";
 const ANIM_SPEED = 1; // multiplier for fade animation (combined with menuAnimSpeed)
 
 let minimapState = {
+    x: 0, // <| used in other scripts
+    y: 0, // <-
     active: true,
     fade: 1,
     margin: 10,
@@ -47,7 +49,6 @@ const minimapCacheData = {
 function invalidateMinimapCache() {
     minimapCacheData.dirty = true;
     minimapCacheData.bitmap = null;
-    // keep the persistent canvas around; contents will be overwritten on rebuild
     minimapCacheData.animatedCells.length = 0;
 }
 
@@ -55,8 +56,7 @@ async function rebuildMinimapCache() {
     if (!roomState.cells || roomState.cells.length === 0) return;
     const mapWidthCells = roomState.cells[0].length;
     const mapHeightCells = roomState.cells.length;
-    // Decide pixels-per-cell based on map size (cap to keep canvas reasonable)
-    const pixelsPerCell = Math.min(4, Math.max(1, Math.floor(1024 / Math.max(mapWidthCells, mapHeightCells))));
+    const pixelsPerCell = Math.min(4, Math.max(1, Math.floor(MAX_CACHE_SIZE / Math.max(mapWidthCells, mapHeightCells))));
     const cachePixelWidth = mapWidthCells * pixelsPerCell;
     const cachePixelHeight = mapHeightCells * pixelsPerCell;
 
@@ -82,7 +82,6 @@ async function rebuildMinimapCache() {
             const resolved = (cell && resolveSkinAsset(cell, frameTick)) || defaultResolved;
             if (!resolved) continue; // asset not ready yet
 
-            // Draw tile into cache canvas at 1..4 px per cell
             drawCellTile(offscreenCacheCtx, resolved.skin, resolved.asset, mapX * pixelsPerCell, mapY * pixelsPerCell, pixelsPerCell, pixelsPerCell, 0, 0, 1);
 
             if (resolved.skin.frameInterval && resolved.skin.frameInterval > 0) {
@@ -131,6 +130,8 @@ function drawMinimap({ canvas, ctx, delta }) {
     let posX = baseX * minimapState.fade + canvas.width * (1 - minimapState.fade);
     // account for chat menu and any popup above it
     let posY = canvas.height - minimapPixelHeight - minimapState.margin - ((chatState.height + chatState.popupHeight + minimapState.margin) * chatState.fade);
+    minimapState.x = posX;
+    minimapState.y = posY;
 
     ctx.globalAlpha = BASE_ALPHA * minimapState.fade;
     ctx.fillStyle = "#777777";
@@ -273,4 +274,4 @@ function toggleMinimap() {
     }
 }
 
-export { toggleMinimap, openMinimap, closeMinimap, invalidateMinimapCache }
+export { minimapState, toggleMinimap, openMinimap, closeMinimap, invalidateMinimapCache }

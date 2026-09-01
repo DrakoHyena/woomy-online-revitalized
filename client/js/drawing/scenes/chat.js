@@ -18,6 +18,7 @@ import { keyboard } from "../../controls/keyboard.js";
 import { lerp } from "../../lerp.js";
 import { hideCursorTextBox, showCursorTextBox } from "./cursorUi.js";
 import { getColor } from "../../colors.js";
+import { minimapState } from "./minimap.js"
 
 const state = {
     messagePadding: 5,
@@ -481,12 +482,16 @@ function drawSelectedMessage(canvas, ctx, delta) {
     ctx.drawImage(text, x, y + height / 2 - text.height / 2);
 }
 
+let overlayX = 0;
+let overlayY = 0;
 function drawNewChats({ canvas, ctx, delta }) {
+    const ANIM_SPEED = currentSettings.menuAnimSpeed.value.number * delta;
     const fade = 1 - state.fade;
     let newChatAlpha = currentSettings.chatOverlayAlpha.value.number;
-    let y = canvas.height - state.margin;
+
+    let y = overlayY = lerp(overlayY, canvas.height - state.margin, ANIM_SPEED)
     const maxWidth = (canvas.height / 3.5) * currentSettings.chatOverlaySize.value.number;
-    let x = canvas.width - state.margin + maxWidth * (1 - fade);
+    let x = overlayX = lerp(overlayX, canvas.width - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
     const maxDur = currentSettings.closedMessageShowDuration.value.number;
     const fadeTime = Math.max(
         1,
@@ -494,6 +499,17 @@ function drawNewChats({ canvas, ctx, delta }) {
     );
 
     if (maxDur === 0) return;
+
+    // Over Map | Above Map | Next to Map
+    const chatOverlayPos = currentSettings.chatOverlayPos.value.selected;
+    if (minimapState.active === true) {
+        if (chatOverlayPos === "Above Map") {
+            y = overlayY = lerp(overlayY, minimapState.y - state.margin, ANIM_SPEED);
+        } else if (chatOverlayPos === "Next to Map") {
+            x = overlayX = lerp(overlayX, minimapState.x - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
+        }
+    }
+
 
     for (let i = roomState.chatMessages.length - 1; i >= 0; i--) {
         const chatMessage = roomState.chatMessages[i];
