@@ -28,10 +28,13 @@ const defaultSettings = {
     darkModeMenu: false,
     showFps: true,
     squareLeaderboardBars: false,
+    compactLeaderboard: false,
+    leaderboardRawScores: false,
     squareStatsBars: false,
     squareNameplateBars: false,
     linkNameplateToStats: false,
     imageSmoothing: false,
+    entityRawScores: false,
 
     // Number settings
     inGameChatMessageDuration: 3000,
@@ -44,11 +47,11 @@ const defaultSettings = {
     barWidth: 4, // barChunk
     fontSizeBoost: 10,
     vignetteStrength: 1,
-    leaderboardAlpha: 0.75,
+    leaderboardAlpha: 0.85,
     leaderboardBackgroundAlpha: 0.5,
     // custom leaderboard controls
-    leaderboardBorderSize: 1, // multiplier for border thickness (0.01 – 5)
-    leaderboardSize: 1, // overall scale for leaderboard UI
+    leaderboardBorderSize: 0.25, // multiplier for border thickness (0.01 – 5)
+    leaderboardSize: 1.25, // overall scale for leaderboard UI
     chatAlpha: 0.5,
     chatOverlayAlpha: 0.75,
     chatOverlaySize: 1.25,
@@ -59,14 +62,14 @@ const defaultSettings = {
     menuAnimSpeed: 0.25,
     upgradeMenuScale: 1,
     minimapScaleFactor: 1,
-    minimapSize: 0.2,
+    minimapSize: 0.3,
     minimapOpacity: 0.75,
     minimapRenderType: "Entity Image",
     statsAlpha: 0.75,
-    statsBackgroundAlpha: 0.5,
+    statsBackgroundAlpha: 0.75,
     // custom stats menu controls
     statsBorderSize: 1, // multiplier for border thickness (0.01 – 5)
-    statsSize: 1, // overall scale for stats UI
+    statsSize: 1.25, // overall scale for stats UI
     nameplateOpacity: 0.75,
     nameplateBorderSize: .75, // multiplier for border thickness (0.01 – 5)
     nameplateSize: 1.25, // overall scale for nameplate UI
@@ -121,10 +124,13 @@ const settingTypes = {
     darkModeMenu: "checkbox",
     showFps: "checkbox",
     squareLeaderboardBars: "checkbox",
+    compactLeaderboard: "checkbox",
+    leaderboardRawScores: "checkbox",
     squareStatsBars: "checkbox",
     squareNameplateBars: "checkbox",
     linkNameplateToStats: "checkbox",
     imageSmoothing: "checkbox",
+    entityRawScores: "checkbox",
 
     // Number settings
     inGameChatMessageDuration: "number",

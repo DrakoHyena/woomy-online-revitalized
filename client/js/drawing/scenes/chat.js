@@ -489,9 +489,7 @@ function drawNewChats({ canvas, ctx, delta }) {
     const fade = 1 - state.fade;
     let newChatAlpha = currentSettings.chatOverlayAlpha.value.number;
 
-    let y = overlayY = lerp(overlayY, canvas.height - state.margin, ANIM_SPEED)
     const maxWidth = (canvas.height / 3.5) * currentSettings.chatOverlaySize.value.number;
-    let x = overlayX = lerp(overlayX, canvas.width - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
     const maxDur = currentSettings.closedMessageShowDuration.value.number;
     const fadeTime = Math.max(
         1,
@@ -500,14 +498,22 @@ function drawNewChats({ canvas, ctx, delta }) {
 
     if (maxDur === 0) return;
 
+    let y = overlayX;
+    let x = overlayY;
+
     // Over Map | Above Map | Next to Map
     const chatOverlayPos = currentSettings.chatOverlayPos.value.selected;
-    if (minimapState.active === true) {
+    if (chatOverlayPos !== "Over Map" && minimapState.active === true) {
         if (chatOverlayPos === "Above Map") {
             y = overlayY = lerp(overlayY, minimapState.y - state.margin, ANIM_SPEED);
+            x = overlayX = lerp(overlayX, canvas.width - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
         } else if (chatOverlayPos === "Next to Map") {
+            y = overlayY = lerp(overlayY, canvas.height - state.margin, ANIM_SPEED)
             x = overlayX = lerp(overlayX, minimapState.x - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
         }
+    } else {
+        y = overlayY = lerp(overlayY, canvas.height - state.margin, ANIM_SPEED)
+        x = overlayX = lerp(overlayX, canvas.width - state.margin + maxWidth * (1 - fade), ANIM_SPEED);
     }
 
 

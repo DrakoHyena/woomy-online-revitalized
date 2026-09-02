@@ -4,7 +4,7 @@ import { connectClientSocket, socket } from "../../socket.js";
 import { getWOSocketId, util } from "../../util.js";
 import { canvas, drawLoop } from "../drawLoop.js";
 import { Scene } from "../scene.js";
-import { renderText } from "../text.js";
+import { renderText, suffixNum } from "../text.js";
 import { closeLoadingScreen, openLoadingScreen } from "./loadingScreen.js";
 import { settingsState } from "./settings.js";
 import { roomState } from "../../state/room.js";
@@ -180,7 +180,7 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
             const baseTextSize = state.screenScale * entitySize * .75;
             const textYOffset = -(render.height * scale) * .5;
             if (entity.score) {
-                scoreText = renderText(entity.score.toString(), baseTextSize || 1);
+                scoreText = renderText(currentSettings.entityRawScores.value.enabled ? entity.score.toString() : suffixNum(entity.score), baseTextSize || 1);
                 if (scoreText) ctx.drawImage(scoreText, -scoreText.width / 2, textYOffset - scoreText.height);
             }
             if (entity.name) {

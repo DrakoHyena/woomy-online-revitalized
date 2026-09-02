@@ -151,6 +151,27 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
     }
     y += text.height + SETTINGS_CONFIG.PADDING;
 
+    text = renderText("Raw Entity Scores", SETTING_TEXT_SIZE);
+    if ((y - text.height) < height && y > 0) {
+        ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+        renderInput(
+            "entityRawScores",
+            "checkbox",
+            x + width - SETTINGS_CONFIG.PADDING - text.height,
+            y,
+            text.height,
+            text.height,
+            currentSettings.entityRawScores.value.enabled,
+            () => {
+                currentSettings.entityRawScores.value.enabled =
+                    !currentSettings.entityRawScores.value.enabled;
+            }
+        );
+    }
+    y += text.height + SETTINGS_CONFIG.PADDING;
+
+
+
     text = renderText("Animated Lasers", SETTING_TEXT_SIZE);
     if ((y - text.height) < height && y > 0) {
         ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
@@ -831,6 +852,58 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
                 showCursorTextBox(
                     "Square Leaderboard Bars",
                     "Toggles the leaderboard bars to be squared instead of rounded."
+                );
+            },
+            hideCursorTextBox
+        );
+    }
+    y += text.height + SETTINGS_CONFIG.PADDING;
+
+    text = renderText("Raw Leaderboard Scores", SETTING_TEXT_SIZE);
+    if ((y - text.height) < height && y > 0) {
+        ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+        renderInput(
+            "leaderboardRawScores",
+            "checkbox",
+            x + width - SETTINGS_CONFIG.PADDING - text.height,
+            y,
+            text.height,
+            text.height,
+            currentSettings.leaderboardRawScores.value.enabled,
+            () => {
+                currentSettings.leaderboardRawScores.value.enabled =
+                    !currentSettings.leaderboardRawScores.value.enabled;
+            },
+            () => {
+                showCursorTextBox(
+                    "Raw Leaderboard Scores",
+                    "Displays the exact score values on the leaderboard rather than a shortened version."
+                );
+            },
+            hideCursorTextBox
+        );
+    }
+    y += text.height + SETTINGS_CONFIG.PADDING;
+
+    text = renderText("Compact Leaderboard", SETTING_TEXT_SIZE);
+    if ((y - text.height) < height && y > 0) {
+        ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+        renderInput(
+            "compactLeaderboard",
+            "checkbox",
+            x + width - SETTINGS_CONFIG.PADDING - text.height,
+            y,
+            text.height,
+            text.height,
+            currentSettings.compactLeaderboard.value.enabled,
+            () => {
+                currentSettings.compactLeaderboard.value.enabled =
+                    !currentSettings.compactLeaderboard.value.enabled;
+            },
+            () => {
+                showCursorTextBox(
+                    "Compact Leaderboard",
+                    "Toggles the leaderboard to a more compact alternative styling."
                 );
             },
             hideCursorTextBox
