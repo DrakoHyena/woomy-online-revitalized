@@ -1,229 +1,257 @@
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">Singularity: Part 1<span class="patchnoteTime">1/10/2026 v1.0.0</span></p>
-	<ul class="patchnoteBody">
-		<li>Fixed Rooms randomly disconntecting from the Room Manager, causing their room code to be regenerated often</li>
-		<li>Removed a warning that appeared if you used firefox</li>
-		<li>Rewrote the entire client</li>
-		<ul>
-			<li>Redid Input Code</li>
-			<ul>
-				<li>Inputs are now buffered</li>
-				<li>All inputs are now sent to the server</li>
-				<li>Modders, Note: I recommend that you use this sparingly in consideration for mobile users. See "case clientPackets.inputUpdate" in server.js to utilize.</li>
-			</ul>
-		</ul>
-	</ul>
+    <p class="patchnoteTitle">Singularity<span class="patchnoteTime">1/10/2026 v1.0.0</span></p>
+    <ul class="patchnoteBody">
+        <li>Fixed Rooms randomly disconntecting from the Room Manager, causing their room code to be regenerated often
+        </li>
+        <li>Removed a warning that appeared if you used firefox</li>
+        <li>Rewrote the entire client</li>
+        <ul>
+            <li>Redid Input Code</li>
+            <ul>
+                <li>Inputs are now buffered</li>
+                <li>All inputs are now sent to the server</li>
+                <li>Modders, Note: I recommend that you use this sparingly in consideration for mobile users. See "case
+                    clientPackets.inputUpdate" in server.js to utilize.</li>
+            </ul>
+        </ul>
+        <li>Removed UNMIX_COLOR from guns</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">IMA FIRIN MAH LAZOR<span class="patchnoteTime">11/30/2025 v1.0.1</span></p>
-	<ul class="patchnoteBody">
-		<li>Added Lasers</li>
-		<ul>
-			<li>Instantly fire a beam that deals damage to some amount of entities inside of it</li>
-			<li>Lasers are invincible and cannot take damage; They are not entities</li>
-			<li>Test them from Testbed > Admin Testbed > Beta Tanks</li>
-			<li>Currently there are no regular laser tanks</li>
-		</ul>
-		<li>Added Animated Lasers setting, true by default</li>
-		<li>Added a Fake Aim setting</li>
-		<ul>
-			<li>Aimming has been changed to reflect your <i>actual</i> aim on the server by default</li>
-			<li>Previously it was based off your mouse position on your device</li>
-			<li>Lasers, being seperate from the player, cannot have their position update as fast casuing them to look janky</li>
-			<li>In any sense, I figured this was for the better because knowing your server sided aim is probably more valuable even though the controls might appear less responsive</li>
-		</ul>
-		<li>Touched up main menus</li>
-		<li>Reduced the resolution of most assets resulting in much faster loading times</li>
-		<li>Added room settings during creation</li>
-		<ul>
-			<li>Max Players</li>
-			<li>Bot Amount</li>
-		</ul>
-		<li>Bumped network protocol version because of the above change</li>
-		<li>Bumped settings versions due to changes</li>
-		<li>Added Vignettes</li>
-		<ul>
-			<li>Added Vignette strength setting</li>
-			<li>Matches your simulated tank color</li>
-			<li>Added "v" packet -> socket.talk("v", .1, "#FF0000FF")</li>
-		</ul>
+    <p class="patchnoteTitle">IMA FIRIN MAH LAZOR<span class="patchnoteTime">11/30/2025 v1.0.1</span></p>
+    <ul class="patchnoteBody">
+        <li>Added Lasers</li>
+        <ul>
+            <li>Instantly fire a beam that deals damage to some amount of entities inside of it</li>
+            <li>Lasers are invincible and cannot take damage; They are not entities</li>
+            <li>Test them from Testbed > Admin Testbed > Beta Tanks</li>
+            <li>Currently there are no regular laser tanks</li>
+        </ul>
+        <li>Added Animated Lasers setting, true by default</li>
+        <li>Added a Fake Aim setting</li>
+        <ul>
+            <li>Aimming has been changed to reflect your <i>actual</i> aim on the server by default</li>
+            <li>Previously it was based off your mouse position on your device</li>
+            <li>Lasers, being seperate from the player, cannot have their position update as fast casuing them to look
+                janky</li>
+            <li>In any sense, I figured this was for the better because knowing your server sided aim is probably more
+                valuable even though the controls might appear less responsive</li>
+        </ul>
+        <li>Touched up main menus</li>
+        <li>Reduced the resolution of most assets resulting in much faster loading times</li>
+        <li>Added room settings during creation</li>
+        <ul>
+            <li>Max Players</li>
+            <li>Bot Amount</li>
+        </ul>
+        <li>Bumped network protocol version because of the above change</li>
+        <li>Bumped settings versions due to changes</li>
+        <li>Added Vignettes</li>
+        <ul>
+            <li>Added Vignette strength setting</li>
+            <li>Matches your simulated tank color</li>
+            <li>Added "v" packet -> socket.talk("v", .1, "#FF0000FF")</li>
+        </ul>
         <li>Clients now use a self hosted version of PeerJS for signaling</li>
         <ul>
             <li>v1.0.1 - Fixed CORS error stopping signaling</li>
         </ul>
-		<li>Added a Performance Mode setting which sacrifices as much as possible (within reason) to increase FPS</li>
-		<li>Removed Server CPU and Server Mem from the L menu because they served no purpose</li>
-		<li>Added Movement Smoothing to the L menu</li>
-		<li>Fixed nearestDifferentMaster (any AI mechanic) not targeting correctly in some cases</li>
-		<li>Fixed the play button not working sometimes (hence the loading menu)</li>
-		<li>Fixed movment smoothing in the client to work as intended</li>
-		<ul>
-			<li>Now it will only smooth based off how many frames can be rendered between view packets</li>
-			<li>Or rather, if your internet is dog, you probably have more time to render frames than youre receiving frames, therefore it has time to be animated without affecting "actual" gameplay</li>
-		</ul>
-		<li>Removed DAMAGE_EFFECTS and is now true by default</li>
-		<ul>
-			<li>All entities now take the amount of penatration into account when calculating damage</li>
-			<li>It didn't make sense for this to be selective with the only exceptions being a handful of entities (like food?)</li>
-		</ul>
-		<li>Removed RATIO_EFFECTS and is now false by default</li>
-		<ul>
-			<li>This was a special form of damage reduction only used by bosses, minibosses, dominators, and a few others</li>
-			<li>This is better done by adjusting the entity's stats</li>
-		</ul>
-		<li>Removed MOTION_EFFECTS and is now false by default</li>
-		<ul>
-			<li>This was used by almost every entity was only applicable when two entities of the same team were colliding to adjust the amount of pushback when based off both penatration AND health</li>
-			<li>Niche to say the least</li>
-		</ul>
-		<li>Added TARGET_EVERYTHING ai setting</li>
-		<li>Removed skip bomb io type</li>
-		<li>Removed all uses of coreSize</li>
-		<li>Adjusted baller branch design</li>
-		<li>Fixed there not being a 1 second cooldown between swapping tanks with Q</li>
-		<li>Fixed shootOnDeath not apply skills properly, fixing explosions having infinite damage</li>
-		<li>Upgrade menu color now matches simulated tank color</li>
-	</ul>
+        <li>Added a Performance Mode setting which sacrifices as much as possible (within reason) to increase FPS</li>
+        <li>Removed Server CPU and Server Mem from the L menu because they served no purpose</li>
+        <li>Added Movement Smoothing to the L menu</li>
+        <li>Fixed nearestDifferentMaster (any AI mechanic) not targeting correctly in some cases</li>
+        <li>Fixed the play button not working sometimes (hence the loading menu)</li>
+        <li>Fixed movment smoothing in the client to work as intended</li>
+        <ul>
+            <li>Now it will only smooth based off how many frames can be rendered between view packets</li>
+            <li>Or rather, if your internet is dog, you probably have more time to render frames than youre receiving
+                frames, therefore it has time to be animated without affecting "actual" gameplay</li>
+        </ul>
+        <li>Removed DAMAGE_EFFECTS and is now true by default</li>
+        <ul>
+            <li>All entities now take the amount of penatration into account when calculating damage</li>
+            <li>It didn't make sense for this to be selective with the only exceptions being a handful of entities (like
+                food?)</li>
+        </ul>
+        <li>Removed RATIO_EFFECTS and is now false by default</li>
+        <ul>
+            <li>This was a special form of damage reduction only used by bosses, minibosses, dominators, and a few
+                others</li>
+            <li>This is better done by adjusting the entity's stats</li>
+        </ul>
+        <li>Removed MOTION_EFFECTS and is now false by default</li>
+        <ul>
+            <li>This was used by almost every entity was only applicable when two entities of the same team were
+                colliding to adjust the amount of pushback when based off both penatration AND health</li>
+            <li>Niche to say the least</li>
+        </ul>
+        <li>Added TARGET_EVERYTHING ai setting</li>
+        <li>Removed skip bomb io type</li>
+        <li>Removed all uses of coreSize</li>
+        <li>Adjusted baller branch design</li>
+        <li>Fixed there not being a 1 second cooldown between swapping tanks with Q</li>
+        <li>Fixed shootOnDeath not apply skills properly, fixing explosions having infinite damage</li>
+        <li>Upgrade menu color now matches simulated tank color</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">Back Online<span class="patchnoteTime">October 9th, 2025</span></p>
-	<ul class="patchnoteBody">
+    <p class="patchnoteTitle">Back Online<span class="patchnoteTime">October 9th, 2025</span></p>
+    <ul class="patchnoteBody">
         <h3><b>Update</b></h3>
-		<li>Expanded History & Credits</li>
-		<li>Adjusted firing animations</li>
-		<li>Improved server performance</li>
-		<li>You will now get a message if you fail to connect to a room</li>
-		<li>You will now get a message when the host leaves the room</li>
-		<li>Significantly buffed Surge's EMP health, damage, and penatration</li>
-		<li>Decreased Surge's EMP charge up and cooldown</li>
-		<li>Bloodbath now gains half of its max health instead of its missing health when killing a tank during rampage</li>
-		<li>Bloodbath now gains 0.5 health everytime it deals damage during ramage</li>
-		<li>Bloodbath now moves 75% faster rather than an additive boost during rampage</li>
-		<li>Increased Treatment branch's healing capacity by ~33% and halved their healing rate</li>
-		<li>Fixed Bloodbath bug where your speed would be permanently slower than your normal speed if you upgraded your stats during rampage</li>
-		<li>Added a leash mechanic</li>
-		<li>Baller</li>
-		<ul>
-			<li>New level 15 branch</li>
-			<li>Branched off of lancer</li>
-			<li>Ballin' fr style</li>
-			<li>Swing your balls around dealing damage to anyone they hit</li>
-			<li>Your main fire slowly moves the ball to your mouse for most classes</li>
-			<li>Your alt fire unleashes your ball and lets your fire a new one</li>
-			<li>Includes Piñata, Trailwrecker, Freeballer, Rocket Ball, Thisle, and Ballsack as level 45 upgrades</li>
-		</ul>
-		<li>Changed featured tanks</li>
-		<li>Refined PROP system</li>
-		<ul>
-			<li>getAsset for prop shapes now supports Path2Ds (svgs)</li>
-			<li>Prop color now supports getAsset</li>
-			<li>Added STROKE parameter which dictates if the prop should have an outline or not. True by default.</li>
-			<li>Added SCALE_SIZE parameter which dictates if the prop should scale with player size. True by defalt.</li>
-			<li>Added LOCK_ROT parameter which dictates if the prop <b>shouldnt</b> copy the players rotation. True by default.</li>
-			<li>Added TANK_ORIGIN parameter which dictates if the prop should move with the players rotation. True by default.</li>
-			<li>Prop drawing has been redone so that parameters apply more generally rather than under specific cases (FILL, RPM, ANGLE, SIZE)</li>
-		</ul>
-		<li>Refined animation system</li>
-		<ul>
-			<li>Replaced Entity.animation with Entity.animations</li>
-			<li>Converted Bloodbath to the new animation system</li>
-			<li>Converted the Treatment branch to the new animation system</li>
-			<li>Redesigned Surge to work better with the new animation system</li>
-			<li>Modders, take a look at the above tanks for examples</li>
-		</ul>
-		<h3><b>Note</b></h3>
-		<li>I appologize for the long downtime. There were unexpected hosting problems which have since been resolved. Join the discord for active updates in the future.</li>
-	</ul>
+        <li>Expanded History & Credits</li>
+        <li>Adjusted firing animations</li>
+        <li>Improved server performance</li>
+        <li>You will now get a message if you fail to connect to a room</li>
+        <li>You will now get a message when the host leaves the room</li>
+        <li>Significantly buffed Surge's EMP health, damage, and penatration</li>
+        <li>Decreased Surge's EMP charge up and cooldown</li>
+        <li>Bloodbath now gains half of its max health instead of its missing health when killing a tank during rampage
+        </li>
+        <li>Bloodbath now gains 0.5 health everytime it deals damage during ramage</li>
+        <li>Bloodbath now moves 75% faster rather than an additive boost during rampage</li>
+        <li>Increased Treatment branch's healing capacity by ~33% and halved their healing rate</li>
+        <li>Fixed Bloodbath bug where your speed would be permanently slower than your normal speed if you upgraded your
+            stats during rampage</li>
+        <li>Added a leash mechanic</li>
+        <li>Baller</li>
+        <ul>
+            <li>New level 15 branch</li>
+            <li>Branched off of lancer</li>
+            <li>Ballin' fr style</li>
+            <li>Swing your balls around dealing damage to anyone they hit</li>
+            <li>Your main fire slowly moves the ball to your mouse for most classes</li>
+            <li>Your alt fire unleashes your ball and lets your fire a new one</li>
+            <li>Includes Piñata, Trailwrecker, Freeballer, Rocket Ball, Thisle, and Ballsack as level 45 upgrades</li>
+        </ul>
+        <li>Changed featured tanks</li>
+        <li>Refined PROP system</li>
+        <ul>
+            <li>getAsset for prop shapes now supports Path2Ds (svgs)</li>
+            <li>Prop color now supports getAsset</li>
+            <li>Added STROKE parameter which dictates if the prop should have an outline or not. True by default.</li>
+            <li>Added SCALE_SIZE parameter which dictates if the prop should scale with player size. True by defalt.
+            </li>
+            <li>Added LOCK_ROT parameter which dictates if the prop <b>shouldnt</b> copy the players rotation. True by
+                default.</li>
+            <li>Added TANK_ORIGIN parameter which dictates if the prop should move with the players rotation. True by
+                default.</li>
+            <li>Prop drawing has been redone so that parameters apply more generally rather than under specific cases
+                (FILL, RPM, ANGLE, SIZE)</li>
+        </ul>
+        <li>Refined animation system</li>
+        <ul>
+            <li>Replaced Entity.animation with Entity.animations</li>
+            <li>Converted Bloodbath to the new animation system</li>
+            <li>Converted the Treatment branch to the new animation system</li>
+            <li>Redesigned Surge to work better with the new animation system</li>
+            <li>Modders, take a look at the above tanks for examples</li>
+        </ul>
+        <h3><b>Note</b></h3>
+        <li>I appologize for the long downtime. There were unexpected hosting problems which have since been resolved.
+            Join the discord for active updates in the future.</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">Some cleaning before fall<span class="patchnoteTime">September 1st, 2025</span></p>
-	<ul class="patchnoteBody">
-		<li>The minions of all Software tanks now have a higher danger value than the tank; Software minions should act as a "distraction"</li>
-		<li>Updated History & credits</li>
-	</ul>
+    <p class="patchnoteTitle">Some cleaning before fall<span class="patchnoteTime">September 1st, 2025</span></p>
+    <ul class="patchnoteBody">
+        <li>The minions of all Software tanks now have a higher danger value than the tank; Software minions should act
+            as a "distraction"</li>
+        <li>Updated History & credits</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">1v1s!<span class="patchnoteTime">Augest 24th, 2025</span></p>
-	<ul class="patchnoteBody">
-		<li>Healthbars now disappear properly</li>
-		<li>Actually fixed LSD this time</li>
-		<li>Added a new 1v1 gamemode</li>
-		<li>Its a smaller arena with 4 rocky tiles and one nest. Theres plenty of food and obstacles so every tank should be able to perform well. The queue will try and get you a game as soon as possible, it depends on whos available in the room. When you do a match you will be teleported to a private arena where its just rocks, crashers, food, and your opponent (note however, food and crashers are shared between all arenas. You might see food suddenly die near you as a result.). The winner is decided by whoever is the last one standing so any means of execution can be used. After the match, records will be updated and the loser will have to wait in the queue for a short time before finding a match again. This means, if you win, most of the time you'll have continous gameplay. No records are saved and will be lost upon leaving the server</li>
-	</ul>
+    <p class="patchnoteTitle">1v1s!<span class="patchnoteTime">Augest 24th, 2025</span></p>
+    <ul class="patchnoteBody">
+        <li>Healthbars now disappear properly</li>
+        <li>Actually fixed LSD this time</li>
+        <li>Added a new 1v1 gamemode</li>
+        <li>Its a smaller arena with 4 rocky tiles and one nest. Theres plenty of food and obstacles so every tank
+            should be able to perform well. The queue will try and get you a game as soon as possible, it depends on
+            whos available in the room. When you do a match you will be teleported to a private arena where its just
+            rocks, crashers, food, and your opponent (note however, food and crashers are shared between all arenas. You
+            might see food suddenly die near you as a result.). The winner is decided by whoever is the last one
+            standing so any means of execution can be used. After the match, records will be updated and the loser will
+            have to wait in the queue for a short time before finding a match again. This means, if you win, most of the
+            time you'll have continous gameplay. No records are saved and will be lost upon leaving the server</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Fall is also peak<span class="patchnoteTime">Augest 18th, 2025</span></p>
     <ul class="patchnoteBody">
-		<li>Fixed inaccurate Latency in cases > 999</li>
-		<li>Reduced entities jumping when the server slows</li>
-		<li>Rebalanced traps (done by Absol)</li>
-		<li>Fixed The King achievement</li>
-		<li>Rebalanced Tempest</li>
-		<h2>Musicalement's Balancing Changes</h2>
-    	<ul>
-			<li>Projetile's speed now plays a role in damage calculation</li>
-    	    <li>Fixed a bug where the resistance stat could lead to negative damage which made drones and traps lifesteal</li>
-    	    <li>Brought back knockback multiplier to its original value, (Knockback increased slighly)</li>
-    	    <li>Balanced many classes.</li>
-    	    <li>NOTE: If you feel like a tank needs balancing let us know in the woomy discord! Alternatively for more advanced users, you can modify the definitions and pull request the changes on github!</li>
-    	</ul>
+        <li>Fixed inaccurate Latency in cases > 999</li>
+        <li>Reduced entities jumping when the server slows</li>
+        <li>Rebalanced traps (done by Absol)</li>
+        <li>Fixed The King achievement</li>
+        <li>Rebalanced Tempest</li>
+        <h2>Musicalement's Balancing Changes</h2>
+        <ul>
+            <li>Projetile's speed now plays a role in damage calculation</li>
+            <li>Fixed a bug where the resistance stat could lead to negative damage which made drones and traps
+                lifesteal</li>
+            <li>Brought back knockback multiplier to its original value, (Knockback increased slighly)</li>
+            <li>Balanced many classes.</li>
+            <li>NOTE: If you feel like a tank needs balancing let us know in the woomy discord! Alternatively for more
+                advanced users, you can modify the definitions and pull request the changes on github!</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">You only get like 60 summers<span class="patchnoteTime">Augest 1st, 2025</span></p>
     <ul class="patchnoteBody">
-		<li>Change how movement smoothing works</li>
-		<ul>
-			<li>It now only smooths for extra frames</li>
-			<li>This means movement smoothing will only be perceivable when your fps is higher than the rate at which you're receiving movement/position data. Which is to say, it's purely cosmetic and will have almost no impact on gamplay (particuarly competitive).</li>
-			<li>Since this is adjusted dynamically, the setting has been removed. Consider this a test.</li>
-		</ul>
-		<li>Voidwalkers is playable again</li>
-		<li>Fixed some crasher achievements not working</li>
-		<li>Fixed Mini-Ship achievement</li>
-		<li>Fixed crash in the webserver</li>
+        <li>Change how movement smoothing works</li>
+        <ul>
+            <li>It now only smooths for extra frames</li>
+            <li>This means movement smoothing will only be perceivable when your fps is higher than the rate at which
+                you're receiving movement/position data. Which is to say, it's purely cosmetic and will have almost no
+                impact on gamplay (particuarly competitive).</li>
+            <li>Since this is adjusted dynamically, the setting has been removed. Consider this a test.</li>
+        </ul>
+        <li>Voidwalkers is playable again</li>
+        <li>Fixed some crasher achievements not working</li>
+        <li>Fixed Mini-Ship achievement</li>
+        <li>Fixed crash in the webserver</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">I love summer<span class="patchnoteTime">July 26th, 2025</span></p>
     <ul class="patchnoteBody">
-		<li>Improved AI targeting</li>
-		<li>Organized server.js</li>
-		<li>Added custom asset loading</li>
-		<li>Fixed client crash with LSD and Pepperspray</li>
-		<li>Added a mobile aim indicator</li>
-		<li>Drones face the correct direction when idle now</li>
+        <li>Improved AI targeting</li>
+        <li>Organized server.js</li>
+        <li>Added custom asset loading</li>
+        <li>Fixed client crash with LSD and Pepperspray</li>
+        <li>Added a mobile aim indicator</li>
+        <li>Drones face the correct direction when idle now</li>
     </ul>
 </div>
 <div class="patchnoteSection">
-	<p class="patchnoteTitle">Woomy Revitalized (Release)<span class="patchnoteTime">July 19th, 2025</span></p>
+    <p class="patchnoteTitle">Woomy Revitalized (Release)<span class="patchnoteTime">July 19th, 2025</span></p>
     <ul class="patchnoteBody">
-		<li>Server will now compensate movement for slow ticks</li>
-		<li>Fixed server hang due to issues with .kill()</li>
-		<li>Fixed the issue where some players were unable to play with others (or have others join them)</li>
-		<li>Made stat points easier to spend on mobile</li>
-		<li>Fixed client crash with filters</li>
-		<li>Boom polygons now explode</li>
-		<li>Fixed some animation tanks not working</li>
-		<li>Fixed transparent entities looking bad</li>
-		<li>Fixed colors not being correctly displayed in FFA</li>
-		<li>Fixed turrets getting stuck shooting right</li>
-		<li>nearestDifferentMaster now considers minions and drones</li>
-		<li>Fixed chat messages going black</li>
-		<li>Fixed displayName and displayDesc not working for mods</li>
-	</ul>
-	<p class="patchnoteTitle">Woomy Revitalized (Pre-Release)<span class="patchnoteTime">July 12th, 2025</span></p>
+        <li>Server will now compensate movement for slow ticks</li>
+        <li>Fixed server hang due to issues with .kill()</li>
+        <li>Fixed the issue where some players were unable to play with others (or have others join them)</li>
+        <li>Made stat points easier to spend on mobile</li>
+        <li>Fixed client crash with filters</li>
+        <li>Boom polygons now explode</li>
+        <li>Fixed some animation tanks not working</li>
+        <li>Fixed transparent entities looking bad</li>
+        <li>Fixed colors not being correctly displayed in FFA</li>
+        <li>Fixed turrets getting stuck shooting right</li>
+        <li>nearestDifferentMaster now considers minions and drones</li>
+        <li>Fixed chat messages going black</li>
+        <li>Fixed displayName and displayDesc not working for mods</li>
+    </ul>
+    <p class="patchnoteTitle">Woomy Revitalized (Pre-Release)<span class="patchnoteTime">July 12th, 2025</span></p>
     <ul class="patchnoteBody">
-		<li>Fixed mobile aiming bugs</li>
-		<li>Fixed some shapes not rendering (done by Musicalement)</li>
-		<li>Fixed some entities' death effects not working (done by Musicalement)</li>
-		<li>Adjusted client animations</li>
-		<li>Fixed a possible freeze</li>
-		<li>Fixed your chat messages being drawn over your name</li>
-		<li>Renamed Disable Messages setting to Disable Game Messages</li>
-		<li>Reworked how chats are sent and added a Chat Message Duration setting</li>
-		<li>The on screen room id now updates</li>
-	</ul>
+        <li>Fixed mobile aiming bugs</li>
+        <li>Fixed some shapes not rendering (done by Musicalement)</li>
+        <li>Fixed some entities' death effects not working (done by Musicalement)</li>
+        <li>Adjusted client animations</li>
+        <li>Fixed a possible freeze</li>
+        <li>Fixed your chat messages being drawn over your name</li>
+        <li>Renamed Disable Messages setting to Disable Game Messages</li>
+        <li>Reworked how chats are sent and added a Chat Message Duration setting</li>
+        <li>The on screen room id now updates</li>
+    </ul>
     <p class="patchnoteTitle">Woomy Revitalized (Beta)<span class="patchnoteTime">July 4th, 2025</span></p>
     <ul class="patchnoteBody">
         <h3><b>Removals</b></h3>
@@ -257,7 +285,7 @@
         <li>N packet type (multi-tabbing)</li>
         <li>M packet type</li>
         <li>w packet type</li>
-		<li>c packet type</li>
+        <li>c packet type</li>
         <li>Recently sent chat message blocking</li>
         <li>A few secret colored names (their sizes were bugged depending on the fov)</li>
         <li>Death expand ratio setting</li>
@@ -277,7 +305,8 @@
         <ul>
             <li>Proved to be a much larger detriment than I thought</li>
             <li>Transparency is now on by default, but more performant</li>
-            <li>Might add a "Performance Mode" setting that disables much of the rendering (like certain images) at another point</li>
+            <li>Might add a "Performance Mode" setting that disables much of the rendering (like certain images) at
+                another point</li>
         </ul>
         <li>Min Border Thickness</li>
         <ul>
@@ -294,7 +323,7 @@
         <li>TDM Gamemode</li>
         <li>Blackout Voidwalkers gamemode</li>
         <li>Testbed Event gamemode</li>
-		<li>Reworked entity activation/views</li>
+        <li>Reworked entity activation/views</li>
 
         <h3><b>Optimizations</b></h3>
         <li>Entities in the client are now mostly use a Map instead of an Array</li>
@@ -314,14 +343,14 @@
         <li>Border Width is now 3 by default</li>
         <li>Fixed various mobile bugs</li>
         <li>Treatment tanks' prop outline no longer stays green after using it</li>
-		<li>Projectiles will no longer occasionally freeze when being fired</li>
-		<li>Fixed guided tanks having a range</li>
-		<li>Fixed base drones in growth following you (scary...)</li>
-		<li>Fixed a bug with facing types sometimes returning NaN</li>
-		<li>Put a band-aid on the vector issue for now</li>
-		<ul>
-			<li>c.MIN_SEED was drastically lowered as a part of this</li>
-		</ul>
+        <li>Projectiles will no longer occasionally freeze when being fired</li>
+        <li>Fixed guided tanks having a range</li>
+        <li>Fixed base drones in growth following you (scary...)</li>
+        <li>Fixed a bug with facing types sometimes returning NaN</li>
+        <li>Put a band-aid on the vector issue for now</li>
+        <ul>
+            <li>c.MIN_SEED was drastically lowered as a part of this</li>
+        </ul>
 
         <h3><b>Changes</b></h3>
         <li>Went through all of the code and refactored almost everything</li>
@@ -345,7 +374,8 @@
             <li>Lights are now cached</li>
             <li>Scoping light is now half as bright as your tank light</li>
             <li>Depending on size lights will be dimmer</li>
-            <li>Made lights mix in a better way, courtesy of <a src="https://github.com/xskutsu/global-composite-lighting">xskutsu/jekyll</a></li>
+            <li>Made lights mix in a better way, courtesy of <a
+                    src="https://github.com/xskutsu/global-composite-lighting">xskutsu/jekyll</a></li>
             <li>Light color is now based off body color</li>
         </ul>
         <li>Death Screen is now more transparent</li>
@@ -356,29 +386,33 @@
         <li>Redid the joining status messages</li>
         <li>You can now only press enter on the main menu and join game screen once</li>
         <li>Adjusted the damage flash</li>
-		<li>Removed and added some of death splashed</li>
-		<li>Changed setEntity console command: (entity, spawn amount, size, controllable)</li>
-		<li>nearestDifferentMaster</li>
-		<ul>
-			<li>This is the thing that controls most AI in the game, from drones to bots.</li>
-			<li>Removed the FARMER ai setting. AIs will now target shapes by default and prioritize the highest danger value, unless IGNORE_SHAPES is true.</li>
-			<li>Removed the CHASE ai setting. It was insignificant.</li>
-			<li>The SKYNET setting now uses the entities own range/position instead of the master's. This means it will be able to travel freely.</li>
-			<li>The BLIND ai setting now reduces the targeting range by 1/3</li>
-		</ul>
-		<li>Bots now level up faster</li>
-		<li>Bots now face the direction they're moving when wandering</li>
-		<li>Bots now face a random direction when spawning</li>
-		<li>Crashers now face a random direction when spawning</li>
-		<li>Everything with nearestDifferentMaster will now automatically target what damages it. Before this was reserved just for bots.</li>
-		<li>Most modes will now have 25 bots or about double the amount of normal bots</li>
-		<li>2 TDM Hell now has 100 bots</li>
-		<li>Squidwards Tiki Island now has 50 bots</li>
-		<li>Added a protocol version flag in the k packet</li>
-		<li>Decreased opacity of the settings gear</li>
-		<li>You can still play the game if you disconnect from the room manager however, your room will no longer be listed</li>
-		<li>In most cases you should now reconnect with the room manager making complete disconnects unlikely</li>
-		<li>Changed network architecture to be p2p</li>
+        <li>Removed and added some of death splashed</li>
+        <li>Changed setEntity console command: (entity, spawn amount, size, controllable)</li>
+        <li>nearestDifferentMaster</li>
+        <ul>
+            <li>This is the thing that controls most AI in the game, from drones to bots.</li>
+            <li>Removed the FARMER ai setting. AIs will now target shapes by default and prioritize the highest danger
+                value, unless IGNORE_SHAPES is true.</li>
+            <li>Removed the CHASE ai setting. It was insignificant.</li>
+            <li>The SKYNET setting now uses the entities own range/position instead of the master's. This means it will
+                be able to travel freely.</li>
+            <li>The BLIND ai setting now reduces the targeting range by 1/3</li>
+        </ul>
+        <li>Bots now level up faster</li>
+        <li>Bots now face the direction they're moving when wandering</li>
+        <li>Bots now face a random direction when spawning</li>
+        <li>Crashers now face a random direction when spawning</li>
+        <li>Everything with nearestDifferentMaster will now automatically target what damages it. Before this was
+            reserved just for bots.</li>
+        <li>Most modes will now have 25 bots or about double the amount of normal bots</li>
+        <li>2 TDM Hell now has 100 bots</li>
+        <li>Squidwards Tiki Island now has 50 bots</li>
+        <li>Added a protocol version flag in the k packet</li>
+        <li>Decreased opacity of the settings gear</li>
+        <li>You can still play the game if you disconnect from the room manager however, your room will no longer be
+            listed</li>
+        <li>In most cases you should now reconnect with the room manager making complete disconnects unlikely</li>
+        <li>Changed network architecture to be p2p</li>
 
         <h3><b>Additions</b></h3>
         <li>Mobile players can now swipe on skill upgrades to quickly invest points</li>
@@ -386,384 +420,410 @@
         <li>Added a Bar Style setting</li>
         <li>The mobile Rest Tank button now uses the 8 second one rather than the dev one</li>
         <li>Added a room join/creation screen</li>
-        <li>Added a Movement Smoothing setting, a 0-1 scale for how much entity positions should be smoothed. The higher the faster, 1 being instant and 0 being no position updates.</li>
-		<li>Added ON_DEAD event</li>
-		<li>You can now spectate what killed you, and what killed them, and what killed them, and...</li>
-	</ul>
+        <li>Added a Movement Smoothing setting, a 0-1 scale for how much entity positions should be smoothed. The higher
+            the faster, 1 being instant and 0 being no position updates.</li>
+        <li>Added ON_DEAD event</li>
+        <li>You can now spectate what killed you, and what killed them, and what killed them, and...</li>
+    </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Harnessing the power of blackholes<span class="patchnoteTime">April 24th, 2025</span></p>
     <ul class="patchnoteBody">
-      <h3><b>New Tanks</b></h3>
-      <li>Note: All the tanks listed here can also be found under Featured Tanks</li>
-      <li>Tri-Giga Trapper</li>
-      <ul>
-        <li>Branches off of Giga Trapper and Tri-Mega Trapper</li>
-      </ul>
-      <li>The Big Crunch</li>
-      <ul>
-        <li>Blackhole Kamikaze</li>
-        <li>Branches off of Kamikaze</li>
-      </ul>
-      <li>The Big Bang</li>
-      <ul>
-        <li>Whitehole Kamikaze</li>
-        <li>Branches off of Kamikaze</li>
-      </ul>
-      <li>Antimatter</li>
-      <ul>
-        <li>Whitehole Machine Trapper</li>
-        <li>Branches off of Machine Trapper</li>
-      </ul>
-      <li>Gravity Wall</li>
-      <ul>
-        <li>Whitehole Barricade</li>
-        <li>Branches off Antimatter and Barricade</li>
-      </ul>
-      <li>Giga Gravy Guy</li>
-      <ul>
-        <li>Whitehole Giga Trapper</li>
-        <li>Branches off of Giga Trapper and Antimatter</li>
-      </ul>
-      <li>Blackhole Thrower</li>
-      <ul>
-        <li>Blackhole Rocketeer</li>
-        <li>Branches off of Rocketeer</li>
-      </ul>
-      <li>Rift Wizard</li>
-      <ul>
-        <li>Blackhole Bastion</li>
-        <li>Branches off of Bastion and Antimatter</li>
-      </ul>
-      <h3><b>New Boss</b></h3>
-      <li>TAS2_56</li>
-      <ul>
-        <li>Courtesy of Fuzzy Clicks (@cursorship)</li>
-        <li>When a Summoner is not taken care of in 1 and a half hours it will turn into this</li>
-        <li><b>T</b>urret <b>A</b>ssisted <b>S</b>ummoner</li>
-      </ul>
-      <h3><b>Notes</b></h3>
-      <li>Got a cool idea to make black and whiteholes, I forget from where but, I think it came out really way, especially the design.</li>
-      <li>The whiteholes pushes away things and blackholes pull them in. In most cases whiteholes are kind of bad, but they're really good defensively because they can let you completely avoid damage.</li>
-      <li>Also, thank you so much Clicks for your contribution!</li>
-      <li>I tried my best to balance all the new tanks but, as always, it probably isn't perfect; Let me know in the discord if you find any bugs or unbalanced things.</li>
+        <h3><b>New Tanks</b></h3>
+        <li>Note: All the tanks listed here can also be found under Featured Tanks</li>
+        <li>Tri-Giga Trapper</li>
+        <ul>
+            <li>Branches off of Giga Trapper and Tri-Mega Trapper</li>
+        </ul>
+        <li>The Big Crunch</li>
+        <ul>
+            <li>Blackhole Kamikaze</li>
+            <li>Branches off of Kamikaze</li>
+        </ul>
+        <li>The Big Bang</li>
+        <ul>
+            <li>Whitehole Kamikaze</li>
+            <li>Branches off of Kamikaze</li>
+        </ul>
+        <li>Antimatter</li>
+        <ul>
+            <li>Whitehole Machine Trapper</li>
+            <li>Branches off of Machine Trapper</li>
+        </ul>
+        <li>Gravity Wall</li>
+        <ul>
+            <li>Whitehole Barricade</li>
+            <li>Branches off Antimatter and Barricade</li>
+        </ul>
+        <li>Giga Gravy Guy</li>
+        <ul>
+            <li>Whitehole Giga Trapper</li>
+            <li>Branches off of Giga Trapper and Antimatter</li>
+        </ul>
+        <li>Blackhole Thrower</li>
+        <ul>
+            <li>Blackhole Rocketeer</li>
+            <li>Branches off of Rocketeer</li>
+        </ul>
+        <li>Rift Wizard</li>
+        <ul>
+            <li>Blackhole Bastion</li>
+            <li>Branches off of Bastion and Antimatter</li>
+        </ul>
+        <h3><b>New Boss</b></h3>
+        <li>TAS2_56</li>
+        <ul>
+            <li>Courtesy of Fuzzy Clicks (@cursorship)</li>
+            <li>When a Summoner is not taken care of in 1 and a half hours it will turn into this</li>
+            <li><b>T</b>urret <b>A</b>ssisted <b>S</b>ummoner</li>
+        </ul>
+        <h3><b>Notes</b></h3>
+        <li>Got a cool idea to make black and whiteholes, I forget from where but, I think it came out really way,
+            especially the design.</li>
+        <li>The whiteholes pushes away things and blackholes pull them in. In most cases whiteholes are kind of bad, but
+            they're really good defensively because they can let you completely avoid damage.</li>
+        <li>Also, thank you so much Clicks for your contribution!</li>
+        <li>I tried my best to balance all the new tanks but, as always, it probably isn't perfect; Let me know in the
+            discord if you find any bugs or unbalanced things.</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Dont wanna talk about it...<span class="patchnoteTime">April 18th, 2025</span></p>
     <ul class="patchnoteBody">
-      <li>Fixed AI targeting issues</li>
-      <ul>
-        <li>Its been a long time since something has stumped me this bad</li>
-      </ul>
-      <li>Removed functionality from the AI BLIND setting</li>
-      <ul>
-        <li>It seemed to serve virtually zero purpose</li>
-        <li>Pretty sure it might have given AI a tiny bit less range on the corners of their vision</li>
-      </ul>
-      <li>Fixed the new HashGrid not working as intended</li>
-      <li>Decreased Grid size of the HashGrid (75 to 60)</li>
-      <ul>
-        <li>Added an function parameter for direct access</li>
-        <li>Technically theres a "world border" now. When you travel out 107374182350 distance, theoretically your collisions should wrap around to the other side</li>
-        <li>Havent tested this nor do I intend to, good luck!</li>
-      </ul>
-      <li>Removed unused logging code</li>
+        <li>Fixed AI targeting issues</li>
+        <ul>
+            <li>Its been a long time since something has stumped me this bad</li>
+        </ul>
+        <li>Removed functionality from the AI BLIND setting</li>
+        <ul>
+            <li>It seemed to serve virtually zero purpose</li>
+            <li>Pretty sure it might have given AI a tiny bit less range on the corners of their vision</li>
+        </ul>
+        <li>Fixed the new HashGrid not working as intended</li>
+        <li>Decreased Grid size of the HashGrid (75 to 60)</li>
+        <ul>
+            <li>Added an function parameter for direct access</li>
+            <li>Technically theres a "world border" now. When you travel out 107374182350 distance, theoretically your
+                collisions should wrap around to the other side</li>
+            <li>Havent tested this nor do I intend to, good luck!</li>
+        </ul>
+        <li>Removed unused logging code</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Performance Improvements<span class="patchnoteTime">April 18th, 2025</span></p>
     <ul class="patchnoteBody">
-      <h3><b>Disclaimer</b></h3>
-      <li><b>Hey you! This update is on the experimental side. If you notice any bugs that might be related to this, let me know asap on the discord! Ping @drakohyena!</b></li>
-      <li>These bugs might include</li>
-      <ul>
-        <li>Incorrect/off game logic</li>
-        <li>Mechanics feel off</li>
-        <li>Severe lag</li>
-        <li>Tons of errors in the console</li>
-        <li>Gameplay flickering</li>
-      </ul>
-      <li><b>Thanks!</b></li>
-      <h3><b>Improvements</b></h3>
-      <li>Changed room settings</li>
-      <ul>
-        <li>Essentially made the simulation speed slower while keeping the run speed the same</li>
-        <li>The game should look and feel about the same except theres more free resources</li>
-      </ul>
-      <li>Optimized HashGrid</li>
-      <ul>
-        <li>Cleaned it up a little</li>
-        <li>Sorted entities more effeciently</li>
-        <li>Collisions are handled in a more garbage collector friendly way (less stutters)</li>
-      </ul>
-      <li>Optimized TargetableEntities</li>
-      <ul>
-        <li>There were a lot of loops/filters for this throughout the code</li>
-        <li>Now they are calculated on the fly when needed</li>
-        <li>This should generally reduce overhead</li>
-      </ul>
-      <li>Optimized nearestDifferentMaster</li>
-      <li>Removed uses of purgeEntities</li>
-      <li>Optimized Views</li>
-      <ul>
-        <li>The actual code that sends you what you see has been optimized</li>
-        <li>It has been decoupled from the main gameloop</li>
-      </ul>
+        <h3><b>Disclaimer</b></h3>
+        <li><b>Hey you! This update is on the experimental side. If you notice any bugs that might be related to this,
+                let me know asap on the discord! Ping @drakohyena!</b></li>
+        <li>These bugs might include</li>
+        <ul>
+            <li>Incorrect/off game logic</li>
+            <li>Mechanics feel off</li>
+            <li>Severe lag</li>
+            <li>Tons of errors in the console</li>
+            <li>Gameplay flickering</li>
+        </ul>
+        <li><b>Thanks!</b></li>
+        <h3><b>Improvements</b></h3>
+        <li>Changed room settings</li>
+        <ul>
+            <li>Essentially made the simulation speed slower while keeping the run speed the same</li>
+            <li>The game should look and feel about the same except theres more free resources</li>
+        </ul>
+        <li>Optimized HashGrid</li>
+        <ul>
+            <li>Cleaned it up a little</li>
+            <li>Sorted entities more effeciently</li>
+            <li>Collisions are handled in a more garbage collector friendly way (less stutters)</li>
+        </ul>
+        <li>Optimized TargetableEntities</li>
+        <ul>
+            <li>There were a lot of loops/filters for this throughout the code</li>
+            <li>Now they are calculated on the fly when needed</li>
+            <li>This should generally reduce overhead</li>
+        </ul>
+        <li>Optimized nearestDifferentMaster</li>
+        <li>Removed uses of purgeEntities</li>
+        <li>Optimized Views</li>
+        <ul>
+            <li>The actual code that sends you what you see has been optimized</li>
+            <li>It has been decoupled from the main gameloop</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Modding Improvements<span class="patchnoteTime">April 15th, 2025</span></p>
     <ul class="patchnoteBody">
-      <li>Theres now a 3 second delay when pressing U to turn back to basic</li>
-      <li>Changed how definitions are loaded</li>
-      <ul>
-        <li>It should load slightly faster and smoother</li>
-        <li>It should now appear in the sources pannel of dev tools meaning modders should have an easier time adding things</li>
-      </ul>
-      <li>Enitity Editor! (Beta)</li>
-      <ul>
-        <li>If your the room host you'll have access to a new button at the bottom of settings</li>
-        <li>Clicking this button will open up a new window where you can edit entities without reloading</li>
-        <li>Some changes require you to reselect that tank</li>
-        <li>Your changes are treated as if they're ran at the very bottom of the definitions file; This isnt just limited to entities! You can do anything!</li>
-        <li>(Note, you cant make new entities in this -- only edit existing ones)</li>
-        <li>Theres a video in the discord showing an example!</li>
-        <li>This is in beta right now and issues may occur. I recommend keeping the console open to see if anything goes wrong.</li>
-        <li>I had to add a shabby way to detect what mockups were actually changing, but it *shouldnt* be a problem unless you're doing some really crazy stuff.</li>
-      </ul>
+        <li>Theres now a 3 second delay when pressing U to turn back to basic</li>
+        <li>Changed how definitions are loaded</li>
+        <ul>
+            <li>It should load slightly faster and smoother</li>
+            <li>It should now appear in the sources pannel of dev tools meaning modders should have an easier time
+                adding things</li>
+        </ul>
+        <li>Enitity Editor! (Beta)</li>
+        <ul>
+            <li>If your the room host you'll have access to a new button at the bottom of settings</li>
+            <li>Clicking this button will open up a new window where you can edit entities without reloading</li>
+            <li>Some changes require you to reselect that tank</li>
+            <li>Your changes are treated as if they're ran at the very bottom of the definitions file; This isnt just
+                limited to entities! You can do anything!</li>
+            <li>(Note, you cant make new entities in this -- only edit existing ones)</li>
+            <li>Theres a video in the discord showing an example!</li>
+            <li>This is in beta right now and issues may occur. I recommend keeping the console open to see if anything
+                goes wrong.</li>
+            <li>I had to add a shabby way to detect what mockups were actually changing, but it *shouldnt* be a problem
+                unless you're doing some really crazy stuff.</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Gamemode Addition<span class="patchnoteTime">April 15th, 2025</span></p>
     <ul class="patchnoteBody">
-      <li>Added Siege, a gamemode inspired by arras.io, similar to Boss Rush but with Dominators to defend.</li>
+        <li>Added Siege, a gamemode inspired by arras.io, similar to Boss Rush but with Dominators to defend.</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Spring Cleaning<span class="patchnoteTime">April 11th, 2025</span></p>
     <ul class="patchnoteBody">
-      <h3><b>Additions</b></h3>
-      <li>Clone Strike</li>
-      <ul>
-        <li>New Orbital Strike tank!</li>
-        <li>Call down a shell</li>
-        <li>After a little bit, or untill the shell dies, it opens</li>
-        <li>When opened, the two halfs of the shells are flung and 5 minions come out</li>
-        <li>Upgrades off Orbital Strike</li>
-      </ul>
-      <li>Mulctor</li>
-      <ul>
-        <li>This tank was already added to the game but didnt have any upgrades</li>
-        <li>Upgrades from Contraband</li>
-      </ul>
-      <li>Featured Tanks</li>
-      <ul>
-        <li>Remove the Bipod upgrade (you can upgrade to it from Gatling Gun)</li>
-        <li>Added Mulctor</li>
-        <li>Added Clone Strike</li>
-      </ul>
-      <h3><b>Bug Fixes</b></h3>
-      <li>Fixed a massive bug where certain tank abilities (like Oxyrrhexis) didn't work</li>
-      <ul>
-        <li>The number of tanks affected is unknown but, it's safe to say that it's significant</li>
-      </ul>
-      <li>Descender's spike is now an alt fire barrel</li>
-      <li>Super Splitter's core now is now called "Super Splitter Core" instead of "Splitter Core"</li>
-      <li>The gamemode selection input no longer suggests past searches</li>
-      <h3><b>Balance Changes</b></h3>
-      <li>Adventurer</li>
-      <ul>
-        <li>Decreased acceleration by 10%</li>
-        <li>Decreased max speed by 12.5%</li>
-        <li>Increased fov by 20%</li>
-        <li>These changes seperates it from Snipe Guard</li>
-      </ul>
-      <h3><b>Branch Fixes</b></h3>
-      <li>Tri-Cruiser now branches off Tri-Pelleter at level 60</li>
-      <li>Triangle no longer has 2 bent double upgrades</li>
-      <li>Trepanner no longer upgrades off Launcher</li>
-      <li>Promenader no longer has 2 Frontier upgrades</li>
-      <li>Crucible now branches off Splasher</li>
-      <li>Flank Stovepipe now branches off Flank Colony</li>
-      <li>Corrupt UV now branches off Corkscrew</li>
+        <h3><b>Additions</b></h3>
+        <li>Clone Strike</li>
+        <ul>
+            <li>New Orbital Strike tank!</li>
+            <li>Call down a shell</li>
+            <li>After a little bit, or untill the shell dies, it opens</li>
+            <li>When opened, the two halfs of the shells are flung and 5 minions come out</li>
+            <li>Upgrades off Orbital Strike</li>
+        </ul>
+        <li>Mulctor</li>
+        <ul>
+            <li>This tank was already added to the game but didnt have any upgrades</li>
+            <li>Upgrades from Contraband</li>
+        </ul>
+        <li>Featured Tanks</li>
+        <ul>
+            <li>Remove the Bipod upgrade (you can upgrade to it from Gatling Gun)</li>
+            <li>Added Mulctor</li>
+            <li>Added Clone Strike</li>
+        </ul>
+        <h3><b>Bug Fixes</b></h3>
+        <li>Fixed a massive bug where certain tank abilities (like Oxyrrhexis) didn't work</li>
+        <ul>
+            <li>The number of tanks affected is unknown but, it's safe to say that it's significant</li>
+        </ul>
+        <li>Descender's spike is now an alt fire barrel</li>
+        <li>Super Splitter's core now is now called "Super Splitter Core" instead of "Splitter Core"</li>
+        <li>The gamemode selection input no longer suggests past searches</li>
+        <h3><b>Balance Changes</b></h3>
+        <li>Adventurer</li>
+        <ul>
+            <li>Decreased acceleration by 10%</li>
+            <li>Decreased max speed by 12.5%</li>
+            <li>Increased fov by 20%</li>
+            <li>These changes seperates it from Snipe Guard</li>
+        </ul>
+        <h3><b>Branch Fixes</b></h3>
+        <li>Tri-Cruiser now branches off Tri-Pelleter at level 60</li>
+        <li>Triangle no longer has 2 bent double upgrades</li>
+        <li>Trepanner no longer upgrades off Launcher</li>
+        <li>Promenader no longer has 2 Frontier upgrades</li>
+        <li>Crucible now branches off Splasher</li>
+        <li>Flank Stovepipe now branches off Flank Colony</li>
+        <li>Corrupt UV now branches off Corkscrew</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">1 Million Visits!<span class="patchnoteTime">February 7th, 2025</span></p>
     <ul class="patchnoteBody">
-      <li>Woomy Online has reached over 1 million visits recently!</li>
-      <li><b>Thank you!</b></li>
-      <li>Party Time! (Ends February 10th)</li>
-      <ul>
-        <li>Most entities shoot confetti!</li>
-      </ul>
+        <li>Woomy Online has reached over 1 million visits recently!</li>
+        <li><b>Thank you!</b></li>
+        <li>Party Time! (Ends February 10th)</li>
+        <ul>
+            <li>Most entities shoot confetti!</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Balance Changes<span class="patchnoteTime">January 24th, 2025</span></p>
     <ul class="patchnoteBody">
-      <li>Info : 𝕸usicalement (me) has recently been granted editing permissions for Woomy, I will be focusing mainly on balancing tanks and advancing modding by making client-side changes.</li>
-      <li>Serverside optimisations (for modders, I also fixed the 3 errors that text editors give you when opening server.js)</li>
-      <li>Balanced a LOT of tanks, but its not finished yet :p</li>
-      <li>Nerfed Health Resistance for some polygons and dominators</li>
-      <li>Modded servers can now create custom entity colors by making them have a color code instead of a colorID.</li>
-      <li>Fixed Victory Of The 4th War achievement not being granted even though the boss rush ended.</li>
-      <li>Fixed Solitaire branch not scoping.</li>
-      <li>Modders can now use LABEL_OVERRIDE: "x" to make an entity show "x" instead of the name of the tank it is using in the leaderboard.</li>
-      <li>Modders can now use custom "cell" colors by putting a HEX code in the "cells" of ROOM_SETUP</li>
-      <li>Fixed a bug causing some Firefox users not being able to promote players.</li>
-      <li>Knockback is now greater</li>
-      <li>Search box will no longer pop-up when upgrading health stat with Firefox</li>
-      <li>Fixed Infinite predator's bullets glitching screens</li>
-      <li>Rotated Citadel's guns so traps barrels are the main ones instead of swarms.</li>
+        <li>Info : 𝕸usicalement (me) has recently been granted editing permissions for Woomy, I will be focusing mainly
+            on balancing tanks and advancing modding by making client-side changes.</li>
+        <li>Serverside optimisations (for modders, I also fixed the 3 errors that text editors give you when opening
+            server.js)</li>
+        <li>Balanced a LOT of tanks, but its not finished yet :p</li>
+        <li>Nerfed Health Resistance for some polygons and dominators</li>
+        <li>Modded servers can now create custom entity colors by making them have a color code instead of a colorID.
+        </li>
+        <li>Fixed Victory Of The 4th War achievement not being granted even though the boss rush ended.</li>
+        <li>Fixed Solitaire branch not scoping.</li>
+        <li>Modders can now use LABEL_OVERRIDE: "x" to make an entity show "x" instead of the name of the tank it is
+            using in the leaderboard.</li>
+        <li>Modders can now use custom "cell" colors by putting a HEX code in the "cells" of ROOM_SETUP</li>
+        <li>Fixed a bug causing some Firefox users not being able to promote players.</li>
+        <li>Knockback is now greater</li>
+        <li>Search box will no longer pop-up when upgrading health stat with Firefox</li>
+        <li>Fixed Infinite predator's bullets glitching screens</li>
+        <li>Rotated Citadel's guns so traps barrels are the main ones instead of swarms.</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Kickin' Up The Heat<span class="patchnoteTime">January 23rd, 2025</span></p>
     <ul class="patchnoteBody">
-      <h3><b>Features</b></h3>
-      <li>Blackout</li>
-      <ul>
-        <li>Tanks that can see invisible players now have night vision in blackout gamemodes</li>
-        <li>Tanks that scope now get a personal extra light where they're scoping (no one else can see this light)</li>
-        <li>Lights in blackout will now be dimmer for entities below size 20</li>
-      </ul>
-      <li>New tank: Butane</li>
-      <ul>
-        <li>Lay down explosive gas</li>
-        <li>Anything that applys torch with ignite this gas</li>
-        <li>The explosions inflict torch</li>
-        <li>Press shift/alt fire to use your, devastating, short range "spark" (which inflicts torch)</li>
-        <li>Branches off of Torch</li>
-        <li>Branches off of Shrapnel</li>
-        <li>Branches off of Featured Tanks</li>
-      </ul>
-      <h3><b>Bug Fixes</b></h3>
-      <li>Fixed Torch's bullet not applying the burn effect</li>
-      <li>You can now be poison and on fire at the same time</li>
-      <li>You can now die from fire</li>
-      <li>Fixed lights in Blackout being independant from FOV</li>
-      <h3><b>Misc</b></h3>
-      <li>Removed Orbital Strike from featured tanks (upgrades off Builder which upgrades off Trapper)</li>
-      <li>Removed CephoKnight from featured tanks (upgrades off Chasseur which upgrades off Lancer)</li>
-      <li>Removed Shield Weaver from featured tanks (upgrades off Back Shild which upgrades off Flank)</li>
+        <h3><b>Features</b></h3>
+        <li>Blackout</li>
+        <ul>
+            <li>Tanks that can see invisible players now have night vision in blackout gamemodes</li>
+            <li>Tanks that scope now get a personal extra light where they're scoping (no one else can see this light)
+            </li>
+            <li>Lights in blackout will now be dimmer for entities below size 20</li>
+        </ul>
+        <li>New tank: Butane</li>
+        <ul>
+            <li>Lay down explosive gas</li>
+            <li>Anything that applys torch with ignite this gas</li>
+            <li>The explosions inflict torch</li>
+            <li>Press shift/alt fire to use your, devastating, short range "spark" (which inflicts torch)</li>
+            <li>Branches off of Torch</li>
+            <li>Branches off of Shrapnel</li>
+            <li>Branches off of Featured Tanks</li>
+        </ul>
+        <h3><b>Bug Fixes</b></h3>
+        <li>Fixed Torch's bullet not applying the burn effect</li>
+        <li>You can now be poison and on fire at the same time</li>
+        <li>You can now die from fire</li>
+        <li>Fixed lights in Blackout being independant from FOV</li>
+        <h3><b>Misc</b></h3>
+        <li>Removed Orbital Strike from featured tanks (upgrades off Builder which upgrades off Trapper)</li>
+        <li>Removed CephoKnight from featured tanks (upgrades off Chasseur which upgrades off Lancer)</li>
+        <li>Removed Shield Weaver from featured tanks (upgrades off Back Shild which upgrades off Flank)</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Finger on the pulse<span class="patchnoteTime">January 19th, 2025</span></p>
     <ul class="patchnoteBody">
-      <h3><b>Features</b></h3>
-      <li>Pressing "U" will now set your tank to basic <b>while preserving score</b>. You wont have any invulnerability. <b>This is usable by anyone, anywhere.</b></li>
-      <li>Blackout!</li>
-      <ul>
-        <li>Everything is pitch black</li>
-        <li>You, and everything on your team, glows in the dark</li>
-        <li>Anything with an aura also glows</li>
-        <li>So if you play Freezer (which has an icy aura), the other team will be able to see you in the dark and youll give away your position</li>
-        <li>If you play Overlord (which has drones and no aura), you'll be able to see yourself and your drones glow, but the other team wont, keeping your position hidden</li>
-      </ul>
-      <li>New blackout gamemodes</li>
-      <ul>
-        <li>Blackout 4 TDM</li>
-        <li>Blackout Cave TDM</li>
-        <li>Blackout Maze TDM</li>
-        <li>Blackout Void Walkers</li>
-      </ul>
-      <h3><b>Balance Changes</b></h3>
-      <li>Amnuhev</li>
-      <ul>
-        <li>Nerfed explosion damage</li>
-        <li>Nerfed auto turret damage</li>
-      </ul>
-      <li>Flakgun</li>
-      <ul>
-        <li>Nerfed damage</li>
-        <li>Nerfed reload</li>
-      </ul>
-      <li>Bipod</li>
-      <ul>
-        <li>Increased bipod form reload</li>
-        <li>The bipod form now has ~2.7x more dps than the regular form making it pretty powerful, however, it is hard countered by drones</li>
-      </ul>
-      <h3><b>Misc</b></h3>
-      <li>Changed the "not selectable" Modded gamemode message</li>
+        <h3><b>Features</b></h3>
+        <li>Pressing "U" will now set your tank to basic <b>while preserving score</b>. You wont have any
+            invulnerability. <b>This is usable by anyone, anywhere.</b></li>
+        <li>Blackout!</li>
+        <ul>
+            <li>Everything is pitch black</li>
+            <li>You, and everything on your team, glows in the dark</li>
+            <li>Anything with an aura also glows</li>
+            <li>So if you play Freezer (which has an icy aura), the other team will be able to see you in the dark and
+                youll give away your position</li>
+            <li>If you play Overlord (which has drones and no aura), you'll be able to see yourself and your drones
+                glow, but the other team wont, keeping your position hidden</li>
+        </ul>
+        <li>New blackout gamemodes</li>
+        <ul>
+            <li>Blackout 4 TDM</li>
+            <li>Blackout Cave TDM</li>
+            <li>Blackout Maze TDM</li>
+            <li>Blackout Void Walkers</li>
+        </ul>
+        <h3><b>Balance Changes</b></h3>
+        <li>Amnuhev</li>
+        <ul>
+            <li>Nerfed explosion damage</li>
+            <li>Nerfed auto turret damage</li>
+        </ul>
+        <li>Flakgun</li>
+        <ul>
+            <li>Nerfed damage</li>
+            <li>Nerfed reload</li>
+        </ul>
+        <li>Bipod</li>
+        <ul>
+            <li>Increased bipod form reload</li>
+            <li>The bipod form now has ~2.7x more dps than the regular form making it pretty powerful, however, it is
+                hard countered by drones</li>
+        </ul>
+        <h3><b>Misc</b></h3>
+        <li>Changed the "not selectable" Modded gamemode message</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Clarity Changes<span class="patchnoteTime">May 28th, 2024</span></p>
     <ul class="patchnoteBody">
-      <li>Custom gamemode has been renamed to Modded</li>
-      <li>Nerfed health resistance</li>
-      <li>Client optimizations</li>
+        <li>Custom gamemode has been renamed to Modded</li>
+        <li>Nerfed health resistance</li>
+        <li>Client optimizations</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Better Uptime<span class="patchnoteTime">May 11th, 2024</span></p>
     <ul class="patchnoteBody">
-      <li>The room manager now has more resources</li>
-      <li>There's no longer a 4000 request limit per hour on the main site</li>
-      <li>Changed how room codes are generated to make them more unique from one another</li>
-      <li>Added a new gamemode called "Custom" for all those who like to mod and host custom servers. This gamemode is not selectable unless you mod your game and change an option in configs/config-custom.js. The default settings for this server is just a basic FFA game.</li>
-      <li>Arenas will no longer close automatically (unless its the end of a gamemode like domination or mothership)</li>
-      <li>A message will now be displayed whenever an offical room opens up</li>
+        <li>The room manager now has more resources</li>
+        <li>There's no longer a 4000 request limit per hour on the main site</li>
+        <li>Changed how room codes are generated to make them more unique from one another</li>
+        <li>Added a new gamemode called "Custom" for all those who like to mod and host custom servers. This gamemode is
+            not selectable unless you mod your game and change an option in configs/config-custom.js. The default
+            settings for this server is just a basic FFA game.</li>
+        <li>Arenas will no longer close automatically (unless its the end of a gamemode like domination or mothership)
+        </li>
+        <li>A message will now be displayed whenever an offical room opens up</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Latency Improvements<span class="patchnoteTime">April 27th, 2024</span></p>
     <ul class="patchnoteBody">
-      <li>Drastically improved how the room manager handles packets</li>
-      <ul>
-        <li>You should experience much lower latency; Input lag was reduced. (as long as the host isnt lagging)</li>
-        <li>Rooms that have a lot of things going on will have less of an effect on the room manager</li>
-      </ul>
+        <li>Drastically improved how the room manager handles packets</li>
+        <ul>
+            <li>You should experience much lower latency; Input lag was reduced. (as long as the host isnt lagging)</li>
+            <li>Rooms that have a lot of things going on will have less of an effect on the room manager</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Hangout Gamemode<span class="patchnoteTime">April 11th, 2024</span></p>
     <ul class="patchnoteBody">
-      <li>Added a new gamemode "Hangout"</li>
-      <ul>
-        <li>1750x1750 room</li>
-        <li>Regular borders</li>
-        <li>No food, crashers, bots, or bosses</li>
-        <li>Everyone is on the same team</li>
-        <li>I noticed a lot of people hung out in Void Walkers and I finally decided to make a dedicated gamemode for it. Sit around, chat, and host your own activities.</li>
-      </ul>
+        <li>Added a new gamemode "Hangout"</li>
+        <ul>
+            <li>1750x1750 room</li>
+            <li>Regular borders</li>
+            <li>No food, crashers, bots, or bosses</li>
+            <li>Everyone is on the same team</li>
+            <li>I noticed a lot of people hung out in Void Walkers and I finally decided to make a dedicated gamemode
+                for it. Sit around, chat, and host your own activities.</li>
+        </ul>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">New Powers<span class="patchnoteTime">January 2nd, 2024</span></p>
     <ul class="patchnoteBody">
-      <li>Added a primitive ban system</li>
-      <li>Pressing . over a player as room host will ban that player from your room until you make a new one</li>
-      <li>When you press " over a player as a room host it will cycle that players level of power (0,1,2,3) (player, beta tester, admin, developer)</li>
-      <li>Fixed base drones not being a thing in growth</li>
-      <li>Added Sheep Polypore, branches off sporulator</li>
+        <li>Added a primitive ban system</li>
+        <li>Pressing . over a player as room host will ban that player from your room until you make a new one</li>
+        <li>When you press " over a player as a room host it will cycle that players level of power (0,1,2,3) (player,
+            beta tester, admin, developer)</li>
+        <li>Fixed base drones not being a thing in growth</li>
+        <li>Added Sheep Polypore, branches off sporulator</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Chat Improvements<span class="patchnoteTime">December 22th, 2023</span></p>
     <ul class="patchnoteBody">
-      <li>Theres now only a 500ms limit between chat messages (1/3 of what it used to be)</li>
-      <li>Added clock syncing -- chat messages should always be visible for about 5 seconds now</li>
+        <li>Theres now only a 500ms limit between chat messages (1/3 of what it used to be)</li>
+        <li>Added clock syncing -- chat messages should always be visible for about 5 seconds now</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Better Performance<span class="patchnoteTime">December 17th, 2023</span></p>
     <ul class="patchnoteBody">
-      <h3><b>Perforamance</b></h3>
-      <li>Servers now run on webworkers (multithreading) and are noticeably faster</li>
-      <li>Definitions now only load when you make a server rather than visit the site</li>
-      <h3><b>Balance</b></h3>
-      <li>All Orbital Strike tanks should now play a more of a team tank. Its been shifted to be very useful far range but absolutely horrible close range. If you have teammates are covering you or distracting the enemy, Oribital Strikes will be a devastating force.</li>
-      <li>Orbital Strike tanks now have 50% more FOV</li>
-      <li>Orbital Strike shots now take 2.25x longer to prime</li>
-      <li>Orbital Strike tanks now have 20% less reload</li>
-      <li>Oribital Strikes now have 37% less health</li>
-      <li>Oribital Strikes now have 10% less damage</li>
-      <li>Thunder Strike's explosion has 20 less lifetime now</li>
-      <li>Increase the burst distance of Sporulator tanks</li>
+        <h3><b>Perforamance</b></h3>
+        <li>Servers now run on webworkers (multithreading) and are noticeably faster</li>
+        <li>Definitions now only load when you make a server rather than visit the site</li>
+        <h3><b>Balance</b></h3>
+        <li>All Orbital Strike tanks should now play a more of a team tank. Its been shifted to be very useful far range
+            but absolutely horrible close range. If you have teammates are covering you or distracting the enemy,
+            Oribital Strikes will be a devastating force.</li>
+        <li>Orbital Strike tanks now have 50% more FOV</li>
+        <li>Orbital Strike shots now take 2.25x longer to prime</li>
+        <li>Orbital Strike tanks now have 20% less reload</li>
+        <li>Oribital Strikes now have 37% less health</li>
+        <li>Oribital Strikes now have 10% less damage</li>
+        <li>Thunder Strike's explosion has 20 less lifetime now</li>
+        <li>Increase the burst distance of Sporulator tanks</li>
     </ul>
 </div>
 <div class="patchnoteSection">
@@ -781,21 +841,27 @@
     <ul class="patchnoteBody">
         <li>Massive networking improvements</li>
         <li>Replaced the outdated support email for a special room token input</li>
-        <li>Added "Offical" rooms which will appear at the top of the room list, these rooms are typically faster than your average room because chances are theyre running on my pc</li>
+        <li>Added "Offical" rooms which will appear at the top of the room list, these rooms are typically faster than
+            your average room because chances are theyre running on my pc</li>
         <li>Possibility for some goofy events with custom distinguishers like offical rooms</li>
-        <li>Fixed a bug where the leaderboard would stop updating once a player left</li>  
+        <li>Fixed a bug where the leaderboard would stop updating once a player left</li>
     </ul>
 </div>
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Multiplayer<span class="patchnoteTime">December 9th, 2023</span></p>
     <ul class="patchnoteBody">
         <h3><b>Main Point</b></h3>
-        <li>You can create rooms for any gamemode and people can join you, these rooms run on your device -- not a server. If your device is slow or your internet is bad, it will affect everyone who joins you. This is known as a peer to peer network where all traffic goes to my glitch server and to the person hosting the game on their device, their devide does a ton of math and sends it back to the glitch server to give to all the other people connected. Everyone only talks to my server and not each other like in typical peer to peer networks which means no ip addresses are revealed.</li>
+        <li>You can create rooms for any gamemode and people can join you, these rooms run on your device -- not a
+            server. If your device is slow or your internet is bad, it will affect everyone who joins you. This is known
+            as a peer to peer network where all traffic goes to my glitch server and to the person hosting the game on
+            their device, their devide does a ton of math and sends it back to the glitch server to give to all the
+            other people connected. Everyone only talks to my server and not each other like in typical peer to peer
+            networks which means no ip addresses are revealed.</li>
         <li>This is much cheaper, easier to maintain, and sustainable</li>
         <li>Do not expect any updates or too many bug fixes</li>
         <li>This is more of an experiment so it could be taken offline at anypoint</li>
         <li>Everything from the last update still applies</li>
-      
+
         <h3><b>Misc</b></h3>
         <li>Fixed some gamemodes not working</li>
         <li>Adjusted upgrade ui scaling</li>
@@ -805,7 +871,8 @@
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Woomy Offline<span class="patchnoteTime">September 15th, 2023</span></p>
     <ul class="patchnoteBody">
-        <li>Moved to <a href="https://woomy-site.glitch.me">woomy-site.glitch.me</a> in prepreation for when the doamin eventually expires. I recommend replacing your woomy.app bookmarks with this site.</li>
+        <li>Moved to <a href="https://woomy-site.glitch.me">woomy-site.glitch.me</a> in prepreation for when the doamin
+            eventually expires. I recommend replacing your woomy.app bookmarks with this site.</li>
         <li>The game is now single player</li>
         <li>Everyone is a developer</li>
         <li>Every mode is playable</li>
@@ -833,7 +900,8 @@
         <li>Added Cherry Bomb. Upgrades from Package Bomb.</li>
         <li>Added Kinetic. Upgrades from Pounder.</li>
         <li>Added Shock Rifle. Upgrades from Obliterator and Kinetic.</li>
-        <li>Added Anti-Material Rifle. Upgrades from Shock Rifle and Bulldozer. It is not the tank Earth made, despite it's similarities.</li>
+        <li>Added Anti-Material Rifle. Upgrades from Shock Rifle and Bulldozer. It is not the tank Earth made, despite
+            it's similarities.</li>
         <li>Added Ion. Upgrades from Kinetic and Auto-2.</li>
         <li>Added Sprite. Upgrades from Ion and Shock Rifle.</li>
         <li>Added Concusser. Upgrades from Kinetic and Multishot.</li>
@@ -886,7 +954,8 @@
         <li>Moved m16 out of beta and into misc tanks</li>
         <li>Guided Spawner now resides in the removed tanks section.</li>
         <li>Cleaned up a little bit of testbed stuff</li>
-        <li>Actually removed AWP-Ring, AWP-Ice, AWP-69, AWP-tan((3*pi)/10), AWP-sin((4*pi)/45), AWP-log(24), and AWP-cos((13*pi)/60) from the code.</li>
+        <li>Actually removed AWP-Ring, AWP-Ice, AWP-69, AWP-tan((3*pi)/10), AWP-sin((4*pi)/45), AWP-log(24), and
+            AWP-cos((13*pi)/60) from the code.</li>
         <li>Made a new animation system thats much more verbose</li>
         <li>You can no longer fire in bases. Period.</li>
         <li>Upon firing while in a base will delete all your projectiles.</li>
@@ -906,7 +975,8 @@
     </ul>
 </div>
 <div class="patchnoteSection">
-    <p class="patchnoteTitle" title="someon dropped theyre cheese 😂">Woomy: Caves and Cliffs<span class="patchnoteTime">Augest 28, 2023</span></p>
+    <p class="patchnoteTitle" title="someon dropped theyre cheese 😂">Woomy: Caves and Cliffs<span
+            class="patchnoteTime">Augest 28, 2023</span></p>
     <ul class="patchnoteBody">
         <h3><b>Additions</b></h3>
         <li>Completely redid maze generation</li>
@@ -935,7 +1005,8 @@
         <li>Added Tri-Jouster. Upgrades from Jouster and Tri-Lancer.</li>
         <li>Added Hexa Jouster. Upgrades from Tri-Jouster and Hexa Lancer.</li>
         <li>Oxysplitsy by @[BED] fred has been added to featured tanks because it was forgotten in the last update.</li>
-        <li>Added Fried Egg and it's.. unusual.. evolutions. It's a bit of an expirimental feature so let us know what you make of it.</li>
+        <li>Added Fried Egg and it's.. unusual.. evolutions. It's a bit of an expirimental feature so let us know what
+            you make of it.</li>
         <li>Added AWP-Orchestra-tan(33(6*55)) to Boss Rush.</li>
         <li>Added AWP-Orchestra-3, a Developer-Exclusive boss.</li>
         <li>Added AWP-Orchestra-4, made by Rodrigo, to Boss Rush.</li>
@@ -1001,7 +1072,8 @@
         <li>Decreased the Boss Rush bot count to 12.</li>
         <li>Crashers now evolve into Boils instead of Summoner Squares.</li>
         <li>Renamed Beta Pentamancer to Alpha Pentamancer</li>
-        <li>Changed some of the server locations for other parts of woomy so theres a more balanced connection. Will not affect gameplay.</li>
+        <li>Changed some of the server locations for other parts of woomy so theres a more balanced connection. Will not
+            affect gameplay.</li>
     </ul>
 </div>
 <div class="patchnoteSection">
@@ -1037,7 +1109,8 @@
         <li>Added Hephestus. Upgrades from Ares and Vulkan. Tank by Drip Goku.</li>
         <li>Added Odin. Upgrades from Ares and Hewn Twin. Tank is a mashup of two tanks by Drip Goku.</li>
         <li>Added Minerva. Upgrades from Ares and Triple Twin. Tank by Drip Goku, athough it's been redesigned.</li>
-        <li>Added Homing Ares. Upgrades from Ares and Homing Twin. Tank by Drip Goku, athough it's been renamed since I'm not wasting the name Murcury on this.</li>
+        <li>Added Homing Ares. Upgrades from Ares and Homing Twin. Tank by Drip Goku, athough it's been renamed since
+            I'm not wasting the name Murcury on this.</li>
         <li>Added Eris. Upgrades from Ares and Irritator.</li>
         <li>Added Oven. Upgrades from Pyro and Furnace.</li>
         <li>Added Gas Line. Upgrades from Acid and Inferno.</li>
@@ -1071,7 +1144,8 @@
 
         <h3><b>Violin Changes</b></h3>
         <li>Fixed Planer being wrong.</li>
-        <li>Added OP Shrapnel, Crockettception, Doxxy,  The Sinxinator, Astra, S-Carrier, and Giga-Swarmer to TESTBED Misc.</li>
+        <li>Added OP Shrapnel, Crockettception, Doxxy, The Sinxinator, Astra, S-Carrier, and Giga-Swarmer to TESTBED
+            Misc.</li>
         <li>Added Motherstack to TESTBED Overdone.</li>
         <li>200 -> 125 (Boss Rush)</li>
         <li>Increased the score of Alpha Polygons, suggested by A Tree.</li>
@@ -1085,7 +1159,8 @@
         <li>Added Afterimage to Beta Tanks, suggested by Verden.</li>
         <li>Special thanks to Oblivion for actually making the thing.</li>
         <li>Beta Pentamancer can now infect Alpha Pentagons, Mystic Beta Pentagons, and Green Beta Pentagons.</li>
-        <li>Bosses that appear on incremental waves (i.e. 10, 20, etc.) which appeared on post-25 or post-50 waves now have weaker variants in the latter.</li>
+        <li>Bosses that appear on incremental waves (i.e. 10, 20, etc.) which appeared on post-25 or post-50 waves now
+            have weaker variants in the latter.</li>
         <li>They're smaller with less health, body damage, but usually slightly more speed.</li>
         <li>Their weaponry remains unaltered.</li>
         <li>Splitter Shapes have evolved.</li>
@@ -1098,7 +1173,8 @@
         <li>Buffed Sassafras Supreme's body damage.</li>
     </ul>
 </div>
-</div><div class="patchnoteSection">
+</div>
+<div class="patchnoteSection">
     <p class="patchnoteTitle">Something something fire fire 🔥🔥<span class="patchnoteTime">August 14st, 2023</span></p>
     <ul class="patchnoteBody">
         <h3><b>Netheferious Changes</b></h3>
@@ -1147,8 +1223,10 @@
         <li>Ascended shapes now have a 1 in 200 chance to evolve from their respective splitter variants.</li>
         <li>Ascended shapes now display on the minimap.</li>
         <li>Ascended shapes now spawn in boss rush.</li>
-        <li>Added Obsidian Egg. It has a 1 in 1000 chance to evolve from eggs. It can evolve further into the other obsidian variant shapes.</li>
-        <li>Summoner Squares have a 1 in 100 chance to exolve into an Ivory Summoner Square or Obsidian Summoner Square.</li>
+        <li>Added Obsidian Egg. It has a 1 in 1000 chance to evolve from eggs. It can evolve further into the other
+            obsidian variant shapes.</li>
+        <li>Summoner Squares have a 1 in 100 chance to exolve into an Ivory Summoner Square or Obsidian Summoner Square.
+        </li>
         <li>Added Lavender shapes.</li>
         <li>Added Lavender Guardian to Boss Rush.</li>
         <li>Takeout now also upgrades from Swarming Trapper.</li>
@@ -1156,8 +1234,8 @@
         <li>Added Comedy Allergen to misc.</li>
         <h3><b>Violin Changes</b></h3>
         <li> Buffed Orbital Strike and moved it to Level 45 from Builder.</li>
-        <li>  Added Thunderstrike and Heaven Beam branching off of it.</li>
-        <li>  Added Patriot, Nuclear Fallout, Armaggedon, and Pyro Technician, suggested by beta.jar.</li>
+        <li> Added Thunderstrike and Heaven Beam branching off of it.</li>
+        <li> Added Patriot, Nuclear Fallout, Armaggedon, and Pyro Technician, suggested by beta.jar.</li>
         <li> Fixed Kilonova's altfire being wacky.</li>
         <li> Halved the health of every SummonerType boss.</li>
         <li> Nerfed Varp's HP (800 > 600).</li>
@@ -1167,20 +1245,20 @@
         <li> Removed Elite Sanctuary from TESTBED Sanctuaries.</li>
         <li> Nerfed Blue Star.</li>
         <li> Added Megaception, suggested by Pulsar Lite.</li>
-        <li>  Branches off Smashception and Megasmasher.</li>
+        <li> Branches off Smashception and Megasmasher.</li>
         <li> Reworked Polygons.</li>
-        <li>  Changed Evolutions.</li>
-        <li>  Changed how Shinies worked.</li>
-        <li>  Added Mystic, Orange, and Splitter Beta Pentagons.</li>
-        <li>  Added "Boom Polygons".</li>
-        <li>  Added Hardshell Egg.</li>
-        <li>  Added Protected Pentagon.</li>
-        <li>  Supersplitter Squares now have more value.</li>
-        <li>  Hendecagons are now spawnable.</li>
-        <li>  Added Colonies.</li>
+        <li> Changed Evolutions.</li>
+        <li> Changed how Shinies worked.</li>
+        <li> Added Mystic, Orange, and Splitter Beta Pentagons.</li>
+        <li> Added "Boom Polygons".</li>
+        <li> Added Hardshell Egg.</li>
+        <li> Added Protected Pentagon.</li>
+        <li> Supersplitter Squares now have more value.</li>
+        <li> Hendecagons are now spawnable.</li>
+        <li> Added Colonies.</li>
         <li> Fixed Boss Rush Post25 and Post50 Bosses not spawning.</li>
-        <li>  It now simply adds them to the spawnpool.</li>
-        <li>  Also also raised the bot amount to 20.</li>
+        <li> It now simply adds them to the spawnpool.</li>
+        <li> Also also raised the bot amount to 20.</li>
         <li> Added a secret boss.</li>
         <li> Added Curveplex.</li>
         <li> (Very hesitantly) added Vivisection, suggested by Drifter.</li>
@@ -1189,7 +1267,7 @@
         <li> Fixed Firecracker.</li>
         <li> Summoner Lite can now spawn.</li>
         <li> Replaced current Mini Asteroid with the one made by Earth.</li>
-        <li>  Branches from AutoCruiser, Auto5, AutoAuto3, Director3, Minishotception, Autillery, and Swarmsman.</li>
+        <li> Branches from AutoCruiser, Auto5, AutoAuto3, Director3, Minishotception, Autillery, and Swarmsman.</li>
         <li> Added Purifier, a DevExclusive boss.</li>
         <li> Added Polygon Congregation Unit, a boss made by Dip.</li>
         <li> Added Streak, a new boss.</li>
@@ -1205,11 +1283,12 @@
         <li> Slightly nerfed Neutron Star's health.</li>
         <li> Buffed Neon Annihilator.</li>
         <li> Fixed Big Iron not being effect immune.`</li>
-        
+
     </ul>
 
 </div>
-</div><div class="patchnoteSection">
+</div>
+<div class="patchnoteSection">
     <p class="patchnoteTitle">E<span class="patchnoteTime">August 3st, 2023</span></p>
     <ul class="patchnoteBody">
         <h3><b>Netheferious Changes</b></h3>
@@ -1221,33 +1300,36 @@
         <li>Repositioner now has two spawners per block instead of one.</li>
         <li>Splitter Summoner now spawns normally in Boss Rush.</li>
         <li>Super Splitter Summoner has been added and can spawn after wave 25.</li>
-        <h3><b>Violin Changes</b></h3><li>Added Orbital Strike, branching off Mailman at Level 60.</li>
+        <h3><b>Violin Changes</b></h3>
+        <li>Added Orbital Strike, branching off Mailman at Level 60.</li>
         <li>Fixed Airship's drones having minion AI.</li>
         <li>Added Alpha Void Pentagon, a WIP boss.</li>
         <li>Changes to shape evolution.</li>
         <ul>
-         <li>Splitter Squares now evolve from Squares rather than Eggs.</li>
-         <li>Splitter Triangles now evolve from Triangles.</li>
-         <li>Splitter Pentagons now evolve from Pentagons.</li>
-         <li>Pentagons are now significantly less likely to evolve into Beta Pentagons.</li>
-         <li>Beta Pentagons no longer devolve into eggs.</li>
+            <li>Splitter Squares now evolve from Squares rather than Eggs.</li>
+            <li>Splitter Triangles now evolve from Triangles.</li>
+            <li>Splitter Pentagons now evolve from Pentagons.</li>
+            <li>Pentagons are now significantly less likely to evolve into Beta Pentagons.</li>
+            <li>Beta Pentagons no longer devolve into eggs.</li>
         </ul>
         <li>Added Overlord Moneko, branching from Overlord at Level 60.</li>
         <ul>
-         <li>This tank was suggested by Fuzzing Clicks.</li>
+            <li>This tank was suggested by Fuzzing Clicks.</li>
         </ul>
         <li>Buffed g.summon.</li>
         <li>Added Sorcerer, a new boss.</li>
         <li>Added Enchantress, a new boss.</li>
         <li>Added Exorcistor, a new boss.</li>
         <li>Added Triguardian, a new boss.</li>
-        <li>Added Fightship, Presenter, Hangar, Spyship, UFO, Aeroship, and Squadron. All from Airship, all by Misfit.</li>
+        <li>Added Fightship, Presenter, Hangar, Spyship, UFO, Aeroship, and Squadron. All from Airship, all by Misfit.
+        </li>
         <ul>
-         <li>UFO also branches from Reaper.</li>
-         <li>Aeroship also branches from Factory.</li>
+            <li>UFO also branches from Reaper.</li>
+            <li>Aeroship also branches from Factory.</li>
         </ul>
         <li>The drones of Guardian and its variants no longer expire.</li>
-        <li>Added RK-2, RK-3, Sorcerer, Enchantress, Exorcistor, Triguardian, and Fallen Drifter, to normal Boss Rush Waves.</li>
+        <li>Added RK-2, RK-3, Sorcerer, Enchantress, Exorcistor, Triguardian, and Fallen Drifter, to normal Boss Rush
+            Waves.</li>
         <li>Added RK-4, Frigate, and Destroyer to Post-25 waves.</li>
         <li>Added RK-5 to Post-50 waves.</li>
         <li>Added AWP-30 to Wave 70.</li>
@@ -1255,18 +1337,20 @@
         <li>TK-5 and MK-5 now both have a chance to spawn on Wave 40.</li>
         <li>Boss Rush will now have a Post-25 boss alongside a Post-50 boss in Wave 51 and beyond.</li>
         <ul>
-         <li>This change is experimental and subject to change.</li>
+            <li>This change is experimental and subject to change.</li>
         </ul>
         <li>Boss Rush now ends after 8 hours rather than 4.</li>
         <li>Brought back the old Boss Rush map, for old time sake.</li>
         <li>Added Burnt Kamikaze.</li>
-        <li>Added Tyrant, branching off Furnace, Planter and Conqueror at Level 60, and suggested by Fuzzing Clicks.</li>
+        <li>Added Tyrant, branching off Furnace, Planter and Conqueror at Level 60, and suggested by Fuzzing Clicks.
+        </li>
         <li>Operator traps no longer persist after death when the parent block dies.</li>
-        <li>Added Elite Sanctuary, a Developer-Only Sanctuary. May you never encounter this, lest you bring upon the fury of the gods...</li>
+        <li>Added Elite Sanctuary, a Developer-Only Sanctuary. May you never encounter this, lest you bring upon the
+            fury of the gods...</li>
         <li>Fixed Gravibus not having a death message.</li>
         <li>Added The Gauntlet.</li>
         <ul>
-         <li>Abandon hope all ye who enter Post-70...</li>
+            <li>Abandon hope all ye who enter Post-70...</li>
         </ul>
         <li>Redesigned and buffed Orangicus, Lemonicus, and Applicus. The latter two now spawn in Boss Rush.</li>
         <li>Drastically increased the Crasher count in Boss Rush, from 20 to 50.</li>
@@ -1275,47 +1359,58 @@
         <li>Added Gem, the equivalent of a Shiny Egg.</li>
         <li>Changed Crasher evolution.</li>
         <ul>
-         <li>Added a few crashers, new and old.</li>
-         <li>Army Sentries have a 0.1% chance to evolve from their respective sentries.</li>
+            <li>Added a few crashers, new and old.</li>
+            <li>Army Sentries have a 0.1% chance to evolve from their respective sentries.</li>
         </ul>
         <li>Changed some of Neutron Star's weaponry.</li>
         <li>Mimic Eggs can now spawn.</li>
         <li>Added AIWFCIY.</li>
         <ul>
-         <li>The Christmas Spirit herself.</li>
+            <li>The Christmas Spirit herself.</li>
         </ul>
         <li>Added Viral Purge.</li>
         <ul>
-         <li>OH GOD OH FUCK WHAT HAVE YOU DONE MISTAKE ERROR RECONSIDER RECONSIDER STOP OH GOD FUCK FUCK WHAT HAVE YOU DONE MISTAKE UNDO RECONSIDER THIS BAD IDEA STOP OH FUCK</li>
+            <li>OH GOD OH FUCK WHAT HAVE YOU DONE MISTAKE ERROR RECONSIDER RECONSIDER STOP OH GOD FUCK FUCK WHAT HAVE
+                YOU DONE MISTAKE UNDO RECONSIDER THIS BAD IDEA STOP OH FUCK</li>
         </ul>
         <li>Added RS-X, a new Boss Series.</li>
         <ul>
-         <li>RS stands for Red Star.</li>
-         <li>The bosses themselves are based on Red Runner.</li>
+            <li>RS stands for Red Star.</li>
+            <li>The bosses themselves are based on Red Runner.</li>
         </ul>
         <li>Slider now spawns in boss rush.</li>
         <li>Added 2 secret bosses to Boss Rush.</li>
         <li>Special thanks to Jekyll for helping with boss rush code.</li>
-        
+
     </ul>
 
 </div>
 <div class="patchnoteSection">
-    <p class="patchnoteTitle">PLEASE HELP ME, ITS SPREADING TO MY HOUSE 🔥<span class="patchnoteTime">July 25, 2023</span></p>
+    <p class="patchnoteTitle">PLEASE HELP ME, ITS SPREADING TO MY HOUSE 🔥<span class="patchnoteTime">July 25,
+            2023</span></p>
     <ul class="patchnoteBody">
         <h3><b>Drako Changes</b></h3>
         <li><b>General Changes</b></li>
-        <li>Mockups now load in dynamically as you encounter them, this might lead to some tanks flashing or flickering</li>
-        <li>Reworked mobile, theres so many changes im not going to list them. Just know you can play on your phone or any other mobile device now.</li>
-        <li>Readded evolutions with crashers evolving 3x as fast as food/shapes. The new evolution paths and chances can be found <a href="https://woomy-evolutions.glitch.me">here</a>, however the information might be out of date in the future.</li>
-        <li>The death screen now has some sick animations, disabling fancy animations will disable the sick animations.</li>
-        <li>Fixed chat scaling and added some wicked animations, disabling fancy animations will disable the wicked animations.</li>
+        <li>Mockups now load in dynamically as you encounter them, this might lead to some tanks flashing or flickering
+        </li>
+        <li>Reworked mobile, theres so many changes im not going to list them. Just know you can play on your phone or
+            any other mobile device now.</li>
+        <li>Readded evolutions with crashers evolving 3x as fast as food/shapes. The new evolution paths and chances can
+            be found <a href="https://woomy-evolutions.glitch.me">here</a>, however the information might be out of date
+            in the future.</li>
+        <li>The death screen now has some sick animations, disabling fancy animations will disable the sick animations.
+        </li>
+        <li>Fixed chat scaling and added some wicked animations, disabling fancy animations will disable the wicked
+            animations.</li>
         <li>You can no longer spam and send repeated similar chat messages</li>
-        <li>You can disable the bodacious message notification (top of the screen) animations by disabling fancy animations now</li>
+        <li>You can disable the bodacious message notification (top of the screen) animations by disabling fancy
+            animations now</li>
         <li>Long boys are longer :3</li>
-        <li>Theres now a max payload size for packets, if you disconnect and see CODE: 1009 in the console let a dev know asap</li>
+        <li>Theres now a max payload size for packets, if you disconnect and see CODE: 1009 in the console let a dev
+            know asap</li>
         <li>The client is now only minified on builds</li>
-        <li>Changed the default settings, this shouldnt affect your current settings unless you reset them. These new defaults should be more faithful to the original woomy so I recommend you reset your settings.</li>
+        <li>Changed the default settings, this shouldnt affect your current settings unless you reset them. These new
+            defaults should be more faithful to the original woomy so I recommend you reset your settings.</li>
         <li>Messages now appear over the leaderboard and minimap (the ones at the top of the screen)</li>
         <li>Changed the Sporulator tooltip to say projectiles rather than traps</li>
         <li>Removed the main menu shadow on the edges of the screen</li>
@@ -1323,7 +1418,9 @@
         <li>Changed the achievement text of Hot!</li>
         <li>Changed the previous Shiny! achivement to Toxic! and changed its text</li>
         <li>Changed the Mysic! achievement text</li>
-        <li>Tank tree is now non-functional as it makes mockup streaming redundant, an auto generated wiki <b>is planned</b> to take its place on the main page. The actual wikipedia site will stay because it provides far more detail.</li>
+        <li>Tank tree is now non-functional as it makes mockup streaming redundant, an auto generated wiki <b>is
+                planned</b> to take its place on the main page. The actual wikipedia site will stay because it provides
+            far more detail.</li>
 
         <li><b>Bug Fixes</b></li>
         <li>Fixed Golden Icosagon looking mega goofy with glass mode</li>
@@ -1336,12 +1433,16 @@
         <li>Other teams portals now kill you in growth</li>
 
         <li><b>Balance</b></li>
-        <li>The Sporulator branch now has a children limit of 90 (3 projectiles * 30 entities) with the exceptions of Puffball and Fly Amanita which have a children limit of 150 (5 projectiles * 30 entities). The Offense Shroom also is also an exception with a children limit of 30 (1 projectile * 30 entities). You shouldnt really notice this change unless you are killing a lot of food or splitters.</li>
+        <li>The Sporulator branch now has a children limit of 90 (3 projectiles * 30 entities) with the exceptions of
+            Puffball and Fly Amanita which have a children limit of 150 (5 projectiles * 30 entities). The Offense
+            Shroom also is also an exception with a children limit of 30 (1 projectile * 30 entities). You shouldnt
+            really notice this change unless you are killing a lot of food or splitters.</li>
         <li>Buffed Kamikaze Crasher and its Lite varient</li>
         <li>Increased the chance things will see invisible tanks in voidwalkers by 25%</li>
         <li>Buffed smashers</li>
         <li>Nerfed Inoculist</li>
-        <li>Any tank that uses the MiniShoeNuke projectile or similar now has way more durable explosions at the cost of less damage. Youll actually see some explosions this time around.</li>
+        <li>Any tank that uses the MiniShoeNuke projectile or similar now has way more durable explosions at the cost of
+            less damage. Youll actually see some explosions this time around.</li>
         <li>Removed Mothership from growth</li>
         <li>Nerfed Growth base drones fov</li>
         <li>Growth base drones no longer "chase" you</li>
@@ -1354,35 +1455,44 @@
 
         <li><b>Additions</b></li>
         <li>KAMIKAZE CRASHER LITE JOIN THE FIGHT</li>
-        <li>Added shiny varients, they have a teal color, are slightly bigger than normal, and give 25X their normal score! (1/100000 chance to spawn, thats 0.00001%!!)</li>
-        <li>Corruption taints the world as we know it.. (CORRUPTED TANKS GAMEMODE IS BACK BABBYYYYY BETTTER THAN EVER)</li>
+        <li>Added shiny varients, they have a teal color, are slightly bigger than normal, and give 25X their normal
+            score! (1/100000 chance to spawn, thats 0.00001%!!)</li>
+        <li>Corruption taints the world as we know it.. (CORRUPTED TANKS GAMEMODE IS BACK BABBYYYYY BETTTER THAN EVER)
+        </li>
 
         <h3><b>Netheferious Changes</b></h3>
-        <li>Reduced the damage and buffed the health of Shrapnel explosions. They should be much more effective now.</li>
+        <li>Reduced the damage and buffed the health of Shrapnel explosions. They should be much more effective now.
+        </li>
         <li>Buffed Oppenhiemer explosion damage and size considerably.</li>
         <li>Pusher has been released along with all the tanks in its branch. It upgrades from Lancer.</li>
-        <li>The Aegis with orange shields has been renamed to Defenestrator so the old Aegis could have its name back.</li>
+        <li>The Aegis with orange shields has been renamed to Defenestrator so the old Aegis could have its name back.
+        </li>
         <li>Hop Tank has been released and upgrades from Auto Tank.</li>
         <li>Rodomontade has been released and upgrades from Poundrive. Idea by DeepRecovery.</li>
-        <li>Added Centurion to Beta Tanks. It is a very old idea by Knightmare.<li>
+        <li>Added Centurion to Beta Tanks. It is a very old idea by Knightmare.
+        <li>
         <li>Fireball has been released and upgrades from Backburner.</li>
         <li>Trinferno has been released and upgrades from Twinferno and Triplet.</li>
         <li>Kindred has been released and upgrades from Twinferno. This tank was an idea by Drifter.</li>
-        <li>Added Splitter Summoner to Boss Rush as a Wave 10 boss. A few squares sought the light, and have been heard.</li>
-        
+        <li>Added Splitter Summoner to Boss Rush as a Wave 10 boss. A few squares sought the light, and have been heard.
+        </li>
+
         <h3><b>Violin Changes</b></h3>
-        <li>Your guess is as good as mine, broski forgot to make a changelog, psure they added a lot of tanks though.</li>
+        <li>Your guess is as good as mine, broski forgot to make a changelog, psure they added a lot of tanks though.
+        </li>
     </ul>
 </div>
 <div class="patchnoteSection">
-    <p class="patchnoteTitle">OH MY GOD THE FOOD IS ON FIRE WHAT DO I DO 🔥<span class="patchnoteTime">July 17, 2023</span></p>
+    <p class="patchnoteTitle">OH MY GOD THE FOOD IS ON FIRE WHAT DO I DO 🔥<span class="patchnoteTime">July 17,
+            2023</span></p>
     <ul class="patchnoteBody">
         <li><b>Drako Changes</b></li>
         <li>Changed to food and spawning</li>
         <ul>
             <li>Food now spawns off of random chance rather than evolution</li>
             <li>Buster can no longer spawn as a crasher</li>
-            <li>Crashers and Sentries now have a 25% chance to spawn in groups of 5 or less, all crashers in a group will be of the same type</li>
+            <li>Crashers and Sentries now have a 25% chance to spawn in groups of 5 or less, all crashers in a group
+                will be of the same type</li>
             <li>Fixed shapes sometimes not apply their effects</li>
             <li>Orange shapes now apply torch</li>
             <li>Mystic shapes now have a 3% chance to teleport around when hit</li>
@@ -1406,9 +1516,11 @@
         </ul>
         <li>Added the Sporulator Branch</li>
         <li>
-            <li>Create a cloud of projectiles whenever you kill food, minions, or tanks</li>
-            <li>The white dots on this tank are meant to loosely represent the Amanita muscaria mushroom (the mario mushroom) despite most of the branch being named after other mushrooms. The dots are also randomly generated each time mockups are regenerated</li>
-            <li>Branches off of Contagion</li>
+        <li>Create a cloud of projectiles whenever you kill food, minions, or tanks</li>
+        <li>The white dots on this tank are meant to loosely represent the Amanita muscaria mushroom (the mario
+            mushroom) despite most of the branch being named after other mushrooms. The dots are also randomly generated
+            each time mockups are regenerated</li>
+        <li>Branches off of Contagion</li>
         </li>
         <li>Fixed Undermega crashing the game</li>
         <li>Fixed the bug where youd keep moving if you opened chat while moving</li>
@@ -1456,12 +1568,14 @@
             <li>50: ES-5, ????</li>
         </ul>
         <li>There are now 75 waves.</li>
-        <li>After Wave 50, there will be a guaranteed chance of Tetraplex, Boreas, World Destroyer, Mythical Crasher, Squarefort, Sassafras Supreme, Void Pentagon, or C.L.O.C.K. spawning.</li>
+        <li>After Wave 50, there will be a guaranteed chance of Tetraplex, Boreas, World Destroyer, Mythical Crasher,
+            Squarefort, Sassafras Supreme, Void Pentagon, or C.L.O.C.K. spawning.</li>
         <li>There can now be a max of 12 Bosses in 1 wave.</li>
         <li>Upped the Bot amount to 15.</li>
     </ul>
 </div>
-</div><div class="patchnoteSection">
+</div>
+<div class="patchnoteSection">
     <p class="patchnoteTitle">THE FOOD IS STILL COOKING 🔥<span class="patchnoteTime">July 13, 2023</span></p>
     <ul class="patchnoteBody">
         <li>Changed how the game servers largely connect to the api</li>
@@ -1502,7 +1616,9 @@
         <li>Fixed sanctuaries not appearing</li>
         <li>Fixed shapeshifter retaining helicopter properties</li>
         <li>Fixed being stuck as an animation tank as shapeshifter</li>
-        <li>Shapeshifter's label doesnt change anymore (if you killed a basic as shapeshifter before your label would turn to basic). Some of the client and server had to be reworked to achieve this so let me know if theres any bugs</li>
+        <li>Shapeshifter's label doesnt change anymore (if you killed a basic as shapeshifter before your label would
+            turn to basic). Some of the client and server had to be reworked to achieve this so let me know if theres
+            any bugs</li>
         <li>Fixed Comet's guns not firing</li>
         <li>Fixed Falnk Engineer branching twice from Engineer</li>
         <li>Fixed prop animations being applied to every tank with that prop</li>
@@ -1510,7 +1626,8 @@
         <li>Fixed S2_22's drones not having chill.</li>
         <li>Fixed AT4_BW's drones not having EMP.</li>
         <li>Fixed (some of) EQ-4's traps not having EMP.</li>
-        <li>Prop animations no longer call to the server to update their animations, the server now bundles it all during view construction</li>
+        <li>Prop animations no longer call to the server to update their animations, the server now bundles it all
+            during view construction</li>
         <li>Added Fuckahedron. Made by [ΩΨ] Droid ɹ≠ɯ#5260.</li>
         <li>DATA_UNKNOWN <span style="color:rgba(255,255,255,0.2)">Added Minos</span></li>
         <li>Readded Confidential. It can now spawn in Boss Rush.</li>
@@ -1524,12 +1641,16 @@
         <ul>
             <li>Fixed Bloodbath not having an aura</li>
             <li>Now uses ounces of <b style="color:red">BLOOD</b></li>
-            <li>Gain X ounces of <b style="color:red">BLOOD</b> whenever you deal damage, where x is the amount of damage you did</li>
-            <li>Gain half your health back and 300 ounces of <b style="color:red">BLOOD</b> whenever you kill a player</li>
+            <li>Gain X ounces of <b style="color:red">BLOOD</b> whenever you deal damage, where x is the amount of
+                damage you did</li>
+            <li>Gain half your health back and 300 ounces of <b style="color:red">BLOOD</b> whenever you kill a player
+            </li>
             <li>Gain all your health back and 1200 ounces <b style="color:red">BLOOD</b> whenever you kill a boss</li>
             <li>Passively loose 0.1 ounces of <b style="color:red">BLOOD</b> per tick</li>
-            <li>Right clicking will put you in rampage mode where youll expend all your <b style="color:red">BLOOD</b> at a rate of 2.1 ounces per tick</li>
-            <li>The goal with this was to let the player have more fun and give the player more freedom when playing Bloodbath</li>
+            <li>Right clicking will put you in rampage mode where youll expend all your <b style="color:red">BLOOD</b>
+                at a rate of 2.1 ounces per tick</li>
+            <li>The goal with this was to let the player have more fun and give the player more freedom when playing
+                Bloodbath</li>
         </ul>
         <li>Treatment Branch Rework</li>
         <ul>
@@ -1665,9 +1786,11 @@
 <div class="patchnoteSection">
     <p class="patchnoteTitle">Marketable plushies coming soon<span class="patchnoteTime">June 24, 2023</span></p>
     <ul class="patchnoteBody">
-        <li>Added an advertisement on the main page, a default euclipse ad will load if the google one fails to load</li>
+        <li>Added an advertisement on the main page, a default euclipse ad will load if the google one fails to load
+        </li>
         <ul>
-            <li>If you would like to discuss getting your ad there instead or somewhere else contact me on discord (drakohyena)</li>
+            <li>If you would like to discuss getting your ad there instead or somewhere else contact me on discord
+                (drakohyena)</li>
         </ul>
         <li>The main menu should be more centered now</li>
         <li>The site should load faster now</li>
@@ -1691,7 +1814,8 @@
         <li><b>Bugfixes and Game/Site changes</b></li>
         <li>Added a status page, courtesy of Dogatorix, find it under extra stuff in misc links (<a
                 href="https://status.woomy.app">status.woomy.app</a>)</li>
-        <li>Added a new debug layer when pressing the l key, it shows the server's global memory usage and the process's cpu usage</li>
+        <li>Added a new debug layer when pressing the l key, it shows the server's global memory usage and the process's
+            cpu usage</li>
         <li>Fixed the settings menu not working somtimes, rejoice</li>
         <li>The gamemode rotation page can now be editted, this is only a visual change, it wont actually change the
             rotation</li>
@@ -1868,7 +1992,8 @@
     <p class="patchnoteTitle">🔥 HOTFIX 3: BORN FROM FLAME 🔥<span class="patchnoteTime">June 16, 2023</span></p>
     <ul class="patchnoteBody">
         <li>Added a gamemode rotation page, view it by clicking extra stuff on the main page and view misc links</li>
-        <li>Added adblocker detection (if you havent disabled your adblocker to support the game by now, now would be the time to do so)</li>
+        <li>Added adblocker detection (if you havent disabled your adblocker to support the game by now, now would be
+            the time to do so)</li>
         <li>Added a new section to the server selector</li>
         <ul>
             <li>Automatic selection picks the optimal server for you base on you location</li>
@@ -1898,7 +2023,7 @@
     </ul>
 </div>
 <div class="patchnoteSection">
-    <p class="patchnoteTitle">🔥 HOTFIX  🔥<span class="patchnoteTime">June 16, 2023</span></p>
+    <p class="patchnoteTitle">🔥 HOTFIX 🔥<span class="patchnoteTime">June 16, 2023</span></p>
     <ul class="patchnoteBody">
         <li>Fixed anni upgrades</li>
         <li>Recoded the circular arena due to oblivion requesting its removal</li>

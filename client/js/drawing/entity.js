@@ -3,6 +3,7 @@ import { currentSettings } from "../settings.js";
 import { roomState } from "../state/room.js";
 import { gameState } from "./scenes/game.js";
 import { entities } from "../socket.js";
+import { mockups } from "../mockups.js";
 
 // ==========================================
 // PATH & SHAPE RENDERING
@@ -990,12 +991,15 @@ setInterval(() => {
 }, 60000);
 
 function renderProp(ctx, entity, prop, propColor) {
+    const entitySize = entity.size || 1;
     let rpmAngle = ((Date.now() * (prop.rpm || 0)) / 1000) % (2 * Math.PI);
-    let propX = prop.x || 0;
-    let propY = prop.y || 0;
-    let propSize = prop.size || 1;
+    let propX = (prop.x || 0) * entitySize;
+    let propY = (prop.y || 0) * entitySize;
+    let propSize = (prop.size ?? 1) * entitySize;
     let propRot = (prop.angle || 0) + rpmAngle;
     if (prop.lockRot === false) propRot += (entity.facing || 0);
+
+    const shouldFill = prop.fill ?? true;
 
     ctx.save();
     ctx.translate(propX, propY);
@@ -1044,10 +1048,10 @@ function renderProp(ctx, entity, prop, propColor) {
         }
         ctx.closePath();
         if (!prop.borderless) ctx.stroke();
-        if (prop.fill) ctx.fill();
+        if (shouldFill) ctx.fill();
 
     } else if (typeof prop.shape === 'number') {
-        drawShape(ctx, prop.shape, propSize, !prop.borderless, prop.fill, {
+        drawShape(ctx, prop.shape, propSize, !prop.borderless, shouldFill, {
             dip: prop.shape < 0 ? prop.dip : undefined,
             arcLen: prop.arclen || 1,
             ring: prop.ring
@@ -1056,7 +1060,7 @@ function renderProp(ctx, entity, prop, propColor) {
     } else if (prop.shape instanceof Path2D) {
         ctx.scale(propSize, propSize);
         ctx.lineWidth /= propSize;
-        drawShape(ctx, prop.shape, 1, !prop.borderless, prop.fill);
+        drawShape(ctx, prop.shape, 1, !prop.borderless, shouldFill);
     }
 
     ctx.restore();
@@ -1094,24 +1098,44 @@ function renderPropsAtLayer(context, entity, layer) {
 }
 
 function renderTurretsAtLayer(ctx, entity, layer) {
-    if (!entity.turrets) return;
     for (let i = 0; i < entity.turrets.length; i++) {
         const turretItem = entity.turrets[i];
-        const turret = typeof turretItem === "object" ? turretItem : entities.get(turretItem);
-        if (!turret) continue;
 
-        const turretLayer = turret.layer ?? 0;
-        if (turretLayer !== layer) continue;
+        // ---------------------------------------------
+        // MOCKUP RENDERING (Icon / Menu Previews)
+        // ---------------------------------------------
+        if (turretItem.isMockupTurret) {
+            const bound = turretItem.bound;
+            const turretLayer = bound.layer ?? 0;
+            if (turretLayer !== layer) continue;
 
-        ctx.save();
-        if (turret.offset !== undefined) {
-            // Mockup / Icon relative positioning
-            const ang = (turret.direction || 0) + (turret.angle || 0);
-            const len = (turret.offset || 0) * (entity.size || 1);
+            const mockup = mockups.get(turretItem.index);
+            if (!mockup) continue;
+
+            ctx.save();
+            const ang = (bound.direction || 0) + (bound.angle || 0);
+            const len = (bound.offset || 0) * (entity.size || 1);
             ctx.translate(len * Math.cos(ang), len * Math.sin(ang));
-            ctx.rotate(turret.angle || 0);
+            ctx.rotate(bound.angle || 0);
+
+            // Default to color 16 (grey) unless specified, or -1 to inherit entity color
+            const rawColor = bound.color ?? turretItem.color ?? mockup.color;
+            const turretColor = rawColor === -1 ? entity.color : (rawColor ?? 16);
+
+            renderEntity(ctx, mockup);
+            ctx.restore();
+
+            // ---------------------------------------------
+            // LIVE WORLD RENDERING (In-game Entities)
+            // ---------------------------------------------
         } else {
-            // Live world positioning
+            const turret = entities.get(turretItem);
+            if (!turret) continue;
+
+            const turretLayer = turret.layer ?? 0;
+            if (turretLayer !== layer) continue;
+
+            ctx.save();
             const dx = (turret.x || 0) - (entity.x || 0);
             const dy = (turret.y || 0) - (entity.y || 0);
             const ef = entity.facing || 0;
@@ -1121,9 +1145,9 @@ function renderTurretsAtLayer(ctx, entity, layer) {
             const localY = dx * sin + dy * cos;
             ctx.translate(localX, localY);
             ctx.rotate((turret.facing || 0) - ef);
+            renderEntity(ctx, turret);
+            ctx.restore();
         }
-        renderEntity(ctx, turret);
-        ctx.restore();
     }
 }
 
@@ -1260,17 +1284,27 @@ function calculateMEC(entity) {
     if (turrets && turrets.length > 0) {
         for (let i = 0; i < turrets.length; i++) {
             const t = turrets[i];
-            const turret = typeof t === "object" ? t : entities.get(t);
+            const turret = t.isMockupTurret ? mockups.get(t.index) : entities.get(t);
             if (!turret) continue;
 
-            const tOff = turret.offset || 0;
-            const tSize = turret.size || 1;
-            const turretExtent = (tOff + tSize);
-            if (turretExtent > maxRadius) maxRadius = turretExtent;
+            let distFromParent = 0;
+            if (t.isMockupTurret) {
+                distFromParent = (t.bound.offset || 0) * size;
+            } else if (turret.x !== undefined && entity.x !== undefined) {
+                distFromParent = Math.hypot(turret.x - entity.x, turret.y - entity.y);
+            }
+
+            // Recursively calculate turret's extent (divided by 2 since calculateMEC returns diameter)
+            const turretExtentRadius = calculateMEC(turret) / 2;
+            const totalTurretReach = distFromParent + turretExtentRadius;
+
+            if (totalTurretReach > maxRadius) {
+                maxRadius = totalTurretReach;
+            }
         }
     }
 
-    return maxRadius * 2 * 1.15;
+    return maxRadius * 2;
 }
 
 // ==========================================
@@ -1315,7 +1349,19 @@ function getEntityImage(entity, liveRender, padding = 1) {
 
     const upscaleVal = maxExtent / CANVAS_SIZE;
 
-    if (!liveRender) {
+    let turretMockupsLoaded = true;
+    function turretsLoaded(entity) {
+        if (typeof entity === "number") entity = entities.get(entity);
+        if (!entity) return;
+        for (let turret of entity.turrets) {
+            if (turret.isMockupTurret) turret = mockups.get(turret.index);
+            if (!turret) return turretMockupsLoaded = false;
+            turretsLoaded(turret);
+        }
+    }
+    turretsLoaded(entity);
+
+    if (!liveRender && turretMockupsLoaded) {
         // Zero-copy, GPU-hardware-resident mapping. Instantly available.
         const bmp = canvas.transferToImageBitmap();
         bmp.upscaleVal = upscaleVal;

@@ -224,7 +224,7 @@ function drawBars({ canvas, ctx, delta }) {
         // Mockup Icon
         if (tile.entityIndex !== undefined) {
             const mockup = mockups.get(tile.entityIndex);
-            if (mockup && !mockup.isLoading) {
+            if (mockup) {
                 mockup.color = color;
                 const img = getEntityImage(mockup, false, 1.25);
                 if (img) {

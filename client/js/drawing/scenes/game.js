@@ -153,7 +153,7 @@ main.drawFuncts.set("entities", ({ canvas, ctx, delta }) => {
 
         if (entity.id === playerState.entityId) {
             playerState.entity = entity;
-            playerState.gameName = entity.name == null ? mockups.get(entity.index).name : entity.name;
+            playerState.gameName = entity.name == null ? mockups.get(entity.index)?.name || "" : entity.name;
         }
 
         const render = getEntityImage(entity, true, 1); // Add padding to accomadate border width and other misc things

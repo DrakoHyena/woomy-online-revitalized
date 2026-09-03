@@ -67,7 +67,6 @@ class ChatMessage {
             typeof backgroundColor === "number"
                 ? getColor(backgroundColor)
                 : backgroundColor || "transparent";
-        console.log(this.backgroundColor, backgroundColor)
         this.entityId = entityId;
         this.creationStamp = performance.now();
         // start visible (alphaFade used for hover boost/fade) — new messages already use creationStamp-based fade

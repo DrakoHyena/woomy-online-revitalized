@@ -11,11 +11,11 @@ let mockups = {
         if (entity) {// We have the entity
             return entity
         } else if (mockups.pendingMockupRequests.has(entityIndex)) {// We are getting the entity
-            return mockups.defaults
+            return undefined;
         } else { // We need to queue the entity
             mockups.pendingMockupRequests.add(entityIndex)
         }
-        return mockups.defaults
+        return undefined;
     },
 
     set: (entityIndex, data) => {
@@ -27,22 +27,6 @@ let mockups = {
         if (mockups.pendingMockupRequests.size === 0) return;
         socket.send(clientPackets.requestEntityMockups, ...mockups.pendingMockupRequests)
     },
-
-    // Defaults
-    defaults: {
-        isLoading: true,
-        index: -1,
-        label: "Loading..",
-        shape: 0,
-        size: 1,
-        color: 12,
-        facing: 0,
-        widthHeightRatio: [1, 1],
-        guns: [],
-        turrets: [],
-        props: [],
-        upgrades: []
-    }
 };
 
 window.sendMockupEdit = (code) => {

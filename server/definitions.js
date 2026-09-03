@@ -84,7 +84,7 @@ const stats = {
         spray: 1,
         resist: 2
     },
-	trap: {//buffed - nerfed
+    trap: {//buffed - nerfed
         reload: 48,
         recoil: 1,
         shudder: .25,
@@ -6009,7 +6009,7 @@ const stats = {
         spray: 1,
         resist: 0.6
     },
-	sonic: {
+    sonic: {
         reload: 0.56,
         recoil: 0.8,
         shudder: 1,
@@ -6024,7 +6024,7 @@ const stats = {
         spray: 1,
         resist: 1.3
     },
-	shredder: {
+    shredder: {
         reload: 1.1,
         recoil: 1,
         shudder: 1,
@@ -6096,22 +6096,22 @@ global.utility.log("Started parsing definitions...");
 
 const setSkill = (s1, s2, s3, s4, s5, s6, s7, s8, s9, s10) => [s7, s5, s4, s6, s3, s10, s1, s2, s9, s8];
 const statNames = {
-	smasher: ["Body Damage", "Max Health", "", "", "", "", "Acceleration", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	drone: ["Body Damage", "Max Health", "Drone Speed", "Drone Health", "Drone Penetration", "Drone Damage", "Respawn Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	necro: ["Body Damage", "Max Health", "Drone Speed", "Drone Health", "Drone Penetration", "Drone Damage", "Max Drone Count", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	swarm: ["Body Damage", "Max Health", "Swarm Speed", "Swarm Health", "Swarm Penetration", "Swarm Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	trap: ["Body Damage", "Max Health", "Trap Speed", "Trap Health", "Trap Penetration", "Trap Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	generic: ["Body Damage", "Max Health", "Weapon Speed", "Weapon Health", "Weapon Penetration", "Weapon Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	autoSmash: ["Body Damage", "Max Health", "Bullet Speed", "Bullet Health", "Bullet Penetration", "Bullet Damage", "Reload & Acceleration", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	minion: ["Body Damage", "Max Health", "Minion Speed", "Minion Health", "Minion Penetration", "Minion Damage", "Respawn Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	jumpSmash: ["Body Damage", "Max Health", "", "", "", "", "Jump Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	block: ["Body Damage", "Max Health", "Block Speed", "Block Health", "Block Penetration", "Block Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	boomer: ["Body Damage", "Max Health", "Rebound Speed", "Boomerang Health", "Boomerang Penetration", "Boomerang Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	lancer: ["Body Damage", "Max Health", "Lance Range", "Lance Longevity", "Lance Sharpness", "Lance Damage", "Lance Density", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	flail: ["Body Damage", "Max Health", "Flail Speed", "Flail Resistance", "Flail Penetration", "Flail Damage", "Flail Density", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	inject: ["Body Damage", "Max Health", "Syringe Range", "Syringe Longevity", "Syringe Sharpness", "Syringe Damage", "Refill Time", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	laser: ["Body Damage", "Max Health", "Laser Length", "Laser Duration", "Laser Pierce", "Laser Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
-	default: ["Body Damage", "Max Health", "Bullet Speed", "Bullet Health", "Bullet Penetration", "Bullet Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    smasher: ["Body Damage", "Max Health", "", "", "", "", "Acceleration", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    drone: ["Body Damage", "Max Health", "Drone Speed", "Drone Health", "Drone Penetration", "Drone Damage", "Respawn Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    necro: ["Body Damage", "Max Health", "Drone Speed", "Drone Health", "Drone Penetration", "Drone Damage", "Max Drone Count", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    swarm: ["Body Damage", "Max Health", "Swarm Speed", "Swarm Health", "Swarm Penetration", "Swarm Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    trap: ["Body Damage", "Max Health", "Trap Speed", "Trap Health", "Trap Penetration", "Trap Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    generic: ["Body Damage", "Max Health", "Weapon Speed", "Weapon Health", "Weapon Penetration", "Weapon Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    autoSmash: ["Body Damage", "Max Health", "Bullet Speed", "Bullet Health", "Bullet Penetration", "Bullet Damage", "Reload & Acceleration", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    minion: ["Body Damage", "Max Health", "Minion Speed", "Minion Health", "Minion Penetration", "Minion Damage", "Respawn Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    jumpSmash: ["Body Damage", "Max Health", "", "", "", "", "Jump Rate", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    block: ["Body Damage", "Max Health", "Block Speed", "Block Health", "Block Penetration", "Block Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    boomer: ["Body Damage", "Max Health", "Rebound Speed", "Boomerang Health", "Boomerang Penetration", "Boomerang Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    lancer: ["Body Damage", "Max Health", "Lance Range", "Lance Longevity", "Lance Sharpness", "Lance Damage", "Lance Density", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    flail: ["Body Damage", "Max Health", "Flail Speed", "Flail Resistance", "Flail Penetration", "Flail Damage", "Flail Density", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    inject: ["Body Damage", "Max Health", "Syringe Range", "Syringe Longevity", "Syringe Sharpness", "Syringe Damage", "Refill Time", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    laser: ["Body Damage", "Max Health", "Laser Length", "Laser Duration", "Laser Pierce", "Laser Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
+    default: ["Body Damage", "Max Health", "Bullet Speed", "Bullet Health", "Bullet Penetration", "Bullet Damage", "Reload", "Movement Speed", "Shield Regeneration", "Shield Capacity"],
 };
 const gunCalcNames = {
     default: 0,
@@ -6155,40 +6155,40 @@ const base = {
 base.ACCELERATION = base.ACCEL;
 
 // Prop functions
-class PropAnimation{
-	constructor(prop, index){
-		if(typeof index !== "number") throw new Error("You must define a valid index for PropAnimations") 
-		this.index = index
-		this.size = prop.size
-		this.x = prop.x
-		this.y = prop.y
-		this.angle = prop.angle
-		this.layer = prop.layer
-		this.shape = prop.shape
-		this.color = prop.color
-		this.active = false;
-		this.lastUpdate = 0;
-		for(let val of this.toArray()){
-			if(val === undefined) throw new Error("Props must have all PropAnimation properties to be animated")
-		}
-	}
-	toArray(){
-		const arr = [this.index, this.size, this.x, this.y, this.angle, this.layer]
-		if(this.shape._assetMagic === ASSET_MAGIC){
-			arr.push(ASSET_MAGIC)
-			arr.push(this.shape.id)
-		}else if(Array.isArray(this.shape)){
-			arr.push(JSON.stringify(this.shape))
-		}else{
-			arr.push(this.shape)
-		}
-		if(this.color._assetMagic === ASSET_MAGIC){
-			arr.push(ASSET_MAGIC, this.color.id)
-		} else {
-			arr.push(this.color)
-		}
-		return arr
-	}
+class PropAnimation {
+    constructor(prop, index) {
+        if (typeof index !== "number") throw new Error("You must define a valid index for PropAnimations")
+        this.index = index
+        this.size = prop.size
+        this.x = prop.x
+        this.y = prop.y
+        this.angle = prop.angle
+        this.layer = prop.layer
+        this.shape = prop.shape
+        this.color = prop.color
+        this.active = false;
+        this.lastUpdate = 0;
+        for (let val of this.toArray()) {
+            if (val === undefined) throw new Error("Props must have all PropAnimation properties to be animated")
+        }
+    }
+    toArray() {
+        const arr = [this.index, this.size, this.x, this.y, this.angle, this.layer]
+        if (this.shape._assetMagic === ASSET_MAGIC) {
+            arr.push(ASSET_MAGIC)
+            arr.push(this.shape.id)
+        } else if (Array.isArray(this.shape)) {
+            arr.push(JSON.stringify(this.shape))
+        } else {
+            arr.push(this.shape)
+        }
+        if (this.color._assetMagic === ASSET_MAGIC) {
+            arr.push(ASSET_MAGIC, this.color.id)
+        } else {
+            arr.push(this.color)
+        }
+        return arr
+    }
 }
 
 
@@ -6207,16 +6207,16 @@ const makeShell = (options = {}) => {
     options.rpm = options.rpm == null ? 4 : options.rpm;
     options.angle = options.angle == null ? 0 : options.angle;
     options.dip = options.dip == null ? 1 : options.dip;
-	options.lockRot = options.lockRot == null ? true : options.lockRot;
-	options.tankOrigin = options.tankOrigin == null ? false : options.tankOrigin;
+    options.lockRot = options.lockRot == null ? true : options.lockRot;
+    options.tankOrigin = options.tankOrigin == null ? false : options.tankOrigin;
     return {
         POSITION: [1.17 * options.size, 0, 0, options.angle, -1],
         SHAPE: options.shape,
         COLOR: options.color,
         RPM: options.rpm,
         DIP: options.dip,
-		LOCK_ROT: options.lockRot,
-		TANK_ORIGIN: options.tankOrigin
+        LOCK_ROT: options.lockRot,
+        TANK_ORIGIN: options.tankOrigin
     }
 };
 const fixPoint = (x, y, n) => {
@@ -6378,7 +6378,7 @@ const paralyze = (them, duration) => {
 };
 const fireGun = (gun) => {
     gun.fire(
-		gun.body.skill
+        gun.body.skill
     );
 };
 const animate = (me, tank, frames, duration, isFirstFrame, offset = 0, entities, resetToFirstFrame = false) => {
@@ -6464,7 +6464,7 @@ const spore = (me, them, gunIndex, amount) => {
     gun.canShoot = ogCanShoot;
 };
 function blackhole(force) {
-    return function (me, other) {
+    return function(me, other) {
         if (other.mass === 0 || other.pushability === 0 ||
             other.team === me.team
 
@@ -8310,9 +8310,9 @@ const makeTreatment = (type, name, options = {}) => {
 
     output.TOOLTIP = `Passively gain ${output.VARIABLES.generationRate} healing energy per tick. Hold right click to use ${output.VARIABLES.usageRate} stored healing energy.`;
 
-	output.ON_DEFINED = (me) => {
-		me.animations.push(new PropAnimation(me.props[0], 0))
-	}
+    output.ON_DEFINED = (me) => {
+        me.animations.push(new PropAnimation(me.props[0], 0))
+    }
 
     output.ON_ALT = (me) => {
         if (me.variables.energy > me.variables.usageRate) {// We have big energy and small healing so the numbers are more comprehendible and comparable
@@ -8327,16 +8327,16 @@ const makeTreatment = (type, name, options = {}) => {
                 me.variables.timer += 0.05
             }
             me.variables.poisoned = false
-			me.animations[0].active = true;
+            me.animations[0].active = true;
         }
     }
 
     output.ON_NOT_ALT = (me) => {
         if (me.variables.timer > 0.05) {
             me.variables.timer -= 0.05
-        }else{
-			me.animations[0].active = false;
-		}
+        } else {
+            me.animations[0].active = false;
+        }
     }
 
     output.ON_TICK = (me) => {
@@ -8638,7 +8638,7 @@ defExports.mysticBetaPentagon = {
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.03) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -8683,25 +8683,25 @@ defExports.hendecagon = {
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function({ sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y - 10
-			}];
-		for (let i = 0; i < 3; i++) {
-			let o = new Entity(positions[i]);
-			o.team = this.team;
-			o.define([Class.crasher, Class.square, Class.triangle][i]);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y - 10
+            }];
+        for (let i = 0; i < 3; i++) {
+            let o = new Entity(positions[i]);
+            o.team = this.team;
+            o.define([Class.crasher, Class.square, Class.triangle][i]);
+        }
+    }
 };
 defExports.mysticPentagon = {
     PARENT: [defExports.food],
@@ -8719,7 +8719,7 @@ defExports.mysticPentagon = {
         REGEN: .1
     },
     DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.03) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -8816,7 +8816,7 @@ defExports.mysticTriangle = {
         REGEN: .1
     },
     DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.03) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -8890,7 +8890,7 @@ defExports.mysticSquare = {
         REGEN: .1
     },
     DRAW_HEALTH: true,
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.03) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -9280,163 +9280,163 @@ defExports.pentagonColonySpawner = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 5),
-				y: y + 200 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.pentagonCrasher);
-		}
-		for (let i = 0; i < 20; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 10),
-				y: y + 200 * Math.sin(i * Math.PI / 10)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 10);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 10);
-			crash.define(Class.crasher);
-		}
-		for (let i = 0; i < 10; i++) {
-			let shape = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 5),
-				y: y + 100 * Math.sin(i * Math.PI / 5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 100 * Math.cos(i * Math.PI / 5);
-			shape.control.target.y = 100 * Math.sin(i * Math.PI / 5);
-			shape.define(Class.splitterPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 1.5),
-				y: y + 200 * Math.sin(i * Math.PI / 1.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
-			shape.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
-			shape.define(Class.lavenderPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 1; i++) {
-			let shape = new Entity({
-				x: x + 225 * Math.cos(i * Math.PI / 1),
-				y: y + 225 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.cranberryPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 4),
-				y: y + 100 * Math.sin(i * Math.PI / 4)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 100 * Math.cos(i * Math.PI / 4);
-			shape.control.target.y = 100 * Math.sin(i * Math.PI / 4);
-			shape.define(Class.splitterBetaPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 40; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 20),
-				y: y + 400 * Math.sin(i * Math.PI / 20)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 150 * Math.cos(i * Math.PI / 20);
-			shape.control.target.y = 150 * Math.sin(i * Math.PI / 20);
-			shape.define(Class.pentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 10; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 5),
-				y: y + 400 * Math.sin(i * Math.PI / 5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 150 * Math.cos(i * Math.PI / 5);
-			shape.control.target.y = 150 * Math.sin(i * Math.PI / 5);
-			shape.define(Class.betaPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			shape.define([Class.greenPentagon, Class.greenPentagon, Class.greenPentagon, Class.greenBetaPentagon, Class.greenBetaPentagon][i]);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 2.5),
-				y: y + 300 * Math.sin(i * Math.PI / 2.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 300 * Math.cos(i * Math.PI / 2.5);
-			shape.control.target.y = 300 * Math.sin(i * Math.PI / 2.5);
-			shape.define(Class.boompentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 1.5),
-				y: y + 250 * Math.sin(i * Math.PI / 1.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
-			shape.define([Class.orangePentagon, Class.orangePentagon, Class.orangeBetaPentagon][i]);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 2; i++) {
-			let shape = new Entity({
-				x: x - 225 * Math.cos(i * Math.PI / 1),
-				y: y - 225 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.protpentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 5; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			sentry.define(Class.crusaderCrash);
-		}
-		for (let i = 0; i < 6; i++) {
-			let sentry = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 3),
-				y: y + 300 * Math.sin(i * Math.PI / 3)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 300 * Math.cos(i * Math.PI / 3);
-			sentry.control.target.y = 300 * Math.sin(i * Math.PI / 3);
-			sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 5),
+                y: y + 200 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.pentagonCrasher);
+        }
+        for (let i = 0; i < 20; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 10),
+                y: y + 200 * Math.sin(i * Math.PI / 10)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 10);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 10);
+            crash.define(Class.crasher);
+        }
+        for (let i = 0; i < 10; i++) {
+            let shape = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 5),
+                y: y + 100 * Math.sin(i * Math.PI / 5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 100 * Math.cos(i * Math.PI / 5);
+            shape.control.target.y = 100 * Math.sin(i * Math.PI / 5);
+            shape.define(Class.splitterPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 1.5),
+                y: y + 200 * Math.sin(i * Math.PI / 1.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
+            shape.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
+            shape.define(Class.lavenderPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 1; i++) {
+            let shape = new Entity({
+                x: x + 225 * Math.cos(i * Math.PI / 1),
+                y: y + 225 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.cranberryPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 4),
+                y: y + 100 * Math.sin(i * Math.PI / 4)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 100 * Math.cos(i * Math.PI / 4);
+            shape.control.target.y = 100 * Math.sin(i * Math.PI / 4);
+            shape.define(Class.splitterBetaPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 40; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 20),
+                y: y + 400 * Math.sin(i * Math.PI / 20)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 150 * Math.cos(i * Math.PI / 20);
+            shape.control.target.y = 150 * Math.sin(i * Math.PI / 20);
+            shape.define(Class.pentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 10; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 5),
+                y: y + 400 * Math.sin(i * Math.PI / 5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 150 * Math.cos(i * Math.PI / 5);
+            shape.control.target.y = 150 * Math.sin(i * Math.PI / 5);
+            shape.define(Class.betaPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            shape.define([Class.greenPentagon, Class.greenPentagon, Class.greenPentagon, Class.greenBetaPentagon, Class.greenBetaPentagon][i]);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 2.5),
+                y: y + 300 * Math.sin(i * Math.PI / 2.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 300 * Math.cos(i * Math.PI / 2.5);
+            shape.control.target.y = 300 * Math.sin(i * Math.PI / 2.5);
+            shape.define(Class.boompentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 1.5),
+                y: y + 250 * Math.sin(i * Math.PI / 1.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
+            shape.define([Class.orangePentagon, Class.orangePentagon, Class.orangeBetaPentagon][i]);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 2; i++) {
+            let shape = new Entity({
+                x: x - 225 * Math.cos(i * Math.PI / 1),
+                y: y - 225 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.protpentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 5; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            sentry.define(Class.crusaderCrash);
+        }
+        for (let i = 0; i < 6; i++) {
+            let sentry = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 3),
+                y: y + 300 * Math.sin(i * Math.PI / 3)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 300 * Math.cos(i * Math.PI / 3);
+            sentry.control.target.y = 300 * Math.sin(i * Math.PI / 3);
+            sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
+        }
+    }
 };
 defExports.pentagonColony = {
     PARENT: [defExports.food],
@@ -9524,141 +9524,141 @@ defExports.triangleColonySpawner = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 6; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 3),
-				y: y + 200 * Math.sin(i * Math.PI / 3)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
-			crash.define(Class.triangleCrasher);
-		}
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 1.5),
-				y: y + 200 * Math.sin(i * Math.PI / 1.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
-			crash.define(Class.poisonBlades);
-		}
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 1.5),
-				y: y + 200 * Math.sin(i * Math.PI / 1.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
-			shape.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
-			shape.define(Class.lavenderTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 8; i++) {
-			let shape = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 4),
-				y: y + 100 * Math.sin(i * Math.PI / 4)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 100 * Math.cos(i * Math.PI / 4);
-			shape.control.target.y = 100 * Math.sin(i * Math.PI / 4);
-			shape.define(Class.splitterTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 30; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 15),
-				y: y + 400 * Math.sin(i * Math.PI / 15)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 150 * Math.cos(i * Math.PI / 15);
-			shape.control.target.y = 150 * Math.sin(i * Math.PI / 15);
-			shape.define(Class.triangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			shape.define(Class.greenTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 2),
-				y: y + 300 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 300 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 300 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.boomtriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 1.5),
-				y: y + 250 * Math.sin(i * Math.PI / 1.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
-			shape.define(Class.orangeTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 1; i++) {
-			let shape = new Entity({
-				x: x - 225 * Math.cos(i * Math.PI / 1),
-				y: y - 225 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.rightTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 1; i++) {
-			let shape = new Entity({
-				x: x + 225 * Math.cos(i * Math.PI / 1),
-				y: y + 225 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.carbonFiberTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 3; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 1.5),
-				y: y + 275 * Math.sin(i * Math.PI / 1.5)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI / 1.5);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI / 1.5);
-			sentry.define(Class.bladeSentryAI);
-		}
-		for (let i = 0; i < 3; i++) {
-			let sentry = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 1.5),
-				y: y + 300 * Math.sin(i * Math.PI / 1.5)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 300 * Math.cos(i * Math.PI / 1.5);
-			sentry.control.target.y = 300 * Math.sin(i * Math.PI / 1.5);
-			sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 6; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 3),
+                y: y + 200 * Math.sin(i * Math.PI / 3)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
+            crash.define(Class.triangleCrasher);
+        }
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 1.5),
+                y: y + 200 * Math.sin(i * Math.PI / 1.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
+            crash.define(Class.poisonBlades);
+        }
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 1.5),
+                y: y + 200 * Math.sin(i * Math.PI / 1.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
+            shape.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
+            shape.define(Class.lavenderTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 8; i++) {
+            let shape = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 4),
+                y: y + 100 * Math.sin(i * Math.PI / 4)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 100 * Math.cos(i * Math.PI / 4);
+            shape.control.target.y = 100 * Math.sin(i * Math.PI / 4);
+            shape.define(Class.splitterTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 30; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 15),
+                y: y + 400 * Math.sin(i * Math.PI / 15)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 150 * Math.cos(i * Math.PI / 15);
+            shape.control.target.y = 150 * Math.sin(i * Math.PI / 15);
+            shape.define(Class.triangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            shape.define(Class.greenTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 2),
+                y: y + 300 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 300 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 300 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.boomtriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 1.5),
+                y: y + 250 * Math.sin(i * Math.PI / 1.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
+            shape.define(Class.orangeTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 1; i++) {
+            let shape = new Entity({
+                x: x - 225 * Math.cos(i * Math.PI / 1),
+                y: y - 225 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.rightTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 1; i++) {
+            let shape = new Entity({
+                x: x + 225 * Math.cos(i * Math.PI / 1),
+                y: y + 225 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.carbonFiberTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 3; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 1.5),
+                y: y + 275 * Math.sin(i * Math.PI / 1.5)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI / 1.5);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI / 1.5);
+            sentry.define(Class.bladeSentryAI);
+        }
+        for (let i = 0; i < 3; i++) {
+            let sentry = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 1.5),
+                y: y + 300 * Math.sin(i * Math.PI / 1.5)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 300 * Math.cos(i * Math.PI / 1.5);
+            sentry.control.target.y = 300 * Math.sin(i * Math.PI / 1.5);
+            sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
+        }
+    }
 };
 defExports.triangleColony = {
     PARENT: [defExports.food],
@@ -9739,161 +9739,161 @@ defExports.squareColonySpawner = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 6; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 3),
-				y: y + 200 * Math.sin(i * Math.PI / 3)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
-			crash.define(Class.summonerSquare);
-		}
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 1.5),
-				y: y + 200 * Math.sin(i * Math.PI / 1.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
-			crash.define(Class.cashCrash);
-		}
-		for (let i = 0; i < 2; i++) {
-			let shape = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 1),
-				y: y + 100 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 100 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 100 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.splitterSplitterSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 125 * Math.cos(i * Math.PI / 2),
-				y: y + 125 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 125 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 125 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.splitterSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 125 * Math.cos(i * Math.PI / 2),
-				y: y + 125 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 125 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 125 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.lavenderSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 26; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 13),
-				y: y + 400 * Math.sin(i * Math.PI / 13)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 150 * Math.cos(i * Math.PI / 13);
-			shape.control.target.y = 150 * Math.sin(i * Math.PI / 13);
-			shape.define(Class.square);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			shape.define(Class.greenSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 2),
-				y: y + 300 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 300 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 300 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.boomsquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 1.5),
-				y: y + 250 * Math.sin(i * Math.PI / 1.5)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
-			shape.define(Class.orangeSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 1; i++) {
-			let shape = new Entity({
-				x: x + 225 * Math.cos(i * Math.PI / 1),
-				y: y + 225 * Math.sin(i * Math.PI / 1)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
-			shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
-			shape.define(Class.scutiSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 2; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI),
-				y: y + 275 * Math.sin(i * Math.PI)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI);
-			sentry.define(Class.squareGunSentry);
-		}
-		for (let i = 0; i < 1; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI),
-				y: y
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI);
-			sentry.control.target.y = y;
-			sentry.define(Class.summonerLiteAI);
-		}
-		for (let i = 0; i < 1; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI),
-				y: y
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI);
-			sentry.control.target.y = y;
-			sentry.define(Class.squareSwarmerAI);
-		}
-		for (let i = 0; i < 1; i++) {
-			let sentry = new Entity({
-				x: x,
-				y: y + 275 * Math.cos(i * Math.PI)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = x;
-			sentry.control.target.y = 275 * Math.cos(i * Math.PI);
-			sentry.define(Class.squareSwarmerAI);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 6; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 3),
+                y: y + 200 * Math.sin(i * Math.PI / 3)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
+            crash.define(Class.summonerSquare);
+        }
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 1.5),
+                y: y + 200 * Math.sin(i * Math.PI / 1.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 1.5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 1.5);
+            crash.define(Class.cashCrash);
+        }
+        for (let i = 0; i < 2; i++) {
+            let shape = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 1),
+                y: y + 100 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 100 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 100 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.splitterSplitterSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 125 * Math.cos(i * Math.PI / 2),
+                y: y + 125 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 125 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 125 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.splitterSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 125 * Math.cos(i * Math.PI / 2),
+                y: y + 125 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 125 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 125 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.lavenderSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 26; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 13),
+                y: y + 400 * Math.sin(i * Math.PI / 13)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 150 * Math.cos(i * Math.PI / 13);
+            shape.control.target.y = 150 * Math.sin(i * Math.PI / 13);
+            shape.define(Class.square);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            shape.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            shape.define(Class.greenSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 2),
+                y: y + 300 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 300 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 300 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.boomsquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 1.5),
+                y: y + 250 * Math.sin(i * Math.PI / 1.5)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
+            shape.define(Class.orangeSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 1; i++) {
+            let shape = new Entity({
+                x: x + 225 * Math.cos(i * Math.PI / 1),
+                y: y + 225 * Math.sin(i * Math.PI / 1)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 225 * Math.cos(i * Math.PI / 1);
+            shape.control.target.y = 225 * Math.sin(i * Math.PI / 1);
+            shape.define(Class.scutiSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 2; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI),
+                y: y + 275 * Math.sin(i * Math.PI)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI);
+            sentry.define(Class.squareGunSentry);
+        }
+        for (let i = 0; i < 1; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI),
+                y: y
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI);
+            sentry.control.target.y = y;
+            sentry.define(Class.summonerLiteAI);
+        }
+        for (let i = 0; i < 1; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI),
+                y: y
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI);
+            sentry.control.target.y = y;
+            sentry.define(Class.squareSwarmerAI);
+        }
+        for (let i = 0; i < 1; i++) {
+            let sentry = new Entity({
+                x: x,
+                y: y + 275 * Math.cos(i * Math.PI)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = x;
+            sentry.control.target.y = 275 * Math.cos(i * Math.PI);
+            sentry.define(Class.squareSwarmerAI);
+        }
+    }
 };
 defExports.squareColony = {
     PARENT: [defExports.food],
@@ -9955,45 +9955,45 @@ defExports.eggColonySpawner = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 6; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 3),
-				y: y + 200 * Math.sin(i * Math.PI / 3)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
-			crash.define(Class.eggCrasher);
-		}
-		for (let i = 0; i < 20; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 10),
-				y: y + 250 * Math.sin(i * Math.PI / 10)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 10);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 10);
-			shape.define(Class.egg);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 2),
-				y: y + 100 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = this.team;
-			shape.control.target.x = 100 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 100 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.hardshellegg);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 6; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 3),
+                y: y + 200 * Math.sin(i * Math.PI / 3)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 3);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 3);
+            crash.define(Class.eggCrasher);
+        }
+        for (let i = 0; i < 20; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 10),
+                y: y + 250 * Math.sin(i * Math.PI / 10)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 10);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 10);
+            shape.define(Class.egg);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 2),
+                y: y + 100 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = this.team;
+            shape.control.target.x = 100 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 100 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.hardshellegg);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    }
 };
 defExports.eggColony = {
     PARENT: [defExports.food],
@@ -10137,42 +10137,42 @@ defExports.lmfaoloser = {
         RANGE: 1,
     },
     DIE_AT_RANGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 11; i++) {
-			let egg = new Entity({
-				x: x,
-				y: y
-			});
-			egg.team = this.team;
-			egg.define(Class.egggood);
-		}
-		for (let i = 0; i < 8; i++) {
-			let square = new Entity({
-				x: x,
-				y: y
-			});
-			square.team = this.team;
-			square.define(Class.squarebad);
-		}
-		for (let i = 0; i < 3; i++) {
-			let triangle = new Entity({
-				x: x,
-				y: y
-			});
-			triangle.team = this.team;
-			triangle.define(Class.triangleugly);
-		}
-		for (let i = 0; i < 1; i++) {
-			let triangle = new Entity({
-				x: x,
-				y: y
-			});
-			triangle.team = this.team;
-			triangle.define(Class.fuckinpentagon);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 11; i++) {
+            let egg = new Entity({
+                x: x,
+                y: y
+            });
+            egg.team = this.team;
+            egg.define(Class.egggood);
+        }
+        for (let i = 0; i < 8; i++) {
+            let square = new Entity({
+                x: x,
+                y: y
+            });
+            square.team = this.team;
+            square.define(Class.squarebad);
+        }
+        for (let i = 0; i < 3; i++) {
+            let triangle = new Entity({
+                x: x,
+                y: y
+            });
+            triangle.team = this.team;
+            triangle.define(Class.triangleugly);
+        }
+        for (let i = 0; i < 1; i++) {
+            let triangle = new Entity({
+                x: x,
+                y: y
+            });
+            triangle.team = this.team;
+            triangle.define(Class.fuckinpentagon);
+        }
+    }
 };
 defExports.betaPentagon = {
     PARENT: [defExports.food],
@@ -10214,23 +10214,23 @@ defExports.fakeegg = {
     },
     DRAW_HEALTH: false,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			let boss = new Entity({
-				x: this.x,
-				y: this.y
-			});
-			sockets.broadcast("An Ultra Cannon has arrived.");
-			boss.team = this.team;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.ultraCannonAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss"; //kinda?
-			boss.sandboxId = this.sandboxId;
-		}, 3000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            let boss = new Entity({
+                x: this.x,
+                y: this.y
+            });
+            sockets.broadcast("An Ultra Cannon has arrived.");
+            boss.team = this.team;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.ultraCannonAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss"; //kinda?
+            boss.sandboxId = this.sandboxId;
+        }, 3000);
+    }
 };
 /*defExports.egg2 = {
     PARENT: [defExports.egg],
@@ -10387,42 +10387,42 @@ defExports.eggSanctuary = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Egg Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		//smoke(6000, x, y);
-		setTimeout(() => {
-			let boss = new Entity({
-				x: this.x,
-				y: this.y
-			});
-			sockets.broadcast("An EK-1 has spawned to avenge the Egg Sanctuary!");
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.eggBossTier1AI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-			setTimeout(() => {
-				if (boss.isAlive()) {
-					sockets.broadcast("The EK-1's wrath has remained unhindered for too long; it appears to be evolving...");
-					setTimeout(() => {
-						if (boss.isAlive()) {
-							for (let i = 1; i < 22; i++) setTimeout(() => {
-								if (boss.isAlive()) {
-									boss.define(Class[`ekAnim${i}`]);
-									if (i === 21) boss.define(Class.eggBossTier2AI);
-								}
-							}, 36 * i);
-							boss.miscIdentifier = "Sanctuary Boss";
-							sockets.broadcast("The EK-1 has evolved into an EK-2!");
-						} else sockets.broadcast("The EK-1 has been consoled just in time...");
-					}, 6000);
-				}
-			}, 6e5);
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Egg Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        //smoke(6000, x, y);
+        setTimeout(() => {
+            let boss = new Entity({
+                x: this.x,
+                y: this.y
+            });
+            sockets.broadcast("An EK-1 has spawned to avenge the Egg Sanctuary!");
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.eggBossTier1AI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+            setTimeout(() => {
+                if (boss.isAlive()) {
+                    sockets.broadcast("The EK-1's wrath has remained unhindered for too long; it appears to be evolving...");
+                    setTimeout(() => {
+                        if (boss.isAlive()) {
+                            for (let i = 1; i < 22; i++) setTimeout(() => {
+                                if (boss.isAlive()) {
+                                    boss.define(Class[`ekAnim${i}`]);
+                                    if (i === 21) boss.define(Class.eggBossTier2AI);
+                                }
+                            }, 36 * i);
+                            boss.miscIdentifier = "Sanctuary Boss";
+                            sockets.broadcast("The EK-1 has evolved into an EK-2!");
+                        } else sockets.broadcast("The EK-1 has been consoled just in time...");
+                    }, 6000);
+                }
+            }, 6e5);
+        }, 6000);
+    }
 };
 defExports.snowballSanctuary = {
     PARENT: [defExports.food],
@@ -10453,25 +10453,25 @@ defExports.snowballSanctuary = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Snowball Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		//smoke(6000, x, y);
-		setTimeout(() => {
-			let boss = new Entity({
-				x: this.x,
-				y: this.y
-			});
-			sockets.broadcast("A Snowflake has spawned to avenge the Egg Sanctuary!");
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.snowflakeAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Snowball Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        //smoke(6000, x, y);
+        setTimeout(() => {
+            let boss = new Entity({
+                x: this.x,
+                y: this.y
+            });
+            sockets.broadcast("A Snowflake has spawned to avenge the Egg Sanctuary!");
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.snowflakeAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.singularTriangle = {
     PARENT: [defExports.triangle],
@@ -10491,7 +10491,7 @@ defExports.carbonFiberTriangle = {
         REGEN: .1
     },
     EVOLUTIONS: [],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (!them || them.topSpeed > 0.5) return;
         them.topSpeed -= 0.5;
         setTimeout(() => {
@@ -10506,75 +10506,75 @@ defExports.triangleNest = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 5),
-				y: y + 200 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = -100;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.crasher);
-		}
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 2),
-				y: y + 200 * Math.sin(i * Math.PI / 2)
-			});
-			crash.team = -100;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 2);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 2);
-			crash.define(Class.redRunner1);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 2),
-				y: y + 250 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = -100;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.greenTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 8; i++) {
-			let crash = new Entity({
-				x: x + 350 * Math.cos(i * Math.PI / 4),
-				y: y + 350 * Math.sin(i * Math.PI / 4)
-			});
-			crash.team = -100;
-			crash.control.target.x = 350 * Math.cos(i * Math.PI / 4);
-			crash.control.target.y = 350 * Math.sin(i * Math.PI / 4);
-			crash.define(Class.bladeCrasher);
-		}
-		for (let i = 0; i < 20; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 10),
-				y: y + 400 * Math.sin(i * Math.PI / 10)
-			});
-			shape.team = -100;
-			shape.control.target.x = 400 * Math.cos(i * Math.PI / 10);
-			shape.control.target.y = 400 * Math.sin(i * Math.PI / 10);
-			shape.define(Class.singularTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 2; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI),
-				y: y + 275 * Math.sin(i * Math.PI)
-			});
-			sentry.team = -100;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI);
-			sentry.define(Class.sentryGunAI);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 5),
+                y: y + 200 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = -100;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.crasher);
+        }
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 2),
+                y: y + 200 * Math.sin(i * Math.PI / 2)
+            });
+            crash.team = -100;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 2);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 2);
+            crash.define(Class.redRunner1);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 2),
+                y: y + 250 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = -100;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.greenTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 8; i++) {
+            let crash = new Entity({
+                x: x + 350 * Math.cos(i * Math.PI / 4),
+                y: y + 350 * Math.sin(i * Math.PI / 4)
+            });
+            crash.team = -100;
+            crash.control.target.x = 350 * Math.cos(i * Math.PI / 4);
+            crash.control.target.y = 350 * Math.sin(i * Math.PI / 4);
+            crash.define(Class.bladeCrasher);
+        }
+        for (let i = 0; i < 20; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 10),
+                y: y + 400 * Math.sin(i * Math.PI / 10)
+            });
+            shape.team = -100;
+            shape.control.target.x = 400 * Math.cos(i * Math.PI / 10);
+            shape.control.target.y = 400 * Math.sin(i * Math.PI / 10);
+            shape.define(Class.singularTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 2; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI),
+                y: y + 275 * Math.sin(i * Math.PI)
+            });
+            sentry.team = -100;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI);
+            sentry.define(Class.sentryGunAI);
+        }
+    }
 };
 defExports.triSanctuary = {
     PARENT: [defExports.food],
@@ -10633,24 +10633,24 @@ defExports.triSanctuary = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Triangle Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Defender has spawned to avenge the Triangle Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.defenderAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Triangle Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Defender has spawned to avenge the Triangle Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.defenderAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.singularSquare = {
     PARENT: [defExports.square],
@@ -10673,7 +10673,7 @@ defExports.scutiSquare = {
     DRAW_HEALTH: true,
     INTANGIBLE: false,
     EVOLUTIONS: [],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (me.health.amount < me.health.max / 2) {
             me.SIZE += 2;
         }
@@ -10685,66 +10685,66 @@ defExports.squareNest = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 12; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 6),
-				y: y + 200 * Math.sin(i * Math.PI / 6)
-			});
-			crash.team = -100;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 6);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 6);
-			crash.define(Class.summonerSquare);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 2 + Math.PI / 4),
-				y: y + 250 * Math.sin(i * Math.PI / 2 + Math.PI / 4)
-			});
-			shape.team = -100;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 2 + Math.PI / 4);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 2 + Math.PI / 4);
-			shape.define(Class.greenSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 350 * Math.cos(i * Math.PI / 2),
-				y: y + 350 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = -100;
-			shape.control.target.x = 350 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 350 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.splitterSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 20; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 10),
-				y: y + 400 * Math.sin(i * Math.PI / 10)
-			});
-			shape.team = -100;
-			shape.control.target.x = 400 * Math.cos(i * Math.PI / 10);
-			shape.control.target.y = 400 * Math.sin(i * Math.PI / 10);
-			shape.define(Class.singularSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 2; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI),
-				y: y + 275 * Math.sin(i * Math.PI)
-			});
-			sentry.team = -100;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI);
-			sentry.define(Class.squareGunSentry);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 12; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 6),
+                y: y + 200 * Math.sin(i * Math.PI / 6)
+            });
+            crash.team = -100;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 6);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 6);
+            crash.define(Class.summonerSquare);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 2 + Math.PI / 4),
+                y: y + 250 * Math.sin(i * Math.PI / 2 + Math.PI / 4)
+            });
+            shape.team = -100;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 2 + Math.PI / 4);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 2 + Math.PI / 4);
+            shape.define(Class.greenSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 350 * Math.cos(i * Math.PI / 2),
+                y: y + 350 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = -100;
+            shape.control.target.x = 350 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 350 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.splitterSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 20; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 10),
+                y: y + 400 * Math.sin(i * Math.PI / 10)
+            });
+            shape.team = -100;
+            shape.control.target.x = 400 * Math.cos(i * Math.PI / 10);
+            shape.control.target.y = 400 * Math.sin(i * Math.PI / 10);
+            shape.define(Class.singularSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 2; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI),
+                y: y + 275 * Math.sin(i * Math.PI)
+            });
+            sentry.team = -100;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI);
+            sentry.define(Class.squareGunSentry);
+        }
+    }
 };
 defExports.squareSanctuary = {
     PARENT: [defExports.food],
@@ -10812,24 +10812,24 @@ defExports.squareSanctuary = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Square Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Summoner has spawned to avenge the Square Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.summonerAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Square Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Summoner has spawned to avenge the Square Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.summonerAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.singularPentagon = {
     PARENT: [defExports.pentagon],
@@ -10841,76 +10841,76 @@ defExports.pentaNest = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 5),
-				y: y + 200 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = -100;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.semiCrushCrasher);
-		}
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 2.5),
-				y: y + 200 * Math.sin(i * Math.PI / 2.5)
-			});
-			shape.team = -100;
-			shape.control.target.x = 200 * Math.cos(i * Math.PI / 2.5);
-			shape.control.target.y = 200 * Math.sin(i * Math.PI / 2.5);
-			shape.define(Class.splitterPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 2),
-				y: y + 250 * Math.sin(i * Math.PI / 2)
-			});
-			shape.team = -100;
-			shape.control.target.x = 250 * Math.cos(i * Math.PI / 2);
-			shape.control.target.y = 250 * Math.sin(i * Math.PI / 2);
-			shape.define(Class.greenPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 8; i++) {
-			let crash = new Entity({
-				x: x + 350 * Math.cos(i * Math.PI / 4),
-				y: y + 350 * Math.sin(i * Math.PI / 4)
-			});
-			crash.team = -100;
-			crash.control.target.x = 350 * Math.cos(i * Math.PI / 4);
-			crash.control.target.y = 350 * Math.sin(i * Math.PI / 4);
-			crash.define(Class.crushCrasher);
-		}
-		for (let i = 0; i < 18; i++) {
-			let shape = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 9),
-				y: y + 400 * Math.sin(i * Math.PI / 9)
-			});
-			shape.team = -100;
-			shape.control.target.x = 400 * Math.cos(i * Math.PI / 9);
-			shape.control.target.y = 400 * Math.sin(i * Math.PI / 9);
-			shape.define(Class.singularPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		for (let i = 0; i < 4; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2),
-				y: y + 275 * Math.sin(i * Math.PI / 2)
-			});
-			sentry.team = -100;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2);
-			sentry.define(Class.sentryGunAI);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 5),
+                y: y + 200 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = -100;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.semiCrushCrasher);
+        }
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 2.5),
+                y: y + 200 * Math.sin(i * Math.PI / 2.5)
+            });
+            shape.team = -100;
+            shape.control.target.x = 200 * Math.cos(i * Math.PI / 2.5);
+            shape.control.target.y = 200 * Math.sin(i * Math.PI / 2.5);
+            shape.define(Class.splitterPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 2),
+                y: y + 250 * Math.sin(i * Math.PI / 2)
+            });
+            shape.team = -100;
+            shape.control.target.x = 250 * Math.cos(i * Math.PI / 2);
+            shape.control.target.y = 250 * Math.sin(i * Math.PI / 2);
+            shape.define(Class.greenPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 8; i++) {
+            let crash = new Entity({
+                x: x + 350 * Math.cos(i * Math.PI / 4),
+                y: y + 350 * Math.sin(i * Math.PI / 4)
+            });
+            crash.team = -100;
+            crash.control.target.x = 350 * Math.cos(i * Math.PI / 4);
+            crash.control.target.y = 350 * Math.sin(i * Math.PI / 4);
+            crash.define(Class.crushCrasher);
+        }
+        for (let i = 0; i < 18; i++) {
+            let shape = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 9),
+                y: y + 400 * Math.sin(i * Math.PI / 9)
+            });
+            shape.team = -100;
+            shape.control.target.x = 400 * Math.cos(i * Math.PI / 9);
+            shape.control.target.y = 400 * Math.sin(i * Math.PI / 9);
+            shape.define(Class.singularPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        for (let i = 0; i < 4; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2),
+                y: y + 275 * Math.sin(i * Math.PI / 2)
+            });
+            sentry.team = -100;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2);
+            sentry.define(Class.sentryGunAI);
+        }
+    }
 };
 defExports.pentaSanctuary = {
     PARENT: [defExports.food],
@@ -10987,24 +10987,24 @@ defExports.pentaSanctuary = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Pentagon Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Leviathan has spawned to avenge the Pentagon Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.leviathanAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Pentagon Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Leviathan has spawned to avenge the Pentagon Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.leviathanAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.sunKing = {
     PARENT: [defExports.food],
@@ -11034,23 +11034,23 @@ defExports.sunKing = {
         }
     }],
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Golden Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Golden Nonagon has spawned!");
-			let poly = new Entity({
-				x: this.x,
-				y: this.y
-			});
-			poly.team = -100;
-			poly.define(Class.burntNonagon);
-			poly.ACCELERATION = .015 / (poly.size * 0.2);
-			poly.miscIdentifier = "Sanctuary Boss";
-			poly.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Golden Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Golden Nonagon has spawned!");
+            let poly = new Entity({
+                x: this.x,
+                y: this.y
+            });
+            poly.team = -100;
+            poly.define(Class.burntNonagon);
+            poly.ACCELERATION = .015 / (poly.size * 0.2);
+            poly.miscIdentifier = "Sanctuary Boss";
+            poly.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.burntNonagon = {
     PARENT: [defExports.food],
@@ -11309,14 +11309,14 @@ defExports.moon = {
     SHAPE: 0
 };
 defExports.laser = {
-	LABEL: "Laser",
-	TYPE: "laser",
-	//COLOR: 0, // Calcluated
-	//WIDTH: 5, // Automatically
-	RANGE: 25,
-	DURATION: 50,
-	PIERCE: 2,
-	DAMAGE: .1,
+    LABEL: "Laser",
+    TYPE: "laser",
+    //COLOR: 0, // Calcluated
+    //WIDTH: 5, // Automatically
+    RANGE: 25,
+    DURATION: 50,
+    PIERCE: 2,
+    DAMAGE: .1,
 }
 defExports.bullet = {
     LABEL: 'Bullet',
@@ -11426,7 +11426,7 @@ defExports.autoSwarm = {
     PARENT: [defExports.swarm],
     LABEL: 'AI Swarm Drone',
     AI: {
-     },
+    },
     INDEPENDENT: true
 };
 defExports.protectorSwarm = {
@@ -11566,7 +11566,7 @@ defExports.sunchip = {
     LAYER: 10,
     DRAW_HEALTH: true,
     AI: {
-     },
+    },
     HITS_OWN_TYPE: 'hardWithBuffer',
     ON_DEALT_DAMAGE: (me, them) => {
         necroDrone(me, them, ['Square']);
@@ -14257,7 +14257,7 @@ defExports.basic = {
     DANGER: 4,
     SHAPE: 0,
     RESET_UPGRADES: true,
-	STAT_NAMES: statNames.generic,
+    STAT_NAMES: statNames.generic,
     SKILL: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     SKILL_CAP: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
     GUNS: [{
@@ -14276,9 +14276,9 @@ defExports.basic = {
             COLOR: 16,
         }
     }],
-	TURRETS: [],
-	PROPS: [],
-	DAMAGE_CLASS: 2,
+    TURRETS: [],
+    PROPS: [],
+    DAMAGE_CLASS: 2,
     CAN_BE_ON_LEADERBOARD: true,
     DIES_TO_TEAM_BASE: true,
     MOTION_TYPE: 'motor',
@@ -14371,7 +14371,7 @@ defExports.mysticSmasher = {
     VARIABLES: {
         willTeleport: false
     },
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         setTimeout(() => {
             if (!me.isAlive()) return;
             me.x += 20 * Math.floor(Math.random() * 21 - 10);
@@ -14945,7 +14945,7 @@ defExports.bountyHunter = {
         POSITION: [4, 8.5, -1.6, 8, 0, 0, 0]
     }],
     TOOLTIP: "Get extra bullet stats for a long period after each boss or player kill. Get extra score for boss kills.",
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         if (them.type !== "tank" && them.type !== "miniboss") return;
         let multi = 1
         if (them.type === "miniboss") {
@@ -16281,7 +16281,7 @@ defExports.overfire = {
         }
     }],
     TOOLTIP: "When you deal damage gain slightly more reload for a short amount of time at the cost of your speed",
-    ON_DEALT_DAMAGE_UNIVERSAL: function (me, them) {
+    ON_DEALT_DAMAGE_UNIVERSAL: function(me, them) {
         if (me.skill.rld > 0.1 && me.topSpeed > 0.1) {
             function ChangeStats(amount) {
                 me.skill.rld -= amount
@@ -17120,7 +17120,7 @@ defExports.spedDemon = {
     VARIABLES: {
         counters: 0
     },
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (me.variables.counters >= 14) return;
         me.SPEED += 0.5;
         me.ACCELERATION += 0.25;
@@ -19140,24 +19140,24 @@ defExports.alphaCrasher = {
     }],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function({sockets, ran, Entity}){
-		sockets.broadcast("The Crasher Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Guardian has spawned to avenge the Crasher Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.guardianAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Crasher Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Guardian has spawned to avenge the Crasher Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.guardianAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 };
 defExports.sentryAI = {
     PARENT: [defExports.genericTank],
@@ -19224,163 +19224,163 @@ defExports.crasherColonySpawner = {
         ACCELERATION: 1
     },
     ALPHA: 0,
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 30; i++) {
-			let crash = new Entity({
-				x: x + 450 * Math.cos(i * Math.PI / 15),
-				y: y + 450 * Math.sin(i * Math.PI / 15)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 450 * Math.cos(i * Math.PI / 15);
-			crash.control.target.y = 450 * Math.sin(i * Math.PI / 15);
-			crash.define(Class.redRunner1);
-		}
-		for (let i = 0; i < 20; i++) {
-			let crash = new Entity({
-				x: x + 500 * Math.cos(i * Math.PI / 10),
-				y: y + 500 * Math.sin(i * Math.PI / 10)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 500 * Math.cos(i * Math.PI / 10);
-			crash.control.target.y = 500 * Math.sin(i * Math.PI / 10);
-			crash.define(Class.longCrasher);
-		}
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 5),
-				y: y + 200 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.pentagonCrasher);
-		}
-		for (let i = 0; i < 15; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 7.5),
-				y: y + 200 * Math.sin(i * Math.PI / 7.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 7.5);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 7.5);
-			crash.define(Class.triangleCrasher);
-		}
-		for (let i = 0; i < 20; i++) {
-			let crash = new Entity({
-				x: x + 200 * Math.cos(i * Math.PI / 10),
-				y: y + 200 * Math.sin(i * Math.PI / 10)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 200 * Math.cos(i * Math.PI / 10);
-			crash.control.target.y = 200 * Math.sin(i * Math.PI / 10);
-			crash.define(Class.eggCrasher);
-		}
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 5),
-				y: y + 100 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 100 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 100 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.boomCrasher);
-		}
-		for (let i = 0; i < 5; i++) {
-			let crash = new Entity({
-				x: x + 100 * Math.cos(i * Math.PI / 2.5),
-				y: y + 100 * Math.sin(i * Math.PI / 2.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 100 * Math.cos(i * Math.PI / 2.5);
-			crash.control.target.y = 100 * Math.sin(i * Math.PI / 2.5);
-			crash.define(Class.alphacrasherbutreal);
-		}
-		for (let i = 0; i < 40; i++) {
-			let crash = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 20),
-				y: y + 400 * Math.sin(i * Math.PI / 20)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 150 * Math.cos(i * Math.PI / 20);
-			crash.control.target.y = 150 * Math.sin(i * Math.PI / 20);
-			crash.define(Class.crasher);
-		}
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 400 * Math.cos(i * Math.PI / 5),
-				y: y + 400 * Math.sin(i * Math.PI / 5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 150 * Math.cos(i * Math.PI / 5);
-			crash.control.target.y = 150 * Math.sin(i * Math.PI / 5);
-			crash.define(Class.summonerSquare);
-		}
-		for (let i = 0; i < 5; i++) {
-			let crash = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			crash.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			crash.define(Class.megaCrushCrasher);
-		}
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 2.5),
-				y: y + 300 * Math.sin(i * Math.PI / 2.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 300 * Math.cos(i * Math.PI / 2.5);
-			crash.control.target.y = 300 * Math.sin(i * Math.PI / 2.5);
-			crash.define(Class.crushCrasher);
-		}
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x + 250 * Math.cos(i * Math.PI / 1.5),
-				y: y + 250 * Math.sin(i * Math.PI / 1.5)
-			});
-			crash.team = this.team;
-			crash.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
-			crash.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
-			crash.define(Class.kamikazeCrasher);
-		}
-		for (let i = 0; i < 12; i++) {
-			let sentry = new Entity({
-				x: x - 225 * Math.cos(i * Math.PI / 6),
-				y: y - 225 * Math.sin(i * Math.PI / 6)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 225 * Math.cos(i * Math.PI / 6);
-			sentry.control.target.y = 225 * Math.sin(i * Math.PI / 6);
-			sentry.define(Class.sentryAI);
-		}
-		for (let i = 0; i < 5; i++) {
-			let sentry = new Entity({
-				x: x + 275 * Math.cos(i * Math.PI / 2.5),
-				y: y + 275 * Math.sin(i * Math.PI / 2.5)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
-			sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
-			sentry.define(Class.crusaderCrash);
-		}
-		for (let i = 0; i < 9; i++) {
-			let sentry = new Entity({
-				x: x + 300 * Math.cos(i * Math.PI / 4.5),
-				y: y + 300 * Math.sin(i * Math.PI / 4.5)
-			});
-			sentry.team = this.team;
-			sentry.control.target.x = 300 * Math.cos(i * Math.PI / 4.5);
-			sentry.control.target.y = 300 * Math.sin(i * Math.PI / 4.5);
-			sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 30; i++) {
+            let crash = new Entity({
+                x: x + 450 * Math.cos(i * Math.PI / 15),
+                y: y + 450 * Math.sin(i * Math.PI / 15)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 450 * Math.cos(i * Math.PI / 15);
+            crash.control.target.y = 450 * Math.sin(i * Math.PI / 15);
+            crash.define(Class.redRunner1);
+        }
+        for (let i = 0; i < 20; i++) {
+            let crash = new Entity({
+                x: x + 500 * Math.cos(i * Math.PI / 10),
+                y: y + 500 * Math.sin(i * Math.PI / 10)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 500 * Math.cos(i * Math.PI / 10);
+            crash.control.target.y = 500 * Math.sin(i * Math.PI / 10);
+            crash.define(Class.longCrasher);
+        }
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 5),
+                y: y + 200 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.pentagonCrasher);
+        }
+        for (let i = 0; i < 15; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 7.5),
+                y: y + 200 * Math.sin(i * Math.PI / 7.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 7.5);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 7.5);
+            crash.define(Class.triangleCrasher);
+        }
+        for (let i = 0; i < 20; i++) {
+            let crash = new Entity({
+                x: x + 200 * Math.cos(i * Math.PI / 10),
+                y: y + 200 * Math.sin(i * Math.PI / 10)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 200 * Math.cos(i * Math.PI / 10);
+            crash.control.target.y = 200 * Math.sin(i * Math.PI / 10);
+            crash.define(Class.eggCrasher);
+        }
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 5),
+                y: y + 100 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 100 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 100 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.boomCrasher);
+        }
+        for (let i = 0; i < 5; i++) {
+            let crash = new Entity({
+                x: x + 100 * Math.cos(i * Math.PI / 2.5),
+                y: y + 100 * Math.sin(i * Math.PI / 2.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 100 * Math.cos(i * Math.PI / 2.5);
+            crash.control.target.y = 100 * Math.sin(i * Math.PI / 2.5);
+            crash.define(Class.alphacrasherbutreal);
+        }
+        for (let i = 0; i < 40; i++) {
+            let crash = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 20),
+                y: y + 400 * Math.sin(i * Math.PI / 20)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 150 * Math.cos(i * Math.PI / 20);
+            crash.control.target.y = 150 * Math.sin(i * Math.PI / 20);
+            crash.define(Class.crasher);
+        }
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 400 * Math.cos(i * Math.PI / 5),
+                y: y + 400 * Math.sin(i * Math.PI / 5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 150 * Math.cos(i * Math.PI / 5);
+            crash.control.target.y = 150 * Math.sin(i * Math.PI / 5);
+            crash.define(Class.summonerSquare);
+        }
+        for (let i = 0; i < 5; i++) {
+            let crash = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            crash.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            crash.define(Class.megaCrushCrasher);
+        }
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 2.5),
+                y: y + 300 * Math.sin(i * Math.PI / 2.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 300 * Math.cos(i * Math.PI / 2.5);
+            crash.control.target.y = 300 * Math.sin(i * Math.PI / 2.5);
+            crash.define(Class.crushCrasher);
+        }
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x + 250 * Math.cos(i * Math.PI / 1.5),
+                y: y + 250 * Math.sin(i * Math.PI / 1.5)
+            });
+            crash.team = this.team;
+            crash.control.target.x = 250 * Math.cos(i * Math.PI / 1.5);
+            crash.control.target.y = 250 * Math.sin(i * Math.PI / 1.5);
+            crash.define(Class.kamikazeCrasher);
+        }
+        for (let i = 0; i < 12; i++) {
+            let sentry = new Entity({
+                x: x - 225 * Math.cos(i * Math.PI / 6),
+                y: y - 225 * Math.sin(i * Math.PI / 6)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 225 * Math.cos(i * Math.PI / 6);
+            sentry.control.target.y = 225 * Math.sin(i * Math.PI / 6);
+            sentry.define(Class.sentryAI);
+        }
+        for (let i = 0; i < 5; i++) {
+            let sentry = new Entity({
+                x: x + 275 * Math.cos(i * Math.PI / 2.5),
+                y: y + 275 * Math.sin(i * Math.PI / 2.5)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 275 * Math.cos(i * Math.PI / 2.5);
+            sentry.control.target.y = 275 * Math.sin(i * Math.PI / 2.5);
+            sentry.define(Class.crusaderCrash);
+        }
+        for (let i = 0; i < 9; i++) {
+            let sentry = new Entity({
+                x: x + 300 * Math.cos(i * Math.PI / 4.5),
+                y: y + 300 * Math.sin(i * Math.PI / 4.5)
+            });
+            sentry.team = this.team;
+            sentry.control.target.x = 300 * Math.cos(i * Math.PI / 4.5);
+            sentry.control.target.y = 300 * Math.sin(i * Math.PI / 4.5);
+            sentry.define([Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI, Class.sentryGunAI, Class.sentryTrapAI, Class.sentrySwarmAI][i]);
+        }
+    }
 };
 defExports.crasherColony = {
     PARENT: [defExports.crasher],
@@ -21806,22 +21806,22 @@ defExports.triguardian = {
             MAX_CHILDREN: 24,
         }
     },],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		sockets.broadcast("A Triguardian has been defeated, but the battle is not over yet...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("Answer to me these Guardians three...");
-			for (let i = 0; i < 3; i++) {
-				let boss = new Entity({
-					x: x,
-					y: y
-				});
-				boss.team = this.team;
-				boss.define(Class.guardianAI);
-			}
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("A Triguardian has been defeated, but the battle is not over yet...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("Answer to me these Guardians three...");
+            for (let i = 0; i < 3; i++) {
+                let boss = new Entity({
+                    x: x,
+                    y: y
+                });
+                boss.team = this.team;
+                boss.define(Class.guardianAI);
+            }
+        }, 6000);
+    }
 };
 defExports.sorcerer = {
     PARENT: [defExports.genericTank],
@@ -22280,30 +22280,30 @@ defExports.polyamorous2 = {
         POSITION: [9, 0, 0, 0, 361, 1],
         TYPE: defExports.sorcererLayer
     },],
-	ON_DEAD: function({ sockets, ran, Entity}){
-		sockets.broadcast("It will stop at nothing to seek what it came for, not even its own grave...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("The Mysticals have arrived!");
-			let positions = [
-				[x + 110, y, -110, 0],
-				[x - 110, y, 110, 0],
-				[x, y + 110, 0, -110],
-				[x, y - 110, 0, 110]
-			];
-			for (let i = 0; i < 4; i++) {
-				let mystical = new Entity({
-					x: positions[i][0],
-					y: positions[i][1]
-				});
-				mystical.team = this.team;
-				mystical.control.target.x = positions[i][2];
-				mystical.control.target.y = positions[i][3];
-				mystical.define([Class.sorcererAI, Class.summonerAI, Class.enchantressAI, Class.exorcistorAI][i]);
-			}
-		}, 4000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("It will stop at nothing to seek what it came for, not even its own grave...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("The Mysticals have arrived!");
+            let positions = [
+                [x + 110, y, -110, 0],
+                [x - 110, y, 110, 0],
+                [x, y + 110, 0, -110],
+                [x, y - 110, 0, 110]
+            ];
+            for (let i = 0; i < 4; i++) {
+                let mystical = new Entity({
+                    x: positions[i][0],
+                    y: positions[i][1]
+                });
+                mystical.team = this.team;
+                mystical.control.target.x = positions[i][2];
+                mystical.control.target.y = positions[i][3];
+                mystical.define([Class.sorcererAI, Class.summonerAI, Class.enchantressAI, Class.exorcistorAI][i]);
+            }
+        }, 4000);
+    }
 };
 for (let i = 0; i < 5; i++) defExports.polyamorous2.GUNS.push({
     POSITION: [3.5, 8.65, 1.2, 8, 0, i * 72 + 36, i / 5],
@@ -24517,7 +24517,7 @@ defExports.anhalt = {
             SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.fake]),
             TYPE: defExports.bullet,
             ALT_FIRE: true,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 if (gun.body.master.health.amount >= gun.body.master.health.max / 10) {
                     gun.body.master.health.amount -= gun.body.master.health.max / 10;
                     gun.body.master.shield.amount = Math.min(gun.body.master.shield.max * (gun.body.master.health.amount / gun.body.master.health.max), gun.body.master.shield.amount);
@@ -33320,40 +33320,40 @@ defExports.eggBossTier5 = {
         POSITION: [6.2, 0, 0, 90, 361, 1],
         TYPE: defExports.OPDualAutoGun2
     }],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		setTimeout(() => {
-			if (this.isAlive()) {
-				let x = this.x,
-					y = this.y;
-				setTimeout(() => {
-					let boss1 = new Entity({
-						x: x + 600,
-						y: y
-					});
-					boss1.team = this.team;
-					boss1.define(Class.eggBossTier1AI);
-					let boss2 = new Entity({
-						x: x - 600,
-						y: y
-					});
-					boss2.team = this.team;
-					boss2.define(Class.eggBossTier1AI);
-					let boss3 = new Entity({
-						x: x,
-						y: y + 600
-					});
-					boss3.team = this.team;
-					boss3.define(Class.eggBossTier2AI);
-					let boss4 = new Entity({
-						x: x,
-						y: y - 600
-					});
-					boss4.team = this.team;
-					boss4.define(Class.EK_3AI);
-				}, 100);
-			}
-		}, 100);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        setTimeout(() => {
+            if (this.isAlive()) {
+                let x = this.x,
+                    y = this.y;
+                setTimeout(() => {
+                    let boss1 = new Entity({
+                        x: x + 600,
+                        y: y
+                    });
+                    boss1.team = this.team;
+                    boss1.define(Class.eggBossTier1AI);
+                    let boss2 = new Entity({
+                        x: x - 600,
+                        y: y
+                    });
+                    boss2.team = this.team;
+                    boss2.define(Class.eggBossTier1AI);
+                    let boss3 = new Entity({
+                        x: x,
+                        y: y + 600
+                    });
+                    boss3.team = this.team;
+                    boss3.define(Class.eggBossTier2AI);
+                    let boss4 = new Entity({
+                        x: x,
+                        y: y - 600
+                    });
+                    boss4.team = this.team;
+                    boss4.define(Class.EK_3AI);
+                }, 100);
+            }
+        }, 100);
+    }
 };
 defExports.clicker = {
     PARENT: [defExports.genericTank],
@@ -38996,19 +38996,19 @@ defExports.defenderAI = {
         }
     }],
     BROADCAST_MESSAGE: 'A Defender has been defeated!',
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(Math.random() * 6 + 1) + 2;
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = -100;
-			crash.define(Class.bladeCrasher);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(Math.random() * 6 + 1) + 2;
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = -100;
+            crash.define(Class.bladeCrasher);
+        }
+    }
 };
 defExports.eliteSprayerAI = {
     PARENT: [defExports.elite],
@@ -40553,28 +40553,28 @@ defExports.ascendedSquare = {
         }]
     }],
     PROPS: [makeAura(8)],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("An Ascended Square has been destroyed!");
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(2);
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.obsidianSquare);
-		}
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.ivorySquare);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("An Ascended Square has been destroyed!");
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(2);
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.obsidianSquare);
+        }
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.ivorySquare);
+        }
+    }
 };
 for (let i = 0; i < 36; i++) defExports.ascendedSquare.GUNS.push({
     POSITION: [1, 1, 1, -5.2, 0, i * 10, 0],
@@ -40677,30 +40677,30 @@ defExports.ascendedSplitSquareProp = {
     COLOR: 16,
     TYPE: 'miniboss',
     PROPS: [makeAura(8)],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y - 10
-			}];
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define(Class.ascendedSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-		sockets.broadcast("An Ascended Splitter Square has been destroyed!");
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y - 10
+            }];
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define(Class.ascendedSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+        sockets.broadcast("An Ascended Splitter Square has been destroyed!");
+    }
 };
 defExports.ascendedSplitterSquare = {
     PARENT: [defExports.food],
@@ -40712,7 +40712,7 @@ defExports.ascendedSplitterSquare = {
     COLOR: 19,
     SKILL: setSkill(2, 2, 4, 8, 8, 8, 9, 9, 2, 2),
     GIVE_KILL_MESSAGE: true,
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.03) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -40941,20 +40941,20 @@ defExports.ascendedTriangle = {
     }],
     DRAW_HEALTH: true,
     PROPS: [makeAura(8)],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("+Enraged");
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(1);
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.enragedAscendedTriangle);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("+Enraged");
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(1);
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.enragedAscendedTriangle);
+        }
+    }
 };
 defExports.overdrive = {
     PARENT: [defExports.genericTank],
@@ -45374,59 +45374,59 @@ defExports.splitterSummoner = {
             COLOR: 13
         }]
     }],
-	BROADCAST_MESSAGE: "A Splitter Summoner has shattered!",
-	ON_DEAD: function({ sockets, ran, Entity }){
-		let x = this.x,
-			y = this.y;
-		let positions = [
-			[30, 30],
-			[-30, -30],
-			[30, -30],
-			[-30, 30]
-		],
-			names = ran.chooseBossName("a", 4);
+    BROADCAST_MESSAGE: "A Splitter Summoner has shattered!",
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        let positions = [
+            [30, 30],
+            [-30, -30],
+            [30, -30],
+            [-30, 30]
+        ],
+            names = ran.chooseBossName("a", 4);
 
-		// Core
-		let core = new Entity({
-			x: x,
-			y: y
-		});
-		core.team = -100;
-		core.define(Class.splitSummonerCore);
-		core.name = names[4];
-		core.settings.broadcastMessage = "A Super Splitter Core has been defeated!";
+        // Core
+        let core = new Entity({
+            x: x,
+            y: y
+        });
+        core.team = -100;
+        core.define(Class.splitSummonerCore);
+        core.name = names[4];
+        core.settings.broadcastMessage = "A Super Splitter Core has been defeated!";
 
-		// Summoners
-		for (let i = 0; i < 4; i++) {
-			let shard = new Entity({
-				x: this.x + positions[i][0],
-				y: this.y + positions[i][1]
-			});
-			shard.team = -100;
-			shard.define(Class.summonerAI);
-			shard.name = names[i];
-			shard.settings.broadcastMessage = "A Summoner has been defeated!";
-			shard.onDead = () => {
-				for (let i = 0; i < 4; i++) {
-					let e = new Entity({ x: shard.x + positions[i][0], y: shard.y + positions[i][0] })
-					e.define(Class.splitterSplitterSquare)
-					e.ACCELERATION = .015 / (e.size * 0.2);
-					let max = 20
-					let min = -20
-					e.velocity.x = Math.floor(Math.random() * (max - min + 1)) + min;
-					e.velocity.y = Math.floor(Math.random() * (max - min + 1)) + min;
-					e.team = -100
-				}
-			}
-		}
-	}
+        // Summoners
+        for (let i = 0; i < 4; i++) {
+            let shard = new Entity({
+                x: this.x + positions[i][0],
+                y: this.y + positions[i][1]
+            });
+            shard.team = -100;
+            shard.define(Class.summonerAI);
+            shard.name = names[i];
+            shard.settings.broadcastMessage = "A Summoner has been defeated!";
+            shard.onDead = () => {
+                for (let i = 0; i < 4; i++) {
+                    let e = new Entity({ x: shard.x + positions[i][0], y: shard.y + positions[i][0] })
+                    e.define(Class.splitterSplitterSquare)
+                    e.ACCELERATION = .015 / (e.size * 0.2);
+                    let max = 20
+                    let min = -20
+                    e.velocity.x = Math.floor(Math.random() * (max - min + 1)) + min;
+                    e.velocity.y = Math.floor(Math.random() * (max - min + 1)) + min;
+                    e.team = -100
+                }
+            }
+        }
+    }
 };
 defExports.UYSquareDrone = {
     PARENT: [defExports.drone],
     SHAPE: 4,
     COLOR: 201,
     PROPS: [makeAura(201)],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (me.health.amount < me.health.max / 2) {
             me.SIZE += 10;
         }
@@ -45849,39 +45849,39 @@ defExports.superSplitterSummoner = {
         }]
     }],
     BROADCAST_MESSAGE: "A Super Splitter Summoner has shattered!",
-	ON_DEAD: function({ sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y;
-		let positions = [
-			[30, 30],
-			[-30, -30],
-			[30, -30],
-			[-30, 30]
-		],
-			names = ran.chooseBossName("a", 4);
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        let positions = [
+            [30, 30],
+            [-30, -30],
+            [30, -30],
+            [-30, 30]
+        ],
+            names = ran.chooseBossName("a", 4);
 
-		// Core
-		let core = new Entity({
-			x: x,
-			y: y
-		});
-		core.team = -100;
-		core.define(Class.superSplitSummonerCore);
-		core.name = names[4];
-		core.settings.broadcastMessage = "A Super Splitter Core has been defeated!";
+        // Core
+        let core = new Entity({
+            x: x,
+            y: y
+        });
+        core.team = -100;
+        core.define(Class.superSplitSummonerCore);
+        core.name = names[4];
+        core.settings.broadcastMessage = "A Super Splitter Core has been defeated!";
 
-		// Summoners
-		for (let i = 0; i < 4; i++) {
-			let shard = new Entity({
-				x: this.x + positions[i][0],
-				y: this.y + positions[i][1]
-			});
-			shard.team = -100;
-			shard.define(Class.splitterSummoner);
-			shard.name = names[i];
-			shard.settings.broadcastMessage = "A Splitter Summoner has been defeated!";
-		}
-	}
+        // Summoners
+        for (let i = 0; i < 4; i++) {
+            let shard = new Entity({
+                x: this.x + positions[i][0],
+                y: this.y + positions[i][1]
+            });
+            shard.team = -100;
+            shard.define(Class.splitterSummoner);
+            shard.name = names[i];
+            shard.settings.broadcastMessage = "A Splitter Summoner has been defeated!";
+        }
+    }
 };
 defExports.marine = {
     PARENT: [defExports.genericTank],
@@ -47477,7 +47477,7 @@ defExports.malefictDrone = {
     CLEAR_ON_MASTER_UPGRADE: true,
     BUFF_VS_FOOD: true,
     AI: {
-     },
+    },
     ALWAYS_ACTIVE: true,
     ON_DEALT_DAMAGE: (me, them) => {
         necroDrone(me, them, ['Square']);
@@ -57285,7 +57285,7 @@ defExports.surfdrive = {
             TYPE: [defExports.autoSwarm2, {
                 LABEL: 'AI Auto-Swarm Drone',
                 AI: {
-                             },
+                },
                 INDEPENDENT: true
             }],
             STAT_CALCULATOR: gunCalcNames.swarm
@@ -57297,7 +57297,7 @@ defExports.surfdrive = {
             TYPE: [defExports.autoSwarm2, {
                 LABEL: 'AI Auto-Swarm Drone',
                 AI: {
-                             },
+                },
                 INDEPENDENT: true
             }],
             STAT_CALCULATOR: gunCalcNames.swarm
@@ -71057,7 +71057,7 @@ defExports.lucrehulk = makeAuto({
     size: 12
 });*/
 
-const createLucrehulk = (function () {
+const createLucrehulk = (function() {
     defExports.lucrehulkProp0 = {
         COLOR: 18,
         SHAPE: 5,
@@ -73141,18 +73141,18 @@ defExports.crushCrasher = {
         DENSITY: 12,
         RESIST: 4
     },
-	ON_DEAD: function({sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y;;
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.crusherShards);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;;
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.crusherShards);
+        }
+    },
     EVOLUTIONS: [
         ["boomCrasher", 30],
         ["megaCrushCrasher", 20],
@@ -73319,18 +73319,18 @@ defExports.crashfuck = {
         RANGE: 1,
     },
     DIE_AT_RANGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 50; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.crasher);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 50; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.crasher);
+        }
+    }
 };
 defExports.kamikazeCrasherLite = {
     PARENT: [defExports.sentryAI],
@@ -73492,19 +73492,19 @@ defExports.enragedAscendedEye = makeAuto({
         }
     }],
     SIZE: 5,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(1);
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.enragedEyeSentry);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(1);
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.enragedEyeSentry);
+        }
+    }
 }, '', {
     type: defExports.genericEntity,
     color: 8,
@@ -73657,20 +73657,20 @@ defExports.enragedAscendedTriangle = {
         POSITION: [34, 0, 0, 0, 0, 0],
         TYPE: defExports.enragedAscendedTriangleBase
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("An Ascended Triangle has been destroyed!");
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(6);
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.redRunner4);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("An Ascended Triangle has been destroyed!");
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(6);
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.redRunner4);
+        }
+    }
 };
 defExports.enragedEyeSentry = {
     PARENT: [defExports.sentryAI],
@@ -73979,18 +73979,18 @@ defExports.collider = {
         POSITION: [4.5, 6, -2, -45, 360, 1],
         TYPE: defExports.colliderMachTurret
     }],
-	ON_DEAD: function({ sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = this.team;
-			crash.define(Class.messengerAI);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = this.team;
+            crash.define(Class.messengerAI);
+        }
+    }
 };
 defExports.colliderChillMachTurret = makeAuto({
     BODY: {
@@ -74126,18 +74126,18 @@ defExports.icecollider = {
         TYPE: defExports.colliderChillMachTurret
     },],
     PROPS: [makeAura(217)],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = this.team;
-			crash.define(Class.icemessengerAI);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = this.team;
+            crash.define(Class.icemessengerAI);
+        }
+    }
 };
 defExports.colliderAI = {
     PARENT: [defExports.collider],
@@ -74463,19 +74463,19 @@ defExports.deltrabladeAI = {
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
     BROADCAST_MESSAGE: 'A Deltrablade has been defeated!',
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(Math.random() * 6 + 1) + 2;
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = -100;
-			crash.define(Class.bladeCrasher);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(Math.random() * 6 + 1) + 2;
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = -100;
+            crash.define(Class.bladeCrasher);
+        }
+    }
 };
 defExports.greendeltrabladeAI = {
     PARENT: [defExports.greendeltrablade],
@@ -74491,19 +74491,19 @@ defExports.greendeltrabladeAI = {
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
     BROADCAST_MESSAGE: 'A Green Deltrablade has been defeated!',
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(Math.random() * 6 + 1) + 2;
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.poisonBlades);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(Math.random() * 6 + 1) + 2;
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.poisonBlades);
+        }
+    }
 };
 defExports.messengerStreamTurret = {
     LABEL: 'Streamliner',
@@ -80919,7 +80919,7 @@ defExports.modDrone = {
     CLEAR_ON_MASTER_UPGRADE: true,
     BUFF_VS_FOOD: true,
     AI: {
-     },
+    },
     TURRETS: [{
         POSITION: [7.25, 0, 0, 0, 360, 1],
         TYPE: defExports.triangleProp
@@ -83003,7 +83003,7 @@ defExports.oldButtButt = {
 defExports.oldQuadTwin = {
     PARENT: [defExports.oldTankParent],
     LABEL: "Quad Twin",
-    GUNS: (function (output = []) {
+    GUNS: (function(output = []) {
         for (let i = 0; i < 4; i++) {
             output.push({
                 POSITION: [20, 8, 1, 0, 5.5, 360 / 4 * i, 0],
@@ -83077,7 +83077,7 @@ defExports.oldSprayer = {
 defExports.oldTornado = {
     PARENT: [defExports.oldTankParent],
     LABEL: "Tornado",
-    GUNS: (function (output = []) {
+    GUNS: (function(output = []) {
         for (let i = 0; i < 12; i++) {
             output.push({
                 POSITION: [16, 6, 1, 0, 0, 360 / 12 * i, (i % 6) / 6],
@@ -89285,7 +89285,7 @@ defExports.nukeShoe = {
     LABEL: 'Nuke',
     SHAPE: 231,
     INDEPENDENT: true,
-	PERSISTS_AFTER_DEATH: true,
+    PERSISTS_AFTER_DEATH: true,
     GUNS: [{
         POSITION: [9, 8, 1, 0, 0, 0, 0],
         PROPERTIES: {
@@ -91085,29 +91085,29 @@ defExports.twinLittleHunter = {
 defExports.autoMachTwin = makeAuto(defExports.twinMachine, 'Magnum');
 defExports.hybridStalk = makeHybrid(defExports.stalk, 'Berserker');
 defExports.autoStalk = makeAuto(defExports.stalk, 'Dissolutionist');
-function ballerAttach(me, them, damageAmnt){
-	if(them.type !== "tank" && them.type !== "minion" && them.type !== "miniboss" && them.type !== "food") return;
-	if(them && them.isAlive()){
-		me.variables.alreadyHooked = true;
-		me.leash.leasher = them;
-		for(let gun of me.source.guns){
-			gun.childrenMap.delete(me.id);
-		}
-	}
+function ballerAttach(me, them, damageAmnt) {
+    if (them.type !== "tank" && them.type !== "minion" && them.type !== "miniboss" && them.type !== "food") return;
+    if (them && them.isAlive()) {
+        me.variables.alreadyHooked = true;
+        me.leash.leasher = them;
+        for (let gun of me.source.guns) {
+            gun.childrenMap.delete(me.id);
+        }
+    }
 }
-function ballerRelease(me){
-	if(!me.leash || !me.leash.leasher || !me.leash.leasher.isAlive()) return
-	
-	if(!me.leash.leasher.variables.releaseCooldown) me.variables.releaseCooldown = -1;
-	if(Date.now() - me.leash.leasher.variables.releaseCooldown < 5000) return;
-	me.leash.leasher.variables.releaseCooldown = Date.now();
-	for(let gun of me.source.guns){
-		gun.childrenMap.delete(me.id);
-	}
+function ballerRelease(me) {
+    if (!me.leash || !me.leash.leasher || !me.leash.leasher.isAlive()) return
 
-	me.leash.leasher = undefined;
-	if(me.variables.CLINGY === true) me.onDealtDamage = ballerAttach;
-	if(me.guns[0]) me.guns[0].autofire = true
+    if (!me.leash.leasher.variables.releaseCooldown) me.variables.releaseCooldown = -1;
+    if (Date.now() - me.leash.leasher.variables.releaseCooldown < 5000) return;
+    me.leash.leasher.variables.releaseCooldown = Date.now();
+    for (let gun of me.source.guns) {
+        gun.childrenMap.delete(me.id);
+    }
+
+    me.leash.leasher = undefined;
+    if (me.variables.CLINGY === true) me.onDealtDamage = ballerAttach;
+    if (me.guns[0]) me.guns[0].autofire = true
 }
 defExports.ballerMinion = {
     PARENT: [defExports.genericTank],
@@ -91124,123 +91124,123 @@ defExports.ballerMinion = {
         SHIELD: 10,
         DAMAGE: 3,
         RESIST: 2,
-		REGEN: .5,
+        REGEN: .5,
         PENETRATION: 1,
         DENSITY: 5
     },
-	GUNS: [],
-	PROPS: [{
+    GUNS: [],
+    PROPS: [{
         POSITION: [0.4, 0, 0, 0, 1],
         SHAPE: 6,
         COLOR: 16,
-		STROKE: true,
+        STROKE: true,
     }],
     DRAW_HEALTH: true,
     CLEAR_ON_MASTER_UPGRADE: true,
     GIVE_KILL_MESSAGE: false,
     CONTROLLERS: [],
     ALWAYS_ACTIVE: true,
-	LEASHED: 150,
+    LEASHED: 150,
     COLOR: 9,
     SHAPE: 6,
-	PERSISTS_AFTER_DEATH: true,
-	ON_ALT: ballerRelease,
+    PERSISTS_AFTER_DEATH: true,
+    ON_ALT: ballerRelease,
 };
 defExports.ballerMinionProps = deepCopy(defExports.ballerMinion);
 defExports.ballerMinionProps.PROPS = [
-	{
+    {
         POSITION: [0.4, 0, 0, 0, 1],
         SHAPE: 6,
         COLOR: 16,
-		STROKE: true,
-	}
+        STROKE: true,
+    }
 ]
 defExports.baller = {
-	PARENT: [defExports.genericTank],
+    PARENT: [defExports.genericTank],
     LABEL: "Baller",
     DANGER: 6,
     BODY: {
         SPEED: base.SPEED * 1.1,
         ACCELERATION: base.ACCEL * 1.1,
-		FOV: base.FOV*1.05
+        FOV: base.FOV * 1.05
     },
-	STAT_NAMES: statNames.minion,
+    STAT_NAMES: statNames.minion,
     GUNS: [{
         POSITION: [15, 20, 1.1, 0, 0, 0, 0],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.factory, g.less_health, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
             TYPE: defExports.ballerMinionProps,
-			MAX_CHILDREN: 1,
+            MAX_CHILDREN: 1,
             STAT_CALCULATOR: gunCalcNames.drone,
             AUTOFIRE: true,
-			SKIN: 0,
+            SKIN: 0,
         }
     }],
     PROPS: [{
         POSITION: [0.4, 0.8, 0, 0, 1],
         SHAPE: 6,
         COLOR: 16,
-		STROKE: true,
-    },{
+        STROKE: true,
+    }, {
         POSITION: [0.4, 1, 0, 0, 1],
         SHAPE: 6,
         COLOR: 16,
-		STROKE: false,
+        STROKE: false,
     }]
 }
 
 defExports.freeballerMinion = deepCopy(defExports.ballerMinion);
 defExports.freeballerMinion.LEASHED = 130;
-defExports.freeballerMinion.VARIABLES = {CLINGY: true};
+defExports.freeballerMinion.VARIABLES = { CLINGY: true };
 defExports.freeballerMinion.PROPS = [{
-        POSITION: [0.4, 0, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: true,
-    }]
+    POSITION: [0.4, 0, 0, 0, 1],
+    SHAPE: 0,
+    COLOR: 16,
+    STROKE: true,
+}]
 defExports.freeballer = deepCopy(defExports.baller);
 defExports.freeballer.LABEL = "Freeballer";
 defExports.freeballer.BODY.SPEED = base.SPEED * 1.25;
 defExports.freeballer.GUNS[0].PROPERTIES.TYPE = defExports.freeballerMinion;
 defExports.freeballer.PROPS = [{
-        POSITION: [.4, .8, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [.45, 1, 0, 0, 1],
-        SHAPE: 0,
-        COLOR: 16,
-		STROKE: false,
-    }]
+    POSITION: [.4, .8, 0, 0, 1],
+    SHAPE: 0,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [.45, 1, 0, 0, 1],
+    SHAPE: 0,
+    COLOR: 16,
+    STROKE: false,
+}]
 
-function makeBallAndChainSnake(exportName, amount){
-	for(let i = 0; i < amount; i++){
-		const name = `${exportName}-${i}`
-		defExports[name] = deepCopy(defExports.ballerMinion);
-		defExports[name].CONTROLLERS = [];
-		defExports[name].LEASHED = 80;
-		defExports[name].BODY.DAMAGE /= amount;
-		defExports[name].HITS_OWN_TYPE = "never"
-	}
-	for(let i = 0; i < amount; i++){
-		const name = `${exportName}-${i}`;
-		if(i !== amount-1){
-			defExports[name].GUNS.push({
-        		POSITION: [1, 28, 0, 0, 0, 0, 0],
-        		PROPERTIES: {
-        		    SHOOT_SETTINGS: combineStats([g.factory, g.less_health, g.less_reload, g.less_reload]),
-        		    TYPE: defExports[`${exportName}-${i+1}`],
-        		    STAT_CALCULATOR: gunCalcNames.drone,
-        		    AUTOFIRE: true,
-        		    SYNCS_SKILLS: true,
-        		    MAX_CHILDREN: 1,
-					SKIN: 15,
-        		}
-    		})
-		}
-	}
-	return defExports[`${exportName}-0`]
+function makeBallAndChainSnake(exportName, amount) {
+    for (let i = 0; i < amount; i++) {
+        const name = `${exportName}-${i}`
+        defExports[name] = deepCopy(defExports.ballerMinion);
+        defExports[name].CONTROLLERS = [];
+        defExports[name].LEASHED = 80;
+        defExports[name].BODY.DAMAGE /= amount;
+        defExports[name].HITS_OWN_TYPE = "never"
+    }
+    for (let i = 0; i < amount; i++) {
+        const name = `${exportName}-${i}`;
+        if (i !== amount - 1) {
+            defExports[name].GUNS.push({
+                POSITION: [1, 28, 0, 0, 0, 0, 0],
+                PROPERTIES: {
+                    SHOOT_SETTINGS: combineStats([g.factory, g.less_health, g.less_reload, g.less_reload]),
+                    TYPE: defExports[`${exportName}-${i + 1}`],
+                    STAT_CALCULATOR: gunCalcNames.drone,
+                    AUTOFIRE: true,
+                    SYNCS_SKILLS: true,
+                    MAX_CHILDREN: 1,
+                    SKIN: 15,
+                }
+            })
+        }
+    }
+    return defExports[`${exportName}-0`]
 }
 defExports.trainWreck = deepCopy(defExports.baller);
 defExports.trainWreck.LABEL = "Train Wreck";
@@ -91249,115 +91249,115 @@ defExports.trainWreck.GUNS[0].PROPERTIES.TYPE = makeBallAndChainSnake("trainWrec
 defExports.thisleMinion = deepCopy(defExports.ballerMinion);
 defExports.thisleMinion.LABEL = "Prickly Iron Ball"
 defExports.thisleMinion.BODY.ACCELERATION = .1;
-for(let i = 0+1; i < 3+1; i++){
-	defExports.thisleMinion.GUNS.push({
-		POSITION: [16, 8, 1, 0, 0, (360/3)*i, 0]
-	},{
-        POSITION: [4, 8, 1.7, 16, 0, (360/3)*i, .33*i],
+for (let i = 0 + 1; i < 3 + 1; i++) {
+    defExports.thisleMinion.GUNS.push({
+        POSITION: [16, 8, 1, 0, 0, (360 / 3) * i, 0]
+    }, {
+        POSITION: [4, 8, 1.7, 16, 0, (360 / 3) * i, .33 * i],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.trap, g.flank, g.flank, g.auto, g.less_reload]),
-            TYPE: [defExports.trap, {LEASHED: 60}],
+            TYPE: [defExports.trap, { LEASHED: 60 }],
             STAT_CALCULATOR: gunCalcNames.trap,
             AUTOFIRE: true
-		}
-	})
+        }
+    })
 }
 defExports.thisleMinion.PROPS = [{
-        POSITION: [0.4, 0, 0, 45, 1],
-        SHAPE: 4,
-        COLOR: 16,
-		STROKE: true,
-    }]
+    POSITION: [0.4, 0, 0, 45, 1],
+    SHAPE: 4,
+    COLOR: 16,
+    STROKE: true,
+}]
 defExports.thisle = deepCopy(defExports.baller);
 defExports.thisle.LABEL = "Thisle";
 defExports.thisle.BODY.SPEED = base.SPEED * 1.2;
 defExports.thisle.GUNS[0].PROPERTIES.TYPE = defExports.thisleMinion;
 defExports.thisle.PROPS = [{
-        POSITION: [0.3, .7, -.7, 45, 1],
-        SHAPE: 4,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [0.26, .735, -.75, 45, 1],
-        SHAPE: 4,
-        COLOR: 16,
-		STROKE: false,
-    }]
+    POSITION: [0.3, .7, -.7, 45, 1],
+    SHAPE: 4,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [0.26, .735, -.75, 45, 1],
+    SHAPE: 4,
+    COLOR: 16,
+    STROKE: false,
+}]
 
 defExports.trailwreckerMinion = deepCopy(defExports.ballerMinion)
 defExports.trailwreckerMinion.PROPS = [{
-        POSITION: [0.2, 0, 0, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: true,
-    }]
+    POSITION: [0.2, 0, 0, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: true,
+}]
 defExports.trailwrecker = deepCopy(defExports.baller)
 defExports.trailwrecker.LABEL = "Trailwrecker"
-defExports.trailwrecker.BODY.SPEED =  base.SPEED * 1.3;
+defExports.trailwrecker.BODY.SPEED = base.SPEED * 1.3;
 defExports.trailwrecker.GUNS[0].POSITION = [13, 19, 0.5, 0, 0, 180, 0];
 defExports.trailwrecker.GUNS[0].PROPERTIES.TYPE = defExports.trailwreckerMinion;
 defExports.trailwrecker.GUNS[0].PROPERTIES.SKIN = 0;
 defExports.trailwrecker.GUNS.push({
-        POSITION: [16, 6, 1, 0, 0, 150, .5],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster, g.less_power, g.bit_less_recoil]),
-            TYPE: defExports.bullet,
-            STAT_CALCULATOR: gunCalcNames.thruster
-        }
-    }, {
-        POSITION: [16, 6, 1, 0, 0, 210, .5],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster, g.less_power, g.bit_less_recoil]),
-            TYPE: defExports.bullet,
-            STAT_CALCULATOR: gunCalcNames.thruster
-        }
+    POSITION: [16, 6, 1, 0, 0, 150, .5],
+    PROPERTIES: {
+        SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster, g.less_power, g.bit_less_recoil]),
+        TYPE: defExports.bullet,
+        STAT_CALCULATOR: gunCalcNames.thruster
     }
+}, {
+    POSITION: [16, 6, 1, 0, 0, 210, .5],
+    PROPERTIES: {
+        SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster, g.less_power, g.bit_less_recoil]),
+        TYPE: defExports.bullet,
+        STAT_CALCULATOR: gunCalcNames.thruster
+    }
+}
 )
 defExports.trailwrecker.PROPS = [{
-        POSITION: [0.2, -0.895, 0, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [0.1, -1, 0, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: false,
-    }]
+    POSITION: [0.2, -0.895, 0, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [0.1, -1, 0, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: false,
+}]
 
 defExports.rocketBallMinion = deepCopy(defExports.ballerMinion);
 defExports.rocketBallMinion.LABEL = 'Rocket Ball';
 defExports.rocketBallMinion.GUNS.push({
-    	POSITION: [6, 10.5, 1.5, 9, 0, 180, 7.5],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_recoil, g.less_recoil, g.less_recoil]),
-            TYPE: [defExports.bullet, {
-                PERSISTS_AFTER_DEATH: true
-            }],
-            STAT_CALCULATOR: gunCalcNames.thruster
-        }
-	}
+    POSITION: [6, 10.5, 1.5, 9, 0, 180, 7.5],
+    PROPERTIES: {
+        SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_recoil, g.less_recoil, g.less_recoil]),
+        TYPE: [defExports.bullet, {
+            PERSISTS_AFTER_DEATH: true
+        }],
+        STAT_CALCULATOR: gunCalcNames.thruster
+    }
+}
 )
 defExports.rocketBallMinion.PROPS = [{
-        POSITION: [0.55, 0, 0, 0, 1],
-        SHAPE: 3,
-        COLOR: 16,
-		STROKE: true,
-    }]
+    POSITION: [0.55, 0, 0, 0, 1],
+    SHAPE: 3,
+    COLOR: 16,
+    STROKE: true,
+}]
 defExports.rocketBall = deepCopy(defExports.baller);
 defExports.rocketBall.LABEL = "Rocket Ball";
 defExports.rocketBall.GUNS[0].PROPERTIES.TYPE = defExports.rocketBallMinion;
 defExports.rocketBall.PROPS = [{
-        POSITION: [0.55, .66, 0, 0, 1],
-        SHAPE: 3,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [0.6, .85, 0, 0, 1],
-        SHAPE: 3,
-        COLOR: 16,
-		STROKE: false,
-    }]
+    POSITION: [0.55, .66, 0, 0, 1],
+    SHAPE: 3,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [0.6, .85, 0, 0, 1],
+    SHAPE: 3,
+    COLOR: 16,
+    STROKE: false,
+}]
 
 defExports.pinataShellProp = {
     LABEL: "Piñata Shell Prop",
@@ -91381,7 +91381,7 @@ defExports.pinataShellHalf = {
         RANGE: 575,
         DENSITY: 1.5,
         RESIST: 1.5,
-		REGEN: 0,
+        REGEN: 0,
         SPEED: 0,
         ACCELERATION: .005
     },
@@ -91393,7 +91393,7 @@ defExports.pinataShellHalf = {
 }
 
 defExports.pinataMinion = {
-	PARENT: [defExports.genericTank],
+    PARENT: [defExports.genericTank],
     LABEL: 'Piñata Ball',
     TYPE: 'minion',
     DAMAGE_CLASS: 0,
@@ -91407,7 +91407,7 @@ defExports.pinataMinion = {
         SHIELD: 0,
         DAMAGE: 2.5,
         RESIST: 1,
-		REGEN: 0,
+        REGEN: 0,
         PENETRATION: 1,
         DENSITY: 3
     },
@@ -91416,10 +91416,10 @@ defExports.pinataMinion = {
     GIVE_KILL_MESSAGE: false,
     CONTROLLERS: [],
     ALWAYS_ACTIVE: true,
-	LEASHED: 150,
+    LEASHED: 150,
     COLOR: 9,
     SHAPE: 6,
-	PERSISTS_AFTER_DEATH: true,
+    PERSISTS_AFTER_DEATH: true,
     // size, x, y, angle (deg), turn range, layer
     TURRETS: [{
         POSITION: [16, 0, 0, -90, 0, 1],
@@ -91445,7 +91445,7 @@ defExports.pinataMinion = {
             SKIN: 15,
         },
     }],
-	ON_ALT: ballerRelease
+    ON_ALT: ballerRelease
 }
 for (let i = 0; i < 1; i += 1 / /*trap amount*/ 50) {
     defExports.pinataMinion.GUNS.push({
@@ -91453,9 +91453,9 @@ for (let i = 0; i < 1; i += 1 / /*trap amount*/ 50) {
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.trap, g.slow, g.slow, g.slow]),
             TYPE: [
-				defExports.trap,
-				{PERSISTS_AFTER_DEATH: true}
-			],
+                defExports.trap,
+                { PERSISTS_AFTER_DEATH: true }
+            ],
             SHOOT_ON_DEATH: true,
             SKIN: 15,
         },
@@ -91465,21 +91465,21 @@ defExports.pinata = deepCopy(defExports.baller);
 defExports.pinata.LABEL = "Piñata";
 defExports.pinata.GUNS[0].PROPERTIES.TYPE = defExports.pinataMinion;
 defExports.pinata.PROPS = [{
-        POSITION: [.7, 0.6, 0, 0, 0],
-        SHAPE: 6,
-        COLOR: 347,
-		STROKE: true,
-    },{
-        POSITION: [0.4, 0.75, 0, 0, 1],
-        SHAPE: 6,
-        COLOR: 347,
-		STROKE: true,
-    },{
-        POSITION: [0.275, .925, 0, 0, 1],
-        SHAPE: 4,
-        COLOR: 347,
-		STROKE: false,
-    }]
+    POSITION: [.7, 0.6, 0, 0, 0],
+    SHAPE: 6,
+    COLOR: 347,
+    STROKE: true,
+}, {
+    POSITION: [0.4, 0.75, 0, 0, 1],
+    SHAPE: 6,
+    COLOR: 347,
+    STROKE: true,
+}, {
+    POSITION: [0.275, .925, 0, 0, 1],
+    SHAPE: 4,
+    COLOR: 347,
+    STROKE: false,
+}]
 
 defExports.ballsack = deepCopy(defExports.baller);
 defExports.ballsack.MAX_CHILDREN = 2
@@ -91494,41 +91494,41 @@ defExports.rightBall = deepCopy(defExports.ballerMinionProps);
 defExports.rightBall.LABEL = "Right Ball"
 defExports.ballsack.GUNS[1].PROPERTIES.TYPE = defExports.rightBall
 defExports.ballsack.PROPS = [{
-        POSITION: [0.4, 0.7, .3, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: true,
-    }, {
-        POSITION: [0.4, 0.7, -.3, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: true,
-    },{
-        POSITION: [0.4, .875, .3, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: false,
-    },{
-        POSITION: [0.4, .875, -.3, 0, 1],
-        SHAPE: 6,
-        COLOR: 16,
-		STROKE: false,
-    },{
-        POSITION: [0.4, -.08, .85, 8, 0],
-        SHAPE: 3,
-        COLOR: 16,
-    },{
-        POSITION: [0.4, -.08, -.85, -8, 0],
-        SHAPE: 3,
-        COLOR: 16,
-    }
+    POSITION: [0.4, 0.7, .3, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [0.4, 0.7, -.3, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: true,
+}, {
+    POSITION: [0.4, .875, .3, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: false,
+}, {
+    POSITION: [0.4, .875, -.3, 0, 1],
+    SHAPE: 6,
+    COLOR: 16,
+    STROKE: false,
+}, {
+    POSITION: [0.4, -.08, .85, 8, 0],
+    SHAPE: 3,
+    COLOR: 16,
+}, {
+    POSITION: [0.4, -.08, -.85, -8, 0],
+    SHAPE: 3,
+    COLOR: 16,
+}
 ]
 
 defExports.polygunMinion = {
     PARENT: [defExports.minion],
     LABEL: 'Protectorate',
     SHAPE: 4,
-	DANGER: 9,
+    DANGER: 9,
     AI: {
     },
     INDEPENDENT: true,
@@ -93204,29 +93204,29 @@ defExports.xyvAI = {
     },
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
-	ON_DEAD: function({ sockets, ran, Entity }){
-		sockets.broadcast("Xyv Wdtcfgzsezgk might have been defeated, but the battle is not over yet...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Summoner, Guardian, and Defender have spawned to avenge the Xyv Wdtcfgzsezgk!");
-			let positions = [
-				[x, y + 100, 0, 100],
-				[x + 86.602, y - 50, 86.602, -50],
-				[x - 86.602, y - 50, -86.602, -50]
-			],
-				names = ran.chooseBossName("a", 3);
-			for (let i = 0; i < 3; i++) {
-				let boss = new Entity({
-					x: positions[i][0],
-					y: positions[i][1]
-				});
-				boss.team = -100;
-				boss.define([Class.guardianAI, Class.summonerAI, Class.defenderAI][i]);
-				boss.name = names[i];
-			}
-		}, 7500);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("Xyv Wdtcfgzsezgk might have been defeated, but the battle is not over yet...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Summoner, Guardian, and Defender have spawned to avenge the Xyv Wdtcfgzsezgk!");
+            let positions = [
+                [x, y + 100, 0, 100],
+                [x + 86.602, y - 50, 86.602, -50],
+                [x - 86.602, y - 50, -86.602, -50]
+            ],
+                names = ran.chooseBossName("a", 3);
+            for (let i = 0; i < 3; i++) {
+                let boss = new Entity({
+                    x: positions[i][0],
+                    y: positions[i][1]
+                });
+                boss.team = -100;
+                boss.define([Class.guardianAI, Class.summonerAI, Class.defenderAI][i]);
+                boss.name = names[i];
+            }
+        }, 7500);
+    }
 };
 defExports.antilifeAI = {
     PARENT: [defExports.antilife],
@@ -93240,22 +93240,22 @@ defExports.antilifeAI = {
     },
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
-    ON_DEAD: function({ sockets, ran, Entity}){
-		sockets.broadcast("Beware the Anti-Life.");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("Beware the Anti-Life eternally...");
-			for (let i = 0; i < 48; i++) {
-				let boss = new Entity({
-					x: x,
-					y: y
-				});
-				boss.team = this.team;
-				boss.define([Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI][i]);
-			}
-		}, 7500);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("Beware the Anti-Life.");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("Beware the Anti-Life eternally...");
+            for (let i = 0; i < 48; i++) {
+                let boss = new Entity({
+                    x: x,
+                    y: y
+                });
+                boss.team = this.team;
+                boss.define([Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI, Class.guardianAI, Class.summonerAI, Class.defenderAI][i]);
+            }
+        }, 7500);
+    }
 };
 defExports.microphone = {
     PARENT: [defExports.genericTank],
@@ -93558,7 +93558,7 @@ defExports.miniNukeShoe = {
     LABEL: 'Nuke',
     SHAPE: 231,
     INDEPENDENT: true,
-	PERSISTS_AFTER_DEATH: true,
+    PERSISTS_AFTER_DEATH: true,
     GUNS: [{
         POSITION: [2, 5, 1, 0, 0, 0, 0],
         PROPERTIES: {
@@ -102479,7 +102479,7 @@ defExports.stuxnetMinion = {
     SHAPE: 5,
     DANGER: 9,
     AI: {
-     },
+    },
     INDEPENDENT: true,
     MAX_CHILDREN: 12,
     GUNS: [{
@@ -105000,7 +105000,7 @@ defExports.thrash = { // Drones should sync up with Body-Damage stats instead of
         makeShell({
             size: 1.1,
             rpm: 0,
-			tankOrigin: true
+            tankOrigin: true
         })
     ],
     IS_SMASHER: true,
@@ -105197,11 +105197,11 @@ defExports.cactus = {
             COLOR: 19
         }]
     }],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (!them) return
         them.master.master.health.amount = Math.max(them.master.master.health.max / 7.5, them.master.master.health.amount - me.damageReceived / 2);
     },
-    ON_DEALT_DAMAGE_UNIVERSAL: function (me, them) {
+    ON_DEALT_DAMAGE_UNIVERSAL: function(me, them) {
         me.health.amount = Math.min(me.health.max, me.health.amount + them.damageReceived);
     }
 };
@@ -106373,21 +106373,21 @@ defExports.pentaguardian = {
     FACING_TYPE: 'spinSlowly2',
     GUNS: [],
     TURRETS: [],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("The Guardians have arrived.");
-			for (let i = 0; i < 5; i++) {
-				let boss = new Entity({
-					x: x,
-					y: y
-				});
-				boss.team = this.team;
-				boss.define(Class.guardianAI);
-			}
-		}, 3000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("The Guardians have arrived.");
+            for (let i = 0; i < 5; i++) {
+                let boss = new Entity({
+                    x: x,
+                    y: y
+                });
+                boss.team = this.team;
+                boss.define(Class.guardianAI);
+            }
+        }, 3000);
+    }
 };
 for (let i = 0; i < 5; i++) defExports.pentaguardian.TURRETS = defExports.pentaguardian.TURRETS.concat({
     POSITION: [14, 5.4, 0, i * 72 + 36, 0, 1],
@@ -106438,21 +106438,21 @@ defExports.quintet = {
     FACING_TYPE: 'spinSlowly2',
     GUNS: [],
     TURRETS: [],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("The Guardians have arrived.");
-			for (let i = 0; i < 6; i++) {
-				let boss = new Entity({
-					x: x,
-					y: y
-				});
-				boss.team = this.team;
-				boss.define([Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.pentaguardianAI][i]);
-			}
-		}, 3000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("The Guardians have arrived.");
+            for (let i = 0; i < 6; i++) {
+                let boss = new Entity({
+                    x: x,
+                    y: y
+                });
+                boss.team = this.team;
+                boss.define([Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.guardianAI, Class.pentaguardianAI][i]);
+            }
+        }, 3000);
+    }
 };
 for (let i = 0; i < 5; i++) defExports.quintet.TURRETS = defExports.quintet.TURRETS.concat({
     POSITION: [7.5, 11, 0, i * 72, 0, 1],
@@ -109853,46 +109853,46 @@ defExports.constellation = {
     }, {
         POSITION: [6, 19, 0, -135, 360, 1],
         TYPE: defExports.constGun
-	}, {
-		POSITION: [6, 19, 0, 135, 360, 1],
-		TYPE: defExports.constGun
-	}],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		sockets.broadcast("A Constellation boss may have been defeated, but the battle is not won yet...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("Constellation Shards have spawned to avenge the Constellation!");
-			let positions = [
-				[x + 110, y, -110, 0],
-				[x - 110, y, 110, 0],
-				[x, y + 110, 0, -110],
-				[x, y - 110, 0, 110]
-			],
-				names = ran.chooseBossName("a", 5);
-			for (let i = 0; i < 4; i++) {
-				let shard = new Entity({
-					x: positions[i][0],
-					y: positions[i][1]
-				});
-				shard.team = -100;
-				shard.control.target.x = positions[i][2];
-				shard.control.target.y = positions[i][3];
-				shard.define(Class.constShard);
-				shard.name = names[i];
-				shard.settings.broadcastMessage = "A Constellation Shard has been defeated!";
-			}
-			let core = new Entity({
-				x: x,
-				y: y
-			});
-			core.team = -100;
-			core.control.target.x = core.control.target.y = 100;
-			core.define(Class.constCore);
-			core.name = names[4];
-			core.settings.broadcastMessage = "A Constellation Core has been defeated!";
-		}, 7500);
-	}
+    }, {
+        POSITION: [6, 19, 0, 135, 360, 1],
+        TYPE: defExports.constGun
+    }],
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("A Constellation boss may have been defeated, but the battle is not won yet...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("Constellation Shards have spawned to avenge the Constellation!");
+            let positions = [
+                [x + 110, y, -110, 0],
+                [x - 110, y, 110, 0],
+                [x, y + 110, 0, -110],
+                [x, y - 110, 0, 110]
+            ],
+                names = ran.chooseBossName("a", 5);
+            for (let i = 0; i < 4; i++) {
+                let shard = new Entity({
+                    x: positions[i][0],
+                    y: positions[i][1]
+                });
+                shard.team = -100;
+                shard.control.target.x = positions[i][2];
+                shard.control.target.y = positions[i][3];
+                shard.define(Class.constShard);
+                shard.name = names[i];
+                shard.settings.broadcastMessage = "A Constellation Shard has been defeated!";
+            }
+            let core = new Entity({
+                x: x,
+                y: y
+            });
+            core.team = -100;
+            core.control.target.x = core.control.target.y = 100;
+            core.define(Class.constCore);
+            core.name = names[4];
+            core.settings.broadcastMessage = "A Constellation Core has been defeated!";
+        }, 7500);
+    }
 };
 defExports.constAI = {
     PARENT: [defExports.constellation],
@@ -110207,40 +110207,40 @@ defExports.bow = makeAuto({
         POSITION: [26, 16.2, 0, 270, 0, 0],
         TYPE: defExports.bowSegment
     }],
-    ON_DEAD: function({ sockets, ran, Entity }){
-		sockets.broadcast("A Bow may have been defeated, but the battle is not over yet...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("Bow Shards have spawned to avenge the Bow!");
-			let positions = [
-				[x + 100, y, 100, 0],
-				[x - 100, y, -100, 0]
-			],
-				names = ran.chooseBossName("a", 3);
-			for (let i = 0; i < 2; i++) {
-				let shard = new Entity({
-					x: positions[i][0],
-					y: positions[i][1]
-				});
-				shard.team = -100;
-				shard.control.target.x = positions[i][2];
-				shard.control.target.y = positions[i][3];
-				shard.define(Class.bowShard);
-				shard.name = names[i];
-				shard.settings.broadcastMessage = "A Bow Shard has been defeated!";
-			}
-			let core = new Entity({
-				x: x,
-				y: y
-			});
-			core.team = -100;
-			core.control.target.x = core.control.target.y = 100;
-			core.define(Class.bowCore);
-			core.name = names[2];
-			core.settings.broadcastMessage = "A Bow Core has been defeated!";
-		}, 5000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("A Bow may have been defeated, but the battle is not over yet...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("Bow Shards have spawned to avenge the Bow!");
+            let positions = [
+                [x + 100, y, 100, 0],
+                [x - 100, y, -100, 0]
+            ],
+                names = ran.chooseBossName("a", 3);
+            for (let i = 0; i < 2; i++) {
+                let shard = new Entity({
+                    x: positions[i][0],
+                    y: positions[i][1]
+                });
+                shard.team = -100;
+                shard.control.target.x = positions[i][2];
+                shard.control.target.y = positions[i][3];
+                shard.define(Class.bowShard);
+                shard.name = names[i];
+                shard.settings.broadcastMessage = "A Bow Shard has been defeated!";
+            }
+            let core = new Entity({
+                x: x,
+                y: y
+            });
+            core.team = -100;
+            core.control.target.x = core.control.target.y = 100;
+            core.define(Class.bowCore);
+            core.name = names[2];
+            core.settings.broadcastMessage = "A Bow Core has been defeated!";
+        }, 5000);
+    }
 }, 'Bow', {
     type: defExports.autoWreckingBallTurret,
     independent: false,
@@ -113788,7 +113788,7 @@ defExports.sans = {
             SHOOT_SETTINGS: combineStats([g.basic, g.fake]),
             TYPE: defExports.bullet,
             ALT_FIRE: true,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 gun.fire(gunInfo);
                 let angle = Math.random() * Math.PI * 2,
                     dist = Math.max(.75, Math.random() * 1.5) * gun.body.master.size * 30;
@@ -117474,44 +117474,44 @@ defExports.snowflake = {
         ACCELERATION: 1.04
     },
     TURRETS: [],
-	ON_DEAD: function({ sockets, ran, Entity}){
-		sockets.broadcast("A Snowflake may have been defeated, but the battle is not over yet...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("Snowflake Shards have spawned to avenge the Snowflake!");
-			let positions = [
-				[x, y + 100, 0, 100],
-				[x + 86.602, y + 50, 86.602, 50],
-				[x + 86.602, y - 50, 86.602, -50],
-				[x, y - 100, 0, -100],
-				[x - 86.602, y - 50, -86.602, -50],
-				[x - 86.602, y + 50, -86.602, 50]
-			],
-				names = ran.chooseBossName("a", 7);
-			for (let i = 0; i < 6; i++) {
-				let shard = new Entity({
-					x: positions[i][0],
-					y: positions[i][1]
-				});
-				shard.team = -100;
-				shard.control.target.x = positions[i][2];
-				shard.control.target.y = positions[i][3];
-				shard.define(Class.snowflakeShard);
-				shard.name = names[i];
-				shard.settings.broadcastMessage = "A Snowflake Shard has been defeated!";
-			}
-			let core = new Entity({
-				x: x,
-				y: y
-			});
-			core.team = -100;
-			core.control.target.x = core.control.target.y = 100;
-			core.define(Class.snowflakeCore);
-			core.settings.broadcastMessage = "A Snowflake Core has been defeated!";
-			core.name = names[2];
-		}, 7500);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("A Snowflake may have been defeated, but the battle is not over yet...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("Snowflake Shards have spawned to avenge the Snowflake!");
+            let positions = [
+                [x, y + 100, 0, 100],
+                [x + 86.602, y + 50, 86.602, 50],
+                [x + 86.602, y - 50, 86.602, -50],
+                [x, y - 100, 0, -100],
+                [x - 86.602, y - 50, -86.602, -50],
+                [x - 86.602, y + 50, -86.602, 50]
+            ],
+                names = ran.chooseBossName("a", 7);
+            for (let i = 0; i < 6; i++) {
+                let shard = new Entity({
+                    x: positions[i][0],
+                    y: positions[i][1]
+                });
+                shard.team = -100;
+                shard.control.target.x = positions[i][2];
+                shard.control.target.y = positions[i][3];
+                shard.define(Class.snowflakeShard);
+                shard.name = names[i];
+                shard.settings.broadcastMessage = "A Snowflake Shard has been defeated!";
+            }
+            let core = new Entity({
+                x: x,
+                y: y
+            });
+            core.team = -100;
+            core.control.target.x = core.control.target.y = 100;
+            core.define(Class.snowflakeCore);
+            core.settings.broadcastMessage = "A Snowflake Core has been defeated!";
+            core.name = names[2];
+        }, 7500);
+    }
 };
 for (let i = 0; i < 3; i++) {
     let angle = i * 120;
@@ -117924,7 +117924,7 @@ defExports.betterLandmine = {
 };
 defExports.critBullet = {
     PARENT: [defExports.bullet],
-    ON_DEALT_DAMAGE: function (me, them) {
+    ON_DEALT_DAMAGE: function(me, them) {
         crit(me, them, 2, 10);
     }
 };
@@ -117959,7 +117959,7 @@ defExports.noobTube = {
 };
 defExports.rouletteBullet = {
     PARENT: [defExports.bullet],
-    ON_DEALT_DAMAGE: function (me, them) {
+    ON_DEALT_DAMAGE: function(me, them) {
         crit(me, them, 2, 20);
     }
 };
@@ -117994,7 +117994,7 @@ defExports.roulette = {
 };
 defExports.jokerBullet = {
     PARENT: [defExports.bullet],
-    ON_DEALT_DAMAGE: function (me, them) {
+    ON_DEALT_DAMAGE: function(me, them) {
         crit(me, them, 2.85, 10);
     }
 };
@@ -129773,18 +129773,18 @@ defExports.iceCrusher = {
     COLOR: 217,
     PROPS: [makeAura(217)],
     EVOLUTIONS: [],
-	ON_DEAD: function({sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 3; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.iceCrusherShards);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 3; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.iceCrusherShards);
+        }
+    }
 };
 defExports.poisonBlades = {
     PARENT: [defExports.bladeCrasher],
@@ -129798,7 +129798,7 @@ defExports.poisonBlades = {
 };
 defExports.canarCritBullet = {
     PARENT: [defExports.bullet],
-    ON_DEALT_DAMAGE: function (me, them) {
+    ON_DEALT_DAMAGE: function(me, them) {
         crit(me, them, 1.675, 8);
     }
 };
@@ -130023,7 +130023,7 @@ defExports.pointDefense = {
             TYPE: defExports.dropshipB
         }
     }],
-    TURRETS: (function () {
+    TURRETS: (function() {
         const output = [];
         for (let i = 1; i < 10; i++) {
             output.push({
@@ -133692,24 +133692,24 @@ defExports.bowedSanc = makeAuto({
         POSITION: [24, 0, 0, 0, 360, 0],
         TYPE: defExports.otherHalfSanc
     }],
-	ON_DEAD: function({sockets, ran, Entity}){
-		sockets.broadcast("The Bowed Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Bow has spawned to avenge the Bowed Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = -100;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.bowAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Bowed Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Bow has spawned to avenge the Bowed Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = -100;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.bowAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 }, 'Bowed Sanctuary', {
     type: defExports.autoWreckingBallTurret,
     independent: false,
@@ -134535,64 +134535,64 @@ defExports.eggBossTier6 = {
         POSITION: [21.15, 0, 0, 0, 0, 0],
         TYPE: defExports.eggBossTier6_base
     }],
-	ON_DEFINED: function(self, entities, sockets, Entity){
-		setTimeout(() => {
-			if (self.isAlive()) {
-				let x = self.x,
-					y = self.y;
-				setTimeout(() => {
-					let boss1 = new Entity({
-						x: x + 600,
-						y: y
-					});
-					boss1.team = self.team;
-					boss1.define(Class.eggBossTier1AI);
-					let boss2 = new Entity({
-						x: x - 600,
-						y: y
-					});
-					boss2.team = self.team;
-					boss2.define(Class.eggBossTier1AI);
-					let boss3 = new Entity({
-						x: x,
-						y: y + 600
-					});
-					boss3.team = self.team;
-					boss3.define(Class.eggBossTier1AI);
-					let boss4 = new Entity({
-						x: x,
-						y: y - 600
-					});
-					boss4.team = self.team;
-					boss4.define(Class.eggBossTier1AI);
-					let boss5 = new Entity({
-						x: x + 600,
-						y: y + 600
-					});
-					boss5.team = self.team;
-					boss5.define(Class.eggBossTier2AI);
-					let boss6 = new Entity({
-						x: x - 600,
-						y: y - 600
-					});
-					boss6.team = self.team;
-					boss6.define(Class.eggBossTier2AI);
-					let boss7 = new Entity({
-						x: x - 600,
-						y: y + 600
-					});
-					boss7.team = self.team;
-					boss7.define(Class.EK_3AI);
-					let boss8 = new Entity({
-						x: x + 600,
-						y: y - 600
-					});
-					boss8.team = self.team;
-					boss8.define(Class.eggBossTier4AI);
-				}, 100);
-			}
-		}, 100);
-	}
+    ON_DEFINED: function(self, entities, sockets, Entity) {
+        setTimeout(() => {
+            if (self.isAlive()) {
+                let x = self.x,
+                    y = self.y;
+                setTimeout(() => {
+                    let boss1 = new Entity({
+                        x: x + 600,
+                        y: y
+                    });
+                    boss1.team = self.team;
+                    boss1.define(Class.eggBossTier1AI);
+                    let boss2 = new Entity({
+                        x: x - 600,
+                        y: y
+                    });
+                    boss2.team = self.team;
+                    boss2.define(Class.eggBossTier1AI);
+                    let boss3 = new Entity({
+                        x: x,
+                        y: y + 600
+                    });
+                    boss3.team = self.team;
+                    boss3.define(Class.eggBossTier1AI);
+                    let boss4 = new Entity({
+                        x: x,
+                        y: y - 600
+                    });
+                    boss4.team = self.team;
+                    boss4.define(Class.eggBossTier1AI);
+                    let boss5 = new Entity({
+                        x: x + 600,
+                        y: y + 600
+                    });
+                    boss5.team = self.team;
+                    boss5.define(Class.eggBossTier2AI);
+                    let boss6 = new Entity({
+                        x: x - 600,
+                        y: y - 600
+                    });
+                    boss6.team = self.team;
+                    boss6.define(Class.eggBossTier2AI);
+                    let boss7 = new Entity({
+                        x: x - 600,
+                        y: y + 600
+                    });
+                    boss7.team = self.team;
+                    boss7.define(Class.EK_3AI);
+                    let boss8 = new Entity({
+                        x: x + 600,
+                        y: y - 600
+                    });
+                    boss8.team = self.team;
+                    boss8.define(Class.eggBossTier4AI);
+                }, 100);
+            }
+        }, 100);
+    }
 };
 for (let i = 0; i < 6; i++) defExports.eggBossTier6.TURRETS.push({
     POSITION: [1.325, 9.1, 1.75, 30 + i * 60, 145, 1],
@@ -135548,34 +135548,34 @@ defExports.boomCrasher = {
     LABEL: 'Explosive Crusher',
     SHAPE: 150,
     COLOR: 238,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 6; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.boomCrusherShards14);
-		}
-		for (let i = 0; i < 2; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.boomCrusherShards0);
-		}
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.boomCrusherShards);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 6; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.boomCrusherShards14);
+        }
+        for (let i = 0; i < 2; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.boomCrusherShards0);
+        }
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.boomCrusherShards);
+        }
+    },
     EVOLUTIONS: []
 };
 defExports.zoomCrasher = {
@@ -135844,20 +135844,20 @@ defExports.splitterPentagon = {
         RESIST: 1.25,
         PENETRATION: 1.1
     },
-	DRAW_HEALTH: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 5; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.crasher);
-		}
-	},
-	EVOLUTIONS: [
+    DRAW_HEALTH: true,
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 5; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.crasher);
+        }
+    },
+    EVOLUTIONS: [
         ["splitterPentagon", 38],
         ["splitterBetaPentagon", 10],
         ["splitterHexagon", 31],
@@ -135890,32 +135890,32 @@ defExports.splitterSplitterPentagon = {
         SHAPE: 5,
     },],
     TURRETS: [],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x,
-				y: y
-			}, {
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y - 10
-			}];
-		for (let i = 0; i < 5; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define(Class.splitterPentagon);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x,
+                y: y
+            }, {
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y - 10
+            }];
+        for (let i = 0; i < 5; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define(Class.splitterPentagon);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    }
 };
 for (let i = 0; i < 5; i++) defExports.splitterSplitterPentagon.TURRETS.push({
     POSITION: [10, 8, 0, i * 72, 0, 0],
@@ -135939,19 +135939,19 @@ defExports.splitterBetaPentagon = {
         PENETRATION: 1.1
     },
     DRAW_HEALTH: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 5; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.sentryAI);
-		}
-	},
-	EVOLUTIONS: []
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 5; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.sentryAI);
+        }
+    },
+    EVOLUTIONS: []
 };
 defExports.splitterSquare = {
     PARENT: [defExports.food],
@@ -135974,18 +135974,18 @@ defExports.splitterSquare = {
             COLOR: 13
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.summonerSquare);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.summonerSquare);
+        }
+    },
     EVOLUTIONS: [
         ["splitterSquare", 20],
         ["ribbonPoly", 5],
@@ -136026,26 +136026,26 @@ defExports.ribbonPoly = {
         POSITION: [26, 16.2, 0, 270, 0, 0],
         TYPE: defExports.bowpolysegment
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x,
-				y: y
-			}, {
-				x: x + 10,
-				y: y + 10
-			}];
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define([Class.stringPolygon, Class.knotPoly, Class.stringPolygon][i]);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x,
+                y: y
+            }, {
+                x: x + 10,
+                y: y + 10
+            }];
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define([Class.stringPolygon, Class.knotPoly, Class.stringPolygon][i]);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    }
 };
 defExports.knotPoly = {
     PARENT: [defExports.food],
@@ -136117,18 +136117,18 @@ defExports.greensplitterSquare = {
             COLOR: 31
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = this.team;
-			crash.define(Class.greensummonerSquare);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = this.team;
+            crash.define(Class.greensummonerSquare);
+        }
+    },
     EVOLUTIONS: [
         ["greensplitterSplitterSquare", 20],
         ["greensplitterSquare", 80]
@@ -136142,21 +136142,21 @@ defExports.grouperSpawn = {
     BODY: {
         ACCELERATION: 1
     },
-	ON_DEFINED: function(self){
-		self.kill()
-	},
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.grouperCrasher);
-		}
-	}
+    ON_DEFINED: function(self) {
+        self.kill()
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.grouperCrasher);
+        }
+    }
 };
 defExports.minesweepCrasher = {
     PARENT: [defExports.crasher],
@@ -136261,19 +136261,19 @@ defExports.splitterHexagon = {
         PENETRATION: 1.1
     },
     DRAW_HEALTH: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 2; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.trapezoidCrasher);
-		}
-	},
-	EVOLUTIONS: [
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 2; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.trapezoidCrasher);
+        }
+    },
+    EVOLUTIONS: [
         ["splitterHexagon", 60],
         ["splitterDecagon", 40]
     ]
@@ -137046,29 +137046,29 @@ defExports.splitterSplitterSquare = {
             COLOR: 13
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y - 10
-			}];
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define(Class.splitterSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y - 10
+            }];
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define(Class.splitterSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    },
     EVOLUTIONS: [
         ["splitterSplitterSquare", 64.5],
         ["greensplitterSplitterSquare", 5],
@@ -137122,29 +137122,29 @@ defExports.greensplitterSplitterSquare = {
             COLOR: 31
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y + 10
-			}, {
-				x: x + 10,
-				y: y - 10
-			}];
-		for (let i = 0; i < 4; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define(Class.greensplitterSquare);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y + 10
+            }, {
+                x: x + 10,
+                y: y - 10
+            }];
+        for (let i = 0; i < 4; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define(Class.greensplitterSquare);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    },
     EVOLUTIONS: []
 };
 defExports.eggBossTank = makeAuto(defExports.auto3, 'EK-0', {
@@ -137464,22 +137464,22 @@ defExports.splitterDecagon = {
     },
     DRAW_HEALTH: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			size = this.size / 1.25;
-		for (let i = 0; i < 10; i++) {
-			let crash = new Entity({
-				x: size * Math.cos(i * Math.PI / 5) + x,
-				y: size * Math.sin(i * Math.PI / 5) + y
-			});
-			crash.team = -100;
-			crash.define(Class.longCrasher);
-			crash.facingType = "looseWithMotion";
-			crash.facing += i * Math.PI / 5 + Math.PI;
-		}
-	},
-	EVOLUTIONS: [
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            size = this.size / 1.25;
+        for (let i = 0; i < 10; i++) {
+            let crash = new Entity({
+                x: size * Math.cos(i * Math.PI / 5) + x,
+                y: size * Math.sin(i * Math.PI / 5) + y
+            });
+            crash.team = -100;
+            crash.define(Class.longCrasher);
+            crash.facingType = "looseWithMotion";
+            crash.facing += i * Math.PI / 5 + Math.PI;
+        }
+    },
+    EVOLUTIONS: [
         ["splitterDecagon", 60],
         ["splitterDodecagon", 40]
     ]
@@ -137613,16 +137613,16 @@ defExports.destroyCrasherSquare = {
             COLOR: 32
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			crash = new Entity({
-				x: x,
-				y: y
-			});
-		crash.team = -100;
-		crash.define(Class.summonerSquare);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            crash = new Entity({
+                x: x,
+                y: y
+            });
+        crash.team = -100;
+        crash.define(Class.summonerSquare);
+    }
 };
 defExports.guntrapHeavy = {
     PARENT: [defExports.genericTank],
@@ -138890,18 +138890,18 @@ defExports.torchmorningstarAI = {
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
     BROADCAST_MESSAGE: 'This will hurt.',
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 1; i++) {
-			let enraged = new Entity({
-				x: x,
-				y: y
-			});
-			enraged.team = this.team;
-			enraged.define(Class.scorchedmorningstarAI);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 1; i++) {
+            let enraged = new Entity({
+                x: x,
+                y: y
+            });
+            enraged.team = this.team;
+            enraged.define(Class.scorchedmorningstarAI);
+        }
+    }
 };
 defExports.scorchedmorningstarAI = {
     PARENT: [defExports.scorchedmorningstar],
@@ -138933,18 +138933,18 @@ defExports.morningstarAI = {
     HITS_OWN_TYPE: 'hard',
     SKILL: setSkill(0, 8, 5, 7, 7, 8, 5, 0, 0, 0),
     BROADCAST_MESSAGE: '+ ENRAGED',
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 1; i++) {
-			let enraged = new Entity({
-				x: x,
-				y: y
-			});
-			enraged.team = this.team;
-			enraged.define(Class.enragedmorningstarAI);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 1; i++) {
+            let enraged = new Entity({
+                x: x,
+                y: y
+            });
+            enraged.team = this.team;
+            enraged.define(Class.enragedmorningstarAI);
+        }
+    }
 };
 defExports.fueronAI = {
     PARENT: [defExports.fueron],
@@ -140134,12 +140134,12 @@ defExports.baseBullet = {
             COLOR: 216
         }]
     }],
-	ON_DEFINED: function(self){
-		self.master.define(Class.baseThrowerFire)
-	},
-    ON_DEAD: function({sockets, ran, Entity}){
+    ON_DEFINED: function(self) {
+        self.master.define(Class.baseThrowerFire)
+    },
+    ON_DEAD: function({ sockets, ran, Entity }) {
         if (this.master.isAlive()) this.master.define(Class.baseThrower);
-	}
+    }
 };
 defExports.turretBaseKiva = {
     LABEL: 'Base',
@@ -141621,11 +141621,11 @@ defExports.greenGuardianLauncher = {
             COLOR: 31
         }
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		setTimeout(() => {
-			if (this.isAlive()) this.define(Class.guardianLauncher);
-		}, 2000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        setTimeout(() => {
+            if (this.isAlive()) this.define(Class.guardianLauncher);
+        }, 2000);
+    }
 };
 //
 //[21, 14, 1, 0, 0, 0, 0],
@@ -152734,7 +152734,7 @@ defExports.crusader = {
     }],
     PROPS: [makeAura(302)]
 };
-defExports.worldDestroyer = (function () {
+defExports.worldDestroyer = (function() {
     return {
         PARENT: [defExports.miniboss],
         LABEL: "World Destroyer",
@@ -152754,7 +152754,7 @@ defExports.worldDestroyer = (function () {
         SYNC_TURRET_SKILLS: true,
         STAT_NAMES: statNames.generic,
         FACING_TYPE: 'spinSlowly',
-        TURRETS: (function () {
+        TURRETS: (function() {
             defExports.worldDestroyerRangerTurret = createTurret(defExports.ranger);
             defExports.worldDestroyerRangerTurret.COLOR = 120;
             defExports.worldDestroyerTurret = createTurret({
@@ -153831,7 +153831,7 @@ defExports.acolyte = {
             SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.acolyte]),
             TYPE: defExports.acolytBullet,
             ALT_FIRE: true,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 if (gun.body.master.health.amount >= gun.body.master.health.max * 9 / 10) {
                     gun.body.master.health.amount = gun.body.master.health.max / 10;
                     gun.body.master.shield.amount = Math.min(gun.body.master.shield.max / 10, gun.body.master.shield.amount);
@@ -154205,7 +154205,7 @@ defExports.sixShot = {
             SHOOT_SETTINGS: combineStats([g.basic, g.single, g.stronger, g.stronger, g.more_health, g.more_pen, g.more_speed, g.less_reload, g.bit_less_reload]),
             TYPE: defExports.bullet,
             AMMO_PER_SHOT: 1,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 gun.fire(gunInfo)
                 const master = gun.body.master
                 if (master.ammo == 0) {
@@ -154216,7 +154216,7 @@ defExports.sixShot = {
                     }, 3500)
                 }
             },
-            ON_DEALT_DAMAGE: function (me, them) {
+            ON_DEALT_DAMAGE: function(me, them) {
                 crit(me, them, 1.5, 25);
             }
         }
@@ -154245,7 +154245,7 @@ defExports.fullerauto = {
             AMMO_PER_SHOT: 1,
             TIMES_TO_FIRE: 5,
             COLOR_OVERRIDE: 0,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 gun.fire(gunInfo)
                 const master = gun.body.master
                 if (master.ammo == 0) {
@@ -155162,7 +155162,7 @@ defExports.randomizer = {
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.mach_smaller, g.half_reload, g.one_third_reload]),
             TYPE: defExports.bullet,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 fireRandom(gun, [Class.foamBullet, Class.foamBulletSwarm, Class.foamBulletBee]);
             }
         }
@@ -157485,7 +157485,7 @@ defExports.aiSwarmMinion = {
     CONTROLLERS: ["canRepel", "minion"],
     HITS_OWN_TYPE: "hard",
     AI: {
-     },
+    },
     INDEPENDENT: true,
     GUNS: [{
         POSITION: [18, 8, 1, 0, 0, 0, .5],
@@ -158093,7 +158093,7 @@ defExports.acolyteSpedDemon = {
             SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.acolyte]),
             TYPE: defExports.redistributorBullet,
             ALT_FIRE: true,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 if (gun.body.master.health.amount >= gun.body.master.health.max * 9 / 10) {
                     gun.body.master.health.amount = gun.body.master.health.max / 10;
                     gun.body.master.shield.amount = Math.min(gun.body.master.shield.max / 10, gun.body.master.shield.amount);
@@ -158145,7 +158145,7 @@ defExports.acolyteSpedDemon = {
         POSITION: [9, 0, 0, 0, 360, 1],
         TYPE: [defExports.eggBossCircleProp, { COLOR: 261 }]
     }],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (me.topSpeed >= 19) return;
         me.topSpeed += 1;
         setTimeout(() => {
@@ -160341,22 +160341,22 @@ defExports.splitterDodecagon = {
         ]
     }],
     EVOLUTIONS: [],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			size = this.size / 1.25;
-		for (let i = 0; i < 2; i++) {
-			let crash = new Entity({
-				x: size * Math.cos(i * Math.PI / 2) + x,
-				y: size * Math.sin(i * Math.PI / 2) + y
-			});
-			crash.team = -100;
-			crash.define(Class.crusaderCrash);
-			crash.control.target.x = 275 * Math.cos(i * Math.PI / 2);
-			crash.control.target.y = 275 * Math.sin(i * Math.PI / 2);
-			crash.facing += i * Math.PI / 2 + Math.PI;
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            size = this.size / 1.25;
+        for (let i = 0; i < 2; i++) {
+            let crash = new Entity({
+                x: size * Math.cos(i * Math.PI / 2) + x,
+                y: size * Math.sin(i * Math.PI / 2) + y
+            });
+            crash.team = -100;
+            crash.define(Class.crusaderCrash);
+            crash.control.target.x = 275 * Math.cos(i * Math.PI / 2);
+            crash.control.target.y = 275 * Math.sin(i * Math.PI / 2);
+            crash.facing += i * Math.PI / 2 + Math.PI;
+        }
+    }
 };
 defExports.crusaderCrashPlayable = {
     PARENT: [defExports.sentry],
@@ -160858,7 +160858,7 @@ defExports.rng = {
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.chain, g.mach_smaller, g.more_pen]),
             TYPE: defExports.bullet,
-            ON_FIRE: function (gun, gunInfo) {
+            ON_FIRE: function(gun, gunInfo) {
                 let variance = 0.5;
                 gunInfo[2].dam += Math.random() * variance - variance / 2;
                 gun.fire(gunInfo);
@@ -161326,7 +161326,7 @@ defExports.curvyBoy = {
             [1.35, 0.35, 0, 1.5]
         ]
     }],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         me.topSpeed += 1;
     },
     EVOLUTIONS: [
@@ -161778,7 +161778,7 @@ defExports.bloodbath = {
             })(),
             COLOR: "#800000",
             RPM: 4,
-			TANK_ORIGIN: false,
+            TANK_ORIGIN: false,
         }, {
             POSITION: [0.5, 0, 0, 0, 1],
             SHAPE: 0,
@@ -161786,7 +161786,7 @@ defExports.bloodbath = {
         }, makeAura(100, 0)],
     VARIABLES: {
         speedMulti: 1.75,
-		_savedTopSpeed: 0,
+        _savedTopSpeed: 0,
         decreaseAmount: 2,
         bloodStartedWith: 0,
         blood: 0,
@@ -161796,11 +161796,11 @@ defExports.bloodbath = {
         expansion: 0.01
     },
 
-	ON_DEFINED: (me) => {
-		me.animations.push(new PropAnimation(me.props[1], 1))
-		me.animations.push(new PropAnimation(me.props[2], 2))
-		me.animations.push(new PropAnimation(me.props[3], 3))
-	},
+    ON_DEFINED: (me) => {
+        me.animations.push(new PropAnimation(me.props[1], 1))
+        me.animations.push(new PropAnimation(me.props[2], 2))
+        me.animations.push(new PropAnimation(me.props[3], 3))
+    },
 
     ON_TICK: (me) => {
         // Blood Management
@@ -161815,12 +161815,12 @@ defExports.bloodbath = {
             me.variables.usingBlood = false
             me.variables.bloodStartedWith = 0
             me.variables.expansion = 0.05
-            if(me.variables._savedTopSpeed === me.topSpeed){ // This likely means our speed changed due to a stat change which resets this value thereby, previously, causing this to deduct to too much
-				me.topSpeed /= me.variables.speedMulti
-			}
-			me.animations[0].active = false;
-			me.animations[1].active = false;
-			me.animations[2].active = false;
+            if (me.variables._savedTopSpeed === me.topSpeed) { // This likely means our speed changed due to a stat change which resets this value thereby, previously, causing this to deduct to too much
+                me.topSpeed /= me.variables.speedMulti
+            }
+            me.animations[0].active = false;
+            me.animations[1].active = false;
+            me.animations[2].active = false;
         }
         me.displayText = `${me.variables.blood | 0} Ounces of BLOOD`
 
@@ -161833,14 +161833,14 @@ defExports.bloodbath = {
             if (me.variables.expansion < 1) me.variables.expansion += 0.05
             me.variables.blood -= me.variables.decreaseAmount
 
-			let alpha = me.variables.blood/me.variables.bloodStartedWith
-			let newColor = mixColors("#800000", '#FF0000', (alpha * me.variables.expansion))
-			me.animations[0].active = true;
-			me.animations[0].color = newColor;
-			me.animations[1].active = true;
-			me.animations[1].color = newColor;
-			me.animations[2].active = true;
-			me.animations[2].size = ((8 * alpha) + 0.5) * me.variables.expansion;
+            let alpha = me.variables.blood / me.variables.bloodStartedWith
+            let newColor = mixColors("#800000", '#FF0000', (alpha * me.variables.expansion))
+            me.animations[0].active = true;
+            me.animations[0].color = newColor;
+            me.animations[1].active = true;
+            me.animations[1].color = newColor;
+            me.animations[2].active = true;
+            me.animations[2].size = ((8 * alpha) + 0.5) * me.variables.expansion;
         }
     },
     ON_ALT: (me) => {
@@ -161850,7 +161850,7 @@ defExports.bloodbath = {
             }
             me.variables.usingBlood = true
             me.topSpeed *= me.variables.speedMulti
-			me.variables._savedTopSpeed = me.topSpeed
+            me.variables._savedTopSpeed = me.topSpeed
         } else {
             if (Date.now() - me.variables.lastNeedMessage < 5000) {
                 return
@@ -161862,7 +161862,7 @@ defExports.bloodbath = {
     ON_DEALT_DAMAGE_UNIVERSAL: (me, them, amount) => {
         if (amount) {
             me.variables.blood += amount
-			if (me.variables.usingBlood) me.health.amount += .5
+            if (me.variables.usingBlood) me.health.amount += .5
         }
     },
     ON_KILL: (me, them) => {
@@ -162201,7 +162201,7 @@ defExports.fragment = {
         }
         return out;
     })()],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (global.utility.time() - me.guns[1].lastShot.time > 1000 && me.guns[1].childrenMap.size < 11) fireGun(me.guns[1]);
     }
 };
@@ -163248,7 +163248,7 @@ defExports.computerMinion = {
     DANGER: 9,
     SHAPE: 3,
     AI: {
-     },
+    },
     INDEPENDENT: true,
     GUNS: [],
     TURRETS: [{
@@ -163365,18 +163365,18 @@ defExports.splitterTriangle = {
         SHAPE: 3,
         FILL: false
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 4; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			});
-			crash.team = -100;
-			crash.define(Class.redRunner1);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 4; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            });
+            crash.team = -100;
+            crash.define(Class.redRunner1);
+        }
+    },
     EVOLUTIONS: [
         ["splitterTriangle", 10],
         ["splitterPentagon", 44.5],
@@ -163416,26 +163416,26 @@ defExports.splitterSplitterTriangle = {
         COLOR: 2,
     }],
     TURRETS: [],
-	ON_DEAD: function({sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y,
-			positions = [{
-				x: x - 10,
-				y: y - 10
-			}, {
-				x: x - 5,
-				y: y + 5
-			}, {
-				x: x + 10,
-				y: y + 10
-			}];
-		for (let i = 0; i < 3; i++) {
-			let shape = new Entity(positions[i]);
-			shape.team = -100;
-			shape.define(Class.splitterTriangle);
-			shape.ACCELERATION = .015 / (shape.size * 0.2);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            positions = [{
+                x: x - 10,
+                y: y - 10
+            }, {
+                x: x - 5,
+                y: y + 5
+            }, {
+                x: x + 10,
+                y: y + 10
+            }];
+        for (let i = 0; i < 3; i++) {
+            let shape = new Entity(positions[i]);
+            shape.team = -100;
+            shape.define(Class.splitterTriangle);
+            shape.ACCELERATION = .015 / (shape.size * 0.2);
+        }
+    },
     EVOLUTIONS: [
         ["splitterSplitterTriangle", 70],
         ["splitterSplitterPentagon", 30]
@@ -165975,7 +165975,7 @@ defExports.cement = {
         }
         return out;
     })()],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (global.utility.time() - me.guns[1].lastShot.time > 2000 && me.guns[1].childrenMap.size < 11) fireGun(me.guns[1]);
     }
 };
@@ -166019,7 +166019,7 @@ defExports.pollen = {
         }
         return out;
     })()],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (global.utility.time() - me.guns[1].lastShot.time > 1000 && me.guns[1].childrenMap.size < 11) {
             fireGun(me.guns[1]);
             fireGun(me.guns[1]);
@@ -166462,11 +166462,11 @@ defExports.shredderBullet = {
     PARENT: [defExports.heatBullet],
     LABEL: 'Skilsaw',
     SHAPE: 277,
-	AI: {
-		FOV: 0.14,
-		IGNORE_SHAPES: true,
-		SKYNET: true,
-	},
+    AI: {
+        FOV: 0.14,
+        IGNORE_SHAPES: true,
+        SKYNET: true,
+    },
     PROPS: [{
         POSITION: [1, 0, 0, 0, 0],
         SHAPE: ((saw = []) => {
@@ -168531,7 +168531,7 @@ defExports.digger = {
         }), {
             POSITION: [1, 0, 0, 0, 1],
             SHAPE: 1000,
-			TANK_ORIGIN: false,
+            TANK_ORIGIN: false,
         }
     ]
 };
@@ -168559,7 +168559,7 @@ defExports.diepioFactoryFace = {
     PROPS: [{
         POSITION: [.75, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
+        TANK_ORIGIN: false
     }]
 };
 defExports.kirkier = {
@@ -168587,7 +168587,7 @@ defExports.kirkier = {
         }), {
             POSITION: [0.5, 0, 0, 0, 1],
             SHAPE: 1000,
-			TANK_ORIGIN: false
+            TANK_ORIGIN: false
         }
     ]
 };
@@ -168629,7 +168629,7 @@ defExports.flower = {
         HEALTH: base.HEALTH * 0.6,
         SHIELD: base.SHIELD * 0
     },
-    GUNS: (function (pedals) {
+    GUNS: (function(pedals) {
         let angle = 360 / pedals;
         let guns = [];
         for (let i = 0; i < pedals; i++) guns.push({
@@ -168652,7 +168652,7 @@ defExports.flower = {
     PROPS: [{
         POSITION: [1, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
+        TANK_ORIGIN: false
     }]
 };
 defExports.basicFace = {
@@ -168679,7 +168679,7 @@ defExports.basicFace = {
     PROPS: [{
         POSITION: [1, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
+        TANK_ORIGIN: false
     }]
 };
 defExports.overlordFaceDrone = {
@@ -168687,8 +168687,8 @@ defExports.overlordFaceDrone = {
     PROPS: [{
         POSITION: [0.85, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
-	}]
+        TANK_ORIGIN: false
+    }]
 };
 defExports.overlordFace = {
     PARENT: [defExports.genericTank],
@@ -168745,7 +168745,7 @@ defExports.overlordFace = {
     PROPS: [{
         POSITION: [1, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
+        TANK_ORIGIN: false
     }]
 };
 defExports.eggBossCirclePropFace = {
@@ -168753,7 +168753,7 @@ defExports.eggBossCirclePropFace = {
     PROPS: [{
         POSITION: [1, 0, 0, 0, 1],
         SHAPE: 1000,
-		TANK_ORIGIN: false
+        TANK_ORIGIN: false
     }]
 };
 defExports.eggBossTier1Face = {
@@ -168827,7 +168827,7 @@ defExports.starshipMegastructure = {
     ABILITY_IMMUNE: true,
     SKILL: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
     FACING_TYPE: 'spinSlowly2',
-    GUNS: (function (guns = []) {
+    GUNS: (function(guns = []) {
         for (let j = 0; j < 3; j++) {
             for (let i = 0; i < 2; i++) guns.push({
                 POSITION: [2, 6, 1.375, 8, 9.25 - 18.5 * i, 120 * j, 0],
@@ -169281,17 +169281,17 @@ defExports.surge = {
         surgeTimer: 0,
         firingStage: 0
     },
-	ON_DEFINED: (me) => {
-		me.animations.push(new PropAnimation(me.props[0], 0))
-	},
+    ON_DEFINED: (me) => {
+        me.animations.push(new PropAnimation(me.props[0], 0))
+    },
     ON_ALT: (me) => {
         if (me.variables.firingStage === 0) me.variables.firingStage = 1
     },
     ON_TICK: (me) => {
         switch (me.variables.firingStage) {
-			case 0:
-				me.animations[0].active = false;
-				break;
+            case 0:
+                me.animations[0].active = false;
+                break;
             case 1:
                 me.guns[0].canShoot = false;
                 me.guns[0].settings = combineStats([g.lance, [1.25, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]);
@@ -169299,19 +169299,19 @@ defExports.surge = {
                 fireGun(me.guns[0]);
 
                 me.variables.surgeTimer++;
-				
-				const progress = me.variables.surgeTimer / me.variables.surgeMax;
-				me.animations[0].shape[1][1] = 1 + .15 * progress * progress
-				if(progress < 1/3){
-                	me.animations[0].color = mixColors("#A7A7AF", "#FFFF00", progress);
-				}else if(progress < 2/3){
-                	me.animations[0].color = mixColors("#FFFF00", "#FF7F00", progress);
-				}else if(progress < 1){
-                	me.animations[0].color = mixColors("#FF7F00", "#FF0000", progress);
-				}
+
+                const progress = me.variables.surgeTimer / me.variables.surgeMax;
+                me.animations[0].shape[1][1] = 1 + .15 * progress * progress
+                if (progress < 1 / 3) {
+                    me.animations[0].color = mixColors("#A7A7AF", "#FFFF00", progress);
+                } else if (progress < 2 / 3) {
+                    me.animations[0].color = mixColors("#FFFF00", "#FF7F00", progress);
+                } else if (progress < 1) {
+                    me.animations[0].color = mixColors("#FF7F00", "#FF0000", progress);
+                }
                 me.animations[0].active = true;
-				
-				if (me.variables.surgeTimer === me.variables.surgeMax) {
+
+                if (me.variables.surgeTimer === me.variables.surgeMax) {
                     me.variables.firingStage++
                 }
                 break;
@@ -169326,18 +169326,18 @@ defExports.surge = {
 
                 me.variables.surgeTimer--;
 
-				const progress2 = me.variables.surgeTimer / me.variables.surgeMax;
-				me.animations[0].shape[1][1] = 1 + .15 * progress2 * progress2
-				if(progress2 < 1/3){
-                	me.animations[0].color = mixColors("#A7A7AF", "#FFFF00", progress2);
-				}else if(progress2 < 2/3){
-                	me.animations[0].color = mixColors("#FFFF00", "#FF7F00", progress2);
-				}else if(progress2 < 1){
-                	me.animations[0].color = mixColors("#FF7F00", "#FF0000", progress2);
-				}
+                const progress2 = me.variables.surgeTimer / me.variables.surgeMax;
+                me.animations[0].shape[1][1] = 1 + .15 * progress2 * progress2
+                if (progress2 < 1 / 3) {
+                    me.animations[0].color = mixColors("#A7A7AF", "#FFFF00", progress2);
+                } else if (progress2 < 2 / 3) {
+                    me.animations[0].color = mixColors("#FFFF00", "#FF7F00", progress2);
+                } else if (progress2 < 1) {
+                    me.animations[0].color = mixColors("#FF7F00", "#FF0000", progress2);
+                }
                 me.animations[0].active = true;
-				
-				if (me.variables.surgeTimer === 0) {
+
+                if (me.variables.surgeTimer === 0) {
                     me.guns[0].settings = combineStats([g.basic, g.sniper]);
                     me.guns[0].bulletTypes = [Class.bullet];
                     me.guns[0].canShoot = true
@@ -169347,20 +169347,20 @@ defExports.surge = {
         }
     },
     PROPS: [
-		{
-			POSITION: [.6, .79, 0, 0, 0],
-    	    SHAPE: [
-				[-.85, 0],
-				[0, 1],
-				[.85, 0]
-			],
-    	    COLOR: "#A7A7AF",
-			SCALE_SIZE: true,
-			LOCK_ROT: true,
-			TANK_ORIGIN: true
-		},
-		makeAura(303)
-	]
+        {
+            POSITION: [.6, .79, 0, 0, 0],
+            SHAPE: [
+                [-.85, 0],
+                [0, 1],
+                [.85, 0]
+            ],
+            COLOR: "#A7A7AF",
+            SCALE_SIZE: true,
+            LOCK_ROT: true,
+            TANK_ORIGIN: true
+        },
+        makeAura(303)
+    ]
 };
 defExports.virass = makeAssin(defExports.longContagion, 'Virass');
 defExports.tart = makeAuto(defExports.underseer, 'Tart', {
@@ -170847,7 +170847,7 @@ defExports.autoStarSwarm1 = {
     PARENT: [defExports.swarm],
     LABEL: 'AI Swarm Drone',
     AI: {
-     },
+    },
     INDEPENDENT: true,
     SHAPE: 277,
     TURRETS: [{
@@ -170861,7 +170861,7 @@ defExports.autoStarSwarm2 = {
     PARENT: [defExports.swarm],
     LABEL: 'AI Swarm Drone',
     AI: {
-     },
+    },
     INDEPENDENT: true,
     SHAPE: 277,
     TURRETS: [{
@@ -171052,20 +171052,20 @@ defExports.ascendedPentagon = {
             COLOR: 19
         }]
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("An Ascended Pentagon has been destroyed!");
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(1);
-		for (let i = 0; i < rand; i++) {
-			let crash = new Entity({
-				x: x,
-				y: y
-			})
-			crash.team = this.team;
-			crash.define(Class.obsidianPentagon);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("An Ascended Pentagon has been destroyed!");
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(1);
+        for (let i = 0; i < rand; i++) {
+            let crash = new Entity({
+                x: x,
+                y: y
+            })
+            crash.team = this.team;
+            crash.define(Class.obsidianPentagon);
+        }
+    }
 };
 defExports.ascendedPentagonAIbase = {
     PARENT: [defExports.ascendedPentagon],
@@ -171783,131 +171783,131 @@ defExports.friedHardshellEgg = {
 defExports.friedSummon = {
     PARENT: [defExports.bullet],
     SHAPE: 324,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		let x = this.x,
-			y = this.y,
-			rand = Math.floor(Math.random() * 1000);
-		if (rand > 999) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.ascendedSquare);
-			}
-		}
-		else if (rand > 996) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.obsidianEgg);
-			}
-		}
-		else if (rand > 960) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.betaFriedEgg);
-			}
-		}
-		else if (rand > 900) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.friedEgg);
-			}
-		}
-		else if (rand > 800) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.square);
-			}
-		}
-		else if (rand > 790) {
-			for (let i = 0; i < 10; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.egg);
-			}
-		}
-		else if (rand > 789) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.friedHardshellEgg);
-			}
-		}
-		else if (rand > 780) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.hardshellegg);
-			}
-		}
-		else if (rand > 750) {
-			for (let i = 0; i < 5; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.egg);
-			}
-		}
-		else if (rand > 600) {
-			for (let i = 0; i < 1; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.egg);
-			}
-		}
-		else if (rand > 590) {
-			for (let i = 0; i < 3; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.friedEgg);
-			}
-		}
-		else if (rand > 590) {
-			for (let i = 0; i < 3; i++) {
-				let crash = new Entity({
-					x: x,
-					y: y
-				})
-				crash.team = this.team;
-				crash.define(Class.friedEgg);
-			}
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y,
+            rand = Math.floor(Math.random() * 1000);
+        if (rand > 999) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.ascendedSquare);
+            }
+        }
+        else if (rand > 996) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.obsidianEgg);
+            }
+        }
+        else if (rand > 960) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.betaFriedEgg);
+            }
+        }
+        else if (rand > 900) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.friedEgg);
+            }
+        }
+        else if (rand > 800) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.square);
+            }
+        }
+        else if (rand > 790) {
+            for (let i = 0; i < 10; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.egg);
+            }
+        }
+        else if (rand > 789) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.friedHardshellEgg);
+            }
+        }
+        else if (rand > 780) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.hardshellegg);
+            }
+        }
+        else if (rand > 750) {
+            for (let i = 0; i < 5; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.egg);
+            }
+        }
+        else if (rand > 600) {
+            for (let i = 0; i < 1; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.egg);
+            }
+        }
+        else if (rand > 590) {
+            for (let i = 0; i < 3; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.friedEgg);
+            }
+        }
+        else if (rand > 590) {
+            for (let i = 0; i < 3; i++) {
+                let crash = new Entity({
+                    x: x,
+                    y: y
+                })
+                crash.team = this.team;
+                crash.define(Class.friedEgg);
+            }
+        }
+    }
 };
 defExports.omeletteBase = {
     LABEL: 'Base',
@@ -174365,13 +174365,13 @@ defExports.voidshield = {
     PROPS: [
         makeShell()
     ],
-    ON_DEFINED: function (me) {
+    ON_DEFINED: function(me) {
         displayVE(me, 0, 300)
     },
-    ON_DEALT_DAMAGE: function (me, them) {
+    ON_DEALT_DAMAGE: function(me, them) {
         addVE(me, 10)
     },
-    ON_DAMAGED: function (me, them, amount) {
+    ON_DAMAGED: function(me, them, amount) {
         if (amount <= 0) return;
         if (me.health.amount < me.health.max) {
             me.health.amount += Math.min(amount, me.voidEnergy)
@@ -174390,10 +174390,10 @@ defExports.voidhealer = {
     TOOLTIP: "Gain void energy passively. Use a portion of your void energy or heal teammates. You are immune to void damage.",
     CAN_GO_OUTSIDE_ROOM: true,
     DISPLAY_AMMO_TEXT: false,
-    ON_DEFINED: function (me) {
+    ON_DEFINED: function(me) {
         displayVE(me, 0, 1000)
     },
-    ON_TICK: function (me) {
+    ON_TICK: function(me) {
         addVE(me, 5)
         if (me.voidEnergy > 100) {
             me.displayTextColor = "#FFFFFF"
@@ -175210,7 +175210,7 @@ defExports.rtxProtectorate = {
     PARENT: [defExports.minion],
     LABEL: '4090',
     AI: {
-     },
+    },
     DANGER: 9,
     INDEPENDENT: true,
     SHAPE: 277,
@@ -176621,7 +176621,7 @@ defExports.sporulator = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 1, 3)
     }
 };/*
@@ -176661,7 +176661,7 @@ defExports.sheeppolypore = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 0, 2)
         spore(me, them, 1, 3)
     }
@@ -176696,7 +176696,7 @@ defExports.porcini = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 3, 3)
     }
 };
@@ -176733,7 +176733,7 @@ defExports.flyamanita = {
             COLOR: 238
         }]
     }],
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 0, 5)
     }
 };
@@ -176769,7 +176769,7 @@ defExports.omnimancer = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 0, 1)
     }
 };
@@ -176824,7 +176824,7 @@ defExports.twinSporulator = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 2, 3)
     }
 };
@@ -176868,7 +176868,7 @@ defExports.offenseShroom = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 4, 1)
     }
 };
@@ -176900,7 +176900,7 @@ defExports.puffball = {
         }
     }],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 1, 5)
     }
 };
@@ -176949,7 +176949,7 @@ defExports.chaga = {
     }],
     PROPS: [makeAura(217)],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 1, 3)
     }
 };
@@ -176998,7 +176998,7 @@ defExports.woolymilkcap = {
     }],
     PROPS: [makeAura(31)],
     TURRETS: genSporeTurrets(),
-    ON_KILL: function (me, them) {
+    ON_KILL: function(me, them) {
         spore(me, them, 1, 3)
     }
 };
@@ -182177,7 +182177,7 @@ defExports.voidPentagon = {
         POSITION: [8, 0, 0, 0, 361, 1],
         TYPE: defExports.voidPentagonGun
     },],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.0075) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
@@ -182247,7 +182247,7 @@ defExports.voidCrasherMinion = {
         POSITION: [5, 6.5, -1.6, 7.5, 0, 0, 0]
     },],
     TURRETS: [],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.01) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
@@ -182281,7 +182281,7 @@ defExports.bigVoidPenta = {
     PROPS: [makeAura(9)],
     GUNS: [],
     TURRETS: [],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.0025) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
@@ -183423,30 +183423,30 @@ defExports.biden = {
         POSITION: [5, 9.5, 0, (360 / 9) * 9.5, 0, 0],
         TYPE: defExports.celestialTrapTurret
     },],
-	ON_DEFINED: function (self, entities, sockets, Entity){
-		setTimeout(() => {
-			if (self.isAlive()) {
-				let x = self.x,
-					y = self.y;
-				setTimeout(() => {
-					let boss1 = new Entity({
-						x: x + 450,
-						y: y
-					});
-					boss1.team = self.team;
-					boss1.define(Class.confidentialAI);
-					boss1.name = 'Agent';
-					let boss2 = new Entity({
-						x: x - 450,
-						y: y
-					});
-					boss2.team = self.team;
-					boss2.define(Class.at4_bwAI);
-					boss2.name = 'Agent';
-				}, 100);
-			}
-		}, 100);
-	}
+    ON_DEFINED: function(self, entities, sockets, Entity) {
+        setTimeout(() => {
+            if (self.isAlive()) {
+                let x = self.x,
+                    y = self.y;
+                setTimeout(() => {
+                    let boss1 = new Entity({
+                        x: x + 450,
+                        y: y
+                    });
+                    boss1.team = self.team;
+                    boss1.define(Class.confidentialAI);
+                    boss1.name = 'Agent';
+                    let boss2 = new Entity({
+                        x: x - 450,
+                        y: y
+                    });
+                    boss2.team = self.team;
+                    boss2.define(Class.at4_bwAI);
+                    boss2.name = 'Agent';
+                }, 100);
+            }
+        }, 100);
+    }
 };
 // ETERNALS
 defExports.boreasTrap = {
@@ -185851,40 +185851,40 @@ defExports.eggSpiritTier5 = { // uh oh
         POSITION: [5.5, 0, 0, (360 / 14) * 0.5, 360, 1],
         TYPE: defExports.es5quadralet,
     },],
-	ON_DEFINED: function (self, entities, sockets, Entity) {
-		setTimeout(() => {
-			if (self.isAlive()) {
-				let x = self.x,
-					y = self.y;
-				setTimeout(() => {
-					let boss1 = new Entity({
-						x: x + 600,
-						y: y
-					});
-					boss1.team = self.team;
-					boss1.define(Class.eggSpiritTier1AI);
-					let boss2 = new Entity({
-						x: x - 600,
-						y: y
-					});
-					boss2.team = self.team;
-					boss2.define(Class.eggSpiritTier1AI);
-					let boss3 = new Entity({
-						x: x,
-						y: y + 600
-					});
-					boss3.team = self.team;
-					boss3.define(Class.eggSpiritTier2AI);
-					let boss4 = new Entity({
-						x: x,
-						y: y - 600
-					});
-					boss4.team = self.team;
-					boss4.define(Class.eggSpiritTier3AI);
-				}, 100);
-			}
-		}, 100);
-	}
+    ON_DEFINED: function(self, entities, sockets, Entity) {
+        setTimeout(() => {
+            if (self.isAlive()) {
+                let x = self.x,
+                    y = self.y;
+                setTimeout(() => {
+                    let boss1 = new Entity({
+                        x: x + 600,
+                        y: y
+                    });
+                    boss1.team = self.team;
+                    boss1.define(Class.eggSpiritTier1AI);
+                    let boss2 = new Entity({
+                        x: x - 600,
+                        y: y
+                    });
+                    boss2.team = self.team;
+                    boss2.define(Class.eggSpiritTier1AI);
+                    let boss3 = new Entity({
+                        x: x,
+                        y: y + 600
+                    });
+                    boss3.team = self.team;
+                    boss3.define(Class.eggSpiritTier2AI);
+                    let boss4 = new Entity({
+                        x: x,
+                        y: y - 600
+                    });
+                    boss4.team = self.team;
+                    boss4.define(Class.eggSpiritTier3AI);
+                }, 100);
+            }
+        }, 100);
+    }
 };
 defExports.treasuryGun = {
     PARENT: [defExports.auto3gun],
@@ -187269,67 +187269,67 @@ defExports.moonBoss = {
         POSITION: [2.25, 5, 0, (360 / 10) * 9, 120, 1],
         TYPE: defExports.moonLauncher
     },],
-	ON_DEAD: function({sockets, ran, Entity}){
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("The remnants of the Moon have activated!");
-			let core = new Entity({
-				x: x,
-				y: y
-			});
-			core.team = this.team;
-			core.define(Class.moonCoreAI);
-			let boss1 = new Entity({
-				x: x + 600,
-				y: y
-			});
-			boss1.team = this.team;
-			boss1.define(Class.moonShardAAI);
-			let boss2 = new Entity({
-				x: x - 600,
-				y: y
-			});
-			boss2.team = this.team;
-			boss2.define(Class.moonShardAAI);
-			let boss3 = new Entity({
-				x: x,
-				y: y + 600
-			});
-			boss3.team = this.team;
-			boss3.define(Class.moonShardAAI);
-			let boss4 = new Entity({
-				x: x,
-				y: y - 600
-			});
-			boss4.team = this.team;
-			boss4.define(Class.moonShardAAI);
-			let boss5 = new Entity({
-				x: x + 600,
-				y: y + 600
-			});
-			boss5.team = this.team;
-			boss5.define(Class.moonShardBAI);
-			let boss6 = new Entity({
-				x: x - 600,
-				y: y - 600
-			});
-			boss6.team = this.team;
-			boss6.define(Class.moonShardBAI);
-			let boss7 = new Entity({
-				x: x - 600,
-				y: y + 600
-			});
-			boss7.team = this.team;
-			boss7.define(Class.moonShardBAI);
-			let boss8 = new Entity({
-				x: x + 600,
-				y: y - 600
-			});
-			boss8.team = this.team;
-			boss8.define(Class.moonShardBAI);
-		}, 4900);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("The remnants of the Moon have activated!");
+            let core = new Entity({
+                x: x,
+                y: y
+            });
+            core.team = this.team;
+            core.define(Class.moonCoreAI);
+            let boss1 = new Entity({
+                x: x + 600,
+                y: y
+            });
+            boss1.team = this.team;
+            boss1.define(Class.moonShardAAI);
+            let boss2 = new Entity({
+                x: x - 600,
+                y: y
+            });
+            boss2.team = this.team;
+            boss2.define(Class.moonShardAAI);
+            let boss3 = new Entity({
+                x: x,
+                y: y + 600
+            });
+            boss3.team = this.team;
+            boss3.define(Class.moonShardAAI);
+            let boss4 = new Entity({
+                x: x,
+                y: y - 600
+            });
+            boss4.team = this.team;
+            boss4.define(Class.moonShardAAI);
+            let boss5 = new Entity({
+                x: x + 600,
+                y: y + 600
+            });
+            boss5.team = this.team;
+            boss5.define(Class.moonShardBAI);
+            let boss6 = new Entity({
+                x: x - 600,
+                y: y - 600
+            });
+            boss6.team = this.team;
+            boss6.define(Class.moonShardBAI);
+            let boss7 = new Entity({
+                x: x - 600,
+                y: y + 600
+            });
+            boss7.team = this.team;
+            boss7.define(Class.moonShardBAI);
+            let boss8 = new Entity({
+                x: x + 600,
+                y: y - 600
+            });
+            boss8.team = this.team;
+            boss8.define(Class.moonShardBAI);
+        }, 4900);
+    }
 };
 defExports.moonBoss.TURRETS.push({
     POSITION: [5.5, 0, 0, 0, 361, 1],
@@ -187548,18 +187548,18 @@ defExports.neutronStarBoss = {
         POSITION: [8, 2, 0, 0, 361, 1],
         TYPE: defExports.neutronrocketeer
     },],
-	ON_DEAD: function({ sockets, ran, Entity }){
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 12; i++) {
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = this.team;
-			boss.define([Class.quasarAI, Class.quasarAI, Class.pulsarAI, Class.magnetarAI, Class.magnetarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI][i]);
-		}
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 12; i++) {
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = this.team;
+            boss.define([Class.quasarAI, Class.quasarAI, Class.pulsarAI, Class.magnetarAI, Class.magnetarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI, Class.pulsarAI, Class.magnetarAI][i]);
+        }
+    }
 };
 /******************************************* ALIENS ****************************************/
 defExports.tridrant = {
@@ -187833,26 +187833,26 @@ defExports.oppressor = {
         COLOR: 261,
     },],
     TURRETS: [],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.01) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
         }
     },
-	ON_DEFINED: function(self, entities, sockets, Entity){
-		if (self.isAlive()) {
-			let x = this.x,
-				y = self.y;
-			for (let i = 0; i < 4; i++) {
-				let tank = new Entity({
-					x: Math.cos(i * Math.PI / 5) + x,
-					y: Math.sin(i * Math.PI / 5) + y
-				});
-				tank.team = self.team;
-				tank.define(Class.keeperAI);
-			}
-		};
-	}
+    ON_DEFINED: function(self, entities, sockets, Entity) {
+        if (self.isAlive()) {
+            let x = this.x,
+                y = self.y;
+            for (let i = 0; i < 4; i++) {
+                let tank = new Entity({
+                    x: Math.cos(i * Math.PI / 5) + x,
+                    y: Math.sin(i * Math.PI / 5) + y
+                });
+                tank.team = self.team;
+                tank.define(Class.keeperAI);
+            }
+        };
+    }
 };
 const oppressivedrone = {
     SHOOT_SETTINGS: combineStats([g.drone, g.double_reload, g.low_power, g.smaller, g.smaller, g.less_damage]),
@@ -188114,7 +188114,7 @@ defExports.colliderCrasher = {
             shape: 8
         })
     ],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.1) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
@@ -188132,7 +188132,7 @@ defExports.colliderCrashDrone = {
             shape: 8
         })
     ],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.1) {
             me.x += 50 * Math.floor(Math.random() * 21 - 10);
             me.y += 50 * Math.floor(Math.random() * 21 - 10);
@@ -188267,7 +188267,7 @@ defExports.desecratorBoss = {
             shape: 8
         })
     ],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         if (Math.random() < 0.035) {
             me.x += 30 * Math.floor(Math.random() * 21 - 10);
             me.y += 30 * Math.floor(Math.random() * 21 - 10);
@@ -188655,7 +188655,7 @@ defExports.ultimatebetter = {
         POSITION: [28, 0, 0, 0, 361, 0],
         TYPE: defExports.ultimateiiwgBase
     },],
-    ON_KILL: function (me, them) { //lmao
+    ON_KILL: function(me, them) { //lmao
         if (them.type == 'tank' && them.type == 'miniboss') { // heal
             me.health.amount += (me.health.max - me.health.amount) * 0.5;
         };
@@ -189487,19 +189487,19 @@ defExports.bigRedBoss = {
         SHAPE: 3,
         FILL: false
     }],
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("A Red Burst has been defeated, but it's not over...");
-		let x = this.x,
-			y = this.y;
-		for (let i = 0; i < 4; i++) {
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = this.team;
-			boss.define(Class.rs1AI);
-		}
-	},
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("A Red Burst has been defeated, but it's not over...");
+        let x = this.x,
+            y = this.y;
+        for (let i = 0; i < 4; i++) {
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = this.team;
+            boss.define(Class.rs1AI);
+        }
+    },
     GUNS: [],
 };
 for (let i = 0; i < 3; i++) defExports.bigRedBoss.GUNS.push({
@@ -190231,7 +190231,7 @@ defExports.curvyDrone = {
             [1.35, 0.35, 0, 1.5]
         ]
     },],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         me.topSpeed += 1;
     },
 };
@@ -190348,7 +190348,7 @@ defExports.curveplexBoss = {
             [1.35, 0.35, 0, 1.5]
         ]
     },],
-    ON_DAMAGED: function (me, them) {
+    ON_DAMAGED: function(me, them) {
         me.topSpeed += 0.03;
     },
     GUNS: [{
@@ -195373,24 +195373,24 @@ defExports.eliteSanctuary = {
     },],
     HAS_NO_RECOIL: true,
     GIVE_KILL_MESSAGE: true,
-	ON_DEAD: function ({ sockets, ran, Entity }) {
-		sockets.broadcast("The Elite Sanctuary seems to have left something in its demise...");
-		let x = this.x,
-			y = this.y;
-		setTimeout(() => {
-			sockets.broadcast("A Quintet has spawned to avenge the Elite Sanctuary!");
-			let boss = new Entity({
-				x: x,
-				y: y
-			});
-			boss.team = this.team;
-			boss.control.target.x = boss.control.target.y = 100;
-			boss.define(Class.quintetAI);
-			boss.name = ran.chooseBossName("a", 1)[0];
-			boss.miscIdentifier = "Sanctuary Boss";
-			boss.sandboxId = this.sandboxId;
-		}, 6000);
-	}
+    ON_DEAD: function({ sockets, ran, Entity }) {
+        sockets.broadcast("The Elite Sanctuary seems to have left something in its demise...");
+        let x = this.x,
+            y = this.y;
+        setTimeout(() => {
+            sockets.broadcast("A Quintet has spawned to avenge the Elite Sanctuary!");
+            let boss = new Entity({
+                x: x,
+                y: y
+            });
+            boss.team = this.team;
+            boss.control.target.x = boss.control.target.y = 100;
+            boss.define(Class.quintetAI);
+            boss.name = ran.chooseBossName("a", 1)[0];
+            boss.miscIdentifier = "Sanctuary Boss";
+            boss.sandboxId = this.sandboxId;
+        }, 6000);
+    }
 }; defExports.afterimageBullet = {
     PARENT: [defExports.bullet],
     LABEL: "Bullet",
@@ -195401,7 +195401,7 @@ defExports.eliteSanctuary = {
             TYPE: [defExports.bullet, {
                 NO_SPEED_CALCUATION: true,
                 PERSISTS_AFTER_DEATH: true,
-                ON_DEFINED: function (me) {
+                ON_DEFINED: function(me) {
                     if (me.master.variables.lists[me.source.id] !== undefined) {
                         me.master.variables.lists[me.source.id].push(me);
                         me.passive = true;
@@ -195414,7 +195414,7 @@ defExports.eliteSanctuary = {
             DESTROY_OLDEST_CHILD: true
         }
     }],
-    ON_DEFINED: function (me) {
+    ON_DEFINED: function(me) {
         me.master.variables.lists[me.id] = [];
     }
 };
@@ -195444,7 +195444,7 @@ defExports.afterimage = {
     VARIABLES: {
         lists: {}
     },
-    ON_ALT: function (me) {
+    ON_ALT: function(me) {
         for (const id in me.variables.lists) {
             me.variables.lists[id] = me.variables.lists[id].filter(bullet => bullet.isAlive());
 
@@ -195466,18 +195466,18 @@ defExports.laserTest1 = {
     PARENT: [defExports.genericTank],
     LABEL: 'Laser Test 1',
     DANGER: 10,
-	STAT_NAMES: statNames.laser,
+    STAT_NAMES: statNames.laser,
     GUNS: [{
         POSITION: [30, 20, 1, 0, 0, 0, 0],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
             TYPE: [defExports.laser, {
-					RANGE: 50,
-					DURATION: 2,
-					PIERCE: 10000,
-					DAMAGE: .8,
-			}],
-			SKIN: 19
+                RANGE: 50,
+                DURATION: 2,
+                PIERCE: 10000,
+                DAMAGE: .8,
+            }],
+            SKIN: 19
         }
     }]
 };
@@ -195492,12 +195492,12 @@ defExports.laserTest2Gun1 = {
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload]),
             TYPE: [defExports.laser, {
-					RANGE: 20,
-					DURATION: 1,
-					PIERCE: 1,
-					DAMAGE: .09,
-			}],
-			SKIN: 19
+                RANGE: 20,
+                DURATION: 1,
+                PIERCE: 1,
+                DAMAGE: .09,
+            }],
+            SKIN: 19
         }
     }, {
         POSITION: [13, 10, 1, 5, 0, 0, 0]
@@ -195515,34 +195515,34 @@ defExports.laserTest2Gun2 = {
             SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
             TYPE: defExports.line
         }
-    },{
+    }, {
         POSITION: [10, 1, 1, 18, 2, 0, 0],
         PROPERTIES: {
             COLOR: 12
         }
-    },{
+    }, {
         POSITION: [8, 4, 1, 18, -2, 0, 1 / 3],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
             TYPE: defExports.line
         }
-    },{
+    }, {
         POSITION: [10, 1, 1, 18, -2, 0, 0],
         PROPERTIES: {
             COLOR: 12
         }
-    },{
+    }, {
         POSITION: [9.5, 4, 1, 18, 0, 0, 0],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.mini, g.laser, g.double_reload, g.less_damage, g.bigger]),
             TYPE: defExports.line
         }
-    },{
+    }, {
         POSITION: [11.5, 1, 1, 18, 0, 0, 0],
         PROPERTIES: {
             COLOR: 12
         }
-    },{
+    }, {
         POSITION: [13, 10, 1, 5, 0, 0, 0]
     }]
 }
@@ -195550,7 +195550,7 @@ defExports.laserTest2 = {
     PARENT: [defExports.genericTank],
     LABEL: 'Laser Test 2',
     DANGER: 7,
-	STAT_NAMES: statNames.laser,
+    STAT_NAMES: statNames.laser,
     HAS_NO_RECOIL: true,
     BODY: {
         ACCELARATION: base.ACCEL * .75,
@@ -195569,25 +195569,25 @@ defExports.laserTest3Gun = {
     BODY: {
         FOV: 3
     },
-	AI: {
-		TARGET_EVERYTHING: true,
+    AI: {
+        TARGET_EVERYTHING: true,
         IGNORE_SHAPES: false,
-		SKYNET: true
+        SKYNET: true
     },
     CONTROLLERS: ['nearestDifferentMaster'],
-	INDEPENDENT: true,
+    INDEPENDENT: true,
     COLOR: 16,
     GUNS: [{
         POSITION: [25, 10, 1, 10, 0, 0, 3],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.double_reload, g.no_recoil]),
             TYPE: [defExports.laser, {
-					RANGE: 10,
-					DURATION: .5,
-					PIERCE: 1,
-					DAMAGE: .05,
-			}],
-			SKIN: 19
+                RANGE: 10,
+                DURATION: .5,
+                PIERCE: 1,
+                DAMAGE: .05,
+            }],
+            SKIN: 19
         }
     }, {
         POSITION: [13, 10, 1, 5, 0, 0, 0]
@@ -195596,14 +195596,14 @@ defExports.laserTest3Gun = {
 defExports.laserTest3 = {
     PARENT: [defExports.genericTank],
     LABEL: 'Laser Test 3',
-	STATS_NAMES: statNames.laser,
+    STATS_NAMES: statNames.laser,
     DANGER: 7,
     FACING_TYPE: 'autospin',
     TURRETS: []
 };
-for(let i = 6, unit = 360/i; i > 0; i--){
-	defExports.laserTest3.TURRETS.push( {
-        POSITION: [11, 8, 0, unit*i, 180, 0],
+for (let i = 6, unit = 360 / i; i > 0; i--) {
+    defExports.laserTest3.TURRETS.push({
+        POSITION: [11, 8, 0, unit * i, 180, 0],
         TYPE: defExports.laserTest3Gun
     })
 }
@@ -195612,25 +195612,25 @@ defExports.laserTest4MinionGun = {
     BODY: {
         FOV: 3
     },
-	AI: {
+    AI: {
         IGNORE_SHAPES: false,
-		SKYNET: true
+        SKYNET: true
     },
     ACCEPTS_SCORE: false,
     CONTROLLERS: ['nearestDifferentMaster'],
-	INDEPENDENT: true,
+    INDEPENDENT: true,
     COLOR: 16,
     GUNS: [{
         POSITION: [25, 10, 1, 10, 0, 0, 3],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.more_reload, g.no_spread]),
             TYPE: [defExports.laser, {
-					RANGE: 18,
-					DURATION: .5,
-					PIERCE: 1,
-					DAMAGE: .085,
-			}],
-			SKIN: 19
+                RANGE: 18,
+                DURATION: .5,
+                PIERCE: 1,
+                DAMAGE: .085,
+            }],
+            SKIN: 19
         }
     }, {
         POSITION: [13, 10, 1, 5, 0, 0, 0]
@@ -195640,7 +195640,7 @@ defExports.laserTest4Minion = {
     PARENT: [defExports.minion],
     LABEL: 'Laser Test 4 Minion',
     SHAPE: 4,
-	DANGER: 9,
+    DANGER: 9,
     AI: {
     },
     INDEPENDENT: true,
@@ -195691,26 +195691,26 @@ defExports.laserTest5Minion1Gun = {
     BODY: {
         FOV: 2
     },
-	CONTROLLERS: ["nearestDifferentMaster"],
+    CONTROLLERS: ["nearestDifferentMaster"],
     COLOR: 16,
     GUNS: [{
         POSITION: [17, 10, 1, 10, 0, 0, 0],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.mecha, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.less_reload, g.more_recoil, g.more_recoil, g.no_spread]),
             TYPE: [defExports.laser, {
-					RANGE: 20,
-					DURATION: 1,
-					PIERCE: 1,
-					DAMAGE: .3,
-			}],
-			SKIN: 19
+                RANGE: 20,
+                DURATION: 1,
+                PIERCE: 1,
+                DAMAGE: .3,
+            }],
+            SKIN: 19
         }
     }]
 }
 defExports.laserTest5Minion1 = {
     PARENT: [defExports.rocket],
     INDEPENDENT: true,
-	SHAPE: 6,
+    SHAPE: 6,
     BODY: {
         RANGE: 75
     },
@@ -195719,37 +195719,37 @@ defExports.laserTest5Minion1 = {
         PROPERTIES: {
             AUTOFIRE: true,
             SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_pen, g.less_pen, g.less_recoil, g.less_reload, g.less_reload]),
-			TYPE: defExports.bullet,
-			SKIN: 19,
+            TYPE: defExports.bullet,
+            SKIN: 19,
             STAT_CALCULATOR: gunCalcNames.thruster
         }
-    },{
-		POSITION: [0, 10, 0, 1, 0, 90, 0],
-		PROPERTIES: {
-			SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_pen, g.less_pen, g.less_damage, g.less_damage, g.no_spread]),
-			TYPE: [defExports.laser, {
-					RANGE: 18,
-					DURATION: 1.5,
-					PIERCE: 3,
-					DAMAGE: .8,
-					FOLLOW_GUN: false,
-			}],
-			SHOOT_ON_DEATH: true,
-		}
-	},{
-		POSITION: [0, 10, 0, 1, 0, -90, 0],
-		PROPERTIES: {
-			SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_pen, g.less_pen, g.less_damage, g.less_damage, g.no_spread]),
-			TYPE: [defExports.laser, {
-					RANGE: 18,
-					DURATION: 1.5,
-					PIERCE: 3,
-					DAMAGE: .8,
-					FOLLOW_GUN: false,
-			}],
-			SHOOT_ON_DEATH: true
-		}
-	}],
+    }, {
+        POSITION: [0, 10, 0, 1, 0, 90, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_pen, g.less_pen, g.less_damage, g.less_damage, g.no_spread]),
+            TYPE: [defExports.laser, {
+                RANGE: 18,
+                DURATION: 1.5,
+                PIERCE: 3,
+                DAMAGE: .8,
+                FOLLOW_GUN: false,
+            }],
+            SHOOT_ON_DEATH: true,
+        }
+    }, {
+        POSITION: [0, 10, 0, 1, 0, -90, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.rocket, g.less_pen, g.less_pen, g.less_damage, g.less_damage, g.no_spread]),
+            TYPE: [defExports.laser, {
+                RANGE: 18,
+                DURATION: 1.5,
+                PIERCE: 3,
+                DAMAGE: .8,
+                FOLLOW_GUN: false,
+            }],
+            SHOOT_ON_DEATH: true
+        }
+    }],
     TURRETS: [{
         POSITION: [10, 0, 0, 0, 360, 1],
         TYPE: defExports.laserTest5Minion1Gun
@@ -195802,11 +195802,11 @@ branch("testbed_old_beta", "Old Beta Tanks", [
     defExports.afterimage
 ])
 branch("testbed_beta", "Beta Tanks", [
-	defExports.laserTest1,
-	defExports.laserTest2,
-	defExports.laserTest3,
-	defExports.laserTest4,
-	defExports.laserTest5,
+    defExports.laserTest1,
+    defExports.laserTest2,
+    defExports.laserTest3,
+    defExports.laserTest4,
+    defExports.laserTest5,
 ], "testbed_parent");
 defExports.mallet.UPGRADES_TIER_3 = [defExports.hammer, defExports.blacksmith, defExports.powerMallet];
 defExports.mallet.UPGRADES_TIER_4 = [defExports.twiniMallet];
