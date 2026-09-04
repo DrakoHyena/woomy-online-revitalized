@@ -16,7 +16,8 @@ const defaultSettings = {
     coloredHealthBars: false,
     deathAnimations: true,
     shieldbars: false,
-    minimapScaleEntities: true, // draw entities on minimap scaled to their true size
+    minimapScaleEntities: false, // draw entities on minimap scaled to their true size
+    minimapNamedEntities: true, // only draw named entities on minimap
     roundUpgrades: false,
     disableGameMessages: false,
     autoUpgrade: true,
@@ -60,8 +61,8 @@ const defaultSettings = {
     fpsCap: 1000,
     inputBufferSize: 500,
     menuAnimSpeed: 0.25,
-    upgradeMenuScale: 1,
-    minimapScaleFactor: 1,
+    upgradeMenuScale: 1.25,
+    minimapScaleFactor: 1.25,
     minimapSize: 0.3,
     minimapOpacity: 0.75,
     minimapRenderType: "Entity Image",
@@ -109,6 +110,7 @@ const settingTypes = {
     deathAnimations: "checkbox",
     shieldbars: "checkbox",
     minimapScaleEntities: "checkbox",
+    minimapNamedEntities: "checkbox",
     minimapSize: "number",
     minimapOpacity: "number",
     minimapScaleFactor: "number",

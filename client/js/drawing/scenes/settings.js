@@ -1025,6 +1025,32 @@ settings.drawFuncts.set("settingsMenu", ({ canvas, ctx, delta }) => {
     }
     y += text.height + SETTINGS_CONFIG.PADDING;
 
+    text = renderText("Signifigant Entities Only", SETTING_TEXT_SIZE);
+    if ((y - text.height) < height && y > 0) {
+        ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);
+        renderInput(
+            "minimapNamedEntities",
+            "checkbox",
+            x + width - SETTINGS_CONFIG.PADDING - text.height,
+            y,
+            text.height,
+            text.height,
+            currentSettings.minimapNamedEntities.value.enabled,
+            () => {
+                currentSettings.minimapNamedEntities.value.enabled =
+                    !currentSettings.minimapNamedEntities.value.enabled;
+            },
+            () => {
+                showCursorTextBox(
+                    "Signifigant Entities Only",
+                    "When enabled, only entities with names will be rendered on the minimap, as well as a few other important ones."
+                );
+            },
+            hideCursorTextBox
+        );
+    }
+    y += text.height + SETTINGS_CONFIG.PADDING;
+
     text = renderText("Minimap Scale Factor", SETTING_TEXT_SIZE);
     if ((y - text.height) < height && y > 0) {
         ctx.drawImage(text, x + SETTINGS_CONFIG.PADDING, y);

@@ -12383,16 +12383,37 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
         setInterval(maintainLoop, 1000/*200*/);
         maintainLoop()
 
-
         setInterval(function() {
+            // 1. Group alive root tanks by team ONCE per tick (blazing fast O(entities))
+            const teamTanks = new Map();
+            for (let i = 0, len = entities._entries.length; i < len; i++) {
+                const entity = entities._entries[i][1];
+                if (
+                    entity.type === "tank" &&
+                    entity.bond == null && // Root tanks only (client handles turrets via IDs)
+                    entity.isAlive() &&
+                    !entity.isGhost &&
+                    entity.settings.drawShape &&
+                    entity.team < 100 &&
+                    entity.team > -100 // Matches actual team IDs (-1, -2, etc.)
+                ) {
+                    let list = teamTanks.get(entity.team);
+                    if (!list) {
+                        list = [];
+                        teamTanks.set(entity.team, list);
+                    }
+                    list.push(entity);
+                }
+            }
+
             for (let instance of clients) {
                 // Only process players who have successfully spawned and have a view
                 if (!instance.status.hasSpawned || !instance.open) continue;
 
                 let player = instance.player;
                 let socket = instance;
-                let camera = socket.camera; // The camera state
-                let body = player.body; // The player's body, might be null if dead
+                let camera = socket.camera;
+                let body = player.body;
                 const playerContext = body ? {
                     command: player.command,
                     body: body,
@@ -12401,17 +12422,16 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     requestedFullContextEntityIds: socket.requestedFullContextEntityIds
                 } : null;
 
-
-                let fov = 1000; // Default FOV
-                if (body != null && body.isAlive()) { // We are alive
+                let fov = 1000;
+                if (body != null && body.isAlive()) {
                     camera.x = body.altCameraSource ? body.altCameraSource[0] : body.x;
                     camera.y = body.altCameraSource ? body.altCameraSource[1] : body.y;
                     fov = body.fov;
-                } else { // We are dead/spectating
+                } else {
                     if (body.spectating) {
                         if (!body.spectating.isAlive()) {
                             if (body.spectating.killCount.killers[0] !== undefined) {
-                                body.spectating = body.spectating.killCount.killers[0]
+                                body.spectating = body.spectating.killCount.killers[0];
                             } else {
                                 body.spectating = null;
                             }
@@ -12422,10 +12442,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                         }
                     }
                 }
-                // Define a search area (AABB) based on the camera's position and FOV.
-                // We create a temporary object with the structure the grid's getAABB expects.
-                const width = fov * .6; // .6-.5=.1 padding
-                const height = fov * .6 * .5625 // .5625 = 9/19 = aspect ratio
+
+                const width = fov * .6;
+                const height = fov * .6 * .5625;
                 const searchArea = {
                     _AABB: {
                         x1: camera.x - width,
@@ -12438,8 +12457,9 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
 
                 let visible = [];
                 let numberInView = 0;
-                // Query the grid for entities whose AABBs overlap with the search area.
-                // This gives us a list of entities that are *potentially* visible.
+                const addedEntityIds = new Set(); // Prevent duplicates
+
+                // Query the grid for entities in camera viewport
                 grid.getCollisions(searchArea, (entity) => {
                     entity.deactivationTimer = 30;
                     entity.isActive = true;
@@ -12447,12 +12467,11 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                     for (let animation of entity.animations) {
                         if (animation.active && socket.animationsToDo.has(`${entity.id}-${animation.index}`) === false) {
                             const arr = animation.toArray();
-                            arr.entityId = entity.id
-                            socket.animationsToDo.set(`${entity.id}-${animation.index}`, arr)
+                            arr.entityId = entity.id;
+                            socket.animationsToDo.set(`${entity.id}-${animation.index}`, arr);
                         }
                     }
 
-                    // Apply necessary checks from the original logic:
                     if (
                         entity.isGhost ||
                         !entity.isAlive() ||
@@ -12460,24 +12479,42 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                         (c.SANDBOX && entity.sandboxId !== socket.sandboxId) ||
                         (!body.roomLayerless && !entity.roomLayerless && body.roomLayer !== entity.roomLayer) ||
                         (body && !body.seeInvisible && entity.alpha < 0.1)
-                        // Note: The grid query already handled the main distance check.
-                        // If more precise frustum culling is needed, add a check here, but AABB is usually sufficient for performance gain.
                     ) {
-                        return; // Skip entities that don't meet visibility criteria
+                        return;
                     }
 
-                    numberInView++
+                    addedEntityIds.add(entity.id);
+                    numberInView++;
                     addEntityToPacket(entity, visible, playerContext);
 
                     function addTurretsToPacket(entity) {
                         for (let turret of entity.turrets) {
+                            addedEntityIds.add(turret.id);
                             numberInView++;
                             addEntityToPacket(turret, visible, playerContext);
                             addTurretsToPacket(turret);
                         }
                     }
                     addTurretsToPacket(entity);
-                })
+                });
+
+                // 2. Append teammate tanks (only tanks, no turrets needed)
+                if (body && body.isAlive() && body.team < 0 && body.team > -100) {
+                    const teammates = teamTanks.get(body.team);
+                    if (teammates) {
+                        for (let i = 0; i < teammates.length; i++) {
+                            const teammate = teammates[i];
+
+                            if (addedEntityIds.has(teammate.id)) continue;
+                            if (c.SANDBOX && teammate.sandboxId !== socket.sandboxId) continue;
+                            if (!body.roomLayerless && !teammate.roomLayerless && body.roomLayer !== teammate.roomLayer) continue;
+
+                            addedEntityIds.add(teammate.id);
+                            numberInView++;
+                            addEntityToPacket(teammate, visible, playerContext);
+                        }
+                    }
+                }
 
                 if (body != null && body.displayText !== socket.oldDisplayText) {
                     socket.oldDisplayText = body.displayText;
@@ -12490,24 +12527,23 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                 if (c.serverName.includes("Growth") && player.body != null && !player.body.hasDreadnoughted && player.body.skill.score >= 2_000_000) {
                     player.body.hasDreadnoughted = true;
                     player.body.upgrades.push({
-                        class: "dreadnoughts",// class: "dreadnoughts",
+                        class: "dreadnoughts",
                         level: 60,
-                        index: Class.dreadnoughts.index,//index: Class.dreadnoughts.index,
+                        index: Class.dreadnoughts.index,
                         tier: 4
                     });
                 }
 
-                // Existing dead player message logic (keep this as is)
                 if (body != null && body.isDead() && !socket.status.deceased) {
                     body.spectating = body.killCount.killers[0];
                     socket.status.deceased = true;
                     const records = player.records();
                     socket.status.previousScore = records[0];
-                    socket.talk(serverPackets.deathScreen, ...records); // Send death record to client
-                    if (records[0] > 300000) { // Check for high scores for logging/rewards
+                    socket.talk(serverPackets.deathScreen, ...records);
+                    if (records[0] > 300000) {
                         const totalKills = Math.round(records[2] + (records[3] / 2) + (records[4] * 2));
                         if (totalKills >= Math.floor(records[0] / 100000)) {
-                            sendRecordValid({ // Assuming sendRecordValid is defined elsewhere
+                            sendRecordValid({
                                 name: socket.name || "Unnamed",
                                 discord: socket.betaData.discordID,
                                 tank: body.labelOverride || body.label,
@@ -12517,33 +12553,29 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
                             });
                         }
                         if (body.miscIdentifier !== "No Death Log") {
-                            util.info(trimName(body.name) + " has died. Final Score: " + body.skill.score + ". Tank Used: " + body.label + ". Players: " + clients.length + "."); // Assuming util.info and trimName are defined elsewhere
+                            util.info(trimName(body.name) + " has died. Final Score: " + body.skill.score + ". Tank Used: " + body.label + ". Players: " + clients.length + ".");
                         }
                         socket.beginTimeout();
                     }
-                    //player.body = null; // Dereference the dead body
                 }
 
                 const laserPacket = [];
-                lasers.forEach((l) => l.addToPacket(laserPacket, playerContext))
+                lasers.forEach((l) => l.addToPacket(laserPacket, playerContext));
 
-                // Send the update packet to the client
                 socket.talk(
                     serverPackets.viewUpdate,
-                    camera.x + .5 | 0, // Camera X (rounded)
-                    camera.y + .5 | 0, // Camera Y (rounded)
-                    fov + .5 | 0, // FOV (rounded)
-                    body.id, // Entity Id
+                    camera.x + .5 | 0,
+                    camera.y + .5 | 0,
+                    fov + .5 | 0,
+                    body.id,
                     socket.getSkillUi(),
                     lasers.size,
                     laserPacket,
-                    numberInView, // Count of visible entities
-                    visible.flat() // Flattened data for visible entities
+                    numberInView,
+                    visible.flat()
                 );
             }
-        }, c.visibleListInterval)
-
-
+        }, c.visibleListInterval);
 
         let sussyBakas = {};
 

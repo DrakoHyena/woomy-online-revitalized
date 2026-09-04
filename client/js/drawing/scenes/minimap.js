@@ -188,17 +188,18 @@ function drawMinimap({ canvas, ctx, delta }) {
 
     // Outer Background Box
     ctx.fillStyle = "#777777";
-    ctx.beginPath();
-    ctx.rect(posX, posY, minimapPixelWidth, minimapPixelHeight);
-    ctx.fill();
-    ctx.clip();
+    ctx.fillRect(posX, posY, minimapPixelWidth, minimapPixelHeight);
+
 
     // Inner Playable Box area Setup
     const drawAreaX = posX + padding + border;
     const drawAreaY = posY + padding + border;
 
     ctx.fillStyle = "#666666";
-    ctx.fillRect(drawAreaX, drawAreaY, innerWidth, innerHeight);
+    ctx.beginPath();
+    ctx.rect(drawAreaX, drawAreaY, innerWidth, innerHeight);
+    ctx.fill();
+    ctx.clip();
 
     if (roomState.cells && roomState.cells.length > 0 && roomState.cells[0]) {
         const mapWidthCells = roomState.cells[0].length;
@@ -244,12 +245,13 @@ function drawMinimap({ canvas, ctx, delta }) {
 
         for (const entity of entitiesArr) {
             if (entity.isTurret) continue;
+            if (currentSettings.minimapNamedEntities.value.enabled && entity.color !== 16 && !entity.name) continue;
 
             const drawX = drawAreaX + (entity.x / roomW) * innerWidth;
             const drawY = drawAreaY + (entity.y / roomH) * innerHeight;
 
-            let cellW = drawCellWidth * userFactor;
-            let cellH = drawCellHeight * userFactor;
+            let cellW = (innerWidth / 12) * userFactor;
+            let cellH = (innerHeight / 12) * userFactor;
 
             if (scaleEntities) {
                 const factor = (entity.size * 0.02) || 1;

@@ -8,6 +8,11 @@ import { mockups } from "../mockups.js";
 // ==========================================
 // PATH & SHAPE RENDERING
 // ==========================================
+const realSizes = (() => {
+    let o = [1, 1, 1];
+    for (let i = 3; i < 17; i++) o.push(Math.sqrt((2 * Math.PI / i) * (1 / Math.sin(2 * Math.PI / i))));
+    return o;
+})();
 
 const path2dCache = new Map();
 
@@ -100,6 +105,9 @@ function drawShape(context, shape, size, stroke, fill, options = {}) {
 
     // Regular polygons (1-101)
     if (shape > 0 && shape < 102) {
+        // Apply realSize multiplier for shapes 3 through 16 to match original sizing
+        const actualSize = size * (realSizes[shape] || 1);
+
         if (shape === 4 && widthHeightRatio != null && (widthHeightRatio[0] !== 1 || widthHeightRatio[1] !== 1)) {
             const sides = Math.ceil(4 * arcLen);
             const allPoints = [
@@ -108,16 +116,24 @@ function drawShape(context, shape, size, stroke, fill, options = {}) {
                 [-widthHeightRatio[0], -widthHeightRatio[1]],
                 [widthHeightRatio[0], -widthHeightRatio[1]]
             ];
+
+            const cos = Math.cos(angle);
+            const sin = Math.sin(angle);
+
             for (let i = 0; i < sides; i++) {
                 const [rx, ry] = allPoints[i];
-                context.lineTo(size * rx + (rx - 1) * 1.1, size * ry + (ry - 1) * 1.1);
+                // Calculate unrotated coords (including your 1.1 padding modifier)
+                const px = actualSize * rx + (rx - 1) * 1.1;
+                const py = actualSize * ry + (ry - 1) * 1.1;
+                // Apply rotation
+                context.lineTo(px * cos - py * sin, px * sin + py * cos);
             }
         } else {
             const sides = Math.ceil(shape * arcLen);
             const polyAngleOffset = shape % 2 ? 0 : Math.PI / shape;
             for (let i = 0; i < sides; i++) {
                 const theta = (i / shape) * 2 * Math.PI + polyAngleOffset;
-                context.lineTo(size * Math.cos(theta), size * Math.sin(theta));
+                context.lineTo(actualSize * Math.cos(theta), actualSize * Math.sin(theta));
             }
         }
         context.closePath();
@@ -1213,8 +1229,14 @@ function calculateMEC(entity) {
     // 1. Check body shape extents
     const shape = entity.shape;
     if (shape > 0 && shape < 102) {
+        // Grab the realSize multiplier we added earlier
+        const rSize = realSizes[shape] || 1;
+
         if (shape === 4 && entity.widthHeightRatio && (entity.widthHeightRatio[0] !== 1 || entity.widthHeightRatio[1] !== 1)) {
-            maxRadius = Math.max(maxRadius, Math.hypot(entity.widthHeightRatio[0], entity.widthHeightRatio[1]) * size);
+            maxRadius = Math.max(maxRadius, Math.hypot(entity.widthHeightRatio[0], entity.widthHeightRatio[1]) * size * rSize);
+        } else {
+            // Apply the realSize padding to standard regular polygons
+            maxRadius = Math.max(maxRadius, size * rSize);
         }
     } else if (shape >= 102 && shape < 200) {
         switch (shape) {
