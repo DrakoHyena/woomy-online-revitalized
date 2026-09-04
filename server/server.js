@@ -8087,6 +8087,7 @@ async function startServer(configSuffix, defExports, displyNameOverride, display
             out.push(e.label);
             pushShapeLike(e.shapeData || 0);
             out.push(e.size);
+            out.push(e.color);
             out.push(e.upgrades.length);
             for (let i = 0; i < e.upgrades.length; i++) {
                 out.push(e.upgrades[i].tier);

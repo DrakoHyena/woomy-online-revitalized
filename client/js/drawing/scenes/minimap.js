@@ -8,6 +8,7 @@ import { resolveSkinAsset, drawCellTile } from "../tileUtils.js";
 import { getEntityImage } from "../entity.js";
 import { getColor } from "../../colors.js";
 import { lerp } from "../../lerp.js";
+import { mockups } from "../../mockups.js";
 
 // --- Config ---
 

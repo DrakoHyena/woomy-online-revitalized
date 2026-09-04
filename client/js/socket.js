@@ -195,6 +195,7 @@ function parseMockup(seenIndexes) {
     const label = convert.reader.next();
     const shape = readMockupValue();
     const size = convert.reader.next();
+    const color = convert.reader.next();
 
     let mockup = new ClientEntity(
         -1, // id
@@ -208,7 +209,7 @@ function parseMockup(seenIndexes) {
         0, // facing
         0, // score
         0, // layer
-        12, // color
+        color, // color
         0, // team
         1, // health amount
         1, // health max
@@ -315,7 +316,7 @@ function parseMockup(seenIndexes) {
 
 class ClientEntity {
     constructor(
-        id = -1,
+        id = -2,
         isTurret = false,
         index = 0,
         name = "",
@@ -341,6 +342,7 @@ class ClientEntity {
         hideName = false,
         leash = false
     ) {
+        this.isMockup = id === -1;
         this.id = id;
         this.index = index;
         this.name = name;

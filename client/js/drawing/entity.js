@@ -1109,7 +1109,7 @@ function renderTurretsAtLayer(ctx, entity, layer) {
             const turretLayer = bound.layer ?? 0;
             if (turretLayer !== layer) continue;
 
-            const mockup = mockups.get(turretItem.index);
+            const mockup = structuredClone(mockups.get(turretItem.index));
             if (!mockup) continue;
 
             ctx.save();
@@ -1121,6 +1121,7 @@ function renderTurretsAtLayer(ctx, entity, layer) {
             // Default to color 16 (grey) unless specified, or -1 to inherit entity color
             const rawColor = bound.color ?? turretItem.color ?? mockup.color;
             const turretColor = rawColor === -1 ? entity.color : (rawColor ?? 16);
+            mockup.color = turretColor
 
             renderEntity(ctx, mockup);
             ctx.restore();
@@ -1316,7 +1317,7 @@ const canvas = new OffscreenCanvas(1, 1);
 const ctx = canvas.getContext("2d");
 
 function getEntityImage(entity, liveRender, padding = 1) {
-    const imgCacheKey = `${currentSettings.entityResolution?.value?.number || 200}|${padding}|${entity.index}|${entity.guns?.length || 0}|${entity.props?.length || 0}|${entity.shape}|${(entity.size || 1) | 0}|${entity.widthHeightRatio}|${entity.color}`;
+    const imgCacheKey = `${currentSettings.entityResolution?.value?.number || 200}|${padding}||${entity.index}|${entity.guns.length}|${entity.props.length}|${entity.turrets.length}|${entity.shape}|${(entity.size || 1) | 0}|${entity.widthHeightRatio}|${entity.color}`;
 
     if (!liveRender) {
         const savedImg = entityImgCache.get(imgCacheKey);

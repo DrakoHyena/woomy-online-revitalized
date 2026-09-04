@@ -158,10 +158,10 @@ function drawTile(tile, ctx, upgradeIndex) {
     ctx.globalAlpha = tile.alpha * tile.dimFactor;
 
     // Entity mockup
-    const mockup = mockups.get(tile.upgradeId);
+    const mockup = structuredClone(mockups.get(tile.upgradeId));
     if (mockup) {
-        if (playerState.entity?.color !== undefined) {
-            mockup.color ??= playerState.entity.color;
+        if (playerState.entity?.color !== undefined && mockup.color === 16) {
+            mockup.color = playerState.entity.color;
         }
 
         const entityRender = getEntityImage(mockup, false, 1.1);
